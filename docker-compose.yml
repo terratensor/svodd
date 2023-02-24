@@ -1,0 +1,92 @@
+version: "3.8"
+services:
+  traefik:
+    image: traefik:v2.9.6
+    command:
+      --providers.docker=true
+      --providers.docker.exposedByDefault=false
+      --entryPoints.http.address=:80
+    networks:
+      - traefik-public
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+
+  frontend:
+    build:
+      context: app/frontend/docker
+      dockerfile: development/nginx/Dockerfile
+    volumes:
+      - ./app:/app
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.frontend.rule=Host(`localhost`) || Host(`www.localhost`)
+      - traefik.http.routers.frontend.entryPoints=http
+      - traefik.http.services.frontend.loadBalancer.server.port=80
+      - traefik.http.middlewares.frontend-redirect.redirectRegex.regex=^(https?://)www.localhost/(.*)$$
+      - traefik.http.middlewares.frontend-redirect.redirectRegex.replacement=$${1}localhost/$${2}
+      - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
+      - traefik.http.routers.frontend.middlewares=frontend-redirect
+
+  frontend-php-fpm:
+    build:
+      context: app/frontend/docker
+      dockerfile: development/php-fpm/Dockerfile
+    volumes:
+      - ./app:/app
+
+  cp:
+    build:
+      context: app/backend/docker
+      dockerfile: development/nginx/Dockerfile
+    volumes:
+      - ./app:/app
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.cp.rule=Host(`cp.localhost`)
+      - traefik.http.routers.cp.entryPoints=http
+      - traefik.http.services.cp.loadBalancer.server.port=80
+
+  cp-php-fpm:
+    build:
+      context: app/backend/docker
+      dockerfile: development/php-fpm/Dockerfile
+    volumes:
+      - ./app:/app
+
+  cli-php:
+    build:
+      context: app/console/docker
+      dockerfile: development/php-cli/Dockerfile
+    volumes:
+      - ./app:/app
+
+  app-postgres:
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app
+    volumes:
+      - app-postgres:/var/lib/postgresql/data
+    ports:
+      - "54321:5432"
+
+volumes:
+  app-postgres:
+
+networks:
+  traefik-public:
+    name: traefik-public
