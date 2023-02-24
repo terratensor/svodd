@@ -33,6 +33,15 @@
         "codeception/verify": "^2.2",
         "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
     },
+    "autoload": {
+      "psr-4": {
+        "App\\": "src/",
+        "common\\": "common/",
+        "frontend\\": "frontend/",
+        "backend\\": "backend/",
+        "console\\": "console/"
+      }
+    },
     "autoload-dev": {
         "psr-4": {
             "common\\tests\\": ["common/tests/", "common/tests/_support"],
