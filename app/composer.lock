@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "19fbefde7b3b99c8b2c0988b0c16aa8f",
+    "content-hash": "f532b0fbee388f7c9fbae8394b720f3b",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -366,6 +366,74 @@
                 "source": "https://github.com/ezyang/htmlpurifier/tree/v4.16.0"
             },
             "time": "2022-09-18T07:06:19+00:00"
+        },
+        {
+            "name": "manticoresoftware/manticoresearch-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/manticoresoftware/manticoresearch-php.git",
+                "reference": "2e4a60e4fd8caebfcb7f3eabfca737da653aad9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/manticoresoftware/manticoresearch-php/zipball/2e4a60e4fd8caebfcb7f3eabfca737da653aad9b",
+                "reference": "2e4a60e4fd8caebfcb7f3eabfca737da653aad9b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1",
+                "psr/log": ">=1.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "*",
+                "phpunit/phpunit": ">=7.5",
+                "squizlabs/php_codesniffer": ">=3.5"
+            },
+            "suggest": {
+                "ext-curl": "*",
+                "guzzlehttp/psr7": ">=1.6",
+                "monolog/monolog": "*",
+                "php-http/curl-client": ">=1.7",
+                "php-http/httplug": "^1.1",
+                "php-http/message": "^1.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Manticoresearch\\": "src/Manticoresearch/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Manticore Software",
+                    "email": "contact@manticoresearch.com",
+                    "homepage": "https://manticoresearch.com/"
+                },
+                {
+                    "name": "Adrian Nuta",
+                    "email": "adriannuta@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Client for Manticore Search",
+            "keywords": [
+                "client",
+                "manticoresearch",
+                "search"
+            ],
+            "support": {
+                "chat": "https://slack.manticoresearch.com/",
+                "issues": "https://github.com/manticoresoftware/manticoresearch-php/issues",
+                "source": "https://github.com/manticoresoftware/manticoresearch-php/"
+            },
+            "time": "2023-02-23T08:47:29+00:00"
         },
         {
             "name": "paragonie/random_compat",
