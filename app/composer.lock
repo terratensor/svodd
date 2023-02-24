@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f532b0fbee388f7c9fbae8394b720f3b",
+    "content-hash": "175aca18f6a23ef0926359cd712c7e70",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -3032,19 +3032,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "cdfe7acfa8585426f83365aacf7e2934b2cddcce"
+                "reference": "6ab30987855d16b1134b545925b8c6a8460c3b7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/cdfe7acfa8585426f83365aacf7e2934b2cddcce",
-                "reference": "cdfe7acfa8585426f83365aacf7e2934b2cddcce",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6ab30987855d16b1134b545925b8c6a8460c3b7d",
+                "reference": "6ab30987855d16b1134b545925b8c6a8460c3b7d",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.14",
+                "nikic/php-parser": "^4.15",
                 "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
@@ -3101,7 +3101,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-23T13:01:09+00:00"
+            "time": "2023-02-24T17:09:43+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -5459,7 +5459,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.4.0"
+        "php": ">=8.1.0",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
