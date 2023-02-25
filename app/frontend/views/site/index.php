@@ -15,7 +15,6 @@ use yii\data\Pagination;
 
 $this->title = 'My Yii Application';
 
-var_dump($pages);
 ?>
 <div class="site-index">
     <?php $form = ActiveForm::begin(
@@ -45,7 +44,7 @@ var_dump($pages);
               </div>
                 <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
 
-                  <div class="card-text">
+                  <div class="card-text comment-text">
                     <p><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></p>
                       <?php echo "Highlight for " . $field . ":\r\n\n";
                       foreach ($snippets as $snippet) {
