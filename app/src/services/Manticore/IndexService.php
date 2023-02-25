@@ -55,4 +55,21 @@ class IndexService
 
         $this->client->indices()->drop($params);
     }
+
+    public function index(): void
+    {
+        $index = new Index($this->client);
+        $index->setName('questions');
+        $file = $this->readFile();
+        $topic = json_decode($file, false, 512, JSON_THROW_ON_ERROR);
+
+        foreach ($topic->comments as $comment) {
+            $index->addDocument($comment);
+        }
+    }
+
+    private function readFile(): bool|string
+    {
+        return file_get_contents(__DIR__ . "/../../../data/30-qa-question-view-8162.json");
+    }
 }

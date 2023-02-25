@@ -60,4 +60,15 @@ class IndexController extends Controller
 
         $this->stdout($message . PHP_EOL);
     }
+
+    public function actionIndexer()
+    {
+        $message = 'Done!';
+        try {
+            $this->service->index();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+        $this->stdout($message . PHP_EOL);
+    }
 }
