@@ -2,10 +2,14 @@
 
 namespace frontend\controllers;
 
+use App\forms\SearchForm;
+use App\services\ManticoreService;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use Manticoresearch\ResultSet;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -21,6 +25,15 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
+
+    private ManticoreService $service;
+
+    public function __construct($id, $module, ManticoreService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -71,11 +84,20 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return mixed
+     * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
-        return $this->render('index');
+        $form = new SearchForm();
+
+        if ($form->load(Yii::$app->request->get()) && $form->validate()) {
+            $results = $this->service->index($form);
+        }
+
+        return $this->render('index', [
+            'results' => $results ?? null,
+            'model' => $form
+        ]);
     }
 
     /**
