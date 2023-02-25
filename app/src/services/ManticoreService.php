@@ -30,8 +30,19 @@ class ManticoreService
         $search->setIndex('questions');
 
         return $search
-            ->match($query)
-            ->highlight(['text'])
+            ->match(['query' => $query, 'operator' => 'and'])
+//            ->filter('parent_id', 'in', [12348])
+            ->highlight(
+                ['text'],
+                [
+                    'limit' => 0,
+//                    'pre_tags' => '', 'post_tags' => '',
+//                    'around' => 10,
+//                    'html_strip_mode' => 'none',
+                'force_passages' => true,
+                ]
+
+            )
             ->offset(($page - 1) * 20)
             ->get();
     }

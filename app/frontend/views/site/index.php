@@ -12,6 +12,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
+use yii\helpers\HtmlPurifier;
 
 $this->title = 'My Yii Application';
 
@@ -40,17 +41,21 @@ $this->title = 'My Yii Application';
           <div class="card mb-4">
             <div class="card-body">
               <div class="card-title">
-                  <?= $hit->get('data_id'); ?>
+                  <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
+                  <?= Html::a(
+                      $link,
+                      $link . "#:~:text=" . $hit->getData()['datetime'],
+                      ['target' => '_blank']
+                  ); ?>
               </div>
                 <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
 
                   <div class="card-text comment-text">
                     <p><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></p>
-                      <?php echo "Highlight for " . $field . ":\r\n\n";
-                      foreach ($snippets as $snippet) {
-                          echo "<blockquote>- " . $snippet . "</blockquote>\n";
-                      } ?>
-                    <p> <?php echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?></p>
+                      <?php foreach ($snippets as $snippet): ?>
+                          <?php echo $snippet . "\n"; ?>
+                      <?php endforeach; ?>
+                    <p> <?php //echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?></p>
                   </div>
                 <?php endforeach; ?>
             </div>
