@@ -2,7 +2,8 @@
 
 /** @var yii\web\View $this */
 /** @var ResultSet $results */
-/** @var int $pages */
+/** @var Pagination $pages */
+
 /** @var SearchForm $model */
 
 use App\forms\SearchForm;
@@ -10,8 +11,11 @@ use Manticoresearch\ResultSet;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
+use yii\data\Pagination;
 
 $this->title = 'My Yii Application';
+
+var_dump($pages);
 ?>
 <div class="site-index">
     <?php $form = ActiveForm::begin(
@@ -53,6 +57,13 @@ $this->title = 'My Yii Application';
             </div>
           </div>
         <?php endforeach; ?>
+
+        <?php
+        echo LinkPager::widget(
+            [
+                'pagination' => $pages,
+            ]);
+        ?>
     </div>
   </div>
 </div>

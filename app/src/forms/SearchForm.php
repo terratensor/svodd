@@ -14,11 +14,13 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public string $query = '';
+    public string $page = '';
 
     public function rules(): array
     {
         return [
             ['query', 'string'],
+            ['page', 'integer'],
         ];
     }
     public function formName(): string

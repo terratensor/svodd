@@ -90,13 +90,17 @@ class SiteController extends Controller
     {
         $form = new SearchForm();
 
+        $page = Yii::$app->request->get()['page'] ?? 1;
+
         if ($form->load(Yii::$app->request->get()) && $form->validate()) {
-            $results = $this->service->index($form);
+            $results = $this->service->index($form, $page);
+            $pages = new Pagination(['totalCount' => $results->getTotal()]);
         }
 
         return $this->render('index', [
             'results' => $results ?? null,
-            'model' => $form
+            'model' => $form,
+            'pages' => $pages ?? null,
         ]);
     }
 

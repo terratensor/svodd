@@ -7,6 +7,7 @@ namespace App\services;
 use App\forms\SearchForm;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
+use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
 
 /**
@@ -18,10 +19,9 @@ class ManticoreService
 {
     private ?Client $client = null;
 
-    public function index(SearchForm $form)
+    public function index(SearchForm $form, int $page): ResultSet
     {
         $query = $form->query;
-//        var_dump($form->page);
         $client = new Client(\Yii::$app->params['manticore']);
 
         $index = new Index($client);
@@ -55,6 +55,7 @@ class ManticoreService
         $results = $search
             ->match($query)
             ->highlight(['text'])
+            ->offset(($page - 1) * 20)
             ->get();
 
         return $results;
