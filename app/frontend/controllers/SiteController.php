@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use App\forms\SearchForm;
 use App\services\ManticoreService;
+use frontend\forms\SearchModel;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Manticoresearch\ResultSet;
@@ -89,18 +90,15 @@ class SiteController extends Controller
     public function actionIndex(): string
     {
         $form = new SearchForm();
-
         $page = Yii::$app->request->get()['page'] ?? 1;
 
-        if ($form->load(Yii::$app->request->get()) && $form->validate()) {
-            $results = $this->service->index($form, $page);
-            $pages = new Pagination(['totalCount' => $results->getTotal()]);
+        if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
+            $results = $this->service->search($form, $page);
         }
 
         return $this->render('index', [
             'results' => $results ?? null,
             'model' => $form,
-            'pages' => $pages ?? null,
         ]);
     }
 

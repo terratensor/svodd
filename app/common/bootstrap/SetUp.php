@@ -5,6 +5,7 @@ namespace common\bootstrap;
 
 
 use App\services\Manticore\IndexService;
+use App\services\ManticoreService;
 use Manticoresearch\Client;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -22,6 +23,10 @@ class SetUp implements BootstrapInterface
         $container = Yii::$container;
 
         $container->setSingleton(IndexService::class, [], [
+            new Client($app->params['manticore']),
+        ]);
+
+        $container->setSingleton(ManticoreService::class, [], [
             new Client($app->params['manticore']),
         ]);
     }

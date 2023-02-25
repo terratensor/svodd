@@ -60,7 +60,7 @@ $this->title = 'My Yii Application';
         <?php
         echo LinkPager::widget(
             [
-                'pagination' => $pages,
+                'pagination' => new Pagination(['totalCount' => $results->getTotal()]),
             ]);
         ?>
     </div>
