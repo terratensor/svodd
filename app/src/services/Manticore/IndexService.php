@@ -72,6 +72,14 @@ class IndexService
             $doc = $this->readFile($file);
             $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
 
+            $index->addDocument($topic->question);
+
+            if ($topic->linked_question) {
+                foreach ($topic->linked_question as $linkedQuestion) {
+                    $index->addDocument($linkedQuestion);
+                }
+            }
+
             foreach ($topic->comments as $comment) {
                 $index->addDocument($comment);
             }
