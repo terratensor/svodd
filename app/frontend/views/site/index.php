@@ -43,7 +43,7 @@ $this->title = 'ФКТ поиск';
     <?php if ($results): ?>
   <div class="row">
     <div class="col-md-12">
-      <strong>Всего результатов: <?= $results->getTotal(); ?></strong>
+      <p><strong>Всего результатов: <?= $results->getTotal(); ?></strong></p>
         <?php foreach ($results as $hit): ?>
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
@@ -61,6 +61,7 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
+                <?= Html::a('Перейти к вопросу', ['site/question', 'id' => $hit->get('parent_id')]); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
                 <?= Html::a(
                     $link,

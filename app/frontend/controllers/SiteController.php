@@ -104,6 +104,18 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionQuestion($id): string
+    {
+
+        $page = Yii::$app->request->get()['page'] ?? 1;
+
+        $question = $this->service->question($id, $page);
+
+        return $this->render('question', [
+            'question' => $question,
+        ]);
+    }
+
     /**
      * Logs in a user.
      *
