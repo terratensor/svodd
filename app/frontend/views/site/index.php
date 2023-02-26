@@ -46,25 +46,27 @@ $this->title = 'ФКТ поиск';
       <strong>Всего результатов: <?= $results->getTotal(); ?></strong>
         <?php foreach ($results as $hit): ?>
           <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between">
+              <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
+              <div><?= "#".$hit->get('data_id'); ?></div>
+            </div>
             <div class="card-body">
-              <div class="card-title">
-                  <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
-                  <?= Html::a(
-                      $link,
-                      $link . "#:~:text=" . $hit->getData()['datetime'],
-                      ['target' => '_blank']
-                  ); ?>
-              </div>
                 <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
-
                   <div class="card-text comment-text">
-                    <p><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></p>
                       <?php foreach ($snippets as $snippet): ?>
                           <?php echo $snippet . "\n"; ?>
                       <?php endforeach; ?>
                     <p> <?php //echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?></p>
                   </div>
                 <?php endforeach; ?>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
+                <?= Html::a(
+                    $link,
+                    $link . "#:~:text=" . $hit->getData()['datetime'],
+                    ['target' => '_blank']
+                ); ?>
             </div>
           </div>
         <?php endforeach; ?>
