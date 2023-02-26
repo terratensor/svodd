@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'name' => 'ФКТ поиск',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', \common\bootstrap\SetUp::class],
     'controllerNamespace' => 'frontend\controllers',

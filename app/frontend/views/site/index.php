@@ -12,26 +12,33 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
-use yii\helpers\HtmlPurifier;
 
-$this->title = 'My Yii Application';
+$this->title = 'ФКТ поиск';
 
 ?>
 <div class="site-index">
     <?php $form = ActiveForm::begin(
         [
             'method' => 'GET',
-            'action' => ['site/index']
+            'action' => ['site/index'],
+            'options' => ['class' => 'mt-3'],
         ]
     ); ?>
   <div class="d-flex align-items-center">
       <?= $form->field($model, 'query', [
+          'inputTemplate' => '<div class="input-group mb-3">
+          {input}
+          <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button></div>',
           'options' => [
               'class' => 'w-100 me-3', 'role' => 'search'
           ]
-      ])->textInput(['class' => 'form-control'])->label(false); ?>
+      ])->textInput(
+          [
+              'class' => 'form-control form-control-lg',
+              'placeholder' => "Поиск"
+          ]
+      )->label(false); ?>
   </div>
-    <?= Html::submitButton('Поиск', ['btn btn-primary']); ?>
     <?php ActiveForm::end(); ?>
     <?php if ($results): ?>
   <div class="row">
