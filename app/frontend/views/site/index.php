@@ -1,52 +1,84 @@
 <?php
 
 /** @var yii\web\View $this */
+/** @var ResultSet $results */
+/** @var Pagination $pages */
 
-$this->title = 'My Yii Application';
+/** @var SearchForm $model */
+
+use App\forms\SearchForm;
+use Manticoresearch\ResultSet;
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
+use yii\bootstrap5\LinkPager;
+use yii\data\Pagination;
+
+$this->title = 'ФКТ поиск';
+
 ?>
 <div class="site-index">
-    <div class="p-5 mb-4 bg-transparent rounded-3">
-        <div class="container-fluid py-5 text-center">
-            <h1 class="display-4">Congratulations!</h1>
-            <p class="fs-5 fw-light">You have successfully created your Yii-powered application.</p>
-            <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-        </div>
+    <?php $form = ActiveForm::begin(
+        [
+            'method' => 'GET',
+            'action' => ['site/index'],
+            'options' => ['class' => 'mt-3'],
+        ]
+    ); ?>
+  <div class="d-flex align-items-center">
+      <?= $form->field($model, 'query', [
+          'inputTemplate' => '<div class="input-group mb-3">
+          {input}
+          <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button></div>',
+          'options' => [
+              'class' => 'w-100 me-3', 'role' => 'search'
+          ]
+      ])->textInput(
+          [
+              'class' => 'form-control form-control-lg',
+              'placeholder' => "Поиск"
+          ]
+      )->label(false); ?>
+  </div>
+    <?php ActiveForm::end(); ?>
+    <?php if ($results): ?>
+  <div class="row">
+    <div class="col-md-12">
+      <p><strong>Всего результатов: <?= $results->getTotal(); ?></strong></p>
+        <?php foreach ($results as $hit): ?>
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between">
+              <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
+              <div><?= "#".$hit->get('data_id'); ?></div>
+            </div>
+            <div class="card-body">
+                <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
+                  <div class="card-text comment-text">
+                      <?php foreach ($snippets as $snippet): ?>
+                          <?php echo $snippet . "\n"; ?>
+                      <?php endforeach; ?>
+                    <p> <?php //echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?></p>
+                  </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <?= Html::a('Перейти к вопросу', ['site/question', 'id' => $hit->get('parent_id')]); ?>
+                <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
+                <?= Html::a(
+                    $link,
+                    $link . "#:~:text=" . $hit->getData()['datetime'],
+                    ['target' => '_blank']
+                ); ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
+
+        <?php
+        echo LinkPager::widget(
+            [
+                'pagination' => new Pagination(['totalCount' => $results->getTotal()]),
+            ]);
+        ?>
     </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+  </div>
 </div>
+<?php endif; ?>

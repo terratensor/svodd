@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use App\forms\SearchForm;
+use App\services\ManticoreService;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
@@ -21,6 +23,15 @@ use frontend\models\ContactForm;
  */
 class SiteController extends Controller
 {
+
+    private ManticoreService $service;
+
+    public function __construct($id, $module, ManticoreService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -71,11 +82,38 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return mixed
+     * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
-        return $this->render('index');
+        $form = new SearchForm();
+        $page = Yii::$app->request->get()['page'] ?? 1;
+
+        try {
+            if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
+                $results = $this->service->search($form, $page);
+            }
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
+        }
+
+        return $this->render('index', [
+            'results' => $results ?? null,
+            'model' => $form,
+        ]);
+    }
+
+    public function actionQuestion($id): string
+    {
+
+        $page = Yii::$app->request->get()['page'] ?? 1;
+
+        $question = $this->service->question($id, $page);
+
+        return $this->render('question', [
+            'question' => $question,
+        ]);
     }
 
     /**
