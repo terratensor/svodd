@@ -4,13 +4,10 @@ namespace frontend\controllers;
 
 use App\forms\SearchForm;
 use App\services\ManticoreService;
-use frontend\forms\SearchModel;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
-use Manticoresearch\ResultSet;
 use Yii;
 use yii\base\InvalidArgumentException;
-use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -92,8 +89,13 @@ class SiteController extends Controller
         $form = new SearchForm();
         $page = Yii::$app->request->get()['page'] ?? 1;
 
-        if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
-            $results = $this->service->search($form, $page);
+        try {
+            if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
+                $results = $this->service->search($form, $page);
+            }
+        } catch (\DomainException $e) {
+            Yii::$app->errorHandler->logException($e);
+            Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
         return $this->render('index', [
