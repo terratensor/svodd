@@ -33,3 +33,8 @@ docker-pull:
 docker-build:
 	docker-compose build --pull
 
+parse:
+	./app/bin/fct-parser.linux.amd64 -a -j -h -o ./app/data/
+
+indexer:
+	docker-compose run --rm cli-php php yii index/indexer
