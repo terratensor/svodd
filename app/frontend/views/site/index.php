@@ -48,7 +48,7 @@ $this->title = 'ФКТ поиск';
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
               <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
-              <div><?= "#".$hit->get('data_id'); ?></div>
+              <div><?= "#" . $hit->get('data_id'); ?></div>
             </div>
             <div class="card-body">
                 <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
@@ -61,7 +61,10 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?= Html::a('Перейти к вопросу', ['site/question', 'id' => $hit->get('parent_id')]); ?>
+                <?= Html::a(
+                    'Перейти к вопросу',
+                    ['site/question', 'id' => $hit->get('parent_id'), 'data_id' => $hit->get('data_id')]
+                ); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
                 <?= Html::a(
                     $link,
