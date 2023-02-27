@@ -70,7 +70,11 @@ class IndexService
         $files = $this->readDir();
         foreach ($files as $file) {
             $doc = $this->readFile($file);
-            $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
+            try {
+                $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
+            } catch (\JsonException $e) {
+                echo $file . ": " . $e->getMessage() . "\n";
+            }
 
             $index->addDocument($topic->question);
 
