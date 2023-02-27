@@ -13,6 +13,7 @@ class m130524_201442_init extends Migration
         }
 
         $this->createTable('{{%users}}', [
+//            'id' => $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid')->primaryKey(),
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
             'auth_key' => $this->string(32)->notNull(),
