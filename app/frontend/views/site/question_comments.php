@@ -7,11 +7,13 @@ declare(strict_types=1);
 use App\models\Question;
 use frontend\widgets\question\Card;
 
+$position = Yii::$app->request->get()['c'] ?? 0;
+
 ?>
 <?php foreach ($question->comments as $hit): ?>
 
-  <div class="card mb-4">
-    <div class="card-header d-flex justify-content-between">
+  <div id="<?= $hit->get('position'); ?>" class="<?= $position == $hit->get('position') ? "card mb-4 border-primary" : "card mb-4"?>">
+    <div class="<?= $position == $hit->get('position') ? "card-header d-flex justify-content-between border-primary" : "card-header d-flex justify-content-between"?>">
         <?= Card::widget(['hit' => $hit]); ?>
     </div>
     <div class="card-body">

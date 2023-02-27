@@ -104,12 +104,18 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionQuestion($id): string
+    public function actionQuestion($id, $position = null): string
     {
 
         $page = Yii::$app->request->get()['page'] ?? 1;
 
         $question = $this->service->question($id, $page);
+
+        if ($position) {
+            var_dump($position);
+            $total = ceil($position / $this->service->pageSize);
+            $this->redirect(['site/question', 'id' => $id, 'c' => $position, 'page' => $total, '#' => $position]);
+        }
 
         return $this->render('question', [
             'question' => $question,

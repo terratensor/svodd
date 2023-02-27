@@ -42,6 +42,7 @@ class IndexService
                 'data_id' => ['type' => 'integer'],
                 'parent_id' => ['type' => 'integer'],
                 'type' => ['type' => 'integer'],
+                'position' => ['type' => 'integer']
             ],
             [
                 'morphology' => 'stem_ru'
@@ -84,7 +85,8 @@ class IndexService
                 }
             }
 
-            foreach ($topic->comments as $comment) {
+            foreach ($topic->comments as $key => $comment) {
+                $comment->position = $key + 1;
                 $index->addDocument($comment);
             }
         }

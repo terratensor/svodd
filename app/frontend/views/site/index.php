@@ -63,7 +63,7 @@ $this->title = 'ФКТ поиск';
             <div class="card-footer d-flex justify-content-between">
                 <?= Html::a(
                     'Перейти к вопросу',
-                    ['site/question', 'id' => $hit->get('parent_id'), 'data_id' => $hit->get('data_id')]
+                    ['site/question', 'id' => $hit->get('parent_id'), 'position' => $hit->get('position')]
                 ); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
                 <?= Html::a(

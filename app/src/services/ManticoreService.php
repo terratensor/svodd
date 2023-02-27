@@ -21,6 +21,8 @@ class ManticoreService
     private Client $client;
     private Search $search;
 
+    public int $pageSize = 20;
+
     public function __construct(Client $client)
     {
         $this->client = $client;
@@ -47,7 +49,7 @@ class ManticoreService
                     ]
 
                 )
-                ->offset(($page - 1) * 20)
+                ->offset(($page - 1) * $this->pageSize)
                 ->get();
         } catch (ResponseException $e) {
             throw new \DomainException('Необходимо создать индекс для поиска.');
@@ -65,9 +67,9 @@ class ManticoreService
 
 
         $search->sort('type','asc');
-        $search->sort('data_id','asc');
+        $search->sort('position','asc');
 
-        $search->offset(($page - 1) * 20);
+        $search->offset(($page - 1) * $this->pageSize);
 
         $search->facet('parent_id','group_questions');
         $search->facet('type','group_type');
