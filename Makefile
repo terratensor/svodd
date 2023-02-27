@@ -35,6 +35,7 @@ docker-build:
 
 parse:
 	./app/bin/fct-parser.linux.amd64 -a -j -h -o ./app/data/
+#	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/ https://fct-altai.ru/qa/question/view-32983
 
 indexer:
 	docker-compose run --rm cli-php php yii index/indexer
