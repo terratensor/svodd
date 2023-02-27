@@ -26,8 +26,10 @@ $page = Yii::$app->request->get()['page'] ?? 1;
 
         <?php if ($page && $page <= 1): ?>
             <?php echo $this->render('question_card', ['question' => $question]); ?>
-            <?= "<p><strong>Связанных вопросов: $linkedQuestionsCount </strong></p>"; ?>
-            <?php echo $this->render('question_linked', ['question' => $question]); ?>
+            <?php if ($linkedQuestionsCount > 0) : ?>
+                <?= "<p><strong>Связанных вопросов: $linkedQuestionsCount </strong></p>"; ?>
+                <?php echo $this->render('question_linked', ['question' => $question]); ?>
+            <?php endif; ?>
         <?php endif; ?>
       <p><strong>Всего комментариев: <?= $commentsCount; ?></strong></p>
         <?php echo $this->render('question_comments', ['question' => $question]); ?>
