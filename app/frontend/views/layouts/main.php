@@ -69,6 +69,7 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
+    <div id="toTop" style="display: block;"></div>
 </main>
 
 <footer class="footer mt-auto py-3 text-muted">
