@@ -90,7 +90,7 @@ class IndexService
         $handle = opendir(__DIR__ . '/../../../data');
         if ($handle) {
             while (false !== ($entry = readdir($handle))) {
-                if ($entry != "." && $entry != "..") {
+                if ($entry != "." && $entry != ".." && $entry != ".gitignore") {
                     $arrFiles[] = $entry;
                 }
             }
@@ -132,7 +132,8 @@ class IndexService
         $index->addDocument($topic->question);
 
         if ($topic->linked_question) {
-            foreach ($topic->linked_question as $linkedQuestion) {
+            foreach ($topic->linked_question as $key => $linkedQuestion) {
+                $linkedQuestion->position = $key + 1;
                 $index->addDocument($linkedQuestion);
             }
         }
