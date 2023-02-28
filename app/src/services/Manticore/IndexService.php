@@ -6,8 +6,11 @@ namespace App\services\Manticore;
 
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
+use JsonException;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
+use Manticoresearch\Query\BoolQuery;
+use Manticoresearch\Query\In;
 
 /**
  * Class IndexService
@@ -71,24 +74,7 @@ class IndexService
         $files = $this->readDir();
         foreach ($files as $file) {
             $doc = $this->readFile($file);
-            try {
-                $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
-            } catch (\JsonException $e) {
-                echo $file . ": " . $e->getMessage() . "\n";
-            }
-
-            $index->addDocument($topic->question);
-
-            if ($topic->linked_question) {
-                foreach ($topic->linked_question as $linkedQuestion) {
-                    $index->addDocument($linkedQuestion);
-                }
-            }
-
-            foreach ($topic->comments as $key => $comment) {
-                $comment->position = $key + 1;
-                $index->addDocument($comment);
-            }
+            $this->addQuestion($doc, $index);
         }
     }
 
@@ -112,5 +98,48 @@ class IndexService
         closedir($handle);
 
         return $arrFiles;
+    }
+
+    public function updateQuestion(mixed $id): void
+    {
+        $this->deleteQuestion($id);
+
+        $index = $this->client->index('questions');
+
+        $doc = $this->readFile(\Yii::$app->params['questions']['current']['file']);
+        $this->addQuestion($doc, $index);
+
+    }
+
+    public function deleteQuestion($id): void
+    {
+        $index = $this->client->index('questions');
+        $query = new BoolQuery();
+        $query->should(new In('parent_id', [$id]));
+        $query->should(new In('data_id', [$id]));
+
+        $index->deleteDocuments($query);
+    }
+
+    private function addQuestion($doc, Index $index): void
+    {
+        try {
+            $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            echo $file . ": " . $e->getMessage() . "\n";
+        }
+
+        $index->addDocument($topic->question);
+
+        if ($topic->linked_question) {
+            foreach ($topic->linked_question as $linkedQuestion) {
+                $index->addDocument($linkedQuestion);
+            }
+        }
+
+        foreach ($topic->comments as $key => $comment) {
+            $comment->position = $key + 1;
+            $index->addDocument($comment);
+        }
     }
 }
