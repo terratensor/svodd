@@ -11,7 +11,9 @@ return [
         'host' => 'manticore',
         'port' => 9308
     ],
+
     'questions' => [
+        'pageSize' => 20,
         'current' => [
             'id' => 8162,
             'file' => '30-qa-question-view-8162.json'

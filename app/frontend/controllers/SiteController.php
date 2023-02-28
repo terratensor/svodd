@@ -112,8 +112,7 @@ class SiteController extends Controller
         $question = $this->service->question($id, $page);
 
         if ($position) {
-            var_dump($position);
-            $total = ceil($position / $this->service->pageSize);
+            $total = ceil($position / Yii::$app->params['questions']['pageSize']);
             $this->redirect(['site/question', 'id' => $id, 'page' => $total, 'c' => $position, '#' => $position]);
         }
 
