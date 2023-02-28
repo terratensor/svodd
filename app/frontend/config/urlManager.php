@@ -18,8 +18,11 @@ return [
         'signup' => 'site/signup',
         '<_a:login|logout>' => 'site/<_a>',
 
-        'question/<id:\d+>/<c:\d+>/<page:\d+>' => 'site/question',
-
+        [
+            'pattern' => 'question/<id:\d+>/<c:\d+>/<page:\d+>',
+            'route' => 'site/question',
+            'defaults' => ['page' => 1, 'c' => ''],
+        ],
 
         '<_c:[\w\-]+>' => '<_c>/index',
         '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
