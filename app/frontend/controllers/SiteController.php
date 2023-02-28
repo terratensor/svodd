@@ -114,7 +114,7 @@ class SiteController extends Controller
         if ($position) {
             var_dump($position);
             $total = ceil($position / $this->service->pageSize);
-            $this->redirect(['site/question', 'id' => $id, 'c' => $position, 'page' => $total, '#' => $position]);
+            $this->redirect(['site/question', 'id' => $id, 'page' => $total, 'c' => $position, '#' => $position]);
         }
 
         return $this->render('question', [
