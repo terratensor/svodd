@@ -8,6 +8,7 @@ declare(strict_types=1);
 /** @var Pagination $pages */
 
 use App\models\Question;
+use frontend\widgets\question\CommentSummary;
 use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
 
@@ -43,7 +44,7 @@ $this->registerJs($js);
                 <?php echo $this->render('question_linked', ['question' => $question]); ?>
             <?php endif; ?>
         <?php endif; ?>
-      <p><strong>Всего комментариев: <?= $question->comments->getTotal(); ?></strong></p>
+        <?= CommentSummary::widget(['page' => $page, 'comments' => $question->comments]); ?>
         <?php echo $this->render('question_comments', ['question' => $question]); ?>
 
         <?php

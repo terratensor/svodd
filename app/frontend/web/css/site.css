@@ -138,3 +138,6 @@ div#toTop:hover {
     background-color: rgba(100, 100, 100, 0.3);
 }
 
+p.summary {
+    font-weight: bold;
+}
