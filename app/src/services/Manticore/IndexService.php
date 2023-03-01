@@ -100,13 +100,30 @@ class IndexService
         return $arrFiles;
     }
 
-    public function updateQuestionComments(mixed $id)
+    /**
+     * @param int $id
+     * @return void
+     * ToDo думаю, что манипуляций с дерганьем индекса, чтобы определить кол-во записей можно избежать. Надо записывать последнее значение position, и позже читать файл и записанное значение и сравнивать их без вызова search
+     */
+    public function updateQuestionComments(int $id): void
     {
         $index = $this->client->index('questions');
+
+        // получаем кол-во комментариев через фильтр parent_id и data_id равны id вопроса
         $query = new BoolQuery();
         $query->should(new In('parent_id', [$id]));
         $query->should(new In('data_id', [$id]));
 
+        $search = $index->search($query);
+
+        // включаем сортировку, если убрать сортировку, то кол-во результатов query будет 20
+        $search->sort('type', 'asc');
+        $search->sort('position', 'asc');
+
+        // получаем кол-во комментариев в вопросе, комментарии пронумерованы через position
+        $total = $search->get()->getTotal() - 1;
+
+        // читаем обновленный файл, который обновляет по cron parser
         $doc = $this->readFile(\Yii::$app->params['questions']['current']['file']);
 
 
@@ -116,15 +133,14 @@ class IndexService
             echo $file . ": " . $e->getMessage() . "\n";
         }
 
-        $comments = [];
+        // перебираем комментарии в массиве, если ключ стане больше,
+        // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
         foreach ($topic->comments as $key => $comment) {
             $comment->position = $key + 1;
-            $comments[] = $comment;
-            var_dump($comment);
+            if ($key > $total) {
+                $index->addDocument($comment);
+            }
         }
-
-
-        $index->updateDocuments($topic->comments, $query);
     }
 
     public function updateQuestion(mixed $id): void
