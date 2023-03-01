@@ -7,6 +7,7 @@
 /** @var SearchForm $model */
 
 use App\forms\SearchForm;
+use frontend\widgets\question\SearchResultSummary;
 use Manticoresearch\ResultSet;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -44,6 +45,7 @@ $this->title = 'ФКТ поиск';
   <div class="row">
     <div class="col-md-12">
       <p><strong>Всего результатов: <?= $results->getTotal(); ?></strong></p>
+        <?= SearchResultSummary::widget(['summary' => $results->getTotal()]); ?>
         <?php foreach ($results as $hit): ?>
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
@@ -74,13 +76,7 @@ $this->title = 'ФКТ поиск';
             </div>
           </div>
         <?php endforeach; ?>
-
-        <?php
-        echo LinkPager::widget(
-            [
-                'pagination' => new Pagination(['totalCount' => $results->getTotal()]),
-            ]);
-        ?>
+        <?php echo LinkPager::widget(['pagination' => new Pagination(['totalCount' => $results->getTotal()])]); ?>
     </div>
   </div>
 </div>
