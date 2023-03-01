@@ -20,7 +20,7 @@ $this->title = 'ФКТ поиск';
 ?>
 <div class="site-index">
     <?php if (!$results): ?>
-      <h4>Хронология обсуждений событий с начала СВОДД по:</h4>
+      <h4>Хронология обсуждений событий с начала СВОДД:</h4>
     <?php endif; ?>
 
     <?php $form = ActiveForm::begin(
@@ -36,7 +36,7 @@ $this->title = 'ФКТ поиск';
           {input}
           <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button></div>',
           'options' => [
-              'class' => 'w-100 me-3', 'role' => 'search'
+              'class' => 'w-100', 'role' => 'search'
           ]
       ])->textInput(
           [
