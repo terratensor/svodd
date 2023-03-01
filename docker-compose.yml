@@ -40,6 +40,8 @@ services:
     build:
       context: app/frontend/docker
       dockerfile: development/php-fpm/Dockerfile
+    environment:
+      FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
 
@@ -70,6 +72,8 @@ services:
     build:
       context: app/console/docker
       dockerfile: development/php-cli/Dockerfile
+    environment:
+      FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
 

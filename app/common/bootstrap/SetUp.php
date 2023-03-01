@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace common\bootstrap;
 
 
+use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
-use App\services\ManticoreService;
 use Manticoresearch\Client;
 use Yii;
 use yii\base\BootstrapInterface;
@@ -26,8 +26,9 @@ class SetUp implements BootstrapInterface
             new Client($app->params['manticore']),
         ]);
 
-        $container->setSingleton(ManticoreService::class, [], [
+        $container->setSingleton(QuestionRepository::class, [], [
             new Client($app->params['manticore']),
+            $app->params['questions']['pageSize'],
         ]);
     }
 }

@@ -7,6 +7,8 @@
 /** @var SearchForm $model */
 
 use App\forms\SearchForm;
+use frontend\widgets\question\SearchResultSummary;
+use frontend\widgets\search\FollowQuestion;
 use Manticoresearch\ResultSet;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -17,6 +19,10 @@ $this->title = 'ФКТ поиск';
 
 ?>
 <div class="site-index">
+    <?php if (!$results): ?>
+      <h4>Хронология обсуждений событий с начала СВОДД по:</h4>
+    <?php endif; ?>
+
     <?php $form = ActiveForm::begin(
         [
             'method' => 'GET',
@@ -44,11 +50,12 @@ $this->title = 'ФКТ поиск';
   <div class="row">
     <div class="col-md-12">
       <p><strong>Всего результатов: <?= $results->getTotal(); ?></strong></p>
+        <?= SearchResultSummary::widget(['summary' => $results->getTotal()]); ?>
         <?php foreach ($results as $hit): ?>
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
               <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
-              <div><?= "#".$hit->get('data_id'); ?></div>
+              <div><?= "#" . $hit->get('data_id'); ?></div>
             </div>
             <div class="card-body">
                 <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
@@ -61,7 +68,7 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?= Html::a('Перейти к вопросу', ['site/question', 'id' => $hit->get('parent_id')]); ?>
+                <?= FollowQuestion::widget(['hit' => $hit]); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
                 <?= Html::a(
                     $link,
@@ -71,14 +78,12 @@ $this->title = 'ФКТ поиск';
             </div>
           </div>
         <?php endforeach; ?>
-
-        <?php
-        echo LinkPager::widget(
-            [
-                'pagination' => new Pagination(['totalCount' => $results->getTotal()]),
-            ]);
-        ?>
+        <?php echo LinkPager::widget(['pagination' => new Pagination(['totalCount' => $results->getTotal()])]); ?>
     </div>
   </div>
 </div>
+<?php else: ?>
+
+<?php echo \frontend\widgets\question\SvoddListWidget::widget(); ?>
+
 <?php endif; ?>

@@ -6,10 +6,9 @@ namespace App\services;
 
 use App\forms\SearchForm;
 use App\models\Question;
-use Manticoresearch\Client;
-use Manticoresearch\Exceptions\ResponseException;
+use App\repositories\Question\QuestionDataProvider;
+use App\repositories\Question\QuestionRepository;
 use Manticoresearch\ResultSet;
-use Manticoresearch\Search;
 
 /**
  * Class ManticoreService
@@ -18,92 +17,52 @@ use Manticoresearch\Search;
  */
 class ManticoreService
 {
-    private Client $client;
-    private Search $search;
+    private QuestionRepository $questionRepository;
 
-    public function __construct(Client $client)
+    public function __construct(QuestionRepository $questionRepository)
     {
-        $this->client = $client;
-        $this->search = new Search($this->client);
+        $this->questionRepository = $questionRepository;
     }
 
     public function search(SearchForm $form, int $page): ResultSet
     {
-        $query = $form->query;
-        $this->search->setIndex('questions');
-
-        try {
-            return $this->search
-                ->match(['query' => $query, 'operator' => 'and'])
-                //            ->filter('parent_id', 'in', [12348])
-                ->highlight(
-                    ['text'],
-                    [
-                        'limit' => 0,
-                        //                    'pre_tags' => '', 'post_tags' => '',
-                        //                    'around' => 10,
-                        //                    'html_strip_mode' => 'none',
-                        'force_passages' => true,
-                    ]
-
-                )
-                ->offset(($page - 1) * 20)
-                ->get();
-        } catch (ResponseException $e) {
-            throw new \DomainException('Необходимо создать индекс для поиска.');
-        }
+        $queryString = $form->query;
+        return $this
+            ->questionRepository
+            ->findByQueryString($queryString, $page);
     }
 
-    public function question(int $id, string $page): Question
+    public function question(int $id): Question
     {
-        $this->search->setIndex('questions');
+        $questionBody = $this
+            ->questionRepository
+            ->findQuestionById($id);
 
-        $search = $this->search->search('');
+        $linkedQuestions = $this
+            ->questionRepository
+            ->findLinkedQuestionsById($id);
 
-        $search->filter('parent_id', $id);
-        $search->filter('type', 'in', 2, Search::FILTER_NOT);
+        $comments = $this->questionRepository->findCommentsByQuestionId($id);
 
+        $commentsDataProvider = new QuestionDataProvider(
+            [
+                'query' => $comments,
+                'pagination' => [
+                    'pageSize' => 20,
+                ],
+                'sort' => [
+                    'defaultOrder' => [
+                        'type' => SORT_ASC,
+                        'position' => SORT_ASC,
+                    ],
+                ],
+            ]);
 
-        $search->sort('type','asc');
-        $search->sort('data_id','asc');
-
-        $search->offset(($page - 1) * 20);
-
-        $search->facet('parent_id','group_questions');
-        $search->facet('type','group_type');
-
-        $results = $search->get();
-//        echo "<pre>";var_dump($results->getFacets()); echo "</pre>"; die();
-
-        $questionBody = $this->getQuestionText($id);
-        $linkedQuestions = $this->getLinkedQuestions($id);
-
-        return Question::create($id, $questionBody, $linkedQuestions, $results);
-    }
-
-    private function getQuestionText(int $id): ResultSet
-    {
-        $search = new Search($this->client);
-        $search->setIndex('questions');
-        $search->search('');
-        $search->filter('data_id', $id);
-        return $search->get();
-    }
-
-    private function getLinkedQuestions(int $id): ResultSet
-    {
-        $search = new Search($this->client);
-        $search->setIndex('questions');
-
-        $search->search('');
-
-        $search->filter('type', 'in', 2, Search::FILTER_AND);
-        $search->filter('parent_id', $id);
-
-        $search->limit(200);
-
-        $search->facet('type','group_type');
-
-        return $search->get();
+        return Question::create(
+            $id,
+            $questionBody,
+            $linkedQuestions,
+            $commentsDataProvider
+        );
     }
 }

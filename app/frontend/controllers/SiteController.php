@@ -106,10 +106,7 @@ class SiteController extends Controller
 
     public function actionQuestion($id): string
     {
-
-        $page = Yii::$app->request->get()['page'] ?? 1;
-
-        $question = $this->service->question($id, $page);
+        $question = $this->service->question($id);
 
         return $this->render('question', [
             'question' => $question,

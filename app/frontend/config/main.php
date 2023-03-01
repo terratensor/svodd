@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'name' => 'ФКТ поиск',
+    'language' => 'ru',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', \common\bootstrap\SetUp::class],
     'controllerNamespace' => 'frontend\controllers',
@@ -37,12 +38,10 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
+        'frontendUrlManager' => require __DIR__ . '/urlManager.php',
+        'urlManager' => function () {
+            return Yii::$app->get('frontendUrlManager');
+        },
     ],
     'params' => $params,
 ];
