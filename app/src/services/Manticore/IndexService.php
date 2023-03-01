@@ -100,6 +100,33 @@ class IndexService
         return $arrFiles;
     }
 
+    public function updateQuestionComments(mixed $id)
+    {
+        $index = $this->client->index('questions');
+        $query = new BoolQuery();
+        $query->should(new In('parent_id', [$id]));
+        $query->should(new In('data_id', [$id]));
+
+        $doc = $this->readFile(\Yii::$app->params['questions']['current']['file']);
+
+
+        try {
+            $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+            echo $file . ": " . $e->getMessage() . "\n";
+        }
+
+        $comments = [];
+        foreach ($topic->comments as $key => $comment) {
+            $comment->position = $key + 1;
+            $comments[] = $comment;
+            var_dump($comment);
+        }
+
+
+        $index->updateDocuments($topic->comments, $query);
+    }
+
     public function updateQuestion(mixed $id): void
     {
         $this->deleteQuestion($id);

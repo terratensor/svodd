@@ -95,4 +95,16 @@ class IndexController extends Controller
 
         $this->stdout($message . PHP_EOL);
     }
+
+    public function actionUpdateCurrentComments()
+    {
+        $message = 'Done!';
+        try {
+            $this->service->updateQuestionComments(\Yii::$app->params['questions']['current']['id']);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
 }

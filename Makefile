@@ -45,3 +45,7 @@ indexer:
 
 update-current:
 	docker-compose run --rm cli-php php yii index/update-current
+
+
+update-current-comments:
+	docker-compose run --rm cli-php php yii index/update-current-comments
