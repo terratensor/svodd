@@ -42,3 +42,6 @@ parse-current:
 
 indexer:
 	docker-compose run --rm cli-php php yii index/indexer
+
+update-current:
+	docker-compose run --rm cli-php php yii index/update-current
