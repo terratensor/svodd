@@ -19,9 +19,9 @@ return [
         '<_a:login|logout>' => 'site/<_a>',
 
         [
-            'pattern' => 'question/<id:\d+>/<page:\d+>/<c:\d+>',
+            'pattern' => 'question/<id:\d+>/<page:\d+>',
             'route' => 'site/question',
-            'defaults' => ['c' => '0', 'page' => 1],
+            'defaults' => ['page' => 1],
         ],
 
         '<_c:[\w\-]+>' => '<_c>/index',

@@ -53,20 +53,26 @@ $this->registerJs($js);
         <?= CommentSummary::widget(['page' => $page, 'summary' => $question->provider->getTotalCount()]); ?>
         <?php echo $this->render('question_comments', ['comments' => $comments]); ?>
 
-        <?php
-        echo LinkPager::widget(
-            [
-                'pagination' => new Pagination(
+        <div class="fixed-bottom">
+            <div class="container">
+                <?= LinkPager::widget(
                     [
-                        'totalCount' => $question->provider->getTotalCount(),
-                        'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
-                    ]
-                ),
-                'firstPageLabel' => true,
-                'lastPageLabel' => true,
-                'maxButtonCount' => 8,
-            ]);
-        ?>
+                        'pagination' => new Pagination(
+                            [
+                                'totalCount' => $question->provider->getTotalCount(),
+                                'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
+                            ]
+                        ),
+                        'firstPageLabel' => true,
+                        'lastPageLabel' => true,
+                        'maxButtonCount' => 5,
+                        'options' => [
+                        'class' => 'd-flex justify-content-center'
+                        ]
+                    ]);
+                ?>
+            </div>
+        </div>
     </div>
   </div>
 </div>

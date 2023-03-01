@@ -141,3 +141,7 @@ div#toTop:hover {
 p.summary {
     font-weight: bold;
 }
+
+.site-index .fixed-bottom {
+    z-index: 100;
+}

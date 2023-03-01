@@ -8,6 +8,7 @@
 
 use App\forms\SearchForm;
 use frontend\widgets\question\SearchResultSummary;
+use frontend\widgets\search\FollowQuestion;
 use Manticoresearch\ResultSet;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -63,10 +64,7 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?= Html::a(
-                    'Перейти к вопросу',
-                    ['site/question', 'id' => $hit->get('parent_id'), 'position' => $hit->get('position')]
-                ); ?>
+                <?= FollowQuestion::widget(['hit' => $hit]); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
                 <?= Html::a(
                     $link,
