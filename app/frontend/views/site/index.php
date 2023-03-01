@@ -19,6 +19,10 @@ $this->title = 'ФКТ поиск';
 
 ?>
 <div class="site-index">
+    <?php if (!$results): ?>
+      <h4>Хронология обсуждений событий с начала СВОДД по:</h4>
+    <?php endif; ?>
+
     <?php $form = ActiveForm::begin(
         [
             'method' => 'GET',
@@ -78,4 +82,8 @@ $this->title = 'ФКТ поиск';
     </div>
   </div>
 </div>
+<?php else: ?>
+
+<?php echo \frontend\widgets\question\SvoddListWidget::widget(); ?>
+
 <?php endif; ?>
