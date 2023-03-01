@@ -7,8 +7,8 @@ use Manticoresearch\ResultSet;use yii\bootstrap5\Widget;use yii\helpers\Html;
 class CommentSummary extends Widget
 {
     public ?int $pageSize = null;
-    public int $page;
-    public ?ResultSet $comments = null;
+    public int $page = 1;
+    public int $summary = 0;
 
     public function init()
     {
@@ -26,7 +26,7 @@ class CommentSummary extends Widget
             'app',
             'Показано {start} – {end} из {n, plural, =0{Нет комментариев} few{# комментария} many{# комментариев} other{# комментариев}}',
             [
-                'n' => $this->comments->getTotal(),
+                'n' => $this->summary,
                 'start' => $start,
                 'end' => $end
             ]

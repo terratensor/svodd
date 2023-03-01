@@ -2,23 +2,24 @@
 
 declare(strict_types=1);
 
-/** @var Question $question */
+/** @var Comment[] $comments */
 
-use App\models\Question;
-use frontend\widgets\question\Card;
+use App\models\Comment;
+use frontend\widgets\question\card\Header;
 
 $position = Yii::$app->request->get()['c'] ?? 0;
 
 ?>
-<?php foreach ($question->comments as $hit): ?>
+<?php // echo $question->provider->getTotalCount(); ?>
+<?php foreach ($comments as $model): ?>
 
-  <div id="<?= $hit->get('position'); ?>" class="<?= $position == $hit->get('position') ? "card mb-4 border-primary" : "card mb-4"?>">
-    <div class="<?= $position == $hit->get('position') ? "card-header d-flex justify-content-between border-primary" : "card-header d-flex justify-content-between"?>">
-        <?= Card::widget(['hit' => $hit]); ?>
+  <div id="<?= $model->position; ?>" class="<?= $position == $model->position ? "card mb-4 border-primary" : "card mb-4"?>">
+    <div class="<?= $position == $model->position ? "card-header d-flex justify-content-between border-primary" : "card-header d-flex justify-content-between"?>">
+        <?= Header::widget(['model' => $model]); ?>
     </div>
     <div class="card-body">
       <div class="card-text comment-text">
-          <?php echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?>
+          <?php echo Yii::$app->formatter->asRaw($model->text); ?>
       </div>
     </div>
   </div>

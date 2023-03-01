@@ -44,15 +44,21 @@ $this->registerJs($js);
                 <?php echo $this->render('question_linked', ['question' => $question]); ?>
             <?php endif; ?>
         <?php endif; ?>
-        <?= CommentSummary::widget(['page' => $page, 'comments' => $question->comments]); ?>
-        <?php echo $this->render('question_comments', ['question' => $question]); ?>
+
+
+        <?php
+        // Property totalCount пусто пока не вызваны данные модели getModels(),
+        // сначала получаем массив моделей, потом получаем общее их количество
+        $comments = $question->provider->getModels(); ?>
+        <?= CommentSummary::widget(['page' => $page, 'summary' => $question->provider->getTotalCount()]); ?>
+        <?php echo $this->render('question_comments', ['comments' => $comments]); ?>
 
         <?php
         echo LinkPager::widget(
             [
                 'pagination' => new Pagination(
                     [
-                        'totalCount' => $question->comments->getTotal(),
+                        'totalCount' => $question->provider->getTotalCount(),
                         'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
                     ]
                 ),

@@ -51,7 +51,7 @@ class QuestionRepository
         return $search->get();
     }
 
-    public function findCommentsByQuestionId(int $id, ?int $page = null): ResultSet
+    public function findCommentsByQuestionId(int $id): Search
     {
         $this->search->reset();
 
@@ -62,23 +62,7 @@ class QuestionRepository
         $search->filter('parent_id', $id);
         $search->filter('type', 'in', 2, Search::FILTER_NOT);
 
-
-        $search->sort('type');
-        $search->sort('position');
-
-        $search->limit($this->pageSize);
-
-        if ($page) {
-            $search->offset(($page - 1) * $this->pageSize);
-        }
-
-        $count = $search->get()->getTotal();
-
-        if ($count > 1000) {
-            $search->maxMatches($count);
-        }
-
-        return $search->get();
+        return $search;
     }
 
     public function findQuestionById(int $id): ResultSet

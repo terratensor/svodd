@@ -6,6 +6,7 @@ namespace App\services;
 
 use App\forms\SearchForm;
 use App\models\Question;
+use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
 use Manticoresearch\ResultSet;
 
@@ -31,12 +32,8 @@ class ManticoreService
             ->findByQueryString($queryString, $page);
     }
 
-    public function question(int $id, int $page): Question
+    public function question(int $id): Question
     {
-        $comments = $this
-            ->questionRepository
-            ->findCommentsByQuestionId($id, $page);
-
         $questionBody = $this
             ->questionRepository
             ->findQuestionById($id);
@@ -45,11 +42,27 @@ class ManticoreService
             ->questionRepository
             ->findLinkedQuestionsById($id);
 
+        $comments = $this->questionRepository->findCommentsByQuestionId($id);
+
+        $commentsDataProvider = new QuestionDataProvider(
+            [
+                'query' => $comments,
+                'pagination' => [
+                    'pageSize' => 20,
+                ],
+                'sort' => [
+                    'defaultOrder' => [
+                        'type' => SORT_ASC,
+                        'position' => SORT_ASC,
+                    ],
+                ],
+            ]);
+
         return Question::create(
             $id,
             $questionBody,
             $linkedQuestions,
-            $comments
+            $commentsDataProvider
         );
     }
 }
