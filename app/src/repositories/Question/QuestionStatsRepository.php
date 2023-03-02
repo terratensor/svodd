@@ -4,6 +4,7 @@ namespace App\repositories\Question;
 
 use App\models\QuestionStats;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 class QuestionStatsRepository
 {
@@ -23,6 +24,11 @@ class QuestionStatsRepository
     public function findAll(): array
     {
         return QuestionStats::find()->orderBy('number')->all();
+    }
+
+    public function findAllForList(): array
+    {
+        return QuestionStats::find()->orderBy("sort ASC, number ASC")->all();
     }
 
     public function save(QuestionStats $questionStats): void
