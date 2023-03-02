@@ -161,7 +161,7 @@ class IndexService
 
         // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
         // В противном случае создаем объект статистики и записываем в базу,
-        // чтобы в последующим при обновлении не дёргать поиск по индексу
+        // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         if ($stats) {
             $stats->edit(count($topic->comments), new DateTimeImmutable());
         } else {
@@ -201,6 +201,9 @@ class IndexService
 
         $index->addDocument($topic->question);
 
+        // Записываем ИД вопроса
+        $question_id = (int)$topic->question->data_id;
+
         if ($topic->linked_question) {
             foreach ($topic->linked_question as $key => $linkedQuestion) {
                 $linkedQuestion->position = $key + 1;
@@ -212,5 +215,16 @@ class IndexService
             $comment->position = $key + 1;
             $index->addDocument($comment);
         }
+
+        // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
+        // В противном случае создаем объект статистики и записываем в базу,
+        // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
+        try {
+            $stats = $this->questionStatsRepository->getByQuestionId($question_id);
+            $stats->edit(count($topic->comments), new DateTimeImmutable());
+        } catch (DomainException $e) {
+            $stats = QuestionStats::create($question_id, count($topic->comments), new DateTimeImmutable());
+        }
+        $this->questionStatsRepository->save($stats);
     }
 }
