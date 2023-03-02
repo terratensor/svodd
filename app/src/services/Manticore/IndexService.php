@@ -6,6 +6,10 @@ namespace App\services\Manticore;
 
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
+use App\models\QuestionStats;
+use App\repositories\Question\QuestionStatsRepository;
+use DateTimeImmutable;
+use DomainException;
 use JsonException;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
@@ -20,10 +24,14 @@ use Manticoresearch\Query\In;
 class IndexService
 {
     private Client $client;
+    private QuestionStatsRepository $questionStatsRepository;
 
-    public function __construct(Client $client)
-    {
+    public function __construct(
+        Client $client,
+        QuestionStatsRepository $questionStatsRepository
+    ) {
         $this->client = $client;
+        $this->questionStatsRepository = $questionStatsRepository;
     }
 
     public function create(IndexCreateForm $form): void
@@ -103,29 +111,36 @@ class IndexService
     /**
      * @param int $id
      * @return void
-     * ToDo думаю, что манипуляций с дерганьем индекса, чтобы определить кол-во записей можно избежать. Надо записывать последнее значение position, и позже читать файл и записанное значение и сравнивать их без вызова search
      */
     public function updateQuestionComments(int $id): void
     {
+        $stats = null;
         $index = $this->client->index('questions');
 
-        // получаем кол-во комментариев через фильтр parent_id и data_id равны id вопроса
-        $query = new BoolQuery();
-        $query->should(new In('parent_id', [$id]));
-        $query->should(new In('data_id', [$id]));
+        try {
+            // Читаем из таблицы question_stats строку по id вопроса, чтобы получить кол-во комментариев
+            // Если записи ещё в базе нет, значит читаем все записи из текущего индекса в секции catch
+            $stats = $this->questionStatsRepository->getByQuestionId($id);
+            $total = $stats->comments_count;
+        } catch (DomainException $e) {
 
-        $search = $index->search($query);
+            // получаем кол-во комментариев через фильтр parent_id и data_id равны id вопроса
+            $query = new BoolQuery();
+            $query->should(new In('parent_id', [$id]));
+            $query->should(new In('data_id', [$id]));
 
-        // включаем сортировку, если убрать сортировку, то кол-во результатов query будет 20
-        $search->sort('type', 'asc');
-        $search->sort('position', 'asc');
+            $search = $index->search($query);
 
-        // получаем кол-во комментариев в вопросе, комментарии пронумерованы через position
-        $total = $search->get()->getTotal() - 1;
+            // включаем сортировку, если убрать сортировку, то кол-во результатов query будет 20
+            $search->sort('type', 'asc');
+            $search->sort('position', 'asc');
+
+            // получаем кол-во комментариев в вопросе, комментарии пронумерованы через position
+            $total = $search->get()->getTotal() - 1;
+        }
 
         // читаем обновленный файл, который обновляет по cron parser
         $doc = $this->readFile(\Yii::$app->params['questions']['current']['file']);
-
 
         try {
             $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
@@ -133,14 +148,28 @@ class IndexService
             echo $file . ": " . $e->getMessage() . "\n";
         }
 
-        // перебираем комментарии в массиве, если ключ стане больше,
-        // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
-        foreach ($topic->comments as $key => $comment) {
-            $comment->position = $key + 1;
-            if ($key > $total) {
-                $index->addDocument($comment);
+        var_dump($total);
+        var_dump(count($topic->comments));
+        if (count($topic->comments) > $total) {
+            // перебираем комментарии в массиве, если ключ стане больше,
+            // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
+            foreach ($topic->comments as $key => $comment) {
+                $comment->position = $key + 1;
+                if ($key > $total) {
+                    $index->addDocument($comment);
+                }
             }
         }
+
+        // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
+        // В противном случае создаем объект статистики и записываем в базу,
+        // чтобы в последующим при обновлении не дёргать поиск по индексу
+        if ($stats) {
+            $stats->edit(count($topic->comments), new DateTimeImmutable());
+        } else {
+            $stats = QuestionStats::create($id, count($topic->comments), new DateTimeImmutable());
+        }
+        $this->questionStatsRepository->save($stats);
     }
 
     public function updateQuestion(mixed $id): void
