@@ -22,7 +22,7 @@ class QuestionStatsRepository
 
     public function findAll(): array
     {
-        return QuestionStats::find()->all();
+        return QuestionStats::find()->orderBy('number')->all();
     }
 
     public function save(QuestionStats $questionStats): void
