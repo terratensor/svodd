@@ -9,7 +9,7 @@
 
 use App\forms\SearchForm;
 use App\models\QuestionStats;
-use frontend\widgets\question\SearchResultSummary;
+use frontend\widgets\search\SearchResultSummary;
 use frontend\widgets\search\FollowQuestion;
 use Manticoresearch\ResultSet;
 use yii\bootstrap5\ActiveForm;

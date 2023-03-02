@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\widgets\question;
+namespace frontend\widgets\search;
 
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -44,6 +44,9 @@ class SearchResultSummary extends Widget
 
     public function run(): string
     {
+        if ($this->summary < 1) {
+            return '';
+        }
         return $this->renderSummary();
     }
 }
