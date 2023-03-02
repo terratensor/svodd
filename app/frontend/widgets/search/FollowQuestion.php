@@ -10,6 +10,13 @@ use yii\helpers\Url;
 
 class FollowQuestion extends Widget
 {
+    /**
+     * @var string
+     */
+    public string $title = 'Перейти к вопросу';
+    /**
+     * @var ResultHit
+     */
     public ResultHit $hit;
     /**
      * @var array|mixed
@@ -20,7 +27,7 @@ class FollowQuestion extends Widget
      */
     private mixed $position;
 
-    public function init()
+    public function init(): void
     {
         $this->question_id = $this->hit->get('parent_id');
         $this->position = $this->hit->get('position');
@@ -29,14 +36,22 @@ class FollowQuestion extends Widget
     public function getUrl(): string
     {
         $total = ceil($this->hit->get('position') / Yii::$app->params['questions']['pageSize']);
-        return Url::to(['site/question', 'id' => $this->question_id, 'page' => $total, 'c' =>$this->position, '#' => $this->position]);
+        return Url::to(
+            [
+                'site/question',
+                'id' => $this->question_id,
+                'page' => $total,
+                'c' => $this->position,
+                '#' => $this->position
+            ]
+        );
 
     }
 
-    public function run()
+    public function run(): string
     {
         return Html::a(
-            'Перейти к вопросу',
+            $this->title,
             $this->getUrl(),
         );
     }
