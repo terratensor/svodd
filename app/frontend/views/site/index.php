@@ -2,11 +2,13 @@
 
 /** @var yii\web\View $this */
 /** @var ResultSet $results */
+/** @var QuestionStats[] $list */
 /** @var Pagination $pages */
 
 /** @var SearchForm $model */
 
 use App\forms\SearchForm;
+use App\models\QuestionStats;
 use frontend\widgets\question\SearchResultSummary;
 use frontend\widgets\search\FollowQuestion;
 use Manticoresearch\ResultSet;
@@ -84,6 +86,6 @@ $this->title = 'ФКТ поиск';
 </div>
 <?php else: ?>
 
-<?php echo \frontend\widgets\question\SvoddListWidget::widget(); ?>
+<?php echo \frontend\widgets\question\SvoddListWidget::widget(['models' => $list]); ?>
 
 <?php endif; ?>

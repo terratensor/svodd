@@ -20,6 +20,11 @@ class QuestionStatsRepository
         return $stats;
     }
 
+    public function findAll(): array
+    {
+        return QuestionStats::find()->all();
+    }
+
     public function save(QuestionStats $questionStats): void
     {
         if (!$questionStats->save()) {

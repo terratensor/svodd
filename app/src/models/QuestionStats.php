@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int|mixed|null $question_id
  * @property int|mixed|null $number
+ * @property string|mixed|null $title
  * @property string|mixed|null $description
  * @property string|mixed|null $url
  * @property int|mixed|null $comments_count

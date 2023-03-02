@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use App\forms\SearchForm;
+use App\repositories\Question\QuestionStatsRepository;
 use App\services\ManticoreService;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
@@ -25,11 +26,19 @@ class SiteController extends Controller
 {
 
     private ManticoreService $service;
+    private QuestionStatsRepository $questionStatsRepository;
 
-    public function __construct($id, $module, ManticoreService $service, $config = [])
+    public function __construct(
+        $id,
+        $module,
+        ManticoreService $service,
+        QuestionStatsRepository $questionStatsRepository,
+        $config = []
+    )
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+        $this->questionStatsRepository = $questionStatsRepository;
     }
 
     /**
@@ -86,6 +95,7 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
+        $results = null;
         $form = new SearchForm();
         $page = Yii::$app->request->get()['page'] ?? 1;
 
@@ -98,8 +108,13 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
+        if (!$results) {
+            $list = $this->questionStatsRepository->findAll();
+        }
+
         return $this->render('index', [
             'results' => $results ?? null,
+            'list' => $list ?? null,
             'model' => $form,
         ]);
     }
