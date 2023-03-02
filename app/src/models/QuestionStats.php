@@ -9,6 +9,9 @@ use yii\db\ActiveRecord;
 /**
  * @property int $id
  * @property int|mixed|null $question_id
+ * @property int|mixed|null $number
+ * @property string|mixed|null $description
+ * @property string|mixed|null $url
  * @property int|mixed|null $comments_count
  * @property int|null $updated_at
  */
@@ -24,12 +27,27 @@ class QuestionStats extends ActiveRecord
         $stats->comments_count = $comments_count;
         $stats->date = $date;
 
+        $stats->url = \Yii::$app->params['questions']['url-pattern'] . $question_id;
+
         return $stats;
     }
 
-    public function edit(int $comments_count, DateTimeImmutable $date)
+    public function edit(
+        int $number,
+        string $description,
+        string $url,
+        DateTimeImmutable $date
+    )
     {
-        $this->comments_count = $comments_count;
+        $this->number = $number;
+        $this->description = $description;
+        $this->url = $url;
+        $this->date = $date;
+    }
+
+    public function changeCommentsCount(int $newCount, DateTimeImmutable $date): void
+    {
+        $this->comments_count = $newCount;
         $this->date = $date;
     }
 

@@ -163,7 +163,7 @@ class IndexService
         // В противном случае создаем объект статистики и записываем в базу,
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         if ($stats) {
-            $stats->edit(count($topic->comments), new DateTimeImmutable());
+            $stats->changeCommentsCount(count($topic->comments), new DateTimeImmutable());
         } else {
             $stats = QuestionStats::create($id, count($topic->comments), new DateTimeImmutable());
         }
@@ -221,7 +221,7 @@ class IndexService
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         try {
             $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-            $stats->edit(count($topic->comments), new DateTimeImmutable());
+            $stats->changeCommentsCount(count($topic->comments), new DateTimeImmutable());
         } catch (DomainException $e) {
             $stats = QuestionStats::create($question_id, count($topic->comments), new DateTimeImmutable());
         }

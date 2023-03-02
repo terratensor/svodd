@@ -17,6 +17,7 @@ return [
         'current' => [
             'id' => 8162,
             'file' => '30-qa-question-view-8162.json'
-        ]
+        ],
+        'url-pattern' => "https://фкт.рф/qa/question/view-",
     ],
 ];
