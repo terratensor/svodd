@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-/** @var Question $question */
+/** @var QuestionView $question */
 
-use App\models\Question;
+use App\models\QuestionView;
 
 ?>
 <?php foreach ($question->linkedQuestions as $hit): ?>

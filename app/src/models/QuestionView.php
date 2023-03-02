@@ -8,7 +8,7 @@ use App\repositories\Question\QuestionDataProvider;
 use Manticoresearch\ResultSet;
 use yii\base\Model;
 
-class Question extends Model
+class QuestionView extends Model
 {
     public int $id = 0;
     public ResultSet $body;

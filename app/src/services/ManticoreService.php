@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\services;
 
 use App\forms\SearchForm;
-use App\models\Question;
+use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
 use Manticoresearch\ResultSet;
@@ -32,7 +32,7 @@ class ManticoreService
             ->findByQueryString($queryString, $page);
     }
 
-    public function question(int $id): Question
+    public function question(int $id): QuestionView
     {
         $questionBody = $this
             ->questionRepository
@@ -58,7 +58,7 @@ class ManticoreService
                 ],
             ]);
 
-        return Question::create(
+        return QuestionView::create(
             $id,
             $questionBody,
             $linkedQuestions,

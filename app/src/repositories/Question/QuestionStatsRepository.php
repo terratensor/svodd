@@ -4,7 +4,6 @@ namespace App\repositories\Question;
 
 use App\models\QuestionStats;
 use yii\db\ActiveRecord;
-use yii\db\Expression;
 
 class QuestionStatsRepository
 {

@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 /** @var yii\web\View $this */
-/** @var Question $question */
+/** @var QuestionView $question */
 
 /** @var Pagination $pages */
 
-use App\models\Question;
+use App\models\QuestionView;
 use frontend\widgets\question\CommentSummary;
 use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
