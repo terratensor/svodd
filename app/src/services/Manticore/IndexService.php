@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\services\Manticore;
 
 
+use App\entities\Question\Question;
+use App\entities\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\models\QuestionStats;
@@ -25,13 +27,16 @@ class IndexService
 {
     private Client $client;
     private QuestionStatsRepository $questionStatsRepository;
+    private QuestionRepository $questionRepository;
 
     public function __construct(
         Client $client,
-        QuestionStatsRepository $questionStatsRepository
+        QuestionStatsRepository $questionStatsRepository,
+        QuestionRepository $questionRepository
     ) {
         $this->client = $client;
         $this->questionStatsRepository = $questionStatsRepository;
+        $this->questionRepository = $questionRepository;
     }
 
     public function create(IndexCreateForm $form): void
@@ -214,6 +219,38 @@ class IndexService
         foreach ($topic->comments as $key => $comment) {
             $comment->position = $key + 1;
             $index->addDocument($comment);
+
+            try {
+                $question = $this->questionRepository->getByDataId((int)$comment->data_id);
+            } catch (DomainException $e) {
+                $question = Question::create(
+                    (int)$comment->data_id,
+                    (int)$comment->parent_id,
+                    (int)$comment->position,
+                    $comment->username,
+                    $comment->role,
+                    $comment->text,
+                    DateTimeImmutable::createFromFormat("H:i d.m.Y", $comment->datetime)
+                );
+
+                $this->questionRepository->save($question);
+            }
+        }
+
+        try {
+            $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
+        } catch (DomainException $e) {
+            $question = Question::create(
+                (int)$topic->question->data_id,
+                (int)$topic->question->parent_id,
+                0,
+                $topic->question->username,
+                $topic->question->role,
+                $topic->question->text,
+                DateTimeImmutable::createFromFormat("H:i d.m.Y", $topic->question->datetime)
+            );
+
+            $this->questionRepository->save($question);
         }
 
         // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
