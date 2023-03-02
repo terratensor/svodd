@@ -15,6 +15,10 @@ class m230302_093314_create_question_stats_table extends Migration
         $this->createTable('{{%question_stats}}', [
             'id' => $this->primaryKey(),
             'question_id' => $this->integer()->notNull(),
+            'number' => $this->integer(),
+            'title' => $this->string(512),
+            'description' => $this->text(),
+            'url' => $this->string(512),
             'comments_count' => $this->integer()->notNull(),
             'updated_at' => $this->timestamp(0)->notNull()
         ]);
