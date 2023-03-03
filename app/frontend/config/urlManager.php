@@ -15,7 +15,7 @@ return [
         '' => 'site/index',
         'contact' => 'site/contact',
         'about' => 'site/about',
-        'signup' => 'site/signup',
+        'signup' => 'auth/join/request',
         '<_a:login|logout>' => 'site/<_a>',
 
         [
