@@ -2,10 +2,11 @@
 
 namespace frontend\widgets\search;
 
+use App\models\Comment;
 use Manticoresearch\ResultHit;
-use Yii;
 use yii\base\Widget;
 use yii\bootstrap5\Html;
+use yii\data\Pagination;
 use yii\helpers\Url;
 
 class FollowQuestion extends Widget
@@ -17,7 +18,7 @@ class FollowQuestion extends Widget
     /**
      * @var ResultHit
      */
-    public ResultHit $hit;
+    public Comment $comment;
     /**
      * @var array|mixed
      */
@@ -27,15 +28,17 @@ class FollowQuestion extends Widget
      */
     private mixed $position;
 
+    public Pagination $pagination;
+
     public function init(): void
     {
-        $this->question_id = $this->hit->get('parent_id');
-        $this->position = $this->hit->get('position');
+        $this->question_id = $this->comment->parent_id;
+        $this->position = $this->comment->position;
     }
 
     public function getUrl(): string
     {
-        $total = ceil($this->hit->get('position') / Yii::$app->params['questions']['pageSize']);
+        $total = ceil($this->comment->position /$this->pagination->pageSize);
         return Url::to(
             [
                 'site/question',

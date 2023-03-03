@@ -86,7 +86,7 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?php //FollowQuestion::widget(['hit' => $comment]); ?>
+                <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $comment->parent_id; ?>
                 <?= Html::a(
                     $link,
