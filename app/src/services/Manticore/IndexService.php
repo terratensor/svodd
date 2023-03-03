@@ -12,6 +12,7 @@ use App\models\QuestionStats;
 use App\repositories\Question\QuestionStatsRepository;
 use DateTimeImmutable;
 use DomainException;
+use Exception;
 use JsonException;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
@@ -54,7 +55,7 @@ class IndexService
                 'username' => ['type' => 'text'],
                 'role' => ['type' => 'text'],
                 'text' => ['type' => 'text'],
-                'datetime' => ['type' => 'text'],
+                'datetime' => ['type' => 'timestamp'],
                 'data_id' => ['type' => 'integer'],
                 'parent_id' => ['type' => 'integer'],
                 'type' => ['type' => 'integer'],
@@ -76,6 +77,9 @@ class IndexService
         $this->client->indices()->drop($params);
     }
 
+    /**
+     * @throws Exception
+     */
     public function index(): void
     {
         $params = ['index' => 'questions'];
@@ -196,6 +200,9 @@ class IndexService
         $index->deleteDocuments($query);
     }
 
+    /**
+     * @throws Exception
+     */
     private function addQuestion($doc, Index $index): void
     {
         try {
@@ -204,6 +211,7 @@ class IndexService
             echo $file . ": " . $e->getMessage() . "\n";
         }
 
+        $topic->question->datetime = $this->getTimestamp($topic->question->datetime);
         $index->addDocument($topic->question);
 
         // Записываем ИД вопроса
@@ -212,12 +220,16 @@ class IndexService
         if ($topic->linked_question) {
             foreach ($topic->linked_question as $key => $linkedQuestion) {
                 $linkedQuestion->position = $key + 1;
+                $linkedQuestion->datetime = $this->getTimestamp($linkedQuestion->datetime);
                 $index->addDocument($linkedQuestion);
             }
         }
 
         foreach ($topic->comments as $key => $comment) {
             $comment->position = $key + 1;
+
+            $comment->datetime = $this->getTimestamp($comment->datetime);
+
             $index->addDocument($comment);
 
             try {
@@ -230,7 +242,7 @@ class IndexService
                     $comment->username,
                     $comment->role,
                     trim($comment->text),
-                    DateTimeImmutable::createFromFormat("H:i d.m.Y", $comment->datetime)
+                    $this->getDateFromTimestamp($comment->datetime)
                 );
 
                 $this->questionRepository->save($question);
@@ -247,7 +259,7 @@ class IndexService
                 $topic->question->username,
                 $topic->question->role,
                 $topic->question->text,
-                DateTimeImmutable::createFromFormat("H:i d.m.Y", $topic->question->datetime)
+                $this->getDateFromTimestamp((int)$topic->question->datetime)
             );
 
             $this->questionRepository->save($question);
@@ -263,5 +275,20 @@ class IndexService
             $stats = QuestionStats::create($question_id, count($topic->comments), new DateTimeImmutable());
         }
         $this->questionStatsRepository->save($stats);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getTimestamp(string $datetime): int
+    {
+        $date = new DateTimeImmutable($datetime);
+        return $date->getTimestamp();
+    }
+
+    private function getDateFromTimestamp(int $timestamp): DateTimeImmutable
+    {
+        $date = new DateTimeImmutable();
+        return $date->setTimestamp($timestamp);
     }
 }

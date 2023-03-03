@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /** @var QuestionView $question */
 
+use App\helpers\DateHelper;
 use App\models\QuestionView;
 
 ?>
@@ -11,7 +12,7 @@ use App\models\QuestionView;
 
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between">
-      <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
+      <div><?= DateHelper::showDateFromTimestamp($hit->getData()['datetime']); ?>, <?= $hit->getData()['username']; ?></div>
     </div>
     <div class="card-body">
       <div class="card-text comment-text">

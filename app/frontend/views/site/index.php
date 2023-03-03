@@ -8,6 +8,7 @@
 /** @var SearchForm $model */
 
 use App\forms\SearchForm;
+use App\helpers\DateHelper;
 use App\models\QuestionStats;
 use frontend\widgets\search\SearchResultSummary;
 use frontend\widgets\search\FollowQuestion;
@@ -56,7 +57,7 @@ $this->title = 'ФКТ поиск';
         <?php foreach ($results as $hit): ?>
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
-              <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
+              <div><?= DateHelper::showDateFromTimestamp($hit->getData()['datetime']); ?>, <?= $hit->getData()['username']; ?></div>
               <div><?= "#" . $hit->get('data_id'); ?></div>
             </div>
             <div class="card-body">
