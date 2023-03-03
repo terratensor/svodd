@@ -1,7 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
-/** @var ResultSet $results */
+/** @var QuestionDataProvider $results */
 /** @var QuestionStats[] $list */
 /** @var Pagination $pages */
 
@@ -9,10 +9,13 @@
 
 use App\forms\SearchForm;
 use App\helpers\DateHelper;
+use App\models\Comment;
 use App\models\QuestionStats;
+use App\repositories\Question\QuestionDataProvider;
+use frontend\widgets\question\CommentSummary;
+use frontend\widgets\question\SvoddListWidget;
 use frontend\widgets\search\SearchResultSummary;
 use frontend\widgets\search\FollowQuestion;
-use Manticoresearch\ResultSet;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
@@ -50,18 +53,31 @@ $this->title = 'ФКТ поиск';
   </div>
     <?php ActiveForm::end(); ?>
     <?php if ($results): ?>
+    <?php
+    // Property totalCount пусто пока не вызваны данные модели getModels(),
+    // сначала получаем массив моделей, потом получаем общее их количество
+    /** @var Comment[] $comments */
+    $comments = $results->getModels();
+    $pagination = new Pagination(
+        [
+            'totalCount' => $results->getTotalCount(),
+            'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
+        ]
+    );
+    ?>
   <div class="row">
     <div class="col-md-12">
-      <p><strong>Всего результатов: <?= $results->getTotal(); ?></strong></p>
-        <?= SearchResultSummary::widget(['summary' => $results->getTotal()]); ?>
-        <?php foreach ($results as $hit): ?>
+      <p><strong>Всего результатов: <?= $results->getTotalCount(); ?></strong></p>
+        <?= CommentSummary::widget(['pagination' => $pagination]); ?>
+        <?php //SearchResultSummary::widget(['summary' => $results->getTotal()]); ?>
+        <?php foreach ($comments as $comment): ?>
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
-              <div><?= DateHelper::showDateFromTimestamp($hit->getData()['datetime']); ?>, <?= $hit->getData()['username']; ?></div>
-              <div><?= "#" . $hit->get('data_id'); ?></div>
+              <div><?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->username; ?></div>
+              <div><?= "#" . $comment->data_id; ?></div>
             </div>
             <div class="card-body">
-                <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
+                <?php foreach ($comment->highlight as $field => $snippets): ?>
                   <div class="card-text comment-text">
                       <?php foreach ($snippets as $snippet): ?>
                           <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($snippet)); ?>
@@ -70,22 +86,22 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?= FollowQuestion::widget(['hit' => $hit]); ?>
-                <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $hit->get('parent_id'); ?>
+                <?php //FollowQuestion::widget(['hit' => $comment]); ?>
+                <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $comment->parent_id; ?>
                 <?= Html::a(
                     $link,
-                    $link . "#:~:text=" . $hit->getData()['datetime'],
+                    $link . "#:~:text=" . $comment->datetime,
                     ['target' => '_blank']
                 ); ?>
             </div>
           </div>
         <?php endforeach; ?>
-        <?php echo LinkPager::widget(['pagination' => new Pagination(['totalCount' => $results->getTotal()])]); ?>
+        <?php echo LinkPager::widget(['pagination' => $pagination]); ?>
     </div>
   </div>
 </div>
 <?php else: ?>
 
-<?php echo \frontend\widgets\question\SvoddListWidget::widget(['models' => $list]); ?>
+<?php echo SvoddListWidget::widget(['models' => $list]); ?>
 
 <?php endif; ?>

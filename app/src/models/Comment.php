@@ -13,6 +13,7 @@ use yii\base\Model;
  * @property string $role;
  * @property string $text;
  * @property string $datetime;
+ * @property ?string $highlight;
  */
 class Comment extends Model
 {
@@ -24,6 +25,7 @@ class Comment extends Model
     public $role;
     public $text;
     public $datetime;
+    public $highlight;
 
     public static function create(
         string $data_id,
@@ -34,6 +36,7 @@ class Comment extends Model
         string $role,
         string $text,
         string $datetime,
+        ?string $highlight,
     ): self {
         $comment = new static();
 
@@ -45,6 +48,7 @@ class Comment extends Model
         $comment->role = $role;
         $comment->text = $text;
         $comment->datetime = $datetime;
+        $comment->highlight = $highlight;
 
         return $comment;
     }

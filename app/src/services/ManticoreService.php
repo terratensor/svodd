@@ -9,6 +9,7 @@ use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
 use Manticoresearch\ResultSet;
+use Manticoresearch\Search;
 
 /**
  * Class ManticoreService
@@ -24,12 +25,27 @@ class ManticoreService
         $this->questionRepository = $questionRepository;
     }
 
-    public function search(SearchForm $form, int $page): ResultSet
+    public function search(SearchForm $form, int $page): QuestionDataProvider
     {
         $queryString = $form->query;
-        return $this
-            ->questionRepository
-            ->findByQueryString($queryString, $page);
+        $comments = $this->questionRepository->findByQueryStringNew($queryString);
+
+        $commentsDataProvider = new QuestionDataProvider(
+            [
+                'query' => $comments,
+                'pagination' => [
+                    'pageSize' => 20,
+                ],
+                'sort' => [
+                    'attributes' => [
+                        'type',
+                        'position',
+                        'datetime'
+                    ]
+                ],
+            ]);
+
+        return $commentsDataProvider;
     }
 
     public function question(int $id): QuestionView
