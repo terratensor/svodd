@@ -63,9 +63,8 @@ $this->title = 'ФКТ поиск';
                 <?php foreach ($hit->getHighlight() as $field => $snippets): ?>
                   <div class="card-text comment-text">
                       <?php foreach ($snippets as $snippet): ?>
-                          <?php echo $snippet . "\n"; ?>
+                          <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($snippet)); ?>
                       <?php endforeach; ?>
-                    <p> <?php //echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?></p>
                   </div>
                 <?php endforeach; ?>
             </div>

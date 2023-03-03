@@ -32,7 +32,7 @@ class QuestionRepository
             ['text'],
             [
                 'limit' => 0,
-                'force_passages' => true,
+//                'force_passages' => true,
             ]
         );
 

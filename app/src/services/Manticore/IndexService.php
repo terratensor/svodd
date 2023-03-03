@@ -229,7 +229,7 @@ class IndexService
                     (int)$comment->position,
                     $comment->username,
                     $comment->role,
-                    $comment->text,
+                    trim($comment->text),
                     DateTimeImmutable::createFromFormat("H:i d.m.Y", $comment->datetime)
                 );
 
