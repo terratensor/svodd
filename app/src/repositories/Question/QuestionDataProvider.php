@@ -53,7 +53,11 @@ class QuestionDataProvider extends BaseDataProvider
 
             for ($count = 0; $count < $limit; ++$count) {
                 $model = new Comment($data->current()->getData());
-                $model->highlight = $data->current()->getHighlight();
+                try {
+                    $model->highlight = $data->current()->getHighlight();
+                } catch (\Exception $e) {
+                    $model->highlight = null;
+                }
                 $models[] = $model;
                 $data->next();
             }
