@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string|mixed|null $description
  * @property string|mixed|null $url
  * @property int|mixed|null $comments_count
+ * @property int|null $sort
  * @property int|null $updated_at
  */
 class QuestionStats extends ActiveRecord

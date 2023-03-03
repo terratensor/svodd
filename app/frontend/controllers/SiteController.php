@@ -109,7 +109,7 @@ class SiteController extends Controller
         }
 
         if (!$results) {
-            $list = $this->questionStatsRepository->findAll();
+            $list = $this->questionStatsRepository->findAllForList();
         }
 
         return $this->render('index', [

@@ -25,6 +25,11 @@ class QuestionStatsRepository
         return QuestionStats::find()->orderBy('number')->all();
     }
 
+    public function findAllForList(): array
+    {
+        return QuestionStats::find()->orderBy("sort ASC, number ASC")->all();
+    }
+
     public function save(QuestionStats $questionStats): void
     {
         if (!$questionStats->save()) {

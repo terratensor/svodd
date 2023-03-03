@@ -20,6 +20,7 @@ class m230302_093314_create_question_stats_table extends Migration
             'description' => $this->text(),
             'url' => $this->string(512),
             'comments_count' => $this->integer()->notNull(),
+            'sort' => $this->integer(),
             'updated_at' => $this->timestamp(0)->notNull()
         ]);
     }

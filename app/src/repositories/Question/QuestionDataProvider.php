@@ -24,12 +24,9 @@ class QuestionDataProvider extends BaseDataProvider
         $pagination = $this->getPagination();
         $sort = $this->getSort();
 
-        // сортировка по умолчанию
-        if ($sort->defaultOrder) {
-            foreach ($sort->defaultOrder as $attribute => $value) {
-                $direction = $value === SORT_ASC ? 'asc' : 'desc';
-                $this->query->sort($attribute, $direction);
-            }
+        foreach ($sort->getOrders() as $attribute => $value) {
+            $direction = $value === SORT_ASC ? 'asc' : 'desc';
+            $this->query->sort($attribute, $direction);
         }
 
         if ($pagination === false) {
@@ -55,7 +52,13 @@ class QuestionDataProvider extends BaseDataProvider
             }
 
             for ($count = 0; $count < $limit; ++$count) {
-                $models[] = new Comment($data->current()->getData());
+                $model = new Comment($data->current()->getData());
+                try {
+                    $model->highlight = $data->current()->getHighlight();
+                } catch (\Exception $e) {
+                    $model->highlight = null;
+                }
+                $models[] = $model;
                 $data->next();
             }
         }

@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-/** @var Question $question */
+/** @var QuestionView $question */
 
-use App\models\Question;
+use App\helpers\DateHelper;
+use App\models\QuestionView;
 
 ?>
 <?php foreach ($question->linkedQuestions as $hit): ?>
 
   <div class="card mb-4">
     <div class="card-header d-flex justify-content-between">
-      <div><?= $hit->getData()['datetime']; ?>, <?= $hit->getData()['username']; ?></div>
+      <div><?= DateHelper::showDateFromTimestamp($hit->getData()['datetime']); ?>, <?= $hit->getData()['username']; ?></div>
     </div>
     <div class="card-body">
       <div class="card-text comment-text">

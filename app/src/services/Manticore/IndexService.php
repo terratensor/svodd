@@ -4,12 +4,15 @@ declare(strict_types=1);
 namespace App\services\Manticore;
 
 
+use App\entities\Question\Question;
+use App\entities\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\models\QuestionStats;
 use App\repositories\Question\QuestionStatsRepository;
 use DateTimeImmutable;
 use DomainException;
+use Exception;
 use JsonException;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
@@ -25,13 +28,16 @@ class IndexService
 {
     private Client $client;
     private QuestionStatsRepository $questionStatsRepository;
+    private QuestionRepository $questionRepository;
 
     public function __construct(
         Client $client,
-        QuestionStatsRepository $questionStatsRepository
+        QuestionStatsRepository $questionStatsRepository,
+        QuestionRepository $questionRepository
     ) {
         $this->client = $client;
         $this->questionStatsRepository = $questionStatsRepository;
+        $this->questionRepository = $questionRepository;
     }
 
     public function create(IndexCreateForm $form): void
@@ -49,7 +55,7 @@ class IndexService
                 'username' => ['type' => 'text'],
                 'role' => ['type' => 'text'],
                 'text' => ['type' => 'text'],
-                'datetime' => ['type' => 'text'],
+                'datetime' => ['type' => 'timestamp'],
                 'data_id' => ['type' => 'integer'],
                 'parent_id' => ['type' => 'integer'],
                 'type' => ['type' => 'integer'],
@@ -71,6 +77,9 @@ class IndexService
         $this->client->indices()->drop($params);
     }
 
+    /**
+     * @throws Exception
+     */
     public function index(): void
     {
         $params = ['index' => 'questions'];
@@ -153,7 +162,7 @@ class IndexService
             // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
             foreach ($topic->comments as $key => $comment) {
                 $comment->position = $key + 1;
-                if ($key > $total) {
+                if (($key + 1) > $total) {
                     $index->addDocument($comment);
                 }
             }
@@ -191,6 +200,9 @@ class IndexService
         $index->deleteDocuments($query);
     }
 
+    /**
+     * @throws Exception
+     */
     private function addQuestion($doc, Index $index): void
     {
         try {
@@ -199,6 +211,7 @@ class IndexService
             echo $file . ": " . $e->getMessage() . "\n";
         }
 
+        $topic->question->datetime = $this->getTimestamp($topic->question->datetime);
         $index->addDocument($topic->question);
 
         // Записываем ИД вопроса
@@ -207,13 +220,49 @@ class IndexService
         if ($topic->linked_question) {
             foreach ($topic->linked_question as $key => $linkedQuestion) {
                 $linkedQuestion->position = $key + 1;
+                $linkedQuestion->datetime = $this->getTimestamp($linkedQuestion->datetime);
                 $index->addDocument($linkedQuestion);
             }
         }
 
         foreach ($topic->comments as $key => $comment) {
             $comment->position = $key + 1;
+
+            $comment->datetime = $this->getTimestamp($comment->datetime);
+
             $index->addDocument($comment);
+
+            try {
+                $question = $this->questionRepository->getByDataId((int)$comment->data_id);
+            } catch (DomainException $e) {
+                $question = Question::create(
+                    (int)$comment->data_id,
+                    (int)$comment->parent_id,
+                    (int)$comment->position,
+                    $comment->username,
+                    $comment->role,
+                    trim($comment->text),
+                    $this->getDateFromTimestamp($comment->datetime)
+                );
+
+                $this->questionRepository->save($question);
+            }
+        }
+
+        try {
+            $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
+        } catch (DomainException $e) {
+            $question = Question::create(
+                (int)$topic->question->data_id,
+                (int)$topic->question->parent_id,
+                0,
+                $topic->question->username,
+                $topic->question->role,
+                $topic->question->text,
+                $this->getDateFromTimestamp((int)$topic->question->datetime)
+            );
+
+            $this->questionRepository->save($question);
         }
 
         // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
@@ -226,5 +275,20 @@ class IndexService
             $stats = QuestionStats::create($question_id, count($topic->comments), new DateTimeImmutable());
         }
         $this->questionStatsRepository->save($stats);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getTimestamp(string $datetime): int
+    {
+        $date = new DateTimeImmutable($datetime);
+        return $date->getTimestamp();
+    }
+
+    private function getDateFromTimestamp(int $timestamp): DateTimeImmutable
+    {
+        $date = new DateTimeImmutable();
+        return $date->setTimestamp($timestamp);
     }
 }

@@ -19,7 +19,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
     </div>
     <div class="card-body">
       <div class="card-text comment-text">
-          <?php echo Yii::$app->formatter->asRaw($model->text); ?>
+          <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($model->text)); ?>
       </div>
     </div>
   </div>

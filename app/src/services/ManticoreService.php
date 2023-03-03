@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\services;
 
 use App\forms\SearchForm;
-use App\models\Question;
+use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
 use Manticoresearch\ResultSet;
+use Manticoresearch\Search;
 
 /**
  * Class ManticoreService
@@ -24,15 +25,30 @@ class ManticoreService
         $this->questionRepository = $questionRepository;
     }
 
-    public function search(SearchForm $form, int $page): ResultSet
+    public function search(SearchForm $form, int $page): QuestionDataProvider
     {
         $queryString = $form->query;
-        return $this
-            ->questionRepository
-            ->findByQueryString($queryString, $page);
+        $comments = $this->questionRepository->findByQueryStringNew($queryString);
+
+        $commentsDataProvider = new QuestionDataProvider(
+            [
+                'query' => $comments,
+                'pagination' => [
+                    'pageSize' => 20,
+                ],
+                'sort' => [
+                    'attributes' => [
+                        'type',
+                        'position',
+                        'datetime'
+                    ]
+                ],
+            ]);
+
+        return $commentsDataProvider;
     }
 
-    public function question(int $id): Question
+    public function question(int $id): QuestionView
     {
         $questionBody = $this
             ->questionRepository
@@ -55,10 +71,15 @@ class ManticoreService
                         'type' => SORT_ASC,
                         'position' => SORT_ASC,
                     ],
+                    'attributes' => [
+                        'type',
+                        'position',
+                        'datetime'
+                    ]
                 ],
             ]);
 
-        return Question::create(
+        return QuestionView::create(
             $id,
             $questionBody,
             $linkedQuestions,
