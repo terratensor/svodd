@@ -67,6 +67,10 @@ class ManticoreService
                     'pageSize' => 20,
                 ],
                 'sort' => [
+                    'defaultOrder' => [
+                        'type' => SORT_ASC,
+                        'position' => SORT_ASC,
+                    ],
                     'attributes' => [
                         'type',
                         'position',

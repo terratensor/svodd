@@ -77,13 +77,13 @@ $this->title = 'ФКТ поиск';
               <div><?= "#" . $comment->data_id; ?></div>
             </div>
             <div class="card-body">
-<!--                --><?php //foreach ($hit->getHighlight() as $field => $snippets): ?>
-<!--                  <div class="card-text comment-text">-->
-<!--                      --><?php //foreach ($snippets as $snippet): ?>
-<!--                          --><?php //echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($snippet)); ?>
-<!--                      --><?php //endforeach; ?>
-<!--                  </div>-->
-<!--                --><?php //endforeach; ?>
+                <?php foreach ($comment->highlight as $field => $snippets): ?>
+                  <div class="card-text comment-text">
+                      <?php foreach ($snippets as $snippet): ?>
+                          <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($snippet)); ?>
+                      <?php endforeach; ?>
+                  </div>
+                <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <?php //FollowQuestion::widget(['hit' => $comment]); ?>

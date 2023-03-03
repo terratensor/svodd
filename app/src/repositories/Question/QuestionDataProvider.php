@@ -52,7 +52,9 @@ class QuestionDataProvider extends BaseDataProvider
             }
 
             for ($count = 0; $count < $limit; ++$count) {
-                $models[] = new Comment($data->current()->getData());
+                $model = new Comment($data->current()->getData());
+                $model->highlight = $data->current()->getHighlight();
+                $models[] = $model;
                 $data->next();
             }
         }
