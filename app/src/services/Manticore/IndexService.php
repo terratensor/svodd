@@ -120,6 +120,7 @@ class IndexService
     /**
      * @param int $id
      * @return void
+     * @throws Exception
      */
     public function updateQuestionComments(int $id): void
     {
@@ -162,6 +163,7 @@ class IndexService
             // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
             foreach ($topic->comments as $key => $comment) {
                 $comment->position = $key + 1;
+                $comment->datetime = $this->getTimestamp($comment->datetime);
                 if (($key + 1) > $total) {
                     $index->addDocument($comment);
                 }

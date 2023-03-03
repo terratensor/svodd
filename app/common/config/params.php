@@ -11,7 +11,9 @@ return [
         'host' => 'manticore',
         'port' => 9308
     ],
-
+    'auth' => [
+        'token_ttl' => 'PT1H',
+    ],
     'questions' => [
         'pageSize' => 20,
         'current' => [

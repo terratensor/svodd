@@ -40,7 +40,7 @@ AppAsset::register($this);
         ['label' => 'Обратная связь', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/auth/join/request']];
     }
 
     echo Nav::widget([
