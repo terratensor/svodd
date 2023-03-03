@@ -95,7 +95,8 @@ $this->registerJs($js);
                     'options' => [
                         'class' => 'd-flex justify-content-center'
                     ]
-                ]);
+                ]
+            );
             ?>
         </div>
       </div>
