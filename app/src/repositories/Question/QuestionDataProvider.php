@@ -24,12 +24,9 @@ class QuestionDataProvider extends BaseDataProvider
         $pagination = $this->getPagination();
         $sort = $this->getSort();
 
-        // сортировка по умолчанию
-        if ($sort->defaultOrder) {
-            foreach ($sort->defaultOrder as $attribute => $value) {
-                $direction = $value === SORT_ASC ? 'asc' : 'desc';
-                $this->query->sort($attribute, $direction);
-            }
+        foreach ($sort->getOrders() as $attribute => $value) {
+            $direction = $value === SORT_ASC ? 'asc' : 'desc';
+            $this->query->sort($attribute, $direction);
         }
 
         if ($pagination === false) {
