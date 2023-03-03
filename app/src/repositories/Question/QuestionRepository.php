@@ -53,6 +53,24 @@ class QuestionRepository
         return $search->get();
     }
 
+    public function findByQueryStringNew(string $queryString): Search
+    {
+        $this->search->reset();
+
+        $search = $this->search->setIndex($this->indexName);
+
+        $search->search($queryString);
+        $search->highlight(
+            ['text'],
+            [
+                'limit' => 0,
+//                'force_passages' => true,
+            ]
+        );
+
+        return $search;
+    }
+
     public function findCommentsByQuestionId(int $id): Search
     {
         $this->search->reset();
