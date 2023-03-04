@@ -31,7 +31,7 @@ class UserRepository
     public function save(User $user): void
     {
         if (!$user->save()) {
-            throw new RuntimeException('Saving error.');
+            throw new RuntimeException('Ошибка сохранения.');
         }
     }
 
@@ -47,7 +47,7 @@ class UserRepository
     public function get(Id $id): array|ActiveRecord|User
     {
         if (!$user = User::find()->andWhere(['id' => $id->getValue()])->one()) {
-            throw new DomainException('User is not found.');
+            throw new DomainException('Пользователь не найден.');
         }
         return $user;
     }

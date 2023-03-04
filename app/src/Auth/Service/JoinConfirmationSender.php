@@ -30,7 +30,7 @@ class JoinConfirmationSender
         )
             ->setFrom([Yii::$app->params['from']['email'] => Yii::$app->params['from']['name']])
             ->setTo($email->getValue())
-            ->setSubject('Join Confirmation at ' . Yii::$app->name)
+            ->setSubject('Подтвердите регистрацию на ' . Yii::$app->name)
             ->send();
     }
 }

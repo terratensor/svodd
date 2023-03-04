@@ -33,7 +33,7 @@ class RequestAction extends Action
                 $command->password = $form->password;
 
                 $this->handler->handle($command);
-                Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                Yii::$app->session->setFlash('success', 'Благодарим вас за регистрацию. Пожалуйста, проверьте свой почтовый ящик на наличие подтверждающего электронного письма.');
                 return $this->controller->goHome();
             } catch (DomainException $e) {
                 Yii::$app->errorHandler->logException($e);

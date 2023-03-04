@@ -21,7 +21,7 @@ class Handler
     public function handle(Command $command): User
     {
         if (!$user = $this->users->findByJoinConfirmToken($command->token)) {
-            throw new DomainException('Incorrect token.');
+            throw new DomainException('Неправильный токен.');
         }
 
         $user->confirmJoin($command->token, new DateTimeImmutable());

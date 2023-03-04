@@ -24,7 +24,7 @@ class LoginForm extends Model
             [['password'],
                 'string',
                 'length' => [6],
-                'tooShort' => 'This value is too short. It should have 6 characters or more.'
+                'tooShort' => 'Это значение слишком мало. Оно должно содержать 6 символов или более.'
             ],
         ];
     }
