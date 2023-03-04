@@ -35,12 +35,12 @@ class ContactAction extends Action
             if ($this->handler->handle($command)) {
                 Yii::$app->session->setFlash(
                     'success',
-                    'Thank you for contacting us. We will respond to you as soon as possible.'
+                    'Спасибо за ваше сообщение, обратную связь.'
                 );
             } else {
                 Yii::$app->session->setFlash(
                     'error',
-                    'There was an error sending your message.'
+                    'Произошла ошибка при оправки сообщения.'
                 );
             }
 
