@@ -5,10 +5,12 @@ namespace common\bootstrap;
 
 
 use App\Auth\Service\Tokenizer;
+use App\Frontend\FrontendUrlGenerator;
 use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
 use DateInterval;
 use Manticoresearch\Client;
+use Symfony\Component\Mailer\Mailer;
 use Yii;
 use yii\base\BootstrapInterface;
 
@@ -40,5 +42,8 @@ class SetUp implements BootstrapInterface
             new DateInterval($app->params['auth']['token_ttl'])
         ]);
 
+        $container->setSingleton(FrontendUrlGenerator::class, [], [
+            Yii::$app->params['frontendHostInfo'],
+        ]);
     }
 }
