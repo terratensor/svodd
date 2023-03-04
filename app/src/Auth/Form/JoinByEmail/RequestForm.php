@@ -23,4 +23,11 @@ class RequestForm extends Model
             ],
         ];
     }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'password' => 'Пароль'
+        ];
+    }
 }
