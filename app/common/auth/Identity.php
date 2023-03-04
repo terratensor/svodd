@@ -6,6 +6,7 @@ namespace common\auth;
 
 use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\UserRepository;
+use DomainException;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
@@ -28,8 +29,12 @@ class Identity implements IdentityInterface
      */
     public static function findIdentity($id): ?Identity
     {
-        $user = self::getRepository()->get(new Id($id));
-        return $user ? new self($user): null;
+        try {
+            $user = self::getRepository()->get(new Id($id));
+        } catch (DomainException $e) {
+            return null;
+        }
+        return new self($user);
     }
 
     /**
