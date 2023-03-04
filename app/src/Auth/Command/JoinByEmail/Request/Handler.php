@@ -51,7 +51,7 @@ class Handler
             $token = $this->tokenizer->generate($date)
         );
 
-//        $this->users->save($user);
+        $this->users->save($user);
         $this->sender->send($email, $token);
     }
 }

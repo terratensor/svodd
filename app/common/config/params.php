@@ -22,4 +22,5 @@ return [
         ],
         'url-pattern' => "https://фкт.рф/qa/question/view-",
     ],
+    'from' => ['email' => getenv('MAILER_FROM_EMAIL'), 'name' => 'ФКТ поиск']
 ];

@@ -7,7 +7,6 @@ namespace App\Auth\Service;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Token;
 use App\Frontend\FrontendUrlGenerator;
-use Symfony\Component\Mime\Email as MimeEmail;
 use Yii;
 use yii\mail\MailerInterface;
 use yii\symfonymailer\Mailer;
@@ -25,15 +24,13 @@ class JoinConfirmationSender
 
     public function send(Email $email, Token $token): void
     {
-        $send = $this->mailer->compose(
-            ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
+        $send = Yii::$app->mailer->compose(
+            ['html' => '@common/mail/emailVerify-html', 'text' => '@common/mail/emailVerify-text'],
             ['url' => $this->frontend->generate('join/confirm', ['token' => $token->getValue()]),]
         )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+            ->setFrom([Yii::$app->params['from']['email'] => Yii::$app->params['from']['name']])
             ->setTo($email->getValue())
             ->setSubject('Join Confirmation at ' . Yii::$app->name)
             ->send();
-
-        var_dump($send); die();
     }
 }
