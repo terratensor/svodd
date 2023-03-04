@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use App\Contact\Http\Action\V1\Contact\ContactAction;
 use App\forms\SearchForm;
 use App\repositories\Question\QuestionStatsRepository;
 use App\services\ManticoreService;
@@ -13,11 +14,10 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use yii\web\Response;
 
 /**
  * Site controller
@@ -75,7 +75,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function actions()
+    public function actions(): array
     {
         return [
             'error' => [
@@ -84,6 +84,9 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => \yii\captcha\CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+            ],
+            'contact' => [
+                'class' => ContactAction::class,
             ],
         ];
     }
@@ -125,29 +128,6 @@ class SiteController extends Controller
 
         return $this->render('question', [
             'question' => $question,
-        ]);
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        }
-
-        return $this->render('contact', [
-            'model' => $model,
         ]);
     }
 
@@ -233,7 +213,7 @@ class SiteController extends Controller
      *
      * @param string $token
      * @throws BadRequestHttpException
-     * @return yii\web\Response
+     * @return Response
      */
     public function actionVerifyEmail($token)
     {

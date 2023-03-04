@@ -47,6 +47,7 @@ services:
       MAILER_USER: app
       MAILER_PASSWORD: secret
       MAILER_FROM_EMAIL: mail@app.test
+      ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
@@ -78,6 +79,7 @@ services:
       MAILER_USER: app
       MAILER_PASSWORD: secret
       MAILER_FROM_EMAIL: mail@app.test
+      ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://cp.localhost
     volumes:
       - ./app:/app
@@ -93,6 +95,7 @@ services:
       MAILER_USER: app
       MAILER_PASSWORD: secret
       MAILER_FROM_EMAIL: mail@app.test
+      ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
