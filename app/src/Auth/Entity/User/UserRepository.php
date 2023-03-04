@@ -17,6 +17,17 @@ class UserRepository
             ->scalar() > 0;
     }
 
+    /**
+     * @param Email $email
+     * @return array|ActiveRecord|User|null
+     */
+    public function findByEmail(Email $email): array|ActiveRecord|null|User
+    {
+        return User::find()
+                ->andWhere(['email' => $email->getValue()])
+                ->one();
+    }
+
     public function save(User $user): void
     {
         if (!$user->save()) {

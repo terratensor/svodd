@@ -26,7 +26,7 @@ return [
             'identityClass' => 'common\auth\Identity',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity', 'httpOnly' => true, 'domain' => $params['cookieDomain']],
-            'loginUrl' => ['site/login'],
+            'loginUrl' => ['auth/auth/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
