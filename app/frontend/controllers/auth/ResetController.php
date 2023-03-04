@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace frontend\controllers\auth;
 
-use yii\web\Controller;
+use App\Auth\Http\Action\V1\Auth\Reset\Password\ConfirmAction;
 use App\Auth\Http\Action\V1\Auth\Reset\Password\RequestAction;
+use yii\web\Controller;
 
 class ResetController extends Controller
 {
@@ -15,9 +16,9 @@ class ResetController extends Controller
             'password-request' => [
                 'class' => RequestAction::class,
             ],
-//            'confirm' => [
-//                'class' => ConfirmAction::class,
-//            ],
+            'password-confirm' => [
+                'class' => ConfirmAction::class,
+            ],
         ];
     }
 }

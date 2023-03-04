@@ -63,4 +63,13 @@ class UserRepository
         }
         return $user;
     }
+
+    /**
+     * @param string $token
+     * @return User|null|ActiveRecord
+     */
+    public function findByPasswordResetToken(string $token): User|ActiveRecord|null
+    {
+        return User::find()->andWhere(['password_reset_token_value' => $token])->one();
+    }
 }

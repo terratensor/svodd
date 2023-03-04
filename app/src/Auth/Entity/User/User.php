@@ -102,6 +102,22 @@ class User extends ActiveRecord
         $this->passwordResetToken = $token;
     }
 
+    public function resetPassword(
+        string $token,
+        DateTimeImmutable $date,
+        AuthKey $authKey,
+        string $password,
+        PasswordHasher $hasher
+    ): void {
+        if ($this->passwordResetToken === null) {
+            throw new DomainException('Сброс не требуется.');
+        }
+        $this->passwordResetToken->validate($token, $date);
+        $this->passwordResetToken = null;
+        $this->passwordHash = $hasher->hash($password);
+        $this->authKey = $authKey;
+    }
+
     /**
      * @return bool
      */
