@@ -69,7 +69,7 @@ class User extends ActiveRecord
     public function confirmJoin(string $token, DateTimeImmutable $date): void
     {
         if ($this->joinConfirmToken === null) {
-            throw new DomainException('Confirmation is not required.');
+            throw new DomainException('Подтверждение регистрации не требуется.');
         }
         $this->joinConfirmToken->validate($token, $date);
         $this->_status = Status::active();
@@ -79,10 +79,10 @@ class User extends ActiveRecord
     public function validatePassword(string $password, PasswordHasher $hasher)
     {
         if ($this->passwordHash === null) {
-            throw new DomainException('User does not have an old password.');
+            throw new DomainException('У пользователя нет пароля.');
         }
         if (!$hasher->validate($password, $this->passwordHash)) {
-            throw new DomainException('Incorrect current password.');
+            throw new DomainException('Неверный пароль или email.');
         }
     }
 
