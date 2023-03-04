@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use App\Auth\Http\Action\V1\Auth\Reset\Password\RequestAction;
 use App\Contact\Http\Action\V1\Contact\ContactAction;
 use App\forms\SearchForm;
 use App\repositories\Question\QuestionStatsRepository;
@@ -14,7 +15,6 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use yii\web\Response;
 
@@ -140,28 +140,28 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
-    public function actionRequestPasswordReset()
-    {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
-            }
-
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
-        }
-
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
-    }
+//    /**
+//     * Requests password reset.
+//     *
+//     * @return mixed
+//     */
+//    public function actionRequestPasswordReset()
+//    {
+//        $model = new PasswordResetRequestForm();
+//        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+//            if ($model->sendEmail()) {
+//                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+//
+//                return $this->goHome();
+//            }
+//
+//            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+//        }
+//
+//        return $this->render('requestPasswordResetToken', [
+//            'model' => $model,
+//        ]);
+//    }
 
     /**
      * Resets password.

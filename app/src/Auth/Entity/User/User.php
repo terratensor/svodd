@@ -86,6 +86,17 @@ class User extends ActiveRecord
         }
     }
 
+    public function requestPasswordReset(Token $token, DateTimeImmutable $date): void
+    {
+        if (!$this->isActive()) {
+            throw new DomainException('Пользователь не активен.');
+        }
+        if ($this->passwordResetToken !== null && !$this->passwordResetToken->isExpiredTo($date)) {
+            throw new DomainException('Сброс пароля уже запрошен.');
+        }
+        $this->passwordResetToken = $token;
+    }
+
     /**
      * @return bool
      */

@@ -51,4 +51,16 @@ class UserRepository
         }
         return $user;
     }
+
+    /**
+     * @param Email $email
+     * @return ActiveRecord|array|User
+     */
+    public function getByEmail(Email $email): User|array|ActiveRecord
+    {
+        if (!$user = User::find()->andWhere(['email' => $email->getValue()])->one()) {
+            throw new DomainException('user id not found.');
+        }
+        return $user;
+    }
 }

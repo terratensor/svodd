@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div class="my-1 mx-0" style="color:#999;">
-                  Если вы забыли пароль, вы можете его <?= Html::a('сбросить', ['site/request-password-reset']) ?>
+                  Если вы забыли пароль, вы можете его <?= Html::a('сбросить', ['auth/reset/password-request']) ?>
                     <br>
                     Нужно подтверждение email? <?= Html::a('Отправить повторно', ['site/resend-verification-email']) ?>
                 </div>
