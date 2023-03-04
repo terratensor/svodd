@@ -16,6 +16,7 @@ return [
         'contact' => 'site/contact',
         'about' => 'site/about',
         'signup' => 'auth/join/request',
+        'join/confirm' => 'auth/join/confirm',
         '<_a:login|logout>' => 'site/<_a>',
 
         [

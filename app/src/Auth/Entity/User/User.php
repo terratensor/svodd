@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Auth\Entity\User;
 
-use ArrayObject;
 use DateTimeImmutable;
+use DomainException;
 use yii\db\ActiveRecord;
 
 /**
@@ -63,6 +63,16 @@ class User extends ActiveRecord
         $user->passwordHash = $passwordHash;
         $user->joinConfirmToken = $token;
         return $user;
+    }
+
+    public function confirmJoin(string $token, DateTimeImmutable $date): void
+    {
+        if ($this->joinConfirmToken === null) {
+            throw new DomainException('Confirmation is not required.');
+        }
+        $this->joinConfirmToken->validate($token, $date);
+        $this->_status = Status::active();
+        $this->joinConfirmToken = null;
     }
 
     /**

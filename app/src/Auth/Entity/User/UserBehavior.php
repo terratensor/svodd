@@ -37,23 +37,30 @@ class UserBehavior extends Behavior
         $model->setRole(new Role($model->getAttribute('role')));
         $model->setPasswordHash($model->getAttribute('password_hash'));
         $model->setJoinConfirmToken(
+            $model->getAttribute('join_confirm_token_value') ?
             new Token(
                 $model->getAttribute('join_confirm_token_value'),
-                $model->getAttribute('join_confirm_token_expires')
-            ));
+                new DateTimeImmutable($model->getAttribute('join_confirm_token_expires'))
+            ) : null
+        );
         $model->setPasswordResetToken(
+            $model->getAttribute('password_reset_token_value') ?
             new Token(
                 $model->getAttribute('password_reset_token_value'),
-                $model->getAttribute('password_reset_token_expires')
-            )
+                new DateTimeImmutable($model->getAttribute('password_reset_token_expires'))
+            ): null
         );
         $model->setNewEmailToken(
+            $model->getAttribute('new_email_token_value') ?
             new Token(
                 $model->getAttribute('new_email_token_value'),
-                $model->getAttribute('new_email_token_expires')
-            )
+                new DateTimeImmutable($model->getAttribute('new_email_token_expires'))
+            ): null
         );
-        $model->setNewEmail(new Email($model->getAttribute('new_email')));
+        $model->setNewEmail(
+            $model->getAttribute('new_email') ?
+            new Email($model->getAttribute('new_email')) : null
+        );
     }
 
     /**
