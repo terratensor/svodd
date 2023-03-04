@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
 /**
  * @property string $id
  * @property string $date
+ * @property string $auth_key
  * @property string $email
  * @property string $status
  * @property string $role
@@ -28,6 +29,7 @@ class User extends ActiveRecord
 {
     private Id $_id;
     private DateTimeImmutable $_date;
+    private AuthKey $authKey;
     private Email $_email;
     private Status $_status;
     private Role $_role;
@@ -40,12 +42,14 @@ class User extends ActiveRecord
     protected static function create(
         Id $id,
         DateTimeImmutable $date,
+        AuthKey $authKey,
         Email $email,
         Status $status
     ): self {
         $user = new static();
         $user->_id = $id;
         $user->_date = $date;
+        $user->authKey = $authKey;
         $user->_email = $email;
         $user->_status = $status;
         $user->_role = Role::user();
@@ -56,11 +60,12 @@ class User extends ActiveRecord
     public static function requestJoinByEmail(
         Id $id,
         DateTimeImmutable $date,
+        AuthKey $authKey,
         Email $email,
         string $passwordHash,
         Token $token
     ): self {
-        $user = self::create($id, $date, $email, Status::wait());
+        $user = self::create($id, $date, $authKey, $email, Status::wait());
         $user->passwordHash = $passwordHash;
         $user->joinConfirmToken = $token;
         return $user;
@@ -283,6 +288,22 @@ class User extends ActiveRecord
     public function setNewEmail(?Email $newEmail): void
     {
         $this->newEmail = $newEmail;
+    }
+
+    /**
+     * @return AuthKey
+     */
+    public function getAuthKey(): AuthKey
+    {
+        return $this->authKey;
+    }
+
+    /**
+     * @param AuthKey $authKey
+     */
+    public function setAuthKey(AuthKey $authKey): void
+    {
+        $this->authKey = $authKey;
     }
 
 }

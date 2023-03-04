@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth\Command\JoinByEmail\Request;
 
+use App\Auth\Entity\User\AuthKey;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\User;
@@ -46,6 +47,7 @@ class Handler
         $user = User::requestJoinByEmail(
             Id::generate(),
             $date,
+            AuthKey::generate(),
             $email,
             $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate($date)

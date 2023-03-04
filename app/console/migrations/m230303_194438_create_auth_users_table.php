@@ -17,6 +17,7 @@ class m230303_194438_create_auth_users_table extends Migration
         $this->createTable('{{%auth_users}}', [
             'id' => $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid')->notNull(),
             'date' => $this->timestamp(0),
+            'auth_key' => $this->string(),
             'email' => $this->string()->unique(),
             'password_hash' => $this->string(),
             'status' => $this->string(16),

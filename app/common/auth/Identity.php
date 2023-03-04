@@ -52,7 +52,7 @@ class Identity implements IdentityInterface
 
     public function getAuthKey(): string
     {
-        return $this->user->getId()->getValue();
+        return $this->user->getAuthKey()->getValue();
     }
 
     public function validateAuthKey($authKey): bool
