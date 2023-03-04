@@ -31,7 +31,7 @@ class UserRepository
     public function save(User $user): void
     {
         if (!$user->save()) {
-            throw new RuntimeException('Saving error.');
+            throw new RuntimeException('Ошибка сохранения.');
         }
     }
 
@@ -47,8 +47,29 @@ class UserRepository
     public function get(Id $id): array|ActiveRecord|User
     {
         if (!$user = User::find()->andWhere(['id' => $id->getValue()])->one()) {
-            throw new DomainException('User is not found.');
+            throw new DomainException('Пользователь не найден.');
         }
         return $user;
+    }
+
+    /**
+     * @param Email $email
+     * @return ActiveRecord|array|User
+     */
+    public function getByEmail(Email $email): User|array|ActiveRecord
+    {
+        if (!$user = User::find()->andWhere(['email' => $email->getValue()])->one()) {
+            throw new DomainException('user id not found.');
+        }
+        return $user;
+    }
+
+    /**
+     * @param string $token
+     * @return User|null|ActiveRecord
+     */
+    public function findByPasswordResetToken(string $token): User|ActiveRecord|null
+    {
+        return User::find()->andWhere(['password_reset_token_value' => $token])->one();
     }
 }

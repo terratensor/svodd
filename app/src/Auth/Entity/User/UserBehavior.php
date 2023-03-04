@@ -32,6 +32,7 @@ class UserBehavior extends Behavior
 
         $model->setId(new Id($model->getAttribute('id')));
         $model->setDate(new DateTimeImmutable($model->getAttribute('date')));
+        $model->setAuthKey(new AuthKey($model->getAttribute('auth_key')));
         $model->setEmail(new Email($model->getAttribute('email')));
         $model->setStatus(new Status($model->getAttribute('status')));
         $model->setRole(new Role($model->getAttribute('role')));
@@ -73,6 +74,7 @@ class UserBehavior extends Behavior
 
         $model->setAttribute('id', $model->getId());
         $model->setAttribute('date', $model->getDate()->format('Y-m-d H:i:s'));
+        $model->setAttribute('auth_key', $model->getAuthKey());
         $model->setAttribute('email', $model->getEmail()->getValue());
         $model->setAttribute('status', $model->getStatus()->getName());
         $model->setAttribute('role', $model->getRole()->getName());

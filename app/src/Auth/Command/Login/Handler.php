@@ -24,10 +24,15 @@ class Handler
     public function auth(Command $command): User
     {
         $email = new Email($command->email);
-        $user = $this->users->findByEmail($email);
 
-        if (!$user || !$user->isActive()) {
-            throw new DomainException('Неверно указан e-mail или пользователь не активен.');
+        try {
+            $user = $this->users->getByEmail($email);
+        } catch (DomainException) {
+            throw new DomainException('Email не зарегистрирован.');
+        }
+
+        if (!$user->isActive()) {
+            throw new DomainException('Пользователь не активен.');
         }
 
         $user->validatePassword($command->password, $this->hasher);

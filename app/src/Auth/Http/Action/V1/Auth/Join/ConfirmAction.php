@@ -29,11 +29,11 @@ class ConfirmAction extends Action
 
         try {
             $user = $this->handler->handle($command);
-            Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
+            Yii::$app->session->setFlash('success', 'Ваш адрес электронной почты был подтвержден!');
             Yii::$app->user->login(new Identity($user));
             return $this->controller->goHome();
         } catch (Exception $e) {
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
+            Yii::$app->session->setFlash('error', 'Извините, мы не можем подтвердить вашу учетную запись с помощью предоставленного токена.');
         }
         return $this->controller->goHome();
     }

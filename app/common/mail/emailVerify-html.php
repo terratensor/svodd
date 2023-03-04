@@ -8,6 +8,6 @@ use yii\helpers\Html;
 ?>
 <div class="verify-email">
 
-    <p>Confirm your email:</p>
+    <p>Подтвердите адрес электронной почты::</p>
     <p><?= Html::a(Html::encode($url), $url) ?></p>
 </div>

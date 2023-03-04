@@ -39,10 +39,10 @@ class Token
     public function validate(string $value, DateTimeImmutable $date): void
     {
         if (!$this->isEqualTo($value)) {
-            throw new DomainException('Token is invalid.');
+            throw new DomainException('Токен недействителен.');
         }
         if ($this->isExpiredTo($date)) {
-            throw new DomainException('Token is expired.');
+            throw new DomainException('Срок действия токена истек.');
         }
     }
 

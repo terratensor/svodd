@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
 /**
  * @property string $id
  * @property string $date
+ * @property string $auth_key
  * @property string $email
  * @property string $status
  * @property string $role
@@ -28,6 +29,7 @@ class User extends ActiveRecord
 {
     private Id $_id;
     private DateTimeImmutable $_date;
+    private AuthKey $authKey;
     private Email $_email;
     private Status $_status;
     private Role $_role;
@@ -40,12 +42,14 @@ class User extends ActiveRecord
     protected static function create(
         Id $id,
         DateTimeImmutable $date,
+        AuthKey $authKey,
         Email $email,
         Status $status
     ): self {
         $user = new static();
         $user->_id = $id;
         $user->_date = $date;
+        $user->authKey = $authKey;
         $user->_email = $email;
         $user->_status = $status;
         $user->_role = Role::user();
@@ -56,11 +60,12 @@ class User extends ActiveRecord
     public static function requestJoinByEmail(
         Id $id,
         DateTimeImmutable $date,
+        AuthKey $authKey,
         Email $email,
         string $passwordHash,
         Token $token
     ): self {
-        $user = self::create($id, $date, $email, Status::wait());
+        $user = self::create($id, $date, $authKey, $email, Status::wait());
         $user->passwordHash = $passwordHash;
         $user->joinConfirmToken = $token;
         return $user;
@@ -69,7 +74,7 @@ class User extends ActiveRecord
     public function confirmJoin(string $token, DateTimeImmutable $date): void
     {
         if ($this->joinConfirmToken === null) {
-            throw new DomainException('Confirmation is not required.');
+            throw new DomainException('Подтверждение регистрации не требуется.');
         }
         $this->joinConfirmToken->validate($token, $date);
         $this->_status = Status::active();
@@ -79,11 +84,38 @@ class User extends ActiveRecord
     public function validatePassword(string $password, PasswordHasher $hasher)
     {
         if ($this->passwordHash === null) {
-            throw new DomainException('User does not have an old password.');
+            throw new DomainException('У пользователя нет пароля.');
         }
         if (!$hasher->validate($password, $this->passwordHash)) {
-            throw new DomainException('Incorrect current password.');
+            throw new DomainException('Неверный пароль или email.');
         }
+    }
+
+    public function requestPasswordReset(Token $token, DateTimeImmutable $date): void
+    {
+        if (!$this->isActive()) {
+            throw new DomainException('Пользователь не активен.');
+        }
+        if ($this->passwordResetToken !== null && !$this->passwordResetToken->isExpiredTo($date)) {
+            throw new DomainException('Сброс пароля уже запрошен.');
+        }
+        $this->passwordResetToken = $token;
+    }
+
+    public function resetPassword(
+        string $token,
+        DateTimeImmutable $date,
+        AuthKey $authKey,
+        string $password,
+        PasswordHasher $hasher
+    ): void {
+        if ($this->passwordResetToken === null) {
+            throw new DomainException('Сброс не требуется.');
+        }
+        $this->passwordResetToken->validate($token, $date);
+        $this->passwordResetToken = null;
+        $this->passwordHash = $hasher->hash($password);
+        $this->authKey = $authKey;
     }
 
     /**
@@ -272,6 +304,22 @@ class User extends ActiveRecord
     public function setNewEmail(?Email $newEmail): void
     {
         $this->newEmail = $newEmail;
+    }
+
+    /**
+     * @return AuthKey
+     */
+    public function getAuthKey(): AuthKey
+    {
+        return $this->authKey;
+    }
+
+    /**
+     * @param AuthKey $authKey
+     */
+    public function setAuthKey(AuthKey $authKey): void
+    {
+        $this->authKey = $authKey;
     }
 
 }
