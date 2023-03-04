@@ -41,6 +41,11 @@ services:
       context: app/frontend/docker
       dockerfile: development/php-fpm/Dockerfile
     environment:
+      MAILER_HOST: mailer
+      MAILER_PORT: 1025
+      MAILER_USER: app
+      MAILER_PASSWORD: secret
+      MAILER_FROM_EMAIL: mail@app.test
       FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
@@ -71,7 +76,7 @@ services:
       MAILER_USER: app
       MAILER_PASSWORD: secret
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://localhost
+      FRONTEND_URL: http://cp.localhost
     volumes:
       - ./app:/app
 
