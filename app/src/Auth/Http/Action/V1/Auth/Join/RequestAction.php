@@ -10,6 +10,7 @@ use App\Auth\Form\JoinByEmail\RequestForm;
 use DomainException;
 use Yii;
 use yii\base\Action;
+use yii\web\Response;
 
 class RequestAction extends Action
 {
@@ -21,7 +22,7 @@ class RequestAction extends Action
         $this->handler = $handler;
     }
 
-    public function run(): string
+    public function run(): Response|string
     {
         $form = new RequestForm();
 
@@ -32,7 +33,8 @@ class RequestAction extends Action
                 $command->password = $form->password;
 
                 $this->handler->handle($command);
-                $this->controller->redirect(['site/login']);
+                Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+                return $this->controller->goHome();
             } catch (DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());

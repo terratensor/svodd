@@ -16,7 +16,8 @@ return [
         'contact' => 'site/contact',
         'about' => 'site/about',
         'signup' => 'auth/join/request',
-        '<_a:login|logout>' => 'site/<_a>',
+        'join/confirm' => 'auth/join/confirm',
+        '<_a:login|logout>' => 'auth/auth/<_a>',
 
         [
             'pattern' => 'question/<id:\d+>/<page:\d+>',

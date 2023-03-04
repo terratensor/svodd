@@ -8,6 +8,7 @@ use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\User;
 use App\Auth\Entity\User\UserRepository;
+use App\Auth\Service\JoinConfirmationSender;
 use App\Auth\Service\PasswordHasher;
 use App\Auth\Service\Tokenizer;
 use DateTimeImmutable;
@@ -18,15 +19,18 @@ class Handler
     private UserRepository $users;
     private PasswordHasher $hasher;
     private Tokenizer $tokenizer;
+    private JoinConfirmationSender $sender;
 
     public function __construct(
         UserRepository $users,
         PasswordHasher $hasher,
-        Tokenizer $tokenizer
+        Tokenizer $tokenizer,
+        JoinConfirmationSender $sender
     ) {
         $this->users = $users;
         $this->hasher = $hasher;
         $this->tokenizer = $tokenizer;
+        $this->sender = $sender;
     }
 
     public function handle(Command $command): void
@@ -48,7 +52,6 @@ class Handler
         );
 
         $this->users->save($user);
-
-//        $this->sender->send($email, $token);
+        $this->sender->send($email, $token);
     }
 }
