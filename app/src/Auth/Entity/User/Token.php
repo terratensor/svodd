@@ -46,6 +46,19 @@ class Token
         }
     }
 
+    public function validateUpdate(DateTimeImmutable $date): void
+    {
+        if ( !$this->isExpiredTo($date)) {
+            $expires = $this->getExpires()->modify('-55 min');
+
+            if ($date < $expires) {
+                $diff = $date->diff($expires);
+                $value = $diff->format('%I:%S');
+                throw new DomainException("Повторная отправка будет возможна через $value");
+            }
+        }
+    }
+
     private function isEqualTo(string $value): bool
     {
         return $this->value === $value;

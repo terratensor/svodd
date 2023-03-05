@@ -1,7 +1,8 @@
 <?php
 
-namespace frontend\models;
+namespace App\Auth\Form\JoinByEmail;
 
+use App\Auth\Entity\User\Status;
 use Yii;
 use common\models\User;
 use yii\base\Model;
@@ -11,22 +12,17 @@ class ResendVerificationEmailForm extends Model
     /**
      * @var string
      */
-    public $email;
+    public string $email = '';
 
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
-                'targetClass' => '\common\models\User',
-                'filter' => ['status' => User::STATUS_INACTIVE],
-                'message' => 'There is no user with this email address.'
+                'targetClass' => \App\Auth\Entity\User\User::class,
+                'message' => 'Пользователь с таким адресом электронной почты не зарегистрирован.'
             ],
         ];
     }

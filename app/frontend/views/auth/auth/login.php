@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="my-1 mx-0" style="color:#999;">
                   Если вы забыли пароль, вы можете его <?= Html::a('сбросить', ['auth/reset/password-request']) ?>
                     <br>
-                    Нужно подтверждение email? <?= Html::a('Отправить повторно', ['site/resend-verification-email']) ?>
+                    Нужно подтверждение email? <?= Html::a('Отправить повторно', ['auth/join/resend']) ?>
                 </div>
 
                 <div class="form-group">

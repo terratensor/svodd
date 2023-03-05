@@ -6,6 +6,7 @@ namespace frontend\controllers\auth;
 
 use App\Auth\Http\Action\V1\Auth\Join\ConfirmAction;
 use App\Auth\Http\Action\V1\Auth\Join\RequestAction;
+use App\Auth\Http\Action\V1\Auth\Join\ResendAction;
 use yii\web\Controller;
 
 class JoinController extends Controller
@@ -18,6 +19,9 @@ class JoinController extends Controller
             ],
             'confirm' => [
                 'class' => ConfirmAction::class,
+            ],
+            'resend' => [
+                'class' => ResendAction::class
             ],
         ];
     }

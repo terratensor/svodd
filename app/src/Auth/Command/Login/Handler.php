@@ -32,7 +32,7 @@ class Handler
         }
 
         if (!$user->isActive()) {
-            throw new DomainException('Пользователь не активен.');
+            throw new DomainException('Пользователь не активен. Необходимо подтвердить email. ');
         }
 
         $user->validatePassword($command->password, $this->hasher);

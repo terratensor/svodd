@@ -14,6 +14,7 @@ class RequestForm extends Model
     public function rules(): array
     {
         return [
+            [['email', 'password'], 'trim'],
             [['email', 'password'], 'required'],
             [['email'], 'email'],
             [['password'],
