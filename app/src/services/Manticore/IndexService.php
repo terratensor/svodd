@@ -172,6 +172,8 @@ class IndexService
                 $comment->datetime = $this->getTimestamp($comment->datetime);
                 if (($key + 1) > $total) {
                     $index->addDocument($comment);
+
+                    $this->recordComment($comment);
                 }
             }
         }
@@ -253,22 +255,7 @@ class IndexService
 
             $index->addDocument($questionComment);
 
-            try {
-                $comment = $this->commentRepository->getByDataId((int)$questionComment->data_id);
-            } catch (DomainException $e) {
-                $comment = Comment::create(
-                    Id::generate(),
-                    (int)$questionComment->data_id,
-                    (int)$questionComment->parent_id,
-                    (int)$questionComment->position,
-                    $questionComment->username,
-                    $questionComment->role,
-                    trim($questionComment->text),
-                    $this->getDateFromTimestamp($questionComment->datetime)
-                );
-
-                $this->commentRepository->save($comment);
-            }
+            $this->recordComment($questionComment);
         }
 
         try {
@@ -313,5 +300,25 @@ class IndexService
     {
         $date = new DateTimeImmutable();
         return $date->setTimestamp($timestamp);
+    }
+
+    private function recordComment(\stdClass $questionComment): void
+    {
+        try {
+            $this->commentRepository->getByDataId((int)$questionComment->data_id);
+        } catch (DomainException $e) {
+            $comment = Comment::create(
+                Id::generate(),
+                (int)$questionComment->data_id,
+                (int)$questionComment->parent_id,
+                (int)$questionComment->position,
+                $questionComment->username,
+                $questionComment->role,
+                trim($questionComment->text),
+                $this->getDateFromTimestamp($questionComment->datetime)
+            );
+
+            $this->commentRepository->save($comment);
+        }
     }
 }
