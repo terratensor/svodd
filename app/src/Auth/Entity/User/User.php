@@ -81,6 +81,17 @@ class User extends ActiveRecord
         $this->joinConfirmToken = null;
     }
 
+
+    public function resendVerificationEmail(Token $token, DateTimeImmutable $date): void
+    {
+        if ($this->joinConfirmToken === null && $this->isActive()) {
+            throw new DomainException('Подтверждение регистрации не требуется.');
+        }
+        $this->joinConfirmToken?->validateUpdate($date);
+
+        $this->joinConfirmToken = $token;
+    }
+
     public function validatePassword(string $password, PasswordHasher $hasher)
     {
         if ($this->passwordHash === null) {
