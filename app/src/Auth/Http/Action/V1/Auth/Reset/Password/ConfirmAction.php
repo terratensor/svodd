@@ -6,24 +6,40 @@ namespace App\Auth\Http\Action\V1\Auth\Reset\Password;
 
 use App\Auth\Command\ResetPassword\Confirm\Command;
 use App\Auth\Command\ResetPassword\Confirm\Handler;
+use App\Auth\Entity\User\UserRepository;
 use App\Auth\Form\ResetPassword\ResetPasswordForm;
 use DomainException;
 use Yii;
 use yii\base\Action;
+use yii\web\BadRequestHttpException;
 use yii\web\Response;
 
 class ConfirmAction extends Action
 {
     private Handler $handler;
+    private UserRepository $users;
 
-    public function __construct($id, $controller, Handler $handler, $config = [])
-    {
+    public function __construct(
+        $id,
+        $controller,
+        Handler $handler,
+        UserRepository $users,
+        $config = []
+    ) {
         parent::__construct($id, $controller, $config);
         $this->handler = $handler;
+        $this->users = $users;
     }
 
+    /**
+     * @throws BadRequestHttpException
+     */
     public function run(string $token): Response|string
     {
+        if (!$this->users->findByPasswordResetToken($token)) {
+            throw new BadRequestHttpException('Токен не найден.');
+        }
+
         $form = new ResetPasswordForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
