@@ -6,6 +6,7 @@ namespace App\Question\Entity\Question;
 
 use App\behaviors\DateTimeBehavior;
 use DateTimeImmutable;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -18,6 +19,8 @@ use yii\db\ActiveRecord;
  * @property string $user_role;
  * @property string $text;
  * @property int date;
+ *
+ * @property Question[] $linkedQuestions
  */
 class Question extends ActiveRecord
 {
@@ -45,6 +48,11 @@ class Question extends ActiveRecord
         $question->datetime = $datetime;
 
         return $question;
+    }
+
+    public function getLinkedQuestions(): ActiveQuery
+    {
+        return $this->hasMany(Question::class, ['parent_data_id' => 'data_id']);
     }
 
     public static function tableName(): string

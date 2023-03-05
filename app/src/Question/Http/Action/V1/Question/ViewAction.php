@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Question\Http\Action\V1\Question;
+
+use App\Question\Entity\Question\Comment;
+use App\Question\Entity\Question\Question;
+use yii\base\Action;
+use yii\data\ActiveDataProvider;
+
+class ViewAction extends Action
+{
+    public function run(string $id): string
+    {
+        $question = Question::find()->andWhere(['data_id' => $id])->one();
+        $query = Comment::find()->andWhere(['question_data_id' => $id]);
+
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => $query,
+                'sort' => [
+                    'attributes' => ['date', 'position'],
+                    'defaultOrder' => ['position' => SORT_ASC],
+                ]
+            ]
+        );
+
+        return $this->controller->render(
+            'view',
+            [
+                'dataProvider' => $dataProvider,
+                'question' => $question
+            ]);
+    }
+}

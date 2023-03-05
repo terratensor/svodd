@@ -36,6 +36,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Поиск', 'url' => ['/site/index']],
+        ['label' => 'Обсуждение', 'url' => ['/question/view', 'id' => 8162]],
         ['label' => 'О проекте', 'url' => ['/site/about']],
         ['label' => 'Обратная связь', 'url' => ['/site/contact']],
     ];

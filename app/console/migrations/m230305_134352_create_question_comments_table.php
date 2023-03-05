@@ -26,6 +26,9 @@ class m230305_134352_create_question_comments_table extends Migration
         ]);
 
         $this->addPrimaryKey('question_comments_pkey', '{{%question_comments}}', 'id');
+        $this->createIndex('question_comments-question_data_id', '{{%question_comments}}', 'question_data_id');
+        $this->createIndex('question_comments-data_id', '{{%question_comments}}', 'data_id');
+        $this->createIndex('question_comments-position', '{{%question_comments}}', 'position');
     }
 
     /**
