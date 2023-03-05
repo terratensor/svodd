@@ -25,7 +25,7 @@ return [
             'defaults' => ['page' => 1],
         ],
         [
-            'pattern' => 'question-new/<id:\d+>/<page:\d+>',
+            'pattern' => 'question/<id:\d+>/<page:\d+>',
             'route' => 'question/view',
             'defaults' => ['page' => 0],
         ],
