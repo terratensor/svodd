@@ -24,6 +24,10 @@ class ResendAction extends Action
 
     public function run(): Response|string
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->controller->goHome();
+        }
+
         $form = new ResendVerificationEmailForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
