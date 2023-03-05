@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\entities\Question;
+namespace App\Question\Entity\Question;
 
-use App\Question\Entity\Question\Question;
 use DomainException;
 use yii\db\ActiveRecord;
 

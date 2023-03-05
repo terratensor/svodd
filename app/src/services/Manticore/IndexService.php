@@ -5,7 +5,7 @@ namespace App\services\Manticore;
 
 
 use App\Question\Entity\Question\Question;
-use App\entities\Question\QuestionRepository;
+use App\Question\Entity\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\models\QuestionStats;
