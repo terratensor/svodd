@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\services\Manticore;
 
 
-use App\entities\Question\Question;
+use App\Question\Entity\Question\Question;
 use App\entities\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;

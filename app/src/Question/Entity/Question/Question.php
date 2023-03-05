@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\entities\Question;
+namespace App\Question\Entity\Question;
 
 use App\behaviors\DateTimeBehavior;
-use App\Question\Entity\Question\Id;
 use DateTimeImmutable;
 use yii\db\ActiveRecord;
 
