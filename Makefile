@@ -57,7 +57,7 @@ indexer:
 
 update-current:
 	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/
-	docker-compose run --rm cli-php php yii index/update-current
+	docker-compose run --rm cli-php php yii index/update-current-comments
 
 
 update-current-comments:
