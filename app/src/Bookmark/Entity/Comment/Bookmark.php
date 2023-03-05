@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Question\Entity\Question\Bookmark;
+namespace App\Bookmark\Entity\Comment;
 
 use App\Auth\Entity\User\Id as UserId;
 use App\Auth\Entity\User\User;
@@ -53,6 +53,6 @@ class Bookmark extends ActiveRecord
 
     public static function tableName(): string
     {
-        return '{{%question_comment_bookmarks}}';
+        return '{{%comment_bookmarks}}';
     }
 }

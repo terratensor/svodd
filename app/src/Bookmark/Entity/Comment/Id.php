@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Question\Entity\Question\Bookmark;
+namespace App\Bookmark\Entity\Comment;
 
 use Ramsey\Uuid\Uuid;
 use Webmozart\Assert\Assert;
