@@ -9,6 +9,9 @@ use App\entities\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\models\QuestionStats;
+use App\Question\Entity\Question\Comment;
+use App\Question\Entity\Question\CommentRepository;
+use App\Question\Entity\Question\Id;
 use App\repositories\Question\QuestionStatsRepository;
 use DateTimeImmutable;
 use DomainException;
@@ -29,15 +32,18 @@ class IndexService
     private Client $client;
     private QuestionStatsRepository $questionStatsRepository;
     private QuestionRepository $questionRepository;
+    private CommentRepository $commentRepository;
 
     public function __construct(
         Client $client,
         QuestionStatsRepository $questionStatsRepository,
-        QuestionRepository $questionRepository
+        QuestionRepository $questionRepository,
+        CommentRepository $commentRepository,
     ) {
         $this->client = $client;
         $this->questionStatsRepository = $questionStatsRepository;
         $this->questionRepository = $questionRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     public function create(IndexCreateForm $form): void
@@ -224,30 +230,44 @@ class IndexService
                 $linkedQuestion->position = $key + 1;
                 $linkedQuestion->datetime = $this->getTimestamp($linkedQuestion->datetime);
                 $index->addDocument($linkedQuestion);
+
+                $data_id = property_exists($linkedQuestion, 'data_id') ? $linkedQuestion->data_id : 0;
+                $question = Question::create(
+                    Id::generate(),
+                    (int)$data_id,
+                    (int)$linkedQuestion->parent_id,
+                    $linkedQuestion->position,
+                    $linkedQuestion->username,
+                    $linkedQuestion->role,
+                    $linkedQuestion->text,
+                    $this->getDateFromTimestamp((int)$linkedQuestion->datetime)
+                );
+                $this->questionRepository->save($question);
             }
         }
 
-        foreach ($topic->comments as $key => $comment) {
-            $comment->position = $key + 1;
+        foreach ($topic->comments as $key => $questionComment) {
+            $questionComment->position = $key + 1;
 
-            $comment->datetime = $this->getTimestamp($comment->datetime);
+            $questionComment->datetime = $this->getTimestamp($questionComment->datetime);
 
-            $index->addDocument($comment);
+            $index->addDocument($questionComment);
 
             try {
-                $question = $this->questionRepository->getByDataId((int)$comment->data_id);
+                $comment = $this->commentRepository->getByDataId((int)$questionComment->data_id);
             } catch (DomainException $e) {
-                $question = Question::create(
-                    (int)$comment->data_id,
-                    (int)$comment->parent_id,
-                    (int)$comment->position,
-                    $comment->username,
-                    $comment->role,
-                    trim($comment->text),
-                    $this->getDateFromTimestamp($comment->datetime)
+                $comment = Comment::create(
+                    Id::generate(),
+                    (int)$questionComment->data_id,
+                    (int)$questionComment->parent_id,
+                    (int)$questionComment->position,
+                    $questionComment->username,
+                    $questionComment->role,
+                    trim($questionComment->text),
+                    $this->getDateFromTimestamp($questionComment->datetime)
                 );
 
-                $this->questionRepository->save($question);
+                $this->commentRepository->save($comment);
             }
         }
 
@@ -255,6 +275,7 @@ class IndexService
             $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
         } catch (DomainException $e) {
             $question = Question::create(
+                Id::generate(),
                 (int)$topic->question->data_id,
                 (int)$topic->question->parent_id,
                 0,
