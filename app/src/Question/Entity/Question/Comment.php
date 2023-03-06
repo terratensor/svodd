@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\entities\Question;
+namespace App\Question\Entity\Question;
 
 use App\behaviors\DateTimeBehavior;
 use DateTimeImmutable;
 use yii\db\ActiveRecord;
 
 /**
+ * @property string id
  * @property int $data_id
- * @property int $parent_id;
+ * @property int $question_data_id;
  * @property int $type;
  * @property int $position;
  * @property string $username;
@@ -18,35 +19,37 @@ use yii\db\ActiveRecord;
  * @property string $text;
  * @property int date;
  */
-class Question extends ActiveRecord
+class Comment extends ActiveRecord
 {
     public DateTimeImmutable $datetime;
 
     public static function create(
+        Id $id,
         int $data_id,
-        int $parent_id,
+        int $question_data_id,
         int $position,
         string $username,
         string $user_role,
         string $text,
         DateTimeImmutable $datetime
     ): self {
-        $question = new static();
+        $comment = new static();
 
-        $question->data_id = $data_id;
-        $question->parent_id = $parent_id;
-        $question->position = $position;
-        $question->username = $username;
-        $question->user_role = $user_role;
-        $question->text = $text;
-        $question->datetime = $datetime;
+        $comment->id = $id;
+        $comment->data_id = $data_id;
+        $comment->question_data_id = $question_data_id;
+        $comment->position = $position;
+        $comment->username = $username;
+        $comment->user_role = $user_role;
+        $comment->text = $text;
+        $comment->datetime = $datetime;
 
-        return $question;
+        return $comment;
     }
 
     public static function tableName(): string
     {
-        return '{{%questions}}';
+        return '{{%question_comments}}';
     }
 
     public function behaviors(): array

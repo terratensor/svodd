@@ -33,6 +33,7 @@ class ConfirmAction extends Action
             Yii::$app->user->login(new Identity($user));
             return $this->controller->goHome();
         } catch (Exception $e) {
+            Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', 'Извините, мы не можем подтвердить вашу учетную запись с помощью предоставленного токена.');
         }
         return $this->controller->goHome();

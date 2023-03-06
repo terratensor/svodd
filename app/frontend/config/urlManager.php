@@ -20,9 +20,14 @@ return [
         '<_a:login|logout>' => 'auth/auth/<_a>',
 
         [
-            'pattern' => 'question/<id:\d+>/<page:\d+>',
+            'pattern' => 'question-old/<id:\d+>/<page:\d+>',
             'route' => 'site/question',
             'defaults' => ['page' => 1],
+        ],
+        [
+            'pattern' => 'question/<id:\d+>/<page:\d+>',
+            'route' => 'question/view',
+            'defaults' => ['page' => 0],
         ],
 
         '<_c:[\w\-]+>' => '<_c>/index',

@@ -4,11 +4,14 @@ declare(strict_types=1);
 namespace App\services\Manticore;
 
 
-use App\entities\Question\Question;
-use App\entities\Question\QuestionRepository;
+use App\Question\Entity\Question\Question;
+use App\Question\Entity\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\models\QuestionStats;
+use App\Question\Entity\Question\Comment;
+use App\Question\Entity\Question\CommentRepository;
+use App\Question\Entity\Question\Id;
 use App\repositories\Question\QuestionStatsRepository;
 use DateTimeImmutable;
 use DomainException;
@@ -29,15 +32,18 @@ class IndexService
     private Client $client;
     private QuestionStatsRepository $questionStatsRepository;
     private QuestionRepository $questionRepository;
+    private CommentRepository $commentRepository;
 
     public function __construct(
         Client $client,
         QuestionStatsRepository $questionStatsRepository,
-        QuestionRepository $questionRepository
+        QuestionRepository $questionRepository,
+        CommentRepository $commentRepository,
     ) {
         $this->client = $client;
         $this->questionStatsRepository = $questionStatsRepository;
         $this->questionRepository = $questionRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     public function create(IndexCreateForm $form): void
@@ -91,20 +97,21 @@ class IndexService
         $files = $this->readDir();
         foreach ($files as $file) {
             $doc = $this->readFile($file);
+            echo "parsed: " . $file ."\n";
             $this->addQuestion($doc, $index);
         }
     }
 
     private function readFile(string $file): bool|string
     {
-        return file_get_contents(__DIR__ . "/../../../data/$file");
+        return file_get_contents(__DIR__ . "/../../../data/site/$file");
     }
 
     private function readDir(): array
     {
         $arrFiles = array();
 
-        $handle = opendir(__DIR__ . '/../../../data');
+        $handle = opendir(__DIR__ . '/../../../data/site');
         if ($handle) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry != "." && $entry != ".." && $entry != ".gitignore") {
@@ -158,6 +165,9 @@ class IndexService
             echo $file . ": " . $e->getMessage() . "\n";
         }
 
+        var_dump($total);
+        var_dump(count($topic->comments));
+
         if (count($topic->comments) > $total) {
             // перебираем комментарии в массиве, если ключ станет больше,
             // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
@@ -166,6 +176,8 @@ class IndexService
                 $comment->datetime = $this->getTimestamp($comment->datetime);
                 if (($key + 1) > $total) {
                     $index->addDocument($comment);
+
+                    $this->recordComment($comment);
                 }
             }
         }
@@ -224,30 +236,31 @@ class IndexService
                 $linkedQuestion->position = $key + 1;
                 $linkedQuestion->datetime = $this->getTimestamp($linkedQuestion->datetime);
                 $index->addDocument($linkedQuestion);
+
+                $data_id = property_exists($linkedQuestion, 'data_id') ? $linkedQuestion->data_id : 0;
+                $question = Question::create(
+                    Id::generate(),
+                    (int)$data_id,
+                    (int)$linkedQuestion->parent_id,
+                    $linkedQuestion->position,
+                    $linkedQuestion->username,
+                    $linkedQuestion->role,
+                    $linkedQuestion->text,
+                    $this->getDateFromTimestamp((int)$linkedQuestion->datetime)
+                );
+                $this->questionRepository->save($question);
             }
         }
 
-        foreach ($topic->comments as $key => $comment) {
-            $comment->position = $key + 1;
+        if ($topic->comments) {
+            foreach ($topic->comments as $key => $questionComment) {
+                $questionComment->position = $key + 1;
 
-            $comment->datetime = $this->getTimestamp($comment->datetime);
+                $questionComment->datetime = $this->getTimestamp($questionComment->datetime);
 
-            $index->addDocument($comment);
+                $index->addDocument($questionComment);
 
-            try {
-                $question = $this->questionRepository->getByDataId((int)$comment->data_id);
-            } catch (DomainException $e) {
-                $question = Question::create(
-                    (int)$comment->data_id,
-                    (int)$comment->parent_id,
-                    (int)$comment->position,
-                    $comment->username,
-                    $comment->role,
-                    trim($comment->text),
-                    $this->getDateFromTimestamp($comment->datetime)
-                );
-
-                $this->questionRepository->save($question);
+                $this->recordComment($questionComment);
             }
         }
 
@@ -255,6 +268,7 @@ class IndexService
             $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
         } catch (DomainException $e) {
             $question = Question::create(
+                Id::generate(),
                 (int)$topic->question->data_id,
                 (int)$topic->question->parent_id,
                 0,
@@ -267,14 +281,15 @@ class IndexService
             $this->questionRepository->save($question);
         }
 
+        $commentsCount = $topic?->comments ? count($topic->comments) : 0;
         // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
         // В противном случае создаем объект статистики и записываем в базу,
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         try {
             $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-            $stats->changeCommentsCount(count($topic->comments), new DateTimeImmutable());
+            $stats->changeCommentsCount($commentsCount, new DateTimeImmutable());
         } catch (DomainException $e) {
-            $stats = QuestionStats::create($question_id, count($topic->comments), new DateTimeImmutable());
+            $stats = QuestionStats::create($question_id, $commentsCount, new DateTimeImmutable());
         }
         $this->questionStatsRepository->save($stats);
     }
@@ -292,5 +307,25 @@ class IndexService
     {
         $date = new DateTimeImmutable();
         return $date->setTimestamp($timestamp);
+    }
+
+    private function recordComment(\stdClass $questionComment): void
+    {
+        try {
+            $this->commentRepository->getByDataId((int)$questionComment->data_id);
+        } catch (DomainException $e) {
+            $comment = Comment::create(
+                Id::generate(),
+                (int)$questionComment->data_id,
+                (int)$questionComment->parent_id,
+                (int)$questionComment->position,
+                $questionComment->username,
+                $questionComment->role,
+                trim($questionComment->text),
+                $this->getDateFromTimestamp($questionComment->datetime)
+            );
+
+            $this->commentRepository->save($comment);
+        }
     }
 }

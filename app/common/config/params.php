@@ -20,9 +20,9 @@ return [
         'pageSize' => 20,
         'current' => [
             'id' => 8162,
-            'file' => '30-qa-question-view-8162.json'
+            'file' => 'qa-question-view-8162.json'
         ],
-        'url-pattern' => "https://фкт.рф/qa/question/view-",
+        'url-pattern' => "https://фкт-алтай.рф/qa/question/view-",
     ],
     'from' => ['email' => getenv('MAILER_FROM_EMAIL'), 'name' => 'ФКТ поиск']
 ];
