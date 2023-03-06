@@ -3,7 +3,6 @@
 namespace frontend\widgets\search;
 
 use App\models\Comment;
-use Manticoresearch\ResultHit;
 use yii\base\Widget;
 use yii\bootstrap5\Html;
 use yii\data\Pagination;
@@ -16,7 +15,7 @@ class FollowQuestion extends Widget
      */
     public string $title = 'Перейти к вопросу';
     /**
-     * @var ResultHit
+     * @var Comment
      */
     public Comment $comment;
     /**
