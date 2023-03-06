@@ -40,7 +40,7 @@ class FollowQuestion extends Widget
         $total = ceil($this->comment->position /$this->pagination->pageSize);
         return Url::to(
             [
-                'site/question',
+                'question/view',
                 'id' => $this->question_id,
                 'page' => $total,
                 'c' => $this->position,

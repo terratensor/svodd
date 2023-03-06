@@ -19,6 +19,7 @@ return [
         'join/confirm' => 'auth/join/confirm',
         '<_a:login|logout>' => 'auth/auth/<_a>',
 
+        'questions' => 'question/index',
         [
             'pattern' => 'question-old/<id:\d+>/<page:\d+>',
             'route' => 'site/question',

@@ -15,7 +15,7 @@ class m230302_123951_batch_insert_question_stats_values extends Migration
         $date = (new DateTimeImmutable())->format('Y-m-d H:i:s');
         $this->batchInsert(
             '{{%question_stats}}',
-            ['question_id', 'number', 'title', 'description', 'url', 'comments_count', 'updated_at'],
+            ['question_id', 'number', 'title', 'description', 'url', 'comments_count', 'created_at'],
             [
                 [44538, '01', '28.02.2022', '', 'https://фкт-алтай.рф/qa/question/view-44538', 1312, $date],
                 [44612, '02', '03.03.2022', '', 'https://фкт-алтай.рф/qa/question/view-44612', 843, $date],
@@ -59,7 +59,7 @@ class m230302_123951_batch_insert_question_stats_values extends Migration
                 'url' => 'https://фкт-алтай.рф/qa/question/view-8162',
                 'comments_count' => 546,
                 'sort' => 1,
-                'updated_at' => $date,
+                'created_at' => $date,
             ],
         );
     }

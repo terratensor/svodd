@@ -2,26 +2,34 @@
 
 namespace App\models;
 
+use App\behaviors\TimestampBehavior;
 use DateTimeImmutable;
 use Exception;
+
 use yii\db\ActiveRecord;
 
 /**
  * @property int $id
  * @property int|mixed|null $question_id
  * @property int|mixed|null $number
+ * @property int $question_date
  * @property string|mixed|null $title
  * @property string|mixed|null $description
  * @property string|mixed|null $url
  * @property int|mixed|null $comments_count
  * @property int|null $sort
+ * @property int|null $created_at
  * @property int|null $updated_at
  */
 class QuestionStats extends ActiveRecord
 {
     private DateTimeImmutable $date;
 
-    public static function create(int $question_id, int $comments_count, DateTimeImmutable $date): self
+    public static function create(
+        int $question_id,
+        int $comments_count,
+        DateTimeImmutable $date
+    ): self
     {
         $stats = new static();
 
@@ -47,10 +55,9 @@ class QuestionStats extends ActiveRecord
         $this->date = $date;
     }
 
-    public function changeCommentsCount(int $newCount, DateTimeImmutable $date): void
+    public function changeCommentsCount(int $newCount): void
     {
         $this->comments_count = $newCount;
-        $this->date = $date;
     }
 
     public static function tableName(): string
@@ -58,9 +65,16 @@ class QuestionStats extends ActiveRecord
         return "{{%question_stats}}";
     }
 
+    public function behaviors(): array
+    {
+        return [
+            TimestampBehavior::class,
+        ];
+    }
+
     public function beforeSave($insert): bool
     {
-        $this->setAttribute('updated_at', $this->date->format('Y-m-d H:i:s'));
+        $this->setAttribute('question_date', $this->date->format('Y-m-d H:i:s'));
         return parent::beforeSave($insert);
     }
 
@@ -69,7 +83,7 @@ class QuestionStats extends ActiveRecord
      */
     public function afterFind()
     {
-        $this->date = new DateTimeImmutable($this->updated_at);
+        $this->date = $this->question_date ? new DateTimeImmutable($this->question_date) : new DateTimeImmutable();
         parent::afterFind();
     }
 

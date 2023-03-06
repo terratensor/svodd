@@ -176,9 +176,9 @@ class IndexService
                 $comment->datetime = $this->getTimestamp($comment->datetime);
                 if (($key + 1) > $total) {
                     $index->addDocument($comment);
-
-                    $this->recordComment($comment);
                 }
+
+                $this->recordComment($comment);
             }
         }
 
@@ -186,9 +186,13 @@ class IndexService
         // В противном случае создаем объект статистики и записываем в базу,
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         if ($stats) {
-            $stats->changeCommentsCount(count($topic->comments), new DateTimeImmutable());
+            $stats->changeCommentsCount(count($topic->comments));
         } else {
-            $stats = QuestionStats::create($id, count($topic->comments), new DateTimeImmutable());
+            $stats = QuestionStats::create(
+                $id,
+                count($topic->comments),
+                new DateTimeImmutable()
+            );
         }
         $this->questionStatsRepository->save($stats);
     }
@@ -226,10 +230,11 @@ class IndexService
         }
 
         $topic->question->datetime = $this->getTimestamp($topic->question->datetime);
-        $index->addDocument($topic->question);
+        $question = $topic->question;
+        $index->addDocument($question);
 
         // Записываем ИД вопроса
-        $question_id = (int)$topic->question->data_id;
+        $question_id = (int)$question->data_id;
 
         if ($topic->linked_question) {
             foreach ($topic->linked_question as $key => $linkedQuestion) {
@@ -287,9 +292,13 @@ class IndexService
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         try {
             $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-            $stats->changeCommentsCount($commentsCount, new DateTimeImmutable());
+            $stats->changeCommentsCount($commentsCount);
         } catch (DomainException $e) {
-            $stats = QuestionStats::create($question_id, $commentsCount, new DateTimeImmutable());
+            $stats = QuestionStats::create(
+                $question_id,
+                $commentsCount,
+                $question->datetime
+            );
         }
         $this->questionStatsRepository->save($stats);
     }

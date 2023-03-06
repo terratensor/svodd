@@ -27,7 +27,7 @@ class QuestionStatsRepository
 
     public function findAllForList(): array
     {
-        return QuestionStats::find()->orderBy("sort ASC, number ASC")->all();
+        return QuestionStats::find()->andWhere(['IS NOT', 'number', null])->orderBy("sort ASC, number ASC")->all();
     }
 
     public function save(QuestionStats $questionStats): void

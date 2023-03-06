@@ -27,7 +27,7 @@ app-migrations:
 app-index-create:
 	docker-compose run --rm cli-php php yii index/create --interactive=0
 
-app-index-create:
+app-index-indexer:
 	docker-compose run --rm cli-php php yii index/indexer --interactive=0
 
 docker-up:

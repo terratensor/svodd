@@ -22,7 +22,11 @@ class SvoddListWidget extends Widget
             if ($title === '') {
                 $title = 'Текущая активная тема';
             }
-            $item2 = Html::tag('h5', $model->number . '. ' . $title) . $model->url;
+            if ($model->number === null && $model->title === null) {
+                $item2 = Html::tag('h5', 'Просмотр вопроса') . $model->url;
+            } else {
+                $item2 = Html::tag('h5', $model->number . '. ' . $title) . $model->url;
+            }
             $item1 = Html::tag('div', $item2, ['class' => 'ms-2 me-auto']) .
              Html::tag('span', $model->comments_count, ['class' => 'badge bg-primary rounded-pill']);
             $item = Html::tag('div', $item1, ['class' => 'd-flex w-100 justify-content-between align-items-start']);
