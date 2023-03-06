@@ -19,7 +19,7 @@ class m230305_134352_create_question_comments_table extends Migration
             'data_id' => $this->integer(),
             'question_data_id' => $this->integer(),
             'position' => $this->integer(),
-            'username' => $this->string(),
+            'username' => $this->string(512),
             'user_role' => $this->string(),
             'text' => $this->text(),
             'date' => $this->timestamp(),

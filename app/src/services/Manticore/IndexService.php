@@ -97,20 +97,21 @@ class IndexService
         $files = $this->readDir();
         foreach ($files as $file) {
             $doc = $this->readFile($file);
+            echo "parsed: " . $file ."\n";
             $this->addQuestion($doc, $index);
         }
     }
 
     private function readFile(string $file): bool|string
     {
-        return file_get_contents(__DIR__ . "/../../../data/$file");
+        return file_get_contents(__DIR__ . "/../../../data/site/$file");
     }
 
     private function readDir(): array
     {
         $arrFiles = array();
 
-        $handle = opendir(__DIR__ . '/../../../data');
+        $handle = opendir(__DIR__ . '/../../../data/site');
         if ($handle) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry != "." && $entry != ".." && $entry != ".gitignore") {
@@ -163,6 +164,9 @@ class IndexService
         } catch (JsonException $e) {
             echo $file . ": " . $e->getMessage() . "\n";
         }
+
+        var_dump($total);
+        var_dump(count($topic->comments));
 
         if (count($topic->comments) > $total) {
             // перебираем комментарии в массиве, если ключ станет больше,
@@ -248,14 +252,16 @@ class IndexService
             }
         }
 
-        foreach ($topic->comments as $key => $questionComment) {
-            $questionComment->position = $key + 1;
+        if ($topic->comments) {
+            foreach ($topic->comments as $key => $questionComment) {
+                $questionComment->position = $key + 1;
 
-            $questionComment->datetime = $this->getTimestamp($questionComment->datetime);
+                $questionComment->datetime = $this->getTimestamp($questionComment->datetime);
 
-            $index->addDocument($questionComment);
+                $index->addDocument($questionComment);
 
-            $this->recordComment($questionComment);
+                $this->recordComment($questionComment);
+            }
         }
 
         try {
@@ -275,14 +281,15 @@ class IndexService
             $this->questionRepository->save($question);
         }
 
+        $commentsCount = $topic?->comments ? count($topic->comments) : 0;
         // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
         // В противном случае создаем объект статистики и записываем в базу,
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         try {
             $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-            $stats->changeCommentsCount(count($topic->comments), new DateTimeImmutable());
+            $stats->changeCommentsCount($commentsCount, new DateTimeImmutable());
         } catch (DomainException $e) {
-            $stats = QuestionStats::create($question_id, count($topic->comments), new DateTimeImmutable());
+            $stats = QuestionStats::create($question_id, $commentsCount, new DateTimeImmutable());
         }
         $this->questionStatsRepository->save($stats);
     }

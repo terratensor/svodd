@@ -47,7 +47,7 @@ docker-build:
 
 parse-all:
 	./app/bin/fct-parser.linux.amd64 -a -j -h -o ./app/data/
-#	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/ https://fct-altai.ru/qa/question/view-32983
+#	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/ https://фкт-алтай.рф/qa/question/view-32983
 
 parse-current:
 	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/
@@ -56,7 +56,7 @@ indexer:
 	docker-compose run --rm cli-php php yii index/indexer
 
 update-current:
-	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/
+	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/site https://фкт-алтай.рф/qa/question/view-8162
 	docker-compose run --rm cli-php php yii index/update-current-comments
 
 

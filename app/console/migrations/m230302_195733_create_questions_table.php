@@ -17,7 +17,7 @@ class m230302_195733_create_questions_table extends Migration
             'data_id' => $this->integer(),
             'parent_data_id' => $this->integer(),
             'position' => $this->integer(),
-            'username' => $this->string(),
+            'username' => $this->string(512),
             'user_role' => $this->string(),
             'text' => $this->text(),
             'date' => $this->timestamp(),
