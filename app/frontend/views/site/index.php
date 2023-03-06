@@ -20,6 +20,7 @@ use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
+use yii\helpers\Url;
 
 $this->title = 'ФКТ поиск';
 
@@ -68,8 +69,30 @@ $this->title = 'ФКТ поиск';
   <div class="row">
     <div class="col-md-12">
       <p><strong>Всего результатов: <?= $results->getTotalCount(); ?></strong></p>
-        <?= CommentSummary::widget(['pagination' => $pagination]); ?>
-        <?php //SearchResultSummary::widget(['summary' => $results->getTotal()]); ?>
+      <div class="row">
+        <div class="col-md-8 d-flex align-items-center">
+            <?= CommentSummary::widget(['pagination' => $pagination]); ?>
+        </div>
+        <div class="col-md-4">
+          <div class="d-flex align-items-start ">
+            <label aria-label="Сортировка" for="input-sort"></label>
+            <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
+                <?php
+                $values = [
+                    '' => 'Сортировка по умолчанию',
+                    'datetime' => 'Сначала старые комментарии',
+                    '-datetime' => 'Сначала новые комментарии',
+                ];
+                $current = Yii::$app->request->get('sort');
+                ?>
+                <?php foreach ($values as $value => $label): ?>
+                  <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>"
+                          <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $label ?></option>
+                <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+      </div>
         <?php foreach ($comments as $comment): ?>
           <div class="card mb-4">
             <div class="card-header d-flex justify-content-between">
@@ -86,7 +109,7 @@ $this->title = 'ФКТ поиск';
                 <?php endforeach; ?>
             </div>
             <div class="card-footer d-flex justify-content-between">
-                <?php //FollowQuestion::widget(['hit' => $comment]); ?>
+                <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $comment->parent_id; ?>
                 <?= Html::a(
                     $link,
@@ -96,12 +119,26 @@ $this->title = 'ФКТ поиск';
             </div>
           </div>
         <?php endforeach; ?>
-        <?php echo LinkPager::widget(['pagination' => $pagination]); ?>
+      <div class="fixed-bottom">
+        <div class="container">
+            <?php echo LinkPager::widget(
+                [
+                    'pagination' => $pagination,
+                    'firstPageLabel' => true,
+                    'lastPageLabel' => true,
+                    'maxButtonCount' => 5,
+                    'options' => [
+                        'class' => 'd-flex justify-content-center'
+                    ]
+                ]
+            ); ?>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <?php else: ?>
 
-<?php echo SvoddListWidget::widget(['models' => $list]); ?>
+    <?php echo SvoddListWidget::widget(['models' => $list]); ?>
 
 <?php endif; ?>

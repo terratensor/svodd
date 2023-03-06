@@ -84,7 +84,11 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionUpdateCurrent()
+    /**
+     * @return void
+     * ToDo не использовать, рассмотреть удаление метода
+     */
+    public function actionUpdateCurrent(): void
     {
         $message = 'Done!';
         try {

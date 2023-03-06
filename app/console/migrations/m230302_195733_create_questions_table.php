@@ -13,15 +13,17 @@ class m230302_195733_create_questions_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%questions}}', [
-            'id' => $this->primaryKey(),
+            'id' => $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid')->notNull(),
             'data_id' => $this->integer(),
-            'parent_id' => $this->integer(),
+            'parent_data_id' => $this->integer(),
             'position' => $this->integer(),
             'username' => $this->string(),
             'user_role' => $this->string(),
             'text' => $this->text(),
             'date' => $this->timestamp(),
         ]);
+
+        $this->addPrimaryKey('questions_pkey', '{{%questions}}', 'id');
     }
 
     /**

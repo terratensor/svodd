@@ -5,7 +5,7 @@ namespace frontend\tests\unit\models;
 
 use Codeception\Test\Unit;
 use common\fixtures\UserFixture;
-use frontend\models\ResendVerificationEmailForm;
+use App\Auth\Form\JoinByEmail\ResendVerificationEmailForm;
 
 class ResendVerificationEmailFormTest extends Unit
 {
@@ -27,7 +27,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testWrongEmailAddress()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \App\Auth\Form\JoinByEmail\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => 'aaa@bbb.cc'
         ];
@@ -39,7 +39,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testEmptyEmailAddress()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \App\Auth\Form\JoinByEmail\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => ''
         ];
@@ -51,7 +51,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testResendToActiveUser()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \App\Auth\Form\JoinByEmail\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => 'test2@mail.com'
         ];
@@ -63,7 +63,7 @@ class ResendVerificationEmailFormTest extends Unit
 
     public function testSuccessfullyResend()
     {
-        $model = new ResendVerificationEmailForm();
+        $model = new \App\Auth\Form\JoinByEmail\ResendVerificationEmailForm();
         $model->attributes = [
             'email' => 'test@mail.com'
         ];

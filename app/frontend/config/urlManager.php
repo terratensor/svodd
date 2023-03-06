@@ -15,13 +15,19 @@ return [
         '' => 'site/index',
         'contact' => 'site/contact',
         'about' => 'site/about',
-        'signup' => 'site/signup',
-        '<_a:login|logout>' => 'site/<_a>',
+        'signup' => 'auth/join/request',
+        'join/confirm' => 'auth/join/confirm',
+        '<_a:login|logout>' => 'auth/auth/<_a>',
 
         [
-            'pattern' => 'question/<id:\d+>/<page:\d+>',
+            'pattern' => 'question-old/<id:\d+>/<page:\d+>',
             'route' => 'site/question',
             'defaults' => ['page' => 1],
+        ],
+        [
+            'pattern' => 'question/<id:\d+>/<page:\d+>',
+            'route' => 'question/view',
+            'defaults' => ['page' => 0],
         ],
 
         '<_c:[\w\-]+>' => '<_c>/index',
