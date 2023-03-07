@@ -11,8 +11,8 @@ use yii\db\ActiveRecord;
 
 /**
  * @property string id
- * @property int $data_id
- * @property int $parent_data_id;
+ * @property int|null $data_id
+ * @property int|null $parent_data_id;
  * @property int $type;
  * @property int $position;
  * @property string $username;
@@ -28,8 +28,8 @@ class Question extends ActiveRecord
 
     public static function create(
         Id $id,
-        int $data_id,
-        int $parent_data_id,
+        ?int $data_id,
+        ?int $parent_data_id,
         int $position,
         string $username,
         string $user_role,

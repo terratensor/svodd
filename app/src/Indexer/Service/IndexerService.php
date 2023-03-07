@@ -14,17 +14,20 @@ class IndexerService
     private JsonUnmarshalService $unmarshalService;
     private DirectoryService $directoryService;
     private ReadFileService $readFileService;
+    private TopicService $topicService;
 
     public function __construct(
         Client $client,
         DirectoryService $directoryService,
         ReadFileService $readFileService,
         JsonUnmarshalService $unmarshalService,
+        TopicService $topicService,
     ) {
         $this->client = $client;
         $this->unmarshalService = $unmarshalService;
         $this->directoryService = $directoryService;
         $this->readFileService = $readFileService;
+        $this->topicService = $topicService;
     }
 
     /**
@@ -50,6 +53,8 @@ class IndexerService
     private function addQuestion(string $doc, Index $index): void
     {
         $topic = $this->unmarshalService->handle($doc);
+
+        $this->topicService->create($topic);
 
         $index->addDocument($topic->question->getSource());
 
