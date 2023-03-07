@@ -98,7 +98,8 @@ class IndexService
         foreach ($files as $file) {
             $doc = $this->readFile($file);
             echo "parsed: " . $file ."\n";
-            $this->addQuestion($doc, $index);
+            // Если не надо делать запись в бд, ставим saveToDb false
+            $this->addQuestion($doc, $index, true);
         }
     }
 
@@ -221,7 +222,7 @@ class IndexService
     /**
      * @throws Exception
      */
-    private function addQuestion($doc, Index $index): void
+    private function addQuestion($doc, Index $index, $saveToDB = true): void
     {
         try {
             $topic = json_decode($doc, false, 512, JSON_THROW_ON_ERROR);
@@ -242,18 +243,21 @@ class IndexService
                 $linkedQuestion->datetime = $this->getTimestamp($linkedQuestion->datetime);
                 $index->addDocument($linkedQuestion);
 
-                $data_id = property_exists($linkedQuestion, 'data_id') ? $linkedQuestion->data_id : 0;
-                $question = Question::create(
-                    Id::generate(),
-                    (int)$data_id,
-                    (int)$linkedQuestion->parent_id,
-                    $linkedQuestion->position,
-                    $linkedQuestion->username,
-                    $linkedQuestion->role,
-                    $linkedQuestion->text,
-                    $this->getDateFromTimestamp((int)$linkedQuestion->datetime)
-                );
-                $this->questionRepository->save($question);
+                // Если установлена saveToDB сохраняем связанный вопрос в базу данных
+                if ($saveToDB) {
+                    $data_id = property_exists($linkedQuestion, 'data_id') ? $linkedQuestion->data_id : 0;
+                    $question = Question::create(
+                        Id::generate(),
+                        (int)$data_id,
+                        (int)$linkedQuestion->parent_id,
+                        $linkedQuestion->position,
+                        $linkedQuestion->username,
+                        $linkedQuestion->role,
+                        $linkedQuestion->text,
+                        $this->getDateFromTimestamp((int)$linkedQuestion->datetime)
+                    );
+                    $this->questionRepository->save($question);
+                }
             }
         }
 
@@ -265,42 +269,49 @@ class IndexService
 
                 $index->addDocument($questionComment);
 
-                $this->recordComment($questionComment);
+                // Если установлена saveToDB сохраняем комментарий к вопросу в базу данных
+                if ($saveToDB) {
+                    $this->recordComment($questionComment);
+                }
             }
         }
 
-        try {
-            $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
-        } catch (DomainException $e) {
-            $question = Question::create(
-                Id::generate(),
-                (int)$topic->question->data_id,
-                (int)$topic->question->parent_id,
-                0,
-                $topic->question->username,
-                $topic->question->role,
-                $topic->question->text,
-                $this->getDateFromTimestamp((int)$topic->question->datetime)
-            );
+        // Если установлена saveToDB сохраняем вопрос в базу данных
+        // И статистику комментариев к вопросу
+        if ($saveToDB) {
+            try {
+                $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
+            } catch (DomainException $e) {
+                $question = Question::create(
+                    Id::generate(),
+                    (int)$topic->question->data_id,
+                    (int)$topic->question->parent_id,
+                    0,
+                    $topic->question->username,
+                    $topic->question->role,
+                    $topic->question->text,
+                    $this->getDateFromTimestamp((int)$topic->question->datetime)
+                );
 
-            $this->questionRepository->save($question);
-        }
+                $this->questionRepository->save($question);
+            }
 
-        $commentsCount = $topic?->comments ? count($topic->comments) : 0;
-        // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
-        // В противном случае создаем объект статистики и записываем в базу,
-        // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
-        try {
-            $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-            $stats->changeCommentsCount($commentsCount);
-        } catch (DomainException $e) {
-            $stats = QuestionStats::create(
-                $question_id,
-                $commentsCount,
-                $question->datetime
-            );
+            $commentsCount = $topic?->comments ? count($topic->comments) : 0;
+            // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
+            // В противном случае создаем объект статистики и записываем в базу,
+            // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
+            try {
+                $stats = $this->questionStatsRepository->getByQuestionId($question_id);
+                $stats->changeCommentsCount($commentsCount);
+            } catch (DomainException $e) {
+                $stats = QuestionStats::create(
+                    $question_id,
+                    $commentsCount,
+                    $question->datetime
+                );
+            }
+            $this->questionStatsRepository->save($stats);
         }
-        $this->questionStatsRepository->save($stats);
     }
 
     /**
