@@ -55,7 +55,6 @@ class m230302_123951_batch_insert_question_stats_values extends Migration
                 'question_id' => 8162,
                 'number' => '30',
                 'title' => 'Текущая активная тема',
-                'description' => '',
                 'url' => 'https://фкт-алтай.рф/qa/question/view-8162',
                 'comments_count' => 546,
                 'sort' => 1,

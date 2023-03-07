@@ -17,25 +17,29 @@ use yii\db\ActiveRecord;
  * @property string|mixed|null $description
  * @property string|mixed|null $url
  * @property int|mixed|null $comments_count
+ * @property int|null $last_comment_date
  * @property int|null $sort
  * @property int|null $created_at
  * @property int|null $updated_at
  */
 class QuestionStats extends ActiveRecord
 {
-    private DateTimeImmutable $date;
+    public ?DateTimeImmutable $lastCommentDate = null;
+    public ?DateTimeImmutable $questionDate = null;
 
     public static function create(
         int $question_id,
         int $comments_count,
-        DateTimeImmutable $date
+        ?DateTimeImmutable $lastCommentDate,
+        ?DateTimeImmutable $questionDate
     ): self
     {
         $stats = new static();
 
         $stats->question_id = $question_id;
         $stats->comments_count = $comments_count;
-        $stats->date = $date;
+        $stats->lastCommentDate = $lastCommentDate;
+        $stats->questionDate = $questionDate;
 
         $stats->url = \Yii::$app->params['questions']['url-pattern'] . $question_id;
 
@@ -52,12 +56,15 @@ class QuestionStats extends ActiveRecord
         $this->number = $number;
         $this->description = $description;
         $this->url = $url;
-        $this->date = $date;
+        $this->questionDate = $date;
     }
 
-    public function changeCommentsCount(int $newCount): void
+    public function changeCommentsCount(
+        int $newCount,
+        DateTimeImmutable $lastCommentDate): void
     {
         $this->comments_count = $newCount;
+        $this->last_comment_date = $lastCommentDate;
     }
 
     public static function tableName(): string
@@ -74,7 +81,8 @@ class QuestionStats extends ActiveRecord
 
     public function beforeSave($insert): bool
     {
-        $this->setAttribute('question_date', $this->date->format('Y-m-d H:i:s'));
+        $this->setAttribute('question_date', $this->questionDate?->format('Y-m-d H:i:s'));
+        $this->setAttribute('last_comment_date', $this->lastCommentDate?->format('Y-m-d H:i:s'));
         return parent::beforeSave($insert);
     }
 
@@ -83,15 +91,24 @@ class QuestionStats extends ActiveRecord
      */
     public function afterFind()
     {
-        $this->date = $this->question_date ? new DateTimeImmutable($this->question_date) : new DateTimeImmutable();
+        $this->questionDate = $this->question_date ? new DateTimeImmutable($this->question_date) : null;
+        $this->lastCommentDate = $this->last_comment_date ? new DateTimeImmutable($this->last_comment_date) : null;
         parent::afterFind();
     }
 
     /**
-     * @return DateTimeImmutable
+     * @return DateTimeImmutable|null
      */
-    public function getDate(): DateTimeImmutable
+    public function getQuestionDate(): ?DateTimeImmutable
     {
-        return $this->date;
+        return $this->questionDate;
+    }
+
+    /**
+     * @return DateTimeImmutable|null
+     */
+    public function getLastCommentDate(): ?DateTimeImmutable
+    {
+        return $this->lastCommentDate;
     }
 }

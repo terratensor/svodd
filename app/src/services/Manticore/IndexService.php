@@ -192,12 +192,16 @@ class IndexService
             $stats = QuestionStats::create(
                 $id,
                 count($topic->comments),
+                isset($comment) ? $this->getDateFromTimestamp($comment->datetime) : 0,
                 new DateTimeImmutable()
             );
         }
         $this->questionStatsRepository->save($stats);
     }
 
+    /**
+     * @throws Exception
+     */
     public function updateQuestion(mixed $id): void
     {
         $this->deleteQuestion($id);
@@ -234,6 +238,26 @@ class IndexService
         $question = $topic->question;
         $index->addDocument($question);
 
+        // Если установлена saveToDB сохраняем вопрос в базу данных
+        if ($saveToDB) {
+            try {
+                $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
+            } catch (DomainException $e) {
+                $question = Question::create(
+                    Id::generate(),
+                    (int)$topic->question->data_id,
+                    (int)$topic->question->parent_id,
+                    0,
+                    $topic->question->username,
+                    $topic->question->role,
+                    $topic->question->text,
+                    $this->getDateFromTimestamp((int)$topic->question->datetime)
+                );
+
+                $this->questionRepository->save($question);
+            }
+        }
+
         // Записываем ИД вопроса
         $question_id = (int)$question->data_id;
 
@@ -261,6 +285,7 @@ class IndexService
             }
         }
 
+        $lastCommentDate = 0;
         if ($topic->comments) {
             foreach ($topic->comments as $key => $questionComment) {
                 $questionComment->position = $key + 1;
@@ -271,43 +296,32 @@ class IndexService
 
                 // Если установлена saveToDB сохраняем комментарий к вопросу в базу данных
                 if ($saveToDB) {
-                    $this->recordComment($questionComment);
+                    $dbComment = $this->recordComment($questionComment);
                 }
             }
         }
 
-        // Если установлена saveToDB сохраняем вопрос в базу данных
-        // И статистику комментариев к вопросу
+        $lastCommentDate =  isset($questionComment) ?
+            $this->getDateFromTimestamp($questionComment->datetime) : new DateTimeImmutable();
+
+        // Если установлена saveToDB, сохраняем статистику комментариев к вопросу
         if ($saveToDB) {
-            try {
-                $question = $this->questionRepository->getByDataId((int)$topic->question->data_id);
-            } catch (DomainException $e) {
-                $question = Question::create(
-                    Id::generate(),
-                    (int)$topic->question->data_id,
-                    (int)$topic->question->parent_id,
-                    0,
-                    $topic->question->username,
-                    $topic->question->role,
-                    $topic->question->text,
-                    $this->getDateFromTimestamp((int)$topic->question->datetime)
-                );
-
-                $this->questionRepository->save($question);
-            }
-
             $commentsCount = $topic?->comments ? count($topic->comments) : 0;
             // Если запись в таблице со статистикой по вопросу существовала, то обновляем данные
             // В противном случае создаем объект статистики и записываем в базу,
             // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
             try {
                 $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-                $stats->changeCommentsCount($commentsCount);
+                if ($stats->questionDate === null) {
+                    $stats->questionDate = $question->datetime;
+                }
+                $stats->changeCommentsCount($commentsCount, $lastCommentDate);
             } catch (DomainException $e) {
                 $stats = QuestionStats::create(
                     $question_id,
                     $commentsCount,
-                    $question->datetime
+                    $commentsCount ? $lastCommentDate : null,
+                    $question->datetime,
                 );
             }
             $this->questionStatsRepository->save($stats);
@@ -329,10 +343,10 @@ class IndexService
         return $date->setTimestamp($timestamp);
     }
 
-    private function recordComment(\stdClass $questionComment): void
+    private function recordComment(\stdClass $questionComment): Comment
     {
         try {
-            $this->commentRepository->getByDataId((int)$questionComment->data_id);
+            $comment = $this->commentRepository->getByDataId((int)$questionComment->data_id);
         } catch (DomainException $e) {
             $comment = Comment::create(
                 Id::generate(),
@@ -346,6 +360,8 @@ class IndexService
             );
 
             $this->commentRepository->save($comment);
+
         }
+        return $comment;
     }
 }
