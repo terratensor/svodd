@@ -16,6 +16,7 @@ return [
     'auth' => [
         'token_ttl' => 'PT1H',
     ],
+    'questionIndexFolder' => dirname(__DIR__, 2) . '/data/site/',
     'questions' => [
         'pageSize' => 20,
         'current' => [
