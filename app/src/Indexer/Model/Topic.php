@@ -25,13 +25,19 @@ class Topic
                         $this->question = new Question($value);
                         break;
                     case "linked_question";
+                        if ($value === null) {
+                            break;
+                        }
                         foreach ($value as $relatedQuestion) {
                             $this->relatedQuestions->append(new RelatedQuestion($relatedQuestion));
                         }
                         break;
                     case "comments";
+                        if ($value === null) {
+                            break;
+                        };
                         foreach ($value as $dataComment)
-                        $this->comments->append(new Comment($dataComment));
+                            $this->comments->append(new Comment($dataComment));
                         break;
                 }
             }
