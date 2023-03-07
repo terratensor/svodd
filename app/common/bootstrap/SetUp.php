@@ -6,6 +6,7 @@ namespace common\bootstrap;
 
 use App\Auth\Service\Tokenizer;
 use App\Frontend\FrontendUrlGenerator;
+use App\Indexer\Service\IndexerService;
 use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
 use DateInterval;
@@ -34,6 +35,10 @@ class SetUp implements BootstrapInterface
         });
 
         $container->setSingleton(IndexService::class, [], [
+            new Client($app->params['manticore']),
+        ]);
+
+        $container->setSingleton(IndexerService::class, [], [
             new Client($app->params['manticore']),
         ]);
 

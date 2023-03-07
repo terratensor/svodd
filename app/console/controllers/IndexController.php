@@ -6,6 +6,7 @@ namespace console\controllers;
 
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
+use App\Indexer\Service\IndexerService;
 use App\services\Manticore\IndexService;
 use Exception;
 use yii\console\Controller;
@@ -18,11 +19,13 @@ use yii\console\Controller;
 class IndexController extends Controller
 {
     private IndexService $service;
+    private IndexerService $indexerService;
 
-    public function __construct($id, $module, IndexService $service, $config = [])
+    public function __construct($id, $module, IndexService $service, IndexerService $indexerService, $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
+        $this->indexerService = $indexerService;
     }
 
     public function actionCreate()
@@ -65,7 +68,8 @@ class IndexController extends Controller
     {
         $message = 'Done!';
         try {
-            $this->service->index();
+//            $this->service->index();
+            $this->indexerService->index('questions');
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
