@@ -2,10 +2,12 @@
 -   name: Install dependencies
     apt:
       name:
-        - apt-transport-https
         - ca-certificates
         - curl
         - software-properties-common
+        - gnupg
+        - lsb-release
+        - apparmor
       state: present
       update_cache: yes
 
