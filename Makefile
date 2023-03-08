@@ -66,7 +66,7 @@ update-current-comments:
 build:
 	docker --log-level=debug build --pull --file=app/frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/fct-search-frontend:${IMAGE_TAG} app
 	docker --log-level=debug build --pull --file=app/frontend/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG} app
-	docker --log-level=debug build --pull --file=app/console/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/fct-search-php-cli:${IMAGE_TAG} app
+	docker --log-level=debug build --pull --file=app/console/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/fct-search-cli-php:${IMAGE_TAG} app
 
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
@@ -74,7 +74,7 @@ try-build:
 push:
 	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
 	docker push ${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG}
-	docker push ${REGISTRY}/fct-search-php-cli:${IMAGE_TAG}
+	docker push ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
 
 deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay traefik-public || true'

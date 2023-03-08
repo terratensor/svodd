@@ -53,7 +53,7 @@ services:
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
     secrets:
       - app_db_password
-      - api_mailer_password
+      - app_mailer_password
       - sentry_dsn
     deploy:
       mode: replicated
@@ -108,10 +108,10 @@ services:
 
   manticore:
     image: manticoresearch/manticore
-    ports:
-      - "9306:9306"
-      - "9308:9308"
-      - "9312:9312"
+#    ports:
+#      - "9306:9306"
+#      - "9308:9308"
+#      - "9312:9312"
     ulimits:
       nproc: 65535
       nofile:
@@ -130,9 +130,9 @@ services:
 
 secrets:
   app_db_password:
-    file: ./secrets/api_db_password
+    file: ./secrets/app_db_password
   app_mailer_password:
-    file: ./secrets/api_mailer_password
+    file: ./secrets/app_mailer_password
   sentry_dsn:
     file: ./secrets/sentry_dsn
 

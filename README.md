@@ -45,7 +45,7 @@ REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 make build
 REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 make push
 ```
 ```
-HOST=deploy@45.131.41.158 PORT=22 REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 BUILD_NUMBER=1 make deploy
+HOST=45.131.41.158 PORT=22 REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 BUILD_NUMBER=1 APP_DB_PASSWORD_FILE=docker/development/secrets/app_db_password APP_MAILER_PASSWORD_FILE=docker/development/secrets/app_mailer_password SENTRY_DSN_FILE=docker/development/secrets/sentry_dsn APP_MAILER_HOST=smtp.mail.ru APP_MAILER_PORT=1025 APP_MAILER_USERNAME=app APP_MAILER_FROM_EMAIL=support@audetv.ru make deploy
 ```
 
 `
