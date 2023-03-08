@@ -4,8 +4,8 @@ LABEL org.opencontainers.image.source https://github.com/audetv/fct-search
 
 RUN apk add --no-cache curl
 
-COPY ./docker/common/nginx/conf.d /etc/nginx/conf.d
+COPY ./frontend/docker/common/nginx/conf.d /etc/nginx/conf.d
 
 WORKDIR /app
 
-COPY ./web ./web
+COPY ./frontend/web ./frontend/web

@@ -64,9 +64,6 @@ update-current-comments:
 	docker-compose run --rm cli-php php yii index/update-current-comments
 
 build:
-	build-app
-
-build-app:
 	docker --log-level=debug build --pull --file=app/frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/fct-search-frontend:${IMAGE_TAG} app
 	docker --log-level=debug build --pull --file=app/frontend/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG} app
 	docker --log-level=debug build --pull --file=app/console/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/fct-search-php-cli:${IMAGE_TAG} app
@@ -74,9 +71,7 @@ build-app:
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
 
-push: push-app
-
-push-app:
+push:
 	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
 	docker push ${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG}
 	docker push ${REGISTRY}/fct-search-php-cli:${IMAGE_TAG}

@@ -75,7 +75,7 @@ services:
         delay: 5s
 
   frontend-php-fpm:
-    image: ${REGISTRY}/fct-search-app-php-fpm:${IMAGE_TAG}
+    image: ${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG}
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
