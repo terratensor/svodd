@@ -17,7 +17,7 @@ return [
                 'scheme' => 'smtps',
                 'host' => getenv('MAILER_HOST'),
                 'username' => getenv('MAILER_USER'),
-                'password' => getenv('MAILER_PASSWORD'),
+                'password' => trim(file_get_contents(getenv('MAILER_PASSWORD_FILE'))),
                 'port' => (int)getenv('MAILER_PORT'),
             ],
 

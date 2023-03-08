@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
   traefik:
     image: traefik:v2.9.6
@@ -42,13 +42,20 @@ services:
       dockerfile: development/php-fpm/Dockerfile
     environment:
       TZ: Europe/Moscow
+      POSTGRES_HOST: app-postgres
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
       MAILER_HOST: mailer
       MAILER_PORT: 1025
       MAILER_USER: app
-      MAILER_PASSWORD: secret
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
+    secrets:
+      - app_mailer_password
+      - app_db_password
     volumes:
       - ./app:/app
       - ./data:/app/data
@@ -92,13 +99,20 @@ services:
       dockerfile: development/php-cli/Dockerfile
     environment:
       TZ: Europe/Moscow
+      POSTGRES_HOST: app-postgres
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
       MAILER_HOST: mailer
       MAILER_PORT: 1025
       MAILER_USER: app
-      MAILER_PASSWORD: secret
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
+    secrets:
+      - app_mailer_password
+      - app_db_password
     volumes:
       - ./app:/app
       - ./data:/app/data
@@ -108,8 +122,10 @@ services:
     environment:
       TZ: Europe/Moscow
       POSTGRES_USER: app
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
       POSTGRES_DB: app
+    secrets:
+      - app_db_password
     volumes:
       - app-postgres:/var/lib/postgresql/data
     ports:
@@ -146,6 +162,14 @@ services:
       - traefik.http.routers.mailer.rule=Host(`mailer.localhost`)
       - traefik.http.routers.mailer.entryPoints=http
       - traefik.http.services.mailer.loadBalancer.server.port=8025
+
+secrets:
+  app_db_password:
+    file: ./docker/development/secrets/app_db_password
+  app_mailer_password:
+    file: ./docker/development/secrets/app_mailer_password
+  sentry_dsn:
+    file: ./docker/development/secrets/sentry_dsn
 
 volumes:
   app-postgres:

@@ -62,3 +62,37 @@ update-current:
 
 update-current-comments:
 	docker-compose run --rm cli-php php yii index/update-current-comments
+
+build:
+	docker --log-level=debug build --pull --file=app/frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/fct-search-frontend:${IMAGE_TAG} app
+	docker --log-level=debug build --pull --file=app/frontend/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG} app
+	docker --log-level=debug build --pull --file=app/console/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/fct-search-php-cli:${IMAGE_TAG} app
+
+try-build:
+	REGISTRY=localhost IMAGE_TAG=0 make build
+
+push:
+	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
+	docker push ${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG}
+	docker push ${REGISTRY}/fct-search-php-cli:${IMAGE_TAG}
+
+deploy:
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay traefik-public || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER} && mkdir site_${BUILD_NUMBER}'
+
+	envsubst < docker-compose-production.yml > docker-compose-production-env.yml
+	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production-env.yml deploy@${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
+	rm -f docker-compose-production-env.yml
+
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
+	scp -o StrictHostKeyChecking=no -P ${PORT} ${APP_DB_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/app_db_password
+	scp -o StrictHostKeyChecking=no -P ${PORT} ${APP_MAILER_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/app_mailer_password
+	scp -o StrictHostKeyChecking=no -P ${PORT} ${SENTRY_DSN_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/sentry_dsn
+
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
+
+deploy-clean:
+	rm -f docker-compose-production-env.yml
+
+rollback:
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'

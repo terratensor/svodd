@@ -1,7 +1,11 @@
-FROM nginx:1.19-alpine
+FROM nginx:1.23-alpine
 
-COPY ./docker/common/nginx/conf.d /etc/nginx/conf.d
+LABEL org.opencontainers.image.source https://github.com/audetv/fct-search
+
+RUN apk add --no-cache curl
+
+COPY ./frontend/docker/common/nginx/conf.d /etc/nginx/conf.d
 
 WORKDIR /app
 
-COPY ./public ./public
+COPY ./frontend/web ./frontend/web

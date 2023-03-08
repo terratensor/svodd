@@ -1,0 +1,182 @@
+version: "3.9"
+services:
+  cron:
+    image: crazymax/swarm-cronjob:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      LOG_LEVEL: info
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  traefik:
+    image: traefik:2.4
+    command:
+      --providers.docker=true
+      --providers.docker.watch=true
+      --providers.docker.swarmMode=true
+      --providers.docker.exposedByDefault=false
+      --entryPoints.http.address=:80
+      --entryPoints.https.address=:443
+      --certificatesresolvers.letsEncrypt.acme.httpChallenge=true
+      --certificatesresolvers.letsEncrypt.acme.httpChallenge.entryPoint=http
+      --certificatesresolvers.letsEncrypt.acme.email=mail@audetv.ru
+      --certificatesresolvers.letsEncrypt.acme.storage=/certs/acme.json
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - traefik-public
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-public-certs:/certs
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+
+        - traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)
+        - traefik.http.routers.http-catchall.entryPoints=http
+        - traefik.http.routers.http-catchall.middlewares=redirect-to-https
+        - traefik.http.services.http-catchall.loadBalancer.server.port=80
+
+        - traefik.http.middlewares.redirect-to-https.redirectScheme.scheme=https
+        - traefik.http.middlewares.redirect-to-https.redirectScheme.permanent=true
+
+        - traefik.http.middlewares.secure-headers.headers.sslRedirect=true
+        - traefik.http.middlewares.secure-headers.headers.stsSeconds=31536000
+        - traefik.http.middlewares.secure-headers.headers.contentSecurityPolicy=block-all-mixed-content
+      placement:
+        constraints: [node.role == manager]
+
+  frontend:
+    image: ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
+    networks:
+      - traefik-public
+      - default
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.http.routers.frontend.rule=Host(`fct-search.audetv.ru`) || Host(`www.fct-search.audetv.ru`)
+        - traefik.http.services.frontend.loadBalancer.server.port=80
+        - traefik.http.middlewares.frontend-redirect.redirectRegex.regex=^(https?://)www.fct-search.audetv.ru/(.*)$$
+        - traefik.http.middlewares.frontend-redirect.redirectRegex.replacement=$${1}fct-search.audetv.ru/$${2}
+        - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
+        - traefik.http.routers.frontend.middlewares=frontend-redirect,secure-headers
+        - traefik.http.routers.frontend.entryPoints=https
+        - traefik.http.routers.frontend.tls=true
+        - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s
+
+  frontend-php-fpm:
+    image: ${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      POSTGRES_HOST: app-postgres
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
+      MAILER_HOST: ${APP_MAILER_HOST}
+      MAILER_PORT: ${APP_MAILER_PORT}
+      MAILER_USERNAME: ${APP_MAILER_USERNAME}
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
+      FRONTEND_URL: https://fct-search.audetv.ru
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+    secrets:
+      - app_db_password
+      - api_mailer_password
+      - sentry_dsn
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+
+  app-migration:
+    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      POSTGRES_HOST: app-postgres
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
+      MAILER_HOST: ${APP_MAILER_HOST}
+      MAILER_PORT: ${APP_MAILER_PORT}
+      MAILER_USERNAME: ${APP_MAILER_USERNAME}
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
+      FRONTEND_URL: https://fct-search.audetv.ru
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+    secrets:
+      - app_db_password
+      - app_mailer_password
+      - sentry_dsn
+    command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0'
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+        window: 120s
+
+  app-postgres:
+    image: postgres:15.1-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
+    secrets:
+      - app_db_password
+    volumes:
+      - app-postgres:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      endpoint_mode: dnsrr
+
+  manticore:
+    image: manticoresearch/manticore
+    ports:
+      - "9306:9306"
+      - "9308:9308"
+      - "9312:9312"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - manticore:/var/lib/manticore
+      - manticore:/var/log/manticore
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      endpoint_mode: dnsrr
+
+secrets:
+  app_db_password:
+    file: ./secrets/api_db_password
+  app_mailer_password:
+    file: ./secrets/api_mailer_password
+  sentry_dsn:
+    file: ./secrets/sentry_dsn
+
+volumes:
+  traefik-public-certs:
+  app-postgres:
+  manticore:
