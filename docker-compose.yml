@@ -51,6 +51,7 @@ services:
       FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
+      - ./data:/app/data
 
   cp:
     build:
@@ -83,6 +84,7 @@ services:
       FRONTEND_URL: http://cp.localhost
     volumes:
       - ./app:/app
+      - ./data:/app/data
 
   cli-php:
     build:
@@ -99,6 +101,7 @@ services:
       FRONTEND_URL: http://localhost
     volumes:
       - ./app:/app
+      - ./data:/app/data
 
   app-postgres:
     image: postgres:15.1-alpine
@@ -128,8 +131,8 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./manticore/data:/var/lib/manticore
-      - ./manticore/log:/var/log/manticore
+      - manticore:/var/lib/manticore
+      - manticore:/var/log/manticore
 #      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
 
   mailer:
@@ -146,6 +149,7 @@ services:
 
 volumes:
   app-postgres:
+  manticore:
 
 networks:
   traefik-public:

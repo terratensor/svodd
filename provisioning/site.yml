@@ -1,0 +1,17 @@
+---
+-   name: Provision manager
+    hosts: manager
+    remote_user: root
+    roles:
+      - swap
+      - docker
+      - certbot
+      - swarm-manager
+
+-   name: Provision worker
+    hosts: workers
+    remote_user: root
+    roles:
+      - swap
+      - docker
+      - swarm-worker
