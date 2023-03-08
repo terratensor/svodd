@@ -1,0 +1,8 @@
+---
+-   name: Provision Control Desk
+    hosts: site
+    remote_user: root
+    roles:
+      - docker
+      - certbot
+      - site
