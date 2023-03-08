@@ -21,7 +21,8 @@
         "manticoresoftware/manticoresearch-php": "dev-master",
         "ext-json": "*",
         "webmozart/assert": "^1.11",
-        "ramsey/uuid": "5.x-dev"
+        "ramsey/uuid": "5.x-dev",
+        "la-haute-societe/yii2-save-relations-behavior": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

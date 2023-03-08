@@ -14,7 +14,7 @@ class m230302_195733_create_questions_table extends Migration
     {
         $this->createTable('{{%questions}}', [
             'id' => $this->getDb()->getSchema()->createColumnSchemaBuilder('uuid')->notNull(),
-            'data_id' => $this->integer(),
+            'data_id' => $this->integer()->unique(),
             'parent_data_id' => $this->integer(),
             'position' => $this->integer(),
             'username' => $this->string(512),
@@ -24,6 +24,13 @@ class m230302_195733_create_questions_table extends Migration
         ]);
 
         $this->addPrimaryKey('questions_pkey', '{{%questions}}', 'id');
+        $this->addForeignKey(
+            'fk-questions-parent_data_id',
+            '{{%questions}}',
+            'parent_data_id',
+            '{{%questions}}',
+            'data_id'
+        );
     }
 
     /**

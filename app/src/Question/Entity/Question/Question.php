@@ -6,6 +6,7 @@ namespace App\Question\Entity\Question;
 
 use App\behaviors\DateTimeBehavior;
 use DateTimeImmutable;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -21,6 +22,8 @@ use yii\db\ActiveRecord;
  * @property int date;
  *
  * @property Question[] $linkedQuestions
+ * @property Question[] $relatedQuestions
+ * @property Comment[] $comments
  */
 class Question extends ActiveRecord
 {
@@ -50,9 +53,44 @@ class Question extends ActiveRecord
         return $question;
     }
 
+    public function addRelatedQuestion(Question $question): void
+    {
+        $relatedQuestions = $this->relatedQuestions;
+        $relatedQuestions[] = $question;
+        $this->updateRelatedQuestions($relatedQuestions);
+    }
+
+    private function updateRelatedQuestions(array $relatedQuestions): void
+    {
+        $this->relatedQuestions = $relatedQuestions;
+    }
+
+    public function addComment(Comment $comment): void
+    {
+        $comments = $this->comments;
+        $comments[] = $comment;
+        $this->updateComments($comments);
+    }
+
+    private function updateComments(array $comments): void
+    {
+        $this->comments = $comments;
+//        var_dump($this->comments);
+    }
+
     public function getLinkedQuestions(): ActiveQuery
     {
         return $this->hasMany(Question::class, ['parent_data_id' => 'data_id']);
+    }
+
+    public function getRelatedQuestions(): ActiveQuery
+    {
+        return $this->hasMany(Question::class, ['parent_data_id' => 'data_id']);
+    }
+
+    public function getComments(): ActiveQuery
+    {
+        return $this->hasMany(Comment::class, ['question_data_id' => 'data_id']);
     }
 
     public static function tableName(): string
@@ -64,6 +102,13 @@ class Question extends ActiveRecord
     {
         return [
             DateTimeBehavior::class,
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => [
+                    'relatedQuestions',
+                    'comments',
+                ],
+            ],
         ];
     }
 
