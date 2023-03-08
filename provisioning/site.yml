@@ -1,5 +1,5 @@
 ---
--   name: Provision Control Desk
+-   name: Provision Fct Search
     hosts: site
     remote_user: root
     roles:

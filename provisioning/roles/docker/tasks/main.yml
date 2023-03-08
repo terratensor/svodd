@@ -10,6 +10,7 @@
         - curl
         - gnupg
         - lsb-release
+        - apparmor
       state: present
       update_cache: yes
 
