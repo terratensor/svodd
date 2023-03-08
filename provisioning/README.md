@@ -9,7 +9,14 @@ docker: Error response from daemon: failed to create shim task: OCI runtime crea
 provisioning/roles/docker/tasks/main.yml
 секция  name: Install dependencies
 
+#### Возможно понадобиться перезагрузка сервера после установки apparmor
+
 
     2. Запускаем make update для обновления dependencies в хост системе 
 
     3. Запускаем make authorize дял создания пользователя deploy
+
+Подъём кластера Docker Swarm с Ansible
+https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/
+
+https://docs.ansible.com/ansible/latest/collections/community/docker/docker_swarm_module.html#ansible-collections-community-docker-docker-swarm-module
