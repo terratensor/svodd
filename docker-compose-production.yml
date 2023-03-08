@@ -180,3 +180,7 @@ volumes:
   traefik-public-certs:
   app-postgres:
   manticore:
+
+networks:
+  traefik-public:
+    name: traefik-public
