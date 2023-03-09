@@ -51,3 +51,5 @@ HOST=45.131.41.158 PORT=22 REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 BUILD_NUMB
 `
 $ psql -d <база> -U <роль> -h <узел> -p <порт>
 `
+
+https://yiiframework.ru/forum/viewtopic.php?t=50446
