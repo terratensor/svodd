@@ -15,27 +15,6 @@ services:
     networks:
       - traefik-public
       - default
-    deploy:
-      labels:
-        - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.http.routers.frontend.rule=Host(`fct-search.audetv.ru`) || Host(`www.fct-search.audetv.ru`)
-        - traefik.http.services.frontend.loadBalancer.server.port=80
-        - traefik.http.middlewares.frontend-redirect.redirectRegex.regex=^(https?://)www.fct-search.audetv.ru/(.*)$$
-        - traefik.http.middlewares.frontend-redirect.redirectRegex.replacement=$${1}fct-search.audetv.ru/$${2}
-        - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
-        - traefik.http.routers.frontend.middlewares=frontend-redirect,secure-headers
-        - traefik.http.routers.frontend.entryPoints=https
-        - traefik.http.routers.frontend.tls=true
-        - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
-      mode: replicated
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 5s
-
-  frontend-php-fpm:
-    image: ${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG}
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -56,11 +35,23 @@ services:
       - app_mailer_password
       - sentry_dsn
     deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.http.routers.frontend.rule=Host(`fct-search.audetv.ru`) || Host(`www.fct-search.audetv.ru`)
+        - traefik.http.services.frontend.loadBalancer.server.port=80
+        - traefik.http.middlewares.frontend-redirect.redirectRegex.regex=^(https?://)www.fct-search.audetv.ru/(.*)$$
+        - traefik.http.middlewares.frontend-redirect.redirectRegex.replacement=$${1}fct-search.audetv.ru/$${2}
+        - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
+        - traefik.http.routers.frontend.middlewares=frontend-redirect,secure-headers
+        - traefik.http.routers.frontend.entryPoints=https
+        - traefik.http.routers.frontend.tls=true
+        - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
       mode: replicated
       replicas: 2
       update_config:
         parallelism: 1
-        delay: 10s
+        delay: 5s
 
   app-migration:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
@@ -108,10 +99,6 @@ services:
 
   manticore:
     image: manticoresearch/manticore
-#    ports:
-#      - "9306:9306"
-#      - "9308:9308"
-#      - "9312:9312"
     ulimits:
       nproc: 65535
       nofile:

@@ -22,7 +22,6 @@ services:
       dockerfile: development/nginx/Dockerfile
     volumes:
       - ./app:/app
-      - assets:/app/frontend/web/assets
     networks:
       - traefik-public
       - default
@@ -60,7 +59,6 @@ services:
     volumes:
       - ./app:/app
       - ./data:/app/data
-      - assets:/app/frontend/web/assets
 
   cp:
     build:
@@ -176,7 +174,6 @@ secrets:
 volumes:
   app-postgres:
   manticore:
-  assets:
 
 networks:
   traefik-public:
