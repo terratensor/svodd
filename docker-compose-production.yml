@@ -51,7 +51,7 @@ services:
       replicas: 2
       update_config:
         parallelism: 1
-        delay: 5s
+        delay: 10s
 
   app-migration:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
@@ -94,7 +94,7 @@ services:
       - app-postgres:/var/lib/postgresql/data
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [node.labels.db == db]
       endpoint_mode: dnsrr
 
   manticore:

@@ -1,0 +1,6 @@
+---
+- name: Set node labels
+  docker_node:
+    hostname: "{{ hostname }}"
+    labels: "{{ labels }}"
+    labels_state: replace
