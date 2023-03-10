@@ -53,3 +53,7 @@ $ psql -d <база> -U <роль> -h <узел> -p <порт>
 `
 
 https://yiiframework.ru/forum/viewtopic.php?t=50446
+
+
+docker stack ls
+docker stack rm fct-search
