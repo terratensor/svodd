@@ -35,6 +35,7 @@ class Comment
     public function getSource(int $key): array
     {
         $source = [];
+        $position = $key + 1;
         foreach ($this as $property => $value) {
             if ($property === 'datetime') {
                 /** @var DateTimeImmutable $value */
@@ -42,7 +43,7 @@ class Comment
             }
             $source[$property] = $value;
         }
-        $source['position'] = $key;
+        $source['position'] = $position;
         return $source;
     }
 }
