@@ -53,7 +53,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
-      PARSED_FILES_DIR: /data/data/site
+      PARSED_FILES_DIR: /data/test
       PAGE_SIZE: 50
       CURRENT_QUESTION: 8162
     secrets:
@@ -92,7 +92,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://cp.localhost
-      PARSED_FILES_DIR: /data/data/site
+      PARSED_FILES_DIR: /data/test
       PAGE_SIZE: 50
       CURRENT_QUESTION: 8162
     volumes:
@@ -116,7 +116,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
-      PARSED_FILES_DIR: /data/data/site
+      PARSED_FILES_DIR: /data/test
       PAGE_SIZE: 50
       CURRENT_QUESTION: 8162
     secrets:
