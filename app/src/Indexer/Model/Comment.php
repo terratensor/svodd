@@ -16,6 +16,7 @@ class Comment
     public DateTimeImmutable $datetime;
     public int $data_id;
     public int $parent_id;
+    public int $position;
     public int $type;
 
     /**
@@ -31,7 +32,7 @@ class Comment
         $this->type = (int) $data->type;
     }
 
-    public function getSource(): array
+    public function getSource(int $key): array
     {
         $source = [];
         foreach ($this as $property => $value) {
@@ -41,6 +42,7 @@ class Comment
             }
             $source[$property] = $value;
         }
+        $source['position'] = $key;
         return $source;
     }
 }

@@ -18,9 +18,9 @@ return [
     ],
     'questionIndexFolder' => dirname(__DIR__, 2) . getenv('PARSED_FILES_DIR'),
     'questions' => [
-        'pageSize' => getenv('PAGE_SIZE'),
+        'pageSize' => (int)getenv('PAGE_SIZE'),
         'current' => [
-            'id' => getenv('CURRENT_QUESTION'),
+            'id' =>(int)getenv('CURRENT_QUESTION'),
             'file' => 'qa-question-view-8162.json'
         ],
         'url-pattern' => "https://фкт-алтай.рф/qa/question/view-",

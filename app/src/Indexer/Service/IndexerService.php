@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Indexer\Service;
 
+use App\Indexer\Model\Comment;
 use Exception;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
@@ -62,8 +63,9 @@ class IndexerService
             $index->addDocument($relatedQuestion->getSource());
         }
 
-        foreach ($topic->comments as $comment) {
-            $index->addDocument($comment->getSource());
+        /** @var Comment $comment */
+        foreach ($topic->comments as $key => $comment) {
+            $index->addDocument($comment->getSource($key));
         }
     }
 }
