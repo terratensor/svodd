@@ -30,10 +30,16 @@ services:
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://fct-search.audetv.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+      PARSED_FILES_DIR: /data/test
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 8162
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
+    volumes:
+      - parsed-files:/app/data
+      - ./fct-site-parsed-files:/app/data/test
     deploy:
       labels:
         - traefik.enable=true
@@ -48,7 +54,7 @@ services:
         - traefik.http.routers.frontend.tls=true
         - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
       mode: replicated
-      replicas: 2
+      replicas: 3
       update_config:
         parallelism: 1
         delay: 10s
@@ -70,6 +76,9 @@ services:
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://fct-search.audetv.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+      PARSED_FILES_DIR: /data/test
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 8162
     secrets:
       - app_db_password
       - app_mailer_password
@@ -81,6 +90,52 @@ services:
         delay: 5s
         max_attempts: 5
         window: 120s
+
+  fct-parser:
+    image: ${REGISTRY}/fct-search-parser:${IMAGE_TAG}
+    volumes:
+      - parsed-files:/app/parsed-files
+#    command: './fct-parser -j -h -a'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=*/10 * * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.role == manager ]
+      replicas: 0
+      restart_policy:
+        condition: none
+#  app-indexer:
+#    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+#    environment:
+#      APP_ENV: prod
+#      APP_DEBUG: 0
+#      POSTGRES_HOST: app-postgres
+#      POSTGRES_USER: app
+#      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+#      POSTGRES_DB: app
+#      MAILER_HOST: ${APP_MAILER_HOST}
+#      MAILER_PORT: ${APP_MAILER_PORT}
+#      MAILER_USERNAME: ${APP_MAILER_USERNAME}
+#      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
+#      MAILER_ENCRYPTION: tls
+#      MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
+#      FRONTEND_URL: https://fct-search.audetv.ru
+#      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+#    secrets:
+#      - app_db_password
+#      - app_mailer_password
+#      - sentry_dsn
+#    command: sh -c './bin/fct-parser.linux.amd64 -j -h -o ./data'
+#    deploy:
+#      labels:
+#        - swarm.cronjob.enable=true
+#        - swarm.cronjob.schedule=* * * * *
+#        - swarm.cronjob.skip-running=true
+#      replicas: 0
+#      restart_policy:
+#        condition: none
 
   app-postgres:
     image: postgres:15.1-alpine
@@ -126,6 +181,7 @@ secrets:
 volumes:
   app-postgres:
   manticore:
+  parsed-files:
 
 networks:
   traefik-public:
