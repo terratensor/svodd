@@ -10,6 +10,7 @@ use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
 use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
+use Yii;
 
 /**
  * Class ManticoreService
@@ -34,7 +35,7 @@ class ManticoreService
             [
                 'query' => $comments,
                 'pagination' => [
-                    'pageSize' => 20,
+                    'pageSize' => Yii::$app->params['questions']['pageSize'],
                 ],
                 'sort' => [
                     'attributes' => [
