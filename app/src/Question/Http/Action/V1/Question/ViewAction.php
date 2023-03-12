@@ -6,6 +6,7 @@ namespace App\Question\Http\Action\V1\Question;
 
 use App\Question\Entity\Question\Comment;
 use App\Question\Entity\Question\Question;
+use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
@@ -25,6 +26,9 @@ class ViewAction extends Action
         $dataProvider = new ActiveDataProvider(
             [
                 'query' => $query,
+                'pagination' => [
+                    'pageSize' => Yii::$app->params['questions']['pageSize'],
+                ],
                 'sort' => [
                     'attributes' => ['date', 'position'],
                     'defaultOrder' => ['position' => SORT_ASC],

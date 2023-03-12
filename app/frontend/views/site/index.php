@@ -14,7 +14,6 @@ use App\models\QuestionStats;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\question\SvoddListWidget;
-use frontend\widgets\search\SearchResultSummary;
 use frontend\widgets\search\FollowQuestion;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
