@@ -16,11 +16,11 @@ return [
     'auth' => [
         'token_ttl' => 'PT1H',
     ],
-    'questionIndexFolder' => dirname(__DIR__, 2) . '/data/test/',
+    'questionIndexFolder' => dirname(__DIR__, 2) . getenv('PARSED_FILES_DIR'),
     'questions' => [
-        'pageSize' => 20,
+        'pageSize' => getenv('PAGE_SIZE'),
         'current' => [
-            'id' => 8162,
+            'id' => getenv('CURRENT_QUESTION'),
             'file' => 'qa-question-view-8162.json'
         ],
         'url-pattern' => "https://фкт-алтай.рф/qa/question/view-",

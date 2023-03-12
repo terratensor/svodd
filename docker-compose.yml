@@ -53,6 +53,9 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
+      PARSED_FILES_DIR: /data/test
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 8162
     secrets:
       - app_mailer_password
       - app_db_password
@@ -89,6 +92,9 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://cp.localhost
+      PARSED_FILES_DIR: /data/test
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 8162
     volumes:
       - ./app:/app
       - ./data:/app/data
@@ -110,6 +116,9 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
+      PARSED_FILES_DIR: /data/test
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 8162
     secrets:
       - app_mailer_password
       - app_db_password

@@ -17,7 +17,7 @@ class ViewAction extends Action
      */
     public function run(string $id): string
     {
-        if (($question = Question::find()->andWhere(['data_id' => $id])->one()) === null ) {
+        if (($question = Question::find()->andWhere(['data_id' => $id])->one()) === null) {
             throw new NotFoundHttpException('Страница не найдена.');
         }
         $query = Comment::find()->andWhere(['question_data_id' => $id]);
