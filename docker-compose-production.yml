@@ -39,7 +39,6 @@ services:
       - sentry_dsn
     volumes:
       - parsed-files:/app/data
-      - ./fct-site-parsed-files:/app/data/test
     deploy:
       labels:
         - traefik.enable=true
@@ -99,7 +98,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=* 1 * * *
+        - swarm.cronjob.schedule=0 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.role == manager ]
