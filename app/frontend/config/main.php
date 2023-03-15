@@ -39,6 +39,10 @@ return [
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => \App\Sentry\SentryTarget::class,
+                    'levels' => ['error', 'warning'],
+                ],
             ],
         ],
         'errorHandler' => [

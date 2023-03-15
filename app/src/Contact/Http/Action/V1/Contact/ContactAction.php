@@ -40,7 +40,7 @@ class ContactAction extends Action
             } else {
                 Yii::$app->session->setFlash(
                     'error',
-                    'Произошла ошибка при оправки сообщения.'
+                    'Произошла ошибка при оправке сообщения.'
                 );
             }
 

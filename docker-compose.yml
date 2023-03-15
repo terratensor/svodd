@@ -42,6 +42,7 @@ services:
       dockerfile: development/php-fpm/Dockerfile
     environment:
       TZ: Europe/Moscow
+      APP_ENV: dev
       POSTGRES_HOST: app-postgres
       POSTGRES_USER: app
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
@@ -56,9 +57,11 @@ services:
       PARSED_FILES_DIR: /data/test
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
     secrets:
       - app_mailer_password
       - app_db_password
+      - sentry_dsn
     volumes:
       - ./app:/app
       - ./data:/app/data
@@ -104,6 +107,7 @@ services:
       context: app/console/docker
       dockerfile: development/php-cli/Dockerfile
     environment:
+      APP_ENV: dev
       TZ: Europe/Moscow
       POSTGRES_HOST: app-postgres
       POSTGRES_USER: app
@@ -129,6 +133,7 @@ services:
   app-postgres:
     image: postgres:15.1-alpine
     environment:
+      APP_ENV: dev
       TZ: Europe/Moscow
       POSTGRES_USER: app
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
