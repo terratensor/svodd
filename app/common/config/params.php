@@ -1,7 +1,7 @@
 <?php
 return [
     'adminEmail' => getenv('ADMIN_EMAIL'),
-    'supportEmail' => 'support@example.com',
+    'supportEmail' => getenv('SUPPORT_EMAIL'),
     'senderEmail' => 'noreply@example.com',
     'senderName' => 'Example.com mailer',
     'user.passwordResetTokenExpire' => 3600,

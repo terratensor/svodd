@@ -77,7 +77,7 @@ services:
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
       PARSED_FILES_DIR: /data/test
       PAGE_SIZE: 50
-      CURRENT_QUESTION: 8162
+      CURRENT_QUESTION: 6006
     secrets:
       - app_db_password
       - app_mailer_password

@@ -30,8 +30,8 @@ class ViewAction extends Action
                     'pageSize' => Yii::$app->params['questions']['pageSize'],
                 ],
                 'sort' => [
-                    'attributes' => ['date', 'position'],
-                    'defaultOrder' => ['position' => SORT_ASC],
+                    'attributes' => ['date'],
+                    'defaultOrder' => ['date' => SORT_ASC],
                 ]
             ]
         );

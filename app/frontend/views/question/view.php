@@ -67,9 +67,8 @@ $this->registerJs($js);
             <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
                 <?php
                 $values = [
-                    '' => 'Сортировка по умолчанию',
+                    '' => 'Сначала старые комментарии',
                     '-date' => 'Сначала новые комментарии',
-                    'date' => 'Сначала старые комментарии',
                 ];
                 $current = Yii::$app->request->get('sort');
                 ?>

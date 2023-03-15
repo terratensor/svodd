@@ -55,7 +55,7 @@ services:
       FRONTEND_URL: http://localhost
       PARSED_FILES_DIR: /data/test
       PAGE_SIZE: 50
-      CURRENT_QUESTION: 8162
+      CURRENT_QUESTION: 6006
     secrets:
       - app_mailer_password
       - app_db_password

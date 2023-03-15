@@ -46,17 +46,18 @@ class m230302_123951_batch_insert_question_stats_values extends Migration
                 [12703, '27', '07.12.2022', '', 'https://фкт-алтай.рф/qa/question/view-12703', 819, $date],
                 [8820, '28', '09.01.2023', '', 'https://фкт-алтай.рф/qa/question/view-8820', 720, $date],
                 [12348, '29', '08.02.2023', '', 'https://фкт-алтай.рф/qa/question/view-12348', 781, $date],
+                [8162, '30', '12.03.2023', '', 'https://фкт-алтай.рф/qa/question/view-8162', 957, $date],
             ],
         );
 
         $this->insert(
             '{{%question_stats}}',
             [
-                'question_id' => 8162,
-                'number' => '30',
+                'question_id' => 6006,
+                'number' => '31',
                 'title' => 'Текущая активная тема',
-                'url' => 'https://фкт-алтай.рф/qa/question/view-8162',
-                'comments_count' => 546,
+                'url' => 'https://фкт-алтай.рф/qa/question/view-6006',
+                'comments_count' => 116,
                 'sort' => 1,
                 'created_at' => $date,
             ],
