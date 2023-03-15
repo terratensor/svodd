@@ -5,20 +5,31 @@ declare(strict_types=1);
 namespace App\Contact\Command\SendEmail\Request;
 
 use App\Contact\Model\Email;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email as MimeEmail;
 use Yii;
 
 class Handler
 {
-    public function handle(Command $command): bool
+    private Mailer $mailer;
+
+    public function __construct(MailerInterface $mailer) {
+        $this->mailer = $mailer;
+    }
+
+    public function handle(Command $command): void
     {
         $email = new Email($command->email);
 
-        return Yii::$app->mailer->compose()
-            ->setTo(Yii::$app->params['adminEmail'])
-            ->setFrom([Yii::$app->params['from']['email'] => Yii::$app->params['from']['name']])
-            ->setReplyTo([$email->getValue() => $command->name])
-            ->setSubject($command->subject)
-            ->setTextBody($command->body)
-            ->send();
+        $email = (new MimeEmail())
+            ->from(Yii::$app->params['from']['email'])
+            ->to(Yii::$app->params['from']['email'])
+            ->replyTo(new Address($email->getValue(), $command->name))
+            ->subject($command->subject)
+            ->text($command->body);
+
+        $this->mailer->send($email);
     }
 }

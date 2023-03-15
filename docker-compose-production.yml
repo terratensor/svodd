@@ -53,7 +53,7 @@ services:
         - traefik.http.routers.frontend.tls=true
         - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
       mode: replicated
-      replicas: 3
+      replicas: 1
       update_config:
         parallelism: 1
         delay: 10s

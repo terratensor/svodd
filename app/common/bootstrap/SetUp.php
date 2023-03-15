@@ -12,8 +12,10 @@ use App\services\Manticore\IndexService;
 use DateInterval;
 use Manticoresearch\Client;
 use Yii;
-use yii\mail\MailerInterface;
 use yii\base\BootstrapInterface;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 
 /**
  * Class SetUp
@@ -31,7 +33,15 @@ class SetUp implements BootstrapInterface
         $container = Yii::$container;
 
         $container->setSingleton(MailerInterface::class, function () use ($app) {
-            return $app->mailer;
+            $transport = (new EsmtpTransport(
+                Yii::$app->params['mailer']['host'],
+                Yii::$app->params['mailer']['port'],
+                false,
+            ))
+                ->setUsername(Yii::$app->params['mailer']['username'])
+                ->setPassword(Yii::$app->params['mailer']['password']);
+
+            return new Mailer($transport);
         });
 
         $container->setSingleton(IndexService::class, [], [

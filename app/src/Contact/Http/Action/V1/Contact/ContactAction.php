@@ -32,16 +32,16 @@ class ContactAction extends Action
             $command->subject = $model->subject ?? '';
             $command->body = $model->body ?? '';
 
-            if ($this->handler->handle($command)) {
-                Yii::$app->session->setFlash(
-                    'success',
-                    'Спасибо за ваше сообщение, обратную связь.'
-                );
-            } else {
-                Yii::$app->session->setFlash(
-                    'error',
-                    'Произошла ошибка при оправке сообщения.'
-                );
+            try {
+                $this->handler->handle($command) ;
+                    Yii::$app->session->setFlash(
+                        'success',
+                        'Спасибо за ваше сообщение, обратную связь.'
+                    );
+
+            } catch (\Exception $e) {
+                Yii::$app->errorHandler->logException($e);
+                Yii::$app->session->setFlash('error', $e->getMessage());
             }
 
             return $this->controller->refresh();

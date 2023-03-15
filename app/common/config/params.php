@@ -20,10 +20,17 @@ return [
     'questions' => [
         'pageSize' => (int)getenv('PAGE_SIZE'),
         'current' => [
-            'id' =>(int)getenv('CURRENT_QUESTION'),
+            'id' => (int)getenv('CURRENT_QUESTION'),
             'file' => 'qa-question-view-6006.json'
         ],
         'url-pattern' => "https://фкт-алтай.рф/qa/question/view-",
     ],
-    'from' => ['email' => getenv('MAILER_FROM_EMAIL'), 'name' => 'ФКТ поиск']
+    'from' => ['email' => getenv('MAILER_FROM_EMAIL'), 'name' => 'ФКТ поиск'],
+    'mailer' => [
+        'host' => getenv('MAILER_HOST'),
+        'username' => getenv('MAILER_USERNAME'),
+        'password' => trim(file_get_contents(getenv('MAILER_PASSWORD_FILE'))),
+        'port' => (int)getenv('MAILER_PORT'),
+    ],
+
 ];
