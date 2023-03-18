@@ -8,4 +8,9 @@ WORKDIR /app
 
 COPY ./ ./
 
+RUN chown -R 33:335 /app/var
+RUN chown -R 33:335 /app/frontend/runtime
+RUN chown -R 33:335 /app/frontend/web/assets
+RUN chown -R 33:335 /app/console/runtime
+
 HEALTHCHECK --interval=5s --timeout=3s --start-period=1s CMD curl --fail http://127.0.0.1/health || exit 1
