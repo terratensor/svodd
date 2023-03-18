@@ -9,6 +9,10 @@ use App\Auth\Entity\User\UserRepository;
 use App\Auth\Service\PasswordResetTokenSender;
 use App\Auth\Service\Tokenizer;
 use DateTimeImmutable;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class Handler
 {
@@ -26,7 +30,13 @@ class Handler
         $this->sender = $sender;
     }
 
-    public function handle(Command $command): bool
+    /**
+     * @throws SyntaxError
+     * @throws TransportExceptionInterface
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function handle(Command $command): void
     {
         $email = new Email($command->email);
 
@@ -41,6 +51,6 @@ class Handler
 
         $this->users->save($user);
 
-        return $this->sender->send($email, $token);
+        $this->sender->send($email, $token);
     }
 }
