@@ -14,7 +14,6 @@ class ContactForm extends Model
     public string $email = '';
     public string $subject = '';
     public string $body = '';
-    public string $verifyCode = '';
 
     public function __construct(?Identity $identity = null, $config = [])
     {
@@ -31,8 +30,6 @@ class ContactForm extends Model
             [['name', 'email', 'subject', 'body'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
-            // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
         ];
     }
 

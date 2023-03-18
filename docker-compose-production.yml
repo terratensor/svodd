@@ -53,7 +53,7 @@ services:
         - traefik.http.routers.frontend.tls=true
         - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
       mode: replicated
-      replicas: 1
+      replicas: 2
       update_config:
         parallelism: 1
         delay: 10s
@@ -91,7 +91,7 @@ services:
         window: 120s
 
   fct-parser:
-    image: ${REGISTRY}/fct-search-parser:${IMAGE_TAG}
+    image: ${REGISTRY}/fct-search-parser:main-2
     volumes:
       - parsed-files:/app/parsed-files
 #    command: './fct-parser -j -h -a'

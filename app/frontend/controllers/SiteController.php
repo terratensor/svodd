@@ -73,10 +73,6 @@ class SiteController extends Controller
             'error' => [
                 'class' => \yii\web\ErrorAction::class,
             ],
-            'captcha' => [
-                'class' => \yii\captcha\CaptchaAction::class,
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
             'contact' => [
                 'class' => ContactAction::class,
             ],
