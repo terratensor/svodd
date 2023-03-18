@@ -9,14 +9,18 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email as MimeEmail;
+use Twig\Environment;
 use Yii;
 
 class Handler
 {
     private Mailer $mailer;
+    private Environment $twig;
 
-    public function __construct(MailerInterface $mailer) {
+    public function __construct(MailerInterface $mailer, Environment $twig)
+    {
         $this->mailer = $mailer;
+        $this->twig = $twig;
     }
 
     public function handle(Command $command): void
@@ -24,11 +28,15 @@ class Handler
         $email = new Email($command->email);
 
         $email = (new MimeEmail())
-            ->from(Yii::$app->params['from']['email'])
+            ->subject($command->subject)
             ->to(Yii::$app->params['from']['email'])
             ->replyTo(new Address($email->getValue(), $command->name))
-            ->subject($command->subject)
-            ->text($command->body);
+            ->html( $this->twig->render(
+                'contact/feedback.html.twig',
+                [
+                    'subject' => $command->subject,
+                    'text' => $command->body
+                ]), 'text/html');
 
         $this->mailer->send($email);
     }
