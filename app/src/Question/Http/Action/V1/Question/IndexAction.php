@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Question\Http\Action\V1\Question;
 
 use App\models\QuestionStats;
+use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
 use yii\db\Expression;
@@ -17,6 +18,9 @@ class IndexAction extends Action
         $dataProvider = new ActiveDataProvider(
             [
                 'query' => $query,
+                'pagination' => [
+                    'pageSize' => Yii::$app->params['questions']['pageSize'],
+                ],
                 'sort' => [
                     'attributes' => [
                         'comments_count',
