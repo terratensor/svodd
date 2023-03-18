@@ -1,4 +1,8 @@
 <?php
+
+use App\Frontend\FrontendUrlTwigExtension;
+use Twig\Loader\FilesystemLoader;
+
 return [
     'adminEmail' => getenv('ADMIN_EMAIL'),
     'supportEmail' => getenv('SUPPORT_EMAIL'),
@@ -25,7 +29,9 @@ return [
         ],
         'url-pattern' => "https://фкт-алтай.рф/qa/question/view-",
     ],
+
     'from' => ['email' => getenv('MAILER_FROM_EMAIL'), 'name' => 'ФКТ поиск'],
+
     'mailer' => [
         'host' => getenv('MAILER_HOST'),
         'username' => getenv('MAILER_USERNAME'),
@@ -33,4 +39,14 @@ return [
         'port' => (int)getenv('MAILER_PORT'),
     ],
 
+    'twig' => [
+        'debug' => (bool)getenv('APP_DEBUG'),
+        'template_dirs' => [
+            FilesystemLoader::MAIN_NAMESPACE => __DIR__ . '/../../templates',
+        ],
+        'cache_dir' => __DIR__ . '/../../var/cache/twig',
+        'extensions' => [
+            FrontendUrlTwigExtension::class
+        ],
+    ],
 ];

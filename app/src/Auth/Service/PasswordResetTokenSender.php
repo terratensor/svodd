@@ -7,29 +7,42 @@ namespace App\Auth\Service;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Token;
 use App\Frontend\FrontendUrlGenerator;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email as MimeEmail;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Yii;
-use yii\mail\MailerInterface;
+
 
 class PasswordResetTokenSender
 {
     private MailerInterface $mailer;
-    private FrontendUrlGenerator $frontend;
+    private Environment $twig;
 
-    public function __construct(MailerInterface $mailer, FrontendUrlGenerator $frontend)
-    {
+    public function __construct(
+        MailerInterface $mailer,
+        Environment $twig
+    ) {
         $this->mailer = $mailer;
-        $this->frontend = $frontend;
+        $this->twig = $twig;
     }
 
-    public function send(Email $email, Token $token): bool
+    /**
+     * @throws SyntaxError
+     * @throws TransportExceptionInterface
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function send(Email $email, Token $token): void
     {
-        return Yii::$app->mailer->compose(
-            ['html' => '@common/mail/passwordResetToken-html', 'text' => '@common/mail/passwordResetToken-text'],
-            ['url' => $this->frontend->generate('auth/reset/password-confirm', ['token' => $token->getValue()]),]
-        )
-            ->setFrom([Yii::$app->params['from']['email'] => Yii::$app->params['from']['name']])
-            ->setTo($email->getValue())
-            ->setSubject('Сброс пароля на ' . Yii::$app->name)
-            ->send();
+        $message = (new MimeEmail())
+            ->subject('Сброс пароля')
+            ->to($email->getValue())
+            ->html($this->twig->render('auth/password/confirm.html.twig', ['token' => $token]), 'text/html');
+
+        $this->mailer->send($message);
     }
 }

@@ -23,7 +23,8 @@
         "webmozart/assert": "^1.11",
         "ramsey/uuid": "5.x-dev",
         "la-haute-societe/yii2-save-relations-behavior": "dev-master",
-        "sentry/sdk": "dev-master"
+        "sentry/sdk": "dev-master",
+        "twig/twig": "3.x-dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
