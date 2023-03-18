@@ -49,7 +49,7 @@ services:
       POSTGRES_DB: app
       MAILER_HOST: mailer
       MAILER_PORT: 1025
-      MAILER_USER: app
+      MAILER_USERNAME: app
       MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
@@ -90,7 +90,7 @@ services:
       TZ: Europe/Moscow
       MAILER_HOST: mailer
       MAILER_PORT: 1025
-      MAILER_USER: app
+      MAILER_USERNAME: app
       MAILER_PASSWORD: secret
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
@@ -115,7 +115,7 @@ services:
       POSTGRES_DB: app
       MAILER_HOST: mailer
       MAILER_PORT: 1025
-      MAILER_USER: app
+      MAILER_USERNAME: app
       MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
