@@ -11,11 +11,14 @@ use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
 use DateInterval;
 use Manticoresearch\Client;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Mailer\EventListener\EnvelopeListener;
 use Yii;
 use yii\base\BootstrapInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
+use Symfony\Component\Mime\Address;
 
 /**
  * Class SetUp
@@ -33,15 +36,30 @@ class SetUp implements BootstrapInterface
         $container = Yii::$container;
 
         $container->setSingleton(MailerInterface::class, function () use ($app) {
+
+            $dispatcher = new EventDispatcher();
+
+            $dispatcher->addSubscriber(
+                new EnvelopeListener(
+                    new Address(
+                        Yii::$app->params['from']['email'],
+                        Yii::$app->params['from']['name']
+                    )));
+
             $transport = (new EsmtpTransport(
                 Yii::$app->params['mailer']['host'],
                 Yii::$app->params['mailer']['port'],
                 false,
+                $dispatcher,
             ))
                 ->setUsername(Yii::$app->params['mailer']['username'])
                 ->setPassword(Yii::$app->params['mailer']['password']);
 
             return new Mailer($transport);
+        });
+
+        $container->setSingleton(FrontendUrlGenerator::class, function () use ($app) {
+            return new FrontendUrlGenerator($app->params['frontendHostInfo']);
         });
 
         $container->setSingleton(IndexService::class, [], [
@@ -64,5 +82,7 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(FrontendUrlGenerator::class, [], [
             Yii::$app->params['frontendHostInfo'],
         ]);
+
+        require __DIR__ . '/twig.php';
     }
 }

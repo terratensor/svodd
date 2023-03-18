@@ -1,5 +1,6 @@
 <?php
 
+use App\Frontend\FrontendUrlTwigExtension;
 use Twig\Loader\FilesystemLoader;
 
 return [
@@ -38,12 +39,14 @@ return [
         'port' => (int)getenv('MAILER_PORT'),
     ],
 
-//    'twig' => [
-//        'debug' => (bool)getenv('APP_DEBUG'),
-//        'template_dirs' => [
-//            FilesystemLoader::MAIN_NAMESPACE => __DIR__ . '/../templates',
-//        ],
-//        'cache_dir' => __DIR__ . '/../var/cache/twig',
-//        'extensions' => [],
-//    ],
+    'twig' => [
+        'debug' => (bool)getenv('APP_DEBUG'),
+        'template_dirs' => [
+            FilesystemLoader::MAIN_NAMESPACE => __DIR__ . '/../../templates',
+        ],
+        'cache_dir' => __DIR__ . '/../../var/cache/twig',
+        'extensions' => [
+            FrontendUrlTwigExtension::class
+        ],
+    ],
 ];
