@@ -30,7 +30,7 @@ class FeedbackSender
             ->to(Yii::$app->params['from']['email'])
             ->replyTo(new Address($email->getValue(), $command->name))
             ->html(                                                                                        $this->twig->render(
-                'contact/feedback.html.twig', ['subject' => $command->subject, 'text' => $command->body]), 'text/html');
+                'contact/feedback.html.twig', ['subject' => $command->subject, 'text' => $command->body]), 'UTF-8');
 
         $this->mailer->send($message);
     }
