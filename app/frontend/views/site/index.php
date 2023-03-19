@@ -116,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $comment->parent_id; ?>
                 <?= Html::a(
                     $link,
-                    $link . "#:~:text=" . $comment->datetime,
+                    $link . "#:~:text=" . Yii::$app->formatter->asDatetime($comment->datetime, 'php:H:i d.m.Y'),
                     ['target' => '_blank']
                 ); ?>
             </div>
