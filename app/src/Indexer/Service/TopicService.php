@@ -25,12 +25,14 @@ class TopicService
     private TransactionManager $transaction;
     private QuestionStatsRepository $questionStatsRepository;
     private QuestionIndexService $questionIndexService;
+    private StatisticService $statisticService;
 
     public function __construct(
         QuestionRepository $questionRepository,
         CommentRepository $commentRepository,
         QuestionStatsRepository $questionStatsRepository,
         QuestionIndexService $questionIndexService,
+        StatisticService $statisticService,
         TransactionManager $transaction
     ) {
         $this->questionRepository = $questionRepository;
@@ -38,6 +40,7 @@ class TopicService
         $this->transaction = $transaction;
         $this->questionStatsRepository = $questionStatsRepository;
         $this->questionIndexService = $questionIndexService;
+        $this->statisticService = $statisticService;
     }
 
     public function create(Topic $topic): void
@@ -134,7 +137,7 @@ class TopicService
 
                     $this->questionIndexService->addDocument($parsedComment, $key);
 
-                    $this->updateStatistic($question, $comment);
+                    $this->statisticService->update($question->id);
                 }
             }
         }
