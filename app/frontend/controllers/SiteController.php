@@ -119,6 +119,12 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionCurrent(): string
+    {
+        $list = $this->questionStatsRepository->findAllForList();
+        return $this->render('current', ['list' => $list]);
+    }
+
     /**
      * Displays about page.
      *

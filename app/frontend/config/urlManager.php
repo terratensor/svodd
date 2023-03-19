@@ -15,6 +15,7 @@ return [
         '' => 'site/index',
         'contact' => 'site/contact',
         'about' => 'site/about',
+        'svodd' => 'site/current',
         'signup' => 'auth/join/request',
         'join/confirm' => 'auth/join/confirm',
         '<_a:login|logout>' => 'auth/auth/<_a>',
