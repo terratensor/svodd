@@ -36,12 +36,12 @@ AppAsset::register($this);
                         ],
                     ]);
       $menuItems = [
-          ['label' => 'Поиск', 'url' => ['/site/index']],
+          ['label' => 'СВОДД', 'url' => ['/site/current']],
           [
               'label' => 'Обсуждение',
               'url' => ['/question/view', 'id' => Yii::$app->params['questions']['current']['id']]
           ],
-          ['label' => 'Список вопросов', 'url' => ['/questions']],
+          ['label' => 'Архив вопросов', 'url' => ['/question/index']],
 //        ['label' => 'О проекте', 'url' => ['/site/about']],
           ['label' => 'Обратная связь', 'url' => ['/site/contact']],
       ];
