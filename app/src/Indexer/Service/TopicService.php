@@ -15,7 +15,6 @@ use App\repositories\Question\QuestionStatsRepository;
 use App\services\TransactionManager;
 use DateTimeImmutable;
 use DomainException;
-use Manticoresearch\Index;
 use yii\helpers\ArrayHelper;
 
 
@@ -89,22 +88,8 @@ class TopicService
                 $this->commentRepository->save($comment);
             }
 
-            $lastCommentDate = isset($comment) ? $comment->datetime : new DateTimeImmutable();
-            try {
-                $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
-                if ($stats->questionDate === null) {
-                    $stats->questionDate = $question->datetime;
-                }
-                $stats->changeCommentsCount(count($question->comments), $lastCommentDate);
-            } catch (DomainException $e) {
-                $stats = QuestionStats::create(
-                    $question->data_id,
-                    count($question->comments),
-                    count($question->comments) ? $lastCommentDate : null,
-                    $question->datetime,
-                );
-            }
-            $this->questionStatsRepository->save($stats);
+            $comment = $comment ?? null;
+            $this->updateStatistic($question, $comment);;
         });
     }
 
@@ -148,8 +133,31 @@ class TopicService
                     echo "сохранен в бд комментарий # $comment->data_id \r\n";
 
                     $this->questionIndexService->addDocument($parsedComment, $key);
+
+                    $this->updateStatistic($question, $comment);
                 }
             }
         }
+    }
+
+    private function updateStatistic(Question $question, ?Comment $comment = null): void
+    {
+        $lastCommentDate = isset($comment) ? $comment->datetime : new DateTimeImmutable();
+
+        try {
+            $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
+            if ($stats->questionDate === null) {
+                $stats->questionDate = $question->datetime;
+            }
+            $stats->changeCommentsCount(count($question->comments), $lastCommentDate);
+        } catch (DomainException $e) {
+            $stats = QuestionStats::create(
+                $question->data_id,
+                count($question->comments),
+                count($question->comments) ? $lastCommentDate : null,
+                $question->datetime,
+            );
+        }
+        $this->questionStatsRepository->save($stats);
     }
 }
