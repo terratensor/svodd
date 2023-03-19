@@ -81,7 +81,7 @@ AppAsset::register($this);
   <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
       <div class="d-flex align-items-baseline justify-content-between">
-        <span>&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></span>
+        <span><?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></span>
         <span><?= Html::tag(
                 'a',
                 '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
