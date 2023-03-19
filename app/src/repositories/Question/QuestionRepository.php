@@ -59,7 +59,7 @@ class QuestionRepository
 
         $search = $this->search->setIndex($this->indexName);
 
-        $search->search(addslashes($queryString));
+        $search->search("`".addslashes($queryString)."`");
         $search->highlight(
             ['text'],
             [
