@@ -30,7 +30,7 @@ services:
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://fct-search.audetv.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
-      PARSED_FILES_DIR: /data/test
+      PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
     secrets:
@@ -77,7 +77,7 @@ services:
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://fct-search.audetv.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
-      PARSED_FILES_DIR: /data/test
+      PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
     secrets:
