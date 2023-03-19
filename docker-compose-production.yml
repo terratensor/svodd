@@ -107,6 +107,44 @@ services:
       replicas: 0
       restart_policy:
         condition: none
+
+  app-updater:
+    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      POSTGRES_HOST: app-postgres
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
+      MAILER_HOST: ${APP_MAILER_HOST}
+      MAILER_PORT: ${APP_MAILER_PORT}
+      MAILER_USERNAME: ${APP_MAILER_USERNAME}
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
+      FRONTEND_URL: https://fct-search.audetv.ru
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+      PARSED_FILES_DIR: /data
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 6006
+    secrets:
+      - app_db_password
+      - app_mailer_password
+      - sentry_dsn
+    command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii index/updater'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=*/1 * * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+        window: 120s
 #  app-indexer:
 #    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
 #    environment:
