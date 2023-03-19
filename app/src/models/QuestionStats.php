@@ -61,7 +61,7 @@ class QuestionStats extends ActiveRecord
 
     public function changeCommentsCount(
         int $newCount,
-        DateTimeImmutable $lastCommentDate): void
+        ?DateTimeImmutable $lastCommentDate): void
     {
         $this->comments_count = $newCount;
         $this->lastCommentDate = $lastCommentDate;
