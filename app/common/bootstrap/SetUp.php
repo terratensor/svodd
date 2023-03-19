@@ -7,6 +7,7 @@ namespace common\bootstrap;
 use App\Auth\Service\Tokenizer;
 use App\Frontend\FrontendUrlGenerator;
 use App\Indexer\Service\IndexerService;
+use App\Indexer\Service\QuestionIndexService;
 use App\Indexer\Service\UpdaterService;
 use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
@@ -71,7 +72,7 @@ class SetUp implements BootstrapInterface
             new Client($app->params['manticore']),
         ]);
 
-        $container->setSingleton(UpdaterService::class, [], [
+        $container->setSingleton(QuestionIndexService::class, [], [
             new Client($app->params['manticore']),
         ]);
 
