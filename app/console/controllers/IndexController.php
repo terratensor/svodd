@@ -7,6 +7,7 @@ namespace console\controllers;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\Indexer\Service\IndexerService;
+use App\Indexer\Service\UpdaterService;
 use App\services\Manticore\IndexService;
 use Exception;
 use yii\console\Controller;
@@ -20,12 +21,21 @@ class IndexController extends Controller
 {
     private IndexService $service;
     private IndexerService $indexerService;
+    private UpdaterService $updaterService;
 
-    public function __construct($id, $module, IndexService $service, IndexerService $indexerService, $config = [])
+    public function __construct(
+        $id,
+        $module,
+        IndexService $service,
+        IndexerService $indexerService,
+        UpdaterService $updaterService,
+        $config = []
+    )
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->indexerService = $indexerService;
+        $this->updaterService = $updaterService;
     }
 
     public function actionCreate()
@@ -109,6 +119,18 @@ class IndexController extends Controller
         $message = 'Done!';
         try {
             $this->service->updateQuestionComments(\Yii::$app->params['questions']['current']['id']);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
+
+    public function actionUpdater()
+    {
+        $message = 'Done!';
+        try {
+            $this->updaterService->index('questions');
         } catch (Exception $e) {
             $message = $e->getMessage();
         }

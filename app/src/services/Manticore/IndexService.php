@@ -21,6 +21,8 @@ use Manticoresearch\Client;
 use Manticoresearch\Index;
 use Manticoresearch\Query\BoolQuery;
 use Manticoresearch\Query\In;
+use Yii;
+use yii\helpers\BaseFileHelper;
 
 /**
  * Class IndexService
@@ -105,7 +107,8 @@ class IndexService
 
     private function readFile(string $file): bool|string
     {
-        return file_get_contents(__DIR__ . "/../../../data/site/$file");
+
+        return file_get_contents(__DIR__ . '/../../..'. '/data/test/'.$file);
     }
 
     private function readDir(): array
@@ -187,7 +190,7 @@ class IndexService
         // В противном случае создаем объект статистики и записываем в базу,
         // чтобы в последующим при обновлении не дёргать поиск по индексу для получения кол-ва комментариев
         if ($stats) {
-            $stats->changeCommentsCount(count($topic->comments));
+            $stats->changeCommentsCount(count($topic->comments), new DateTimeImmutable());
         } else {
             $stats = QuestionStats::create(
                 $id,
