@@ -16,6 +16,7 @@ use App\services\TransactionManager;
 use DateTimeImmutable;
 use DomainException;
 use Manticoresearch\Index;
+use yii\helpers\ArrayHelper;
 
 
 class TopicService
@@ -24,17 +25,20 @@ class TopicService
     private CommentRepository $commentRepository;
     private TransactionManager $transaction;
     private QuestionStatsRepository $questionStatsRepository;
+    private QuestionIndexService $questionIndexService;
 
     public function __construct(
         QuestionRepository $questionRepository,
         CommentRepository $commentRepository,
         QuestionStatsRepository $questionStatsRepository,
+        QuestionIndexService $questionIndexService,
         TransactionManager $transaction
     ) {
         $this->questionRepository = $questionRepository;
         $this->commentRepository = $commentRepository;
         $this->transaction = $transaction;
         $this->questionStatsRepository = $questionStatsRepository;
+        $this->questionIndexService = $questionIndexService;
     }
 
     public function create(Topic $topic): void
@@ -67,7 +71,6 @@ class TopicService
                     $topicRelatedQuestion->datetime
                 );
 
-//                $question->addRelatedQuestion($relatedQuestion);
                 $this->questionRepository->save($relatedQuestion);
             }
 
@@ -83,13 +86,9 @@ class TopicService
                     $questionComment->datetime
                 );
 
-//                $question->addComment($comment);
                 $this->commentRepository->save($comment);
             }
 
-//            var_dump($question->relatedQuestions);
-//            var_dump($question->comments);
-//            $this->questionRepository->save($question);
             $lastCommentDate = isset($comment) ? $comment->datetime : new DateTimeImmutable();
             try {
                 $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
@@ -109,37 +108,32 @@ class TopicService
         });
     }
 
-    public function update(Topic $topic, Index $index): void
+    public function update(Topic $topic): void
     {
         $question = $this->questionRepository->getByDataId($topic->question->data_id);
         if (!$question) {
             return;
         }
 
-        $dbComments = [];
-        foreach ($question->comments as $dbComment) {
-            $dbComments[] = $dbComment->data_id;
-        }
+        // Получаем массив значений data_id комментариев уже записанных в базу данных
+        $dbComments = ArrayHelper::getColumn($question->comments, 'data_id');
 
-//        var_dump($dbComments);
-
+        // Получаем массив значение data_id комментариев полученных парсингом обновленного файла
         $parsedComments = [];
-        foreach ($topic->comments as $key => $parsedComment) {
+        foreach ($topic->comments as $parsedComment) {
             $parsedComments[] = $parsedComment->data_id;
         }
 
-//        var_dump($parsedComments);
-
+        // Сравниваем массивы и оставляем только data_id комментариев, которые отсутствуют в базе данных
         $diff = array_diff($parsedComments, $dbComments);
-
-//        var_dump($diff);
+        echo "будет добавлено " . count($diff) . " новых комментариев\r\n";
 
         foreach ($diff as $data_id) {
-//            echo($data_id . "\r\n");
+
             /** @var \App\Indexer\Model\Comment $parsedComment */
             foreach ($topic->comments as $key => $parsedComment) {
+
                 if ($parsedComment->data_id === $data_id) {
-                    echo "\r\n".$key;
                     $comment = Comment::create(
                         Id::generate(),
                         $parsedComment->data_id,
@@ -151,7 +145,9 @@ class TopicService
                         $parsedComment->datetime
                     );
                     $this->commentRepository->save($comment);
-                    $insert = $index->addDocument($parsedComment->getSource($key));
+                    echo "сохранен в бд комментарий # $comment->data_id \r\n";
+
+                    $this->questionIndexService->addDocument($parsedComment, $key);
                 }
             }
         }
