@@ -18,6 +18,9 @@ $pagination = new Pagination(
     ]
 );
 
+
+$this->title = 'Архив вопросов';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
   <div class="d-flex align-items-start ">

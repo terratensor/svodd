@@ -13,7 +13,6 @@ use App\models\Comment;
 use App\models\QuestionStats;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
-use frontend\widgets\question\SvoddListWidget;
 use frontend\widgets\search\FollowQuestion;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -23,35 +22,40 @@ use yii\helpers\Url;
 
 $this->title = 'ФКТ поиск';
 
+
+$this->title = 'Поиск по архиву вопросов и комментариев сайта ФКТ:';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
-    <?php if (!$results): ?>
-      <h4>Хронология обсуждений событий с начала СВОДД:</h4>
-    <?php endif; ?>
+  <div class="w-100">
+      <?php if (!$results): ?>
+      <?php endif; ?>
 
-    <?php $form = ActiveForm::begin(
-        [
-            'method' => 'GET',
-            'action' => ['site/index'],
-            'options' => ['class' => 'mt-3'],
-        ]
-    ); ?>
-  <div class="d-flex align-items-center">
-      <?= $form->field($model, 'query', [
-          'inputTemplate' => '<div class="input-group mb-3">
+      <?php $form = ActiveForm::begin(
+          [
+              'method' => 'GET',
+              'action' => ['site/index'],
+              'options' => ['class' => 'mt-3'],
+          ]
+      ); ?>
+    <div class="d-flex align-items-center">
+        <?= $form->field($model, 'query', [
+            'inputTemplate' => '<div class="input-group mb-3">
           {input}
           <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button></div>',
-          'options' => [
-              'class' => 'w-100', 'role' => 'search'
-          ]
-      ])->textInput(
-          [
-              'class' => 'form-control form-control-lg',
-              'placeholder' => "Поиск"
-          ]
-      )->label(false); ?>
+            'options' => [
+                'class' => 'w-100', 'role' => 'search'
+            ]
+        ])->textInput(
+            [
+                'class' => 'form-control form-control-lg',
+                'placeholder' => "Поиск"
+            ]
+        )->label(false); ?>
+    </div>
+      <?php ActiveForm::end(); ?>
   </div>
-    <?php ActiveForm::end(); ?>
+
     <?php if ($results): ?>
     <?php
     // Property totalCount пусто пока не вызваны данные модели getModels(),
@@ -136,8 +140,4 @@ $this->title = 'ФКТ поиск';
     </div>
   </div>
 </div>
-<?php else: ?>
-
-    <?php echo SvoddListWidget::widget(['models' => $list]); ?>
-
 <?php endif; ?>
