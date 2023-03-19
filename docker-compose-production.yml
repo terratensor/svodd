@@ -40,6 +40,8 @@ services:
     volumes:
       - parsed-files:/app/data
     deploy:
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
@@ -98,10 +100,10 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=0 * * * *
+        - swarm.cronjob.schedule=*/1 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.role == manager ]
+        constraints: [ node.labels.frontend == frontend ]
       replicas: 0
       restart_policy:
         condition: none
@@ -148,7 +150,7 @@ services:
       - app-postgres:/var/lib/postgresql/data
     deploy:
       placement:
-        constraints: [node.labels.db == db]
+        constraints: [ node.role == manager ]
       endpoint_mode: dnsrr
 
   manticore:
