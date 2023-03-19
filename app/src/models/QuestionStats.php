@@ -64,7 +64,7 @@ class QuestionStats extends ActiveRecord
         DateTimeImmutable $lastCommentDate): void
     {
         $this->comments_count = $newCount;
-        $this->last_comment_date = $lastCommentDate;
+        $this->lastCommentDate = $lastCommentDate;
     }
 
     public static function tableName(): string
