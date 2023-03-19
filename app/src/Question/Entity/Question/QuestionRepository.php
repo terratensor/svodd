@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
 
 class QuestionRepository
 {
-    public function get(int $id): array|ActiveRecord|Question
+    public function get(string $id): array|ActiveRecord|Question
     {
         if (($question = Question::find()->andWhere(['id' => $id])->limit(1)->one()) === null) {
             throw new DomainException('Question is not found.');
