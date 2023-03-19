@@ -7,6 +7,7 @@ namespace console\controllers;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\Indexer\Service\IndexerService;
+use App\Indexer\Service\StatisticService;
 use App\Indexer\Service\UpdaterService;
 use App\services\Manticore\IndexService;
 use Exception;
@@ -22,6 +23,7 @@ class IndexController extends Controller
     private IndexService $service;
     private IndexerService $indexerService;
     private UpdaterService $updaterService;
+    private StatisticService $statisticService;
 
     public function __construct(
         $id,
@@ -29,6 +31,7 @@ class IndexController extends Controller
         IndexService $service,
         IndexerService $indexerService,
         UpdaterService $updaterService,
+        StatisticService $statisticService,
         $config = []
     )
     {
@@ -36,6 +39,7 @@ class IndexController extends Controller
         $this->service = $service;
         $this->indexerService = $indexerService;
         $this->updaterService = $updaterService;
+        $this->statisticService = $statisticService;
     }
 
     public function actionCreate()
@@ -131,6 +135,18 @@ class IndexController extends Controller
         $message = 'Done!';
         try {
             $this->updaterService->index('questions');
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
+
+    public function actionUpdateStatistic()
+    {
+        $message = 'Done!';
+        try {
+            $this->statisticService->updateAll();
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
