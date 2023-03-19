@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 
 class CommentRepository
 {
-    public function get(int $id): array|ActiveRecord|Comment
+    public function get(string $id): array|ActiveRecord|Comment
     {
         if (($comment = Comment::find()->andWhere(['id' => $id])->limit(1)->one()) === null) {
             throw new DomainException('Comment is not found.');
