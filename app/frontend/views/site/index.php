@@ -113,7 +113,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="card-footer d-flex justify-content-between">
                 <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
-                <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $comment->parent_id; ?>
+                <?php
+                $id = ($comment->type === 1) ? $comment->data_id : $comment->parent_id;
+                $link = "https://фкт-алтай.рф/qa/question/view-" . $id;
+                ?>
                 <?= Html::a(
                     $link,
                     $link . "#:~:text=" . Yii::$app->formatter->asDatetime($comment->datetime, 'php:H:i d.m.Y'),

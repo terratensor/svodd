@@ -41,7 +41,7 @@ class FollowQuestion extends Widget
         return Url::to(
             [
                 'question/view',
-                'id' => $this->question_id,
+                'id' => $this->comment->type === 1 ? $this->comment->data_id : $this->question_id,
                 'page' => $total,
                 'c' => $this->position,
                 '#' => $this->position
