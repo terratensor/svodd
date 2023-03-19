@@ -54,7 +54,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
-      PARSED_FILES_DIR: /data/test
+      PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
@@ -64,7 +64,7 @@ services:
       - sentry_dsn
     volumes:
       - ./app:/app
-      - ./data:/app/data
+      - ./app/data:/app/data
 
   cp:
     build:
@@ -95,12 +95,12 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://cp.localhost
-      PARSED_FILES_DIR: /data/test
+      PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 8162
     volumes:
       - ./app:/app
-      - ./data:/app/data
+      - ./app/data:/app/data
 
   cli-php:
     build:
@@ -120,7 +120,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
-      PARSED_FILES_DIR: /data/test
+      PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 8162
     secrets:
@@ -128,7 +128,7 @@ services:
       - app_db_password
     volumes:
       - ./app:/app
-      - ./data:/app/data
+      - ./app/data:/app/data
 
   app-postgres:
     image: postgres:15.1-alpine
