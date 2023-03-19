@@ -21,6 +21,7 @@
   roles:
       - role: swarm-labels
         vars:
-          hostname: "{{ db_hostname }}"
+          hostname: "{{ frontend_hostname }}"
           labels:
-            db: db
+            frontend: frontend
+
