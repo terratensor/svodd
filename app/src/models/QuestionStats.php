@@ -3,9 +3,11 @@
 namespace App\models;
 
 use App\behaviors\TimestampBehavior;
+use App\Question\Entity\Question\Question;
 use DateTimeImmutable;
 use Exception;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -21,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property int|null $sort
  * @property int|null $created_at
  * @property int|null $updated_at
+ * @property Question $question
  */
 class QuestionStats extends ActiveRecord
 {
@@ -65,6 +68,11 @@ class QuestionStats extends ActiveRecord
     {
         $this->comments_count = $newCount;
         $this->lastCommentDate = $lastCommentDate;
+    }
+
+    public function getQuestion(): ActiveQuery
+    {
+        return $this->hasOne(Question::class, ['data_id' => 'question_id']);
     }
 
     public static function tableName(): string
