@@ -66,42 +66,6 @@ services:
       - ./app:/app
       - ./app/data:/app/data
 
-  cp:
-    build:
-      context: app/backend/docker
-      dockerfile: development/nginx/Dockerfile
-    volumes:
-      - ./app:/app
-    networks:
-      - traefik-public
-      - default
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik-public
-      - traefik.http.routers.cp.rule=Host(`cp.localhost`)
-      - traefik.http.routers.cp.entryPoints=http
-      - traefik.http.services.cp.loadBalancer.server.port=80
-
-  cp-php-fpm:
-    build:
-      context: app/backend/docker
-      dockerfile: development/php-fpm/Dockerfile
-    environment:
-      TZ: Europe/Moscow
-      MAILER_HOST: mailer
-      MAILER_PORT: 1025
-      MAILER_USERNAME: app
-      MAILER_PASSWORD: secret
-      MAILER_FROM_EMAIL: mail@app.test
-      ADMIN_EMAIL: admin@app.test
-      FRONTEND_URL: http://cp.localhost
-      PARSED_FILES_DIR: /data
-      PAGE_SIZE: 50
-      CURRENT_QUESTION: 8162
-    volumes:
-      - ./app:/app
-      - ./app/data:/app/data
-
   cli-php:
     build:
       context: app/console/docker
