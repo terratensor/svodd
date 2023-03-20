@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io/audetv
   REGISTRY_HOST: ghcr.io
+  IMAGE_TAG: main-${GITHUB_RUN_NUMBER}
 
 jobs:
   build:
@@ -34,3 +35,9 @@ jobs:
 
       - name: Push dev cache images
         run: make push-dev-cache
+
+      - name: Dev Down
+        run: make docker-down-clear
+
+      - name: Build
+        run: make build
