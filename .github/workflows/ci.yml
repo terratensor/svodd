@@ -47,3 +47,7 @@ jobs:
 
       - name: Push build cache images
         run: make push-build-cache
+
+      - name: Push
+        run: make push
+        if: ${{ github.ref == 'refs/heads/master' }}
