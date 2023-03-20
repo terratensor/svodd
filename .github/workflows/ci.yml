@@ -16,7 +16,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: app/vendor
-          key: app-composer-${{ hashFiles('app/composer.lock) }}
+          key: app-composer-${{ hashFiles('app/composer.lock') }}
 
       - name: Dev Init
         run: make init
