@@ -6,7 +6,8 @@ on:
       - main
 
 env:
-  REGISTRY: ${{ secrets.REGISTRY }}
+  REGISTRY: ghcr.io/audetv/fct-search
+  REGISTRY_HOST: ghcr.io
 
 jobs:
   build:
@@ -21,5 +22,15 @@ jobs:
           path: app/vendor
           key: app-composer-${{ hashFiles('app/composer.lock') }}
 
+      - name: Docker Login
+        uses: azure/docker-login@v1
+        with:
+            login-server: ${{ env.REGISTRY_HOT }}
+            username: audetv
+            password: ${{ github.token }}
+
       - name: Dev Init
         run: make init
+
+      - name: Push dev cache images
+        run: make push-dev-cache

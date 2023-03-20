@@ -42,11 +42,11 @@ docker-down-clear:
 docker-pull:
 	docker-compose pull --include-deps
 
-docker-push:
-	docker-compose push
-
 docker-build:
 	DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build --pull
+
+push-dev-cache:
+	docker-compose push
 
 parse-all:
 	./app/bin/fct-parser.linux.amd64 -a -j -h -o ./app/data/
