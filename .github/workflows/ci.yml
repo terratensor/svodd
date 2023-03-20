@@ -19,7 +19,7 @@ jobs:
       - name: Cache APP Composer
         uses: actions/cache@v2
         with:
-          path: app/vendor
+          path: vendor
           key: app-composer-${{ hashFiles('app/composer.lock') }}
 
       - name: Docker Login
