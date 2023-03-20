@@ -5,6 +5,7 @@ on: push
 env:
   REGISTRY: ghcr.io/audetv
   REGISTRY_HOST: ghcr.io
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
 jobs:
   build:
