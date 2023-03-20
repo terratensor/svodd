@@ -38,14 +38,13 @@ COPY ./development/php/conf.d /usr/local/etc/php/conf.d
 COPY ./common/wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod 555 /usr/local/bin/wait-for-it
 
+ENV COMPOSER_ALLOW_SUPERUSER 1
+
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 RUN addgroup -g 1000 app && adduser -u 1000 -G app -s /bin/sh -D app
 
 WORKDIR /app
-
-RUN mkdir "/app/vendor"
-RUN chown -R app:app /app/vendor
 
 USER app
 
