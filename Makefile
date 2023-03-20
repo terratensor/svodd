@@ -7,15 +7,13 @@ restart: down up
 
 update-deps: app-composer-update restart
 
-app-init: app-permissions app-composer-install app-wait-db app-migrations app-index-create app-index-indexer
-
-app-yii-init: # инициализация yii framework
-	docker-compose run --rm cli-php php init-actions --interactive=0
-
-app-init: app-composer-install app-wait-db app-yii-init app-migrations app-index-create app-index-indexer
+app-init: app-permissions app-composer-install app-wait-db app-yii-init app-migrations app-index-create app-index-indexer
 
 app-permissions:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine chmod 777 var/cache var/log var/test
+
+app-yii-init: # инициализация yii framework
+	docker-compose run --rm cli-php php init-actions --interactive=0
 
 app-composer-install:
 	docker-compose run --rm cli-php composer install
@@ -45,7 +43,7 @@ docker-down-clear:
 	docker-compose down -v --remove-orphans
 
 docker-pull:
-	docker-compose pull
+	- docker-compose pull
 
 docker-build:
 	docker-compose build --pull
