@@ -98,7 +98,6 @@ try-build:
 push-build-cache: push-build-cache-frontend push-build-cache-cli-php
 
 push-build-cache-frontend:
-	docker push ${REGISTRY}/fct-search-frontend:cache-builder
 	docker push ${REGISTRY}/fct-search-frontend:cache
 
 push-build-cache-cli-php:
