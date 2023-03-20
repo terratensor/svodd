@@ -90,7 +90,7 @@ build-cli-php:
     	--cache-from ${REGISTRY}/fct-search-cli-php:cache \
     	--tag ${REGISTRY}/fct-search-cli-php:cache \
     	--tag ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG} \
-    	--file app/console/docker/production/php-cli/Dockerfile api
+    	--file app/console/docker/production/php-cli/Dockerfile app
 
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
