@@ -7,10 +7,11 @@ restart: down up
 
 update-deps: app-composer-update restart
 
-app-init: app-composer-install app-wait-db app-migrations app-index-create app-index-indexer
 
 app-yii-init: # инициализация yii framework
-	docker-compose run --rm cli-php php init
+	docker-compose run --rm cli-php php init-actions --interactive=0
+
+app-init: app-composer-install app-wait-db app-yii-init app-migrations app-index-create app-index-indexer
 
 app-composer-install:
 	docker compose run --rm cli-php composer install
