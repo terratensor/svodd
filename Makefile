@@ -69,13 +69,41 @@ update-current:
 update-current-comments:
 	docker-compose run --rm cli-php php yii index/update-current-comments
 
-build:
-	docker --log-level=debug build --pull --file=app/frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/fct-search-frontend:${IMAGE_TAG} app
-#	docker --log-level=debug build --pull --file=app/frontend/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/fct-search-frontend-php-fpm:${IMAGE_TAG} app
-	docker --log-level=debug build --pull --file=app/console/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/fct-search-cli-php:${IMAGE_TAG} app
+build: build-frontend build-cli-php
+
+build-frontend:
+	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --cache-from ${REGISTRY}/fct-search-frontend:cache \
+        --tag ${REGISTRY}/fct-search-frontend:cache \
+        --tag ${REGISTRY}/fct-search-frontend:${IMAGE_TAG} \
+        --file app/frontend/docker/production/nginx/Dockerfile app
+
+build-cli-php:
+	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
+		--target builder \
+		--cache-from ${REGISTRY}/fct-search-cli-php:cache-builder \
+		--tag ${REGISTRY}/fct-search-cli-php:cache-builder \
+		--file app/console/docker/production/php-cli/Dockerfile app
+
+	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
+    	--cache-from ${REGISTRY}/fct-search-cli-php:cache-builder \
+    	--cache-from ${REGISTRY}/fct-search-cli-php:cache \
+    	--tag ${REGISTRY}/fct-search-cli-php:cache \
+    	--tag ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG} \
+    	--file app/console/docker/production/php-cli/Dockerfile api
 
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
+
+push-build-cache: push-build-cache-frontend push-build-cache-cli-php
+
+push-build-cache-frontend:
+	docker push ${REGISTRY}/fct-search-frontend:cache-builder
+	docker push ${REGISTRY}/fct-search-frontend:cache
+
+push-build-cache-cli-php:
+	docker push ${REGISTRY}/fct-search-frontend:cache-builder
+	docker push ${REGISTRY}/fct-search-frontend:cache
 
 push:
 	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
