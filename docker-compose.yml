@@ -17,9 +17,12 @@ services:
       - traefik.docker.network=traefik-public
 
   frontend:
+    image: ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
     build:
       context: app/frontend/docker
       dockerfile: development/nginx/Dockerfile
+      cache_from:
+        - ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
     volumes:
       - ./app:/app
     networks:
@@ -37,9 +40,12 @@ services:
       - traefik.http.routers.frontend.middlewares=frontend-redirect
 
   frontend-php-fpm:
+    image: ${REGISTRY:-localhost}/fct-search-dev-php-fpm:cache
     build:
       context: app/frontend/docker
       dockerfile: development/php-fpm/Dockerfile
+      cache_from:
+        - ${REGISTRY:-localhost}/fct-search-dev-php-fpm:cache
     environment:
       TZ: Europe/Moscow
       APP_ENV: dev
@@ -67,9 +73,12 @@ services:
       - ./app/data:/app/data
 
   cli-php:
+    image: ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
     build:
       context: app/console/docker
       dockerfile: development/php-cli/Dockerfile
+      cache_from:
+        - ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
     environment:
       APP_ENV: dev
       TZ: Europe/Moscow

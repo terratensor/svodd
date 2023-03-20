@@ -41,8 +41,8 @@ RUN chmod 555 /usr/local/bin/wait-for-it
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 RUN addgroup -g 1000 app && adduser -u 1000 -G app -s /bin/sh -D app
-RUN mkdir "vendor"
-RUN chown -R app:app vendor
+RUN mkdir /app/vendor
+RUN chown -R app:app /app/vendor
 WORKDIR /app
 
 USER app
