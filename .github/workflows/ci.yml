@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  REGISTRY: ghcr.io/audetv/fct-search
+  REGISTRY: ghcr.io/audetv
   REGISTRY_HOST: ghcr.io
 
 jobs:
