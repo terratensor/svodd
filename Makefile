@@ -102,8 +102,8 @@ push-build-cache-frontend:
 	docker push ${REGISTRY}/fct-search-frontend:cache
 
 push-build-cache-cli-php:
-	docker push ${REGISTRY}/fct-search-frontend:cache-builder
-	docker push ${REGISTRY}/fct-search-frontend:cache
+	docker push ${REGISTRY}/fct-search-cli-php:cache-builder
+	docker push ${REGISTRY}/fct-search-cli-php:cache
 
 push:
 	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
