@@ -13,7 +13,7 @@ app-yii-init: # инициализация yii framework
 	docker-compose run --rm cli-php php init
 
 app-composer-install:
-	docker-compose run --rm cli-php composer install
+	docker compose run --rm cli-php composer install
 
 app-composer-update:
 	docker-compose run --rm cli-php composer update
@@ -22,13 +22,13 @@ app-wait-db:
 	docker-compose run --rm cli-php wait-for-it app-postgres:5432 -t 30
 
 app-migrations:
-	docker-compose run --rm cli-php php yii migrate --interactive=0
+	docker compose run --rm cli-php php yii migrate --interactive=0
 
 app-index-create:
-	docker-compose run --rm cli-php php yii index/create --interactive=0
+	docker compose run --rm cli-php php yii index/create --interactive=0
 
 app-index-indexer:
-	docker-compose run --rm cli-php php yii index/indexer --interactive=0
+	docker compose run --rm cli-php php yii index/indexer --interactive=0
 
 docker-up:
 	docker-compose up -d
