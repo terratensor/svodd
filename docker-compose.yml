@@ -17,9 +17,12 @@ services:
       - traefik.docker.network=traefik-public
 
   frontend:
+    image: ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
     build:
       context: app/frontend/docker
       dockerfile: development/nginx/Dockerfile
+      cache_from:
+        - ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
     volumes:
       - ./app:/app
     networks:
@@ -37,9 +40,12 @@ services:
       - traefik.http.routers.frontend.middlewares=frontend-redirect
 
   frontend-php-fpm:
+    image: ${REGISTRY:-localhost}/fct-search-dev-php-fpm:cache
     build:
       context: app/frontend/docker
       dockerfile: development/php-fpm/Dockerfile
+      cache_from:
+        - ${REGISTRY:-localhost}/fct-search-dev-php-fpm:cache
     environment:
       TZ: Europe/Moscow
       APP_ENV: dev
@@ -66,46 +72,13 @@ services:
       - ./app:/app
       - ./app/data:/app/data
 
-  cp:
-    build:
-      context: app/backend/docker
-      dockerfile: development/nginx/Dockerfile
-    volumes:
-      - ./app:/app
-    networks:
-      - traefik-public
-      - default
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=traefik-public
-      - traefik.http.routers.cp.rule=Host(`cp.localhost`)
-      - traefik.http.routers.cp.entryPoints=http
-      - traefik.http.services.cp.loadBalancer.server.port=80
-
-  cp-php-fpm:
-    build:
-      context: app/backend/docker
-      dockerfile: development/php-fpm/Dockerfile
-    environment:
-      TZ: Europe/Moscow
-      MAILER_HOST: mailer
-      MAILER_PORT: 1025
-      MAILER_USERNAME: app
-      MAILER_PASSWORD: secret
-      MAILER_FROM_EMAIL: mail@app.test
-      ADMIN_EMAIL: admin@app.test
-      FRONTEND_URL: http://cp.localhost
-      PARSED_FILES_DIR: /data
-      PAGE_SIZE: 50
-      CURRENT_QUESTION: 8162
-    volumes:
-      - ./app:/app
-      - ./app/data:/app/data
-
   cli-php:
+    image: ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
     build:
       context: app/console/docker
       dockerfile: development/php-cli/Dockerfile
+      cache_from:
+        - ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
     environment:
       APP_ENV: dev
       TZ: Europe/Moscow
