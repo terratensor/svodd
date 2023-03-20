@@ -2,7 +2,7 @@ FROM php:8.1-cli-alpine
 
 ENV XDEBUG_VERSION 3.2.0
 
-RUN apk add --no-cache --update linux-headers postgresql-dev bash coreutils git \
+RUN apk add --no-cache --update autoconf g++ make linux-headers postgresql-dev bash coreutils git \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && git clone --branch $XDEBUG_VERSION --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
     && docker-php-ext-configure xdebug --enable-xdebug-dev \
@@ -40,7 +40,8 @@ RUN chmod 555 /usr/local/bin/wait-for-it
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer --quiet \
+    && rm -rf /root/.composer/cache
 
 RUN addgroup -g 1000 app && adduser -u 1000 -G app -s /bin/sh -D app
 
