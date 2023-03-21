@@ -14,6 +14,7 @@ return [
     'rules' => [
         '' => 'site/index',
         'contact' => 'site/contact',
+        'feedback' => 'feedback/index',
         'about' => 'site/about',
         'svodd' => 'site/current',
         'signup' => 'auth/join/request',
