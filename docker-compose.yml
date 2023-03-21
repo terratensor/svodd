@@ -23,11 +23,35 @@ services:
       dockerfile: development/nginx/Dockerfile
       cache_from:
         - ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
-    volumes:
-      - ./app:/app
     networks:
       - traefik-public
       - default
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 0
+      POSTGRES_HOST: app-postgres
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: app
+      MAILER_HOST: mailer
+      MAILER_PORT: 1025
+      MAILER_USERNAME: app
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: mail@app.test
+      ADMIN_EMAIL: admin@app.test
+      FRONTEND_URL: http://localhost
+      PARSED_FILES_DIR: /data
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 6006
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+    secrets:
+      - app_db_password
+      - app_mailer_password
+      - sentry_dsn
+    volumes:
+      - ./app:/app
+#      - parsed-files:/app/data
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
@@ -38,39 +62,6 @@ services:
       - traefik.http.middlewares.frontend-redirect.redirectRegex.replacement=$${1}localhost/$${2}
       - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
       - traefik.http.routers.frontend.middlewares=frontend-redirect
-
-  frontend-php-fpm:
-    image: ${REGISTRY:-localhost}/fct-search-dev-php-fpm:cache
-    build:
-      context: app/frontend/docker
-      dockerfile: development/php-fpm/Dockerfile
-      cache_from:
-        - ${REGISTRY:-localhost}/fct-search-dev-php-fpm:cache
-    environment:
-      TZ: Europe/Moscow
-      APP_ENV: dev
-      POSTGRES_HOST: app-postgres
-      POSTGRES_USER: app
-      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
-      POSTGRES_DB: app
-      MAILER_HOST: mailer
-      MAILER_PORT: 1025
-      MAILER_USERNAME: app
-      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
-      MAILER_FROM_EMAIL: mail@app.test
-      ADMIN_EMAIL: admin@app.test
-      FRONTEND_URL: http://localhost
-      PARSED_FILES_DIR: /data
-      PAGE_SIZE: 50
-      CURRENT_QUESTION: 6006
-      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
-    secrets:
-      - app_mailer_password
-      - app_db_password
-      - sentry_dsn
-    volumes:
-      - ./app:/app
-      - ./app/data:/app/data
 
   cli-php:
     image: ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
