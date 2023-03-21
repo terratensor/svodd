@@ -1,9 +1,6 @@
 name: Pipeline
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 env:
   REGISTRY: ghcr.io/audetv
@@ -30,14 +27,14 @@ jobs:
             username: audetv
             password: ${{ github.token }}
 
-#      - name: Dev Init
-#        run: make init
-#
-#      - name: Push dev cache images
-#        run: make push-dev-cache
-#
-#      - name: Dev Down
-#        run: make docker-down-clear
+      - name: Dev Init
+        run: make init
+
+      - name: Push dev cache images
+        run: make push-dev-cache
+
+      - name: Dev Down
+        run: make docker-down-clear
 
       - name: Inject branch slug
         uses: rlespinasse/github-slug-action@v3.x
