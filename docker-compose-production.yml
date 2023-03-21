@@ -84,7 +84,7 @@ services:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
-    command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0'
+    command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0 && php yii migrate-rbac --interactive=0'
     deploy:
       restart_policy:
         condition: on-failure
