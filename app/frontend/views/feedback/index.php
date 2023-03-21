@@ -19,7 +19,6 @@ if (Yii::$app->user->can(Role::USER)) {
 }
 
 $this->title = 'Отправить сообщение';
-$this->params['breadcrumbs'][] = ['label' => 'Обратная связь', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="feedback-messages">
