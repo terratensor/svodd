@@ -118,8 +118,8 @@ deploy:
 
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cp .secrets/* site_${BUILD_NUMBER}/secrets'
-	ssh -o StrictHostKeyChecking=no deploy@${HOSt} -p ${PORT} 'docker service rm fct-search_fct-parser'
-	ssh -o StrictHostKeyChecking=no deploy@${HOSt} -p ${PORT} 'docker service rm fct-search_app-updater'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_fct-parser'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_app-updater'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
 
 deploy-clean:
