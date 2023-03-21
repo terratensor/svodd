@@ -65,11 +65,11 @@ jobs:
           BUILD_NUMBER: ${GITHUB_RUN_NUMBER}
           HOST: ${{ secrets.PRODUCTION_HOST }}
           PORT: ${{ secrets.PRODUCTION_PORT }}
-          API_DB_PASSWORD: ${{ secrets.API_DB_PASSWORD }}
-          API_MAILER_HOST: ${{ secrets.API_MAILER_HOST }}
-          API_MAILER_PORT: ${{ secrets.API_MAILER_PORT }}
-          API_MAILER_USER: ${{ secrets.API_MAILER_USER }}
-          API_MAILER_PASSWORD: ${{ secrets.API_MAILER_PASSWORD }}
-          API_MAILER_FROM_EMAIL: ${{ secrets.API_MAILER_FROM_EMAIL }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          APP_MAILER_HOST: ${{ secrets.API_MAILER_HOST }}
+          APP_MAILER_PORT: ${{ secrets.API_MAILER_PORT }}
+          APP_MAILER_USERNAME: ${{ secrets.API_MAILER_USER }}
+          APP_MAILER_FROM_EMAIL: ${{ secrets.API_MAILER_FROM_EMAIL }}
+          APP_MAILER_PASSWORD_FILE: ${{ secrets.API_MAILER_PASSWORD }}
+          APP_DB_PASSWORD_FILE: ${{ secrets.API_DB_PASSWORD }}
+          SENTRY_DSN_FILE: ${{ secrets.SENTRY_DSN }}
         if: ${{ github.ref == 'refs/heads/main' }}
