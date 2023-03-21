@@ -119,9 +119,10 @@ deploy:
 
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
 	#ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/fct-site-parsed-files'
-	scp -o StrictHostKeyChecking=no -P ${PORT} ${APP_DB_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/app_db_password
-	scp -o StrictHostKeyChecking=no -P ${PORT} ${APP_MAILER_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/app_mailer_password
-	scp -o StrictHostKeyChecking=no -P ${PORT} ${SENTRY_DSN_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/sentry_dsn
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cp .secrets/* site_${BUILD_NUMBER}/secrets'
+#	scp -o StrictHostKeyChecking=no -P ${PORT} ${APP_DB_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/app_db_password
+#	scp -o StrictHostKeyChecking=no -P ${PORT} ${APP_MAILER_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/app_mailer_password
+#	scp -o StrictHostKeyChecking=no -P ${PORT} ${SENTRY_DSN_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/sentry_dsn
 
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
 
