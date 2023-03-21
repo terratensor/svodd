@@ -18,7 +18,6 @@ $pagination = new Pagination(
     ]
 );
 
-
 $this->title = 'Архив вопросов';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
