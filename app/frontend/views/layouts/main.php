@@ -43,26 +43,26 @@ AppAsset::register($this);
           ],
           ['label' => 'Архив вопросов', 'url' => ['/question/index']],
 //        ['label' => 'О проекте', 'url' => ['/site/about']],
-          ['label' => 'Обратная связь', 'url' => ['/site/contact']],
+          ['label' => 'Обратная связь', 'url' => ['/feedback/index']],
       ];
-//      if (Yii::$app->user->isGuest) {
-//          $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/auth/join/request']];
-//      }
+      if (Yii::$app->user->isGuest) {
+          $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/auth/join/request']];
+      }
 
       echo Nav::widget([
                            'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
                            'items' => $menuItems,
                        ]);
-//      if (Yii::$app->user->isGuest) {
-//          echo Html::tag('div', Html::a('Вход', ['/auth/auth/login'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
-//      } else {
-//          echo Html::beginForm(['/auth/auth/logout'], 'post', ['class' => 'd-flex'])
-//              . Html::submitButton(
-//                  'Выход (' . Yii::$app->user->identity->getEmail() . ')',
-//                  ['class' => 'btn btn-link logout text-decoration-none']
-//              )
-//              . Html::endForm();
-//      }
+      if (Yii::$app->user->isGuest) {
+          echo Html::tag('div', Html::a('Вход', ['/auth/auth/login'], ['class' => ['btn btn-link login text-decoration-none']]), ['class' => ['d-flex']]);
+      } else {
+          echo Html::beginForm(['/auth/auth/logout'], 'post', ['class' => 'd-flex'])
+              . Html::submitButton(
+                  'Выход (' . Yii::$app->user->identity->getEmail() . ')',
+                  ['class' => 'btn btn-link logout text-decoration-none']
+              )
+              . Html::endForm();
+      }
       NavBar::end();
       ?>
   </header>
