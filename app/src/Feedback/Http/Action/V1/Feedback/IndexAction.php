@@ -37,7 +37,7 @@ class IndexAction extends Action
 
         if (Yii::$app->user->isGuest) {
             Yii::$app->session->setFlash(
-                'error',
+                'info',
                 "Чтобы отправить сообщение необходимо " . Html::a('войти', ['auth/auth/login']) . " или " . Html::a('зарегистрироваться', ['auth/join/request']) . ".");
         } else {
             if ($form->load(Yii::$app->request->post()) && $form->validate()) {
