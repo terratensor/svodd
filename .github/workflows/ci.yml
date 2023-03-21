@@ -67,7 +67,7 @@ jobs:
           PORT: ${{ secrets.PRODUCTION_PORT }}
           APP_MAILER_HOST: ${{ secrets.APP_MAILER_HOST }}
           APP_MAILER_PORT: ${{ secrets.APP_MAILER_PORT }}
-          APP_MAILER_USERNAME: ${{ secrets.APP_MAILER_USER }}
+          APP_MAILER_USERNAME: ${{ secrets.APP_MAILER_USERNAME }}
           APP_MAILER_FROM_EMAIL: ${{ secrets.APP_MAILER_FROM_EMAIL }}
           APP_MAILER_PASSWORD_FILE: ${{ secrets.APP_MAILER_PASSWORD }}
           APP_DB_PASSWORD_FILE: ${{ secrets.APP_DB_PASSWORD }}
