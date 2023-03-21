@@ -7,9 +7,9 @@
 use App\Contact\Form\SendEmail\ContactForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
-use yii\captcha\Captcha;
 
-$this->title = 'Обратная связь';
+$this->title = 'Отправить email';
+$this->params['breadcrumbs'][] = ['label' => 'Обратная связь', 'url' => ['feedback/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">

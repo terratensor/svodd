@@ -21,6 +21,7 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mime\Address;
+use yii\rbac\ManagerInterface;
 
 /**
  * Class SetUp
@@ -36,6 +37,10 @@ class SetUp implements BootstrapInterface
     public function bootstrap($app)
     {
         $container = Yii::$container;
+
+        $container->setSingleton(ManagerInterface::class, function () use ($app) {
+            return $app->authManager;
+        });
 
         $container->setSingleton(MailerInterface::class, function () use ($app) {
 

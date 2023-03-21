@@ -9,6 +9,7 @@ use App\Feedback\Form\SendMessage\FeedbackForm;
 use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 
 class IndexAction extends Action
 {
@@ -31,21 +32,30 @@ class IndexAction extends Action
                 ],
             ]
         );
+
         $form = new FeedbackForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 
-            $command = new Command();
-            $command->user_id = Yii::$app->user->getId();
-            $command->text = $form->text;
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->session->setFlash(
+                'error',
+                "Чтобы отправить сообщение необходимо " . Html::a('войти', ['auth/auth/login']) . " или " . Html::a('зарегистрироваться', ['auth/join/request']) . ".");
+        } else {
+            if ($form->load(Yii::$app->request->post()) && $form->validate()) {
 
-            try {
-                $feedback = $this->handler->handle($command);
-                return $this->controller->redirect(['index', '#' => 'comment-' . $feedback->id]);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+                $command = new Command();
+                $command->user_id = Yii::$app->user->getId();
+                $command->text = $form->text;
+
+                try {
+                    $feedback = $this->handler->handle($command);
+                    return $this->controller->redirect(['index', '#' => 'comment-' . $feedback->id]);
+                } catch (\DomainException $e) {
+                    Yii::$app->errorHandler->logException($e);
+                    Yii::$app->session->setFlash('error', $e->getMessage());
+                }
             }
         }
+
         return $this->controller->render('index', [
             'dataProvider' => $dataProvider,
             'model' => $form,
