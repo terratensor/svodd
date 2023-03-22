@@ -59,8 +59,7 @@ class QuestionRepository
 
         $search = $this->search->setIndex($this->indexName);
 
-        $queryString = trim(filter_var($queryString, FILTER_SANITIZE_ENCODED), " \-\n\r\t\v\x00");
-        $search->search($queryString);
+        $search->search("`".addslashes($queryString)."`");
         $search->highlight(
             ['text'],
             [
