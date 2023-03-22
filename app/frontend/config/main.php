@@ -24,8 +24,13 @@ return [
             'loginUrl' => ['auth/auth/login'],
         ],
         'session' => [
+            'class' => 'yii\web\DbSession',
             // this is the name of the session cookie used for login on the frontend
             'name' => 'fct-search-session',
+            'cookieParams' => [
+                'domain' => $params['cookieDomain'],
+                'httpOnly' => true,
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

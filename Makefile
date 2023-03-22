@@ -11,7 +11,8 @@ update-deps: app-composer-update restart
 app-clear:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine sh -c 'rm -rf var/cache/* var/log/* var/test/*'
 
-app-init: app-permissions app-composer-install app-wait-db app-yii-init app-migrations app-index-create app-index-indexer
+app-init: app-permissions app-composer-install app-wait-db app-yii-init \
+	app-migrations app-console-run app-index-create app-index-indexer
 
 app-permissions:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine chmod 777 var/cache var/log var/test
@@ -27,6 +28,9 @@ app-composer-update:
 
 app-wait-db:
 	docker-compose run --rm cli-php wait-for-it app-postgres:5432 -t 30
+
+app-console-run:
+	docker-compose run --rm cli-php php yii rules/bootstrap
 
 app-migrations:
 	docker compose run --rm cli-php php yii migrate --interactive=0

@@ -40,6 +40,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
+      COOKIE_DOMAIN: localhost
       FRONTEND_URL: http://localhost
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50

@@ -11,7 +11,7 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'user.rememberMeDuration' => 3600 * 24 * 30,
-    'cookieDomain' => '.localhost',
+    'cookieDomain' => getenv('COOKIE_DOMAIN'),
     'frontendHostInfo' => getenv('FRONTEND_URL'),
     'manticore' => [
         'host' => 'manticore',

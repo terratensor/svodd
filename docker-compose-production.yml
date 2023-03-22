@@ -28,6 +28,7 @@ services:
       MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
       MAILER_ENCRYPTION: tls
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
+      COOKIE_DOMAIN: fct-search.audetv.ru
       FRONTEND_URL: https://fct-search.audetv.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
       PARSED_FILES_DIR: /data
