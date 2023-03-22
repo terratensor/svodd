@@ -68,6 +68,7 @@ class UpdateAction extends Action
 
             try {
                 $this->handler->handle($command);
+                Yii::$app->session->setFlash('success', 'Сообщение изменено.');
                 return $this->controller->redirect(['index', '#' => 'comment-' . $feedback->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
