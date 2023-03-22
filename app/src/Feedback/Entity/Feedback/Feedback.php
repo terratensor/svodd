@@ -5,6 +5,7 @@ namespace App\Feedback\Entity\Feedback;
 use App\Auth\Entity\User\Id as UserId;
 use App\Auth\Entity\User\User;
 use App\behaviors\TimestampBehavior;
+use DateTimeImmutable;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -118,5 +119,16 @@ class Feedback extends ActiveRecord
     public function isForUser(UserId $userId): bool
     {
         return $this->userId->getValue() === $userId->getValue();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function allowedToEdit(\DateTimeImmutable $current): bool
+    {
+        $createdAt = new DateTimeImmutable($this->created_at);
+        $interval = $createdAt->add(new \DateInterval('PT10M'));
+
+        return $current < $interval;
     }
 }
