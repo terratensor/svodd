@@ -32,6 +32,11 @@ class Feedback extends ActiveRecord
         return $feedback;
     }
 
+    public function edit(string $text): void
+    {
+        $this->text = $text;
+    }
+
     public function isWait(): bool
     {
         return $this->_status->isWait();
@@ -108,5 +113,10 @@ class Feedback extends ActiveRecord
     public function getStatus(): Status
     {
         return $this->_status;
+    }
+
+    public function isForUser(UserId $userId): bool
+    {
+        return $this->userId === $userId;
     }
 }
