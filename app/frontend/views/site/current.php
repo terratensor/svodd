@@ -11,6 +11,12 @@ $this->title = 'Хронология обсуждений событий с на
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="py-4">
+<div>
     <?php echo SvoddListWidget::widget(['models' => $list]); ?>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="text-muted">Статистика комментариев на сайте и в темах СВОДД: <a href="https://vk.cc/cdjJoJ" target="_blank">https://vk.cc/cdjJoJ</a>
+      </p>
+    </div>
+  </div>
 </div>
