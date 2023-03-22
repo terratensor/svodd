@@ -117,6 +117,6 @@ class Feedback extends ActiveRecord
 
     public function isForUser(UserId $userId): bool
     {
-        return $this->userId === $userId;
+        return $this->userId->getValue() === $userId->getValue();
     }
 }
