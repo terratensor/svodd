@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 use App\Question\Entity\Question\Comment;
 use frontend\widgets\question\CommentHeader;
+use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
 
 $position = Yii::$app->request->get()['c'] ?? 0;
@@ -24,5 +25,13 @@ foreach ($dataProvider->getModels() as $model): ?>
                 <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($model->text)); ?>
             </div>
         </div>
+      <div class="card-footer d-flex justify-content-end">
+          <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
+          <?= Html::a(
+              $link,
+              $link . "#:~:text=" . Yii::$app->formatter->asDatetime($model->datetime, 'php:H:i d.m.Y'),
+              ['target' => '_blank']
+          ); ?>
+      </div>
     </div>
 <?php endforeach; ?>
