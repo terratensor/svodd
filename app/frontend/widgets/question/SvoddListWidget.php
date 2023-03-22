@@ -25,7 +25,7 @@ class SvoddListWidget extends Widget
             if ($model->number === null && $model->title === null) {
                 $item2 = Html::tag('h5', 'Просмотр вопроса') . $model->url;
             } else {
-                $item2 = Html::tag('h5', $model->number . '. ' . $title) . $model->url;
+                $item2 = Html::tag('h5', sprintf("%02d", $model->number). '. ' . $title) . $model->url;
             }
             $item1 = Html::tag('div', $item2, ['class' => 'ms-2 me-auto']) .
              Html::tag('span', $model->comments_count, ['class' => 'badge bg-primary rounded-pill']);
@@ -35,7 +35,7 @@ class SvoddListWidget extends Widget
             $links .= $link;
         }
 
-        return Html::tag('div', $links, ['class' => 'list-group']);
+        return Html::tag('div', $links, ['class' => 'list-group mb-4']);
     }
 }
 
