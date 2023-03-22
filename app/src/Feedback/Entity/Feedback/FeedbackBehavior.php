@@ -6,6 +6,7 @@ use Exception;
 use yii\base\Behavior;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
+use \App\Auth\Entity\User\Id as UserId;
 
 class FeedbackBehavior extends Behavior
 {
@@ -28,7 +29,7 @@ class FeedbackBehavior extends Behavior
         $model = $event->sender;
 
         $model->setId(new Id($model->getAttribute('id')));
-        $model->setUserId(new \App\Auth\Entity\User\Id($model->getAttribute('id')));
+        $model->setUserId(new UserId($model->getAttribute('user_id')));
         $model->setStatus(new Status($model->getAttribute('status')));
     }
 
