@@ -15,6 +15,7 @@ return [
         '' => 'site/index',
         'contact' => 'site/contact',
         'feedback' => 'feedback/index',
+        'feedback/update/<id:[\w\-]+>' => 'feedback/update',
         'about' => 'site/about',
         'svodd' => 'site/current',
         'signup' => 'auth/join/request',
