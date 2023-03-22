@@ -12,7 +12,7 @@ $this->title = 'Подтверждение email';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-resend-verification-email">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
 
     <p>Пожалуйста, заполните адрес электронной почты, на него будет отправлено электронное письмо с подтверждением.</p>
 

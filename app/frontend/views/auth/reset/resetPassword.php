@@ -12,7 +12,7 @@ $this->title = 'Сброс пароля';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-reset-password">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
 
     <p>Пожалуйста, введите свой новый пароль:</p>
 

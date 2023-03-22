@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Обратная связь', 'url
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         Если у вас есть вопрос, предложение или пожелание по развитию проекта, пожалуйста заполните форму ниже и отправьте ваше письмо. Спасибо.

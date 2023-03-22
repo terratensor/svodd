@@ -12,7 +12,7 @@ $this->title = 'Присоединиться';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h4><?= Html::encode($this->title) ?></h4>
 
     <p>Пожалуйста, заполните форму ниже для регистрации:</p>
 
