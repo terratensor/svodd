@@ -124,6 +124,8 @@ services:
       memlock:
         soft: -1
         hard: -1
+    environment:
+      searchd_query_log: /var/log/manticore/query.log
     volumes:
       - manticore:/var/lib/manticore
       - manticore:/var/log/manticore
