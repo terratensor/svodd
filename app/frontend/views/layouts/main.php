@@ -43,7 +43,7 @@ AppAsset::register($this);
           ],
           ['label' => 'Архив вопросов', 'url' => ['/question/index']],
 //        ['label' => 'О проекте', 'url' => ['/site/about']],
-//          ['label' => 'Обратная связь', 'url' => ['/feedback/index']],
+          ['label' => 'Обратная связь', 'url' => ['/feedback/index']],
       ];
       if (Yii::$app->user->isGuest) {
           $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/auth/join/request']];
