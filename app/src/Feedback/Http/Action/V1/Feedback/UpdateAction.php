@@ -39,6 +39,7 @@ class UpdateAction extends Action
      * @return Response|string
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
+     * @throws \Exception
      */
     public function run(string $id): Response|string
     {
@@ -51,6 +52,10 @@ class UpdateAction extends Action
 
         if (!Yii::$app->user->can('editOwnFeedback', ['entity' => $feedback])) {
             throw new ForbiddenHttpException('Доступ запрещен.');
+        }
+
+        if (!$feedback->allowedToEdit(new \DateTimeImmutable())) {
+            throw new ForbiddenHttpException('Время для редактирования сообщения истекло.');
         }
 
         $form = new FeedbackForm($feedback);
