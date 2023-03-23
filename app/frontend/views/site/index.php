@@ -125,8 +125,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
           </div>
         <?php endforeach; ?>
-      <div class="fixed-bottom">
-        <div class="container">
+
+      <div class="container container-pagination">
+        <div class="detachable fixed-bottom">
             <?php echo LinkPager::widget(
                 [
                     'pagination' => $pagination,
@@ -135,11 +136,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     'maxButtonCount' => 5,
                     'options' => [
                         'class' => 'd-flex justify-content-center'
-                    ]
+                    ],
+                    'listOptions' => ['class' => 'pagination mb-0']
                 ]
             ); ?>
         </div>
       </div>
+
     </div>
   </div>
 </div>
