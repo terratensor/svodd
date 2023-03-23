@@ -7,6 +7,7 @@ namespace console\controllers;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
 use App\Indexer\Service\IndexerService;
+use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\StatisticService;
 use App\Indexer\Service\UpdaterService;
 use App\services\Manticore\IndexService;
@@ -24,6 +25,7 @@ class IndexController extends Controller
     private IndexerService $indexerService;
     private UpdaterService $updaterService;
     private StatisticService $statisticService;
+    private Handler $reindexFromDbHandler;
 
     public function __construct(
         $id,
@@ -32,6 +34,7 @@ class IndexController extends Controller
         IndexerService $indexerService,
         UpdaterService $updaterService,
         StatisticService $statisticService,
+        Handler $reindexFromDbHandler,
         $config = []
     )
     {
@@ -40,6 +43,7 @@ class IndexController extends Controller
         $this->indexerService = $indexerService;
         $this->updaterService = $updaterService;
         $this->statisticService = $statisticService;
+        $this->reindexFromDbHandler = $reindexFromDbHandler;
     }
 
     public function actionCreate()
@@ -147,6 +151,18 @@ class IndexController extends Controller
         $message = 'Done!';
         try {
             $this->statisticService->updateAll();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
+
+    public function actionReindexDb()
+    {
+        $message = 'Done!';
+        try {
+            $this->reindexFromDbHandler->handle();
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
