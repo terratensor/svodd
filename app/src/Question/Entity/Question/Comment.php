@@ -74,4 +74,9 @@ class Comment extends ActiveRecord
     {
         $this->datetime = $datetime;
     }
+
+    public function getType(): int
+    {
+        return Type::QUESTION_COMMENT;
+    }
 }
