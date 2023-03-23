@@ -127,4 +127,19 @@ class Question extends ActiveRecord
     {
         $this->datetime = $datetime;
     }
+
+    /**
+     * @return int
+     * Возвращает тип используемый в модели Topic из парсера
+     */
+    public function getType(): int
+    {
+        if ($this->data_id && $this->parent_data_id === null) {
+            return Type::QUESTION;
+        } elseif ($this->data_id && $this->parent_data_id) {
+            return Type::RELATED_QUESTION;
+        }
+
+        return Type::UNDEFINED;
+    }
 }
