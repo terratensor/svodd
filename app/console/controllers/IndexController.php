@@ -10,6 +10,7 @@ use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\StatisticService;
 use App\Indexer\Service\UpdaterService;
+use App\Indexer\Service\UpdatingIndex\Handler as UpdatingIndexHandler;
 use App\services\Manticore\IndexService;
 use Exception;
 use yii\console\Controller;
@@ -26,6 +27,7 @@ class IndexController extends Controller
     private UpdaterService $updaterService;
     private StatisticService $statisticService;
     private Handler $reindexFromDbHandler;
+    private UpdatingIndexHandler $updatingIndexHandler;
 
     public function __construct(
         $id,
@@ -35,6 +37,7 @@ class IndexController extends Controller
         UpdaterService $updaterService,
         StatisticService $statisticService,
         Handler $reindexFromDbHandler,
+        UpdatingIndexHandler $updatingIndexHandler,
         $config = []
     )
     {
@@ -44,6 +47,7 @@ class IndexController extends Controller
         $this->updaterService = $updaterService;
         $this->statisticService = $statisticService;
         $this->reindexFromDbHandler = $reindexFromDbHandler;
+        $this->updatingIndexHandler = $updatingIndexHandler;
     }
 
     public function actionCreate()
@@ -163,6 +167,22 @@ class IndexController extends Controller
         $message = 'Done!';
         try {
             $this->reindexFromDbHandler->handle();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
+
+    /**
+     * @return void разбирает файлы парсера и добавляет новые вопросы или обновляет уже сохраненные вопросы
+     * Добавляет в индекс новые вопросы и комментарии, из обновленных файлов парсера.
+     */
+    public function actionUpdatingIndex(): void
+    {
+        $message = 'Done!';
+        try {
+            $this->updatingIndexHandler->handle();
         } catch (Exception $e) {
             $message = $e->getMessage();
         }

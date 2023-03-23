@@ -85,6 +85,10 @@ class SetUp implements BootstrapInterface
             new Client($app->params['manticore']),
         ]);
 
+        $container->setSingleton(\App\Indexer\Service\UpdatingIndex\Handler::class, [], [
+            new Client($app->params['manticore']),
+        ]);
+
         $container->setSingleton(QuestionRepository::class, [], [
             new Client($app->params['manticore']),
             $app->params['questions']['pageSize'],
