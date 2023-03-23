@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-resend-verification-email">
     <h4><?= Html::encode($this->title) ?></h4>
 
-    <p>Пожалуйста, заполните адрес электронной почты, на него будет отправлено электронное письмо с подтверждением.</p>
+    <p>Заполните адрес электронной почты, на него будет отправлено электронное письмо для подтверждения email.</p>
 
     <div class="row">
         <div class="col-lg-5">
