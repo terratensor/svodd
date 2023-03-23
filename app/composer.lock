@@ -47,7 +47,7 @@
             "version": "3.6.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "91ef2d8836342875f2519b5815197ea0f23613cf"
             },
             "dist": {
@@ -2240,12 +2240,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "16f878cd9804d15b29737385c6310860d5a9a27b"
+                "reference": "f389d99cd45555648f3629195e0c5cd3328d3656"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/16f878cd9804d15b29737385c6310860d5a9a27b",
-                "reference": "16f878cd9804d15b29737385c6310860d5a9a27b",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/f389d99cd45555648f3629195e0c5cd3328d3656",
+                "reference": "f389d99cd45555648f3629195e0c5cd3328d3656",
                 "shasum": ""
             },
             "require": {
@@ -2254,6 +2254,9 @@
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/http-client-contracts": "^3",
                 "symfony/service-contracts": "^2.5|^3"
+            },
+            "conflict": {
+                "symfony/http-foundation": "<6.3"
             },
             "provide": {
                 "php-http/async-client-implementation": "*",
@@ -2320,7 +2323,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-14T15:00:13+00:00"
+            "time": "2023-03-20T18:59:08+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -4716,12 +4719,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "fe7b8ad5d2dd99abb89b2c5a094a2aac10119997"
+                "reference": "539546376eccd3b120076a905a8bf1160ee5cd23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/fe7b8ad5d2dd99abb89b2c5a094a2aac10119997",
-                "reference": "fe7b8ad5d2dd99abb89b2c5a094a2aac10119997",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/539546376eccd3b120076a905a8bf1160ee5cd23",
+                "reference": "539546376eccd3b120076a905a8bf1160ee5cd23",
                 "shasum": ""
             },
             "require": {
@@ -4786,7 +4789,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-14T13:35:01+00:00"
+            "time": "2023-03-22T08:12:13+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
