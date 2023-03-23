@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Indexer\Model;
 
+use App\Question\Entity\Question\Comment as DbComment;
 use DateTimeImmutable;
 use Exception;
 use stdClass;
@@ -30,6 +31,25 @@ class Comment
         $this->data_id = (int)$data->data_id;
         $this->parent_id = (int)$data->parent_id;
         $this->type = (int) $data->type;
+    }
+
+    /**
+     * @throws Exception
+     * Создает объект Topic RelatedQuestion из данных DB
+     */
+    public static function createFromDB(DbComment $dbComment): self
+    {
+        $data = new stdClass();
+
+        $data->username = $dbComment->username;
+        $data->role = $dbComment->user_role;
+        $data->text = $dbComment->text;
+        $data->datetime = $dbComment->datetime->format('H:i d.m.Y');;
+        $data->data_id = $dbComment->data_id;
+        $data->parent_id = $dbComment->question_data_id;
+        $data->type = $dbComment->getType();
+
+        return new Comment($data);
     }
 
     public function getSource(int $key): array

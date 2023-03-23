@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\repositories\Question;
 
+use App\helpers\SearchHelper;
 use Manticoresearch\Client;
 use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
@@ -59,7 +60,7 @@ class QuestionRepository
 
         $search = $this->search->setIndex($this->indexName);
 
-        $search->search("`".addslashes($queryString)."`");
+        $search->search(SearchHelper::filter($queryString));
         $search->highlight(
             ['text'],
             [
