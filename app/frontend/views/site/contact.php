@@ -8,8 +8,7 @@ use App\Contact\Form\SendEmail\ContactForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
-$this->title = 'Отправить email';
-$this->params['breadcrumbs'][] = ['label' => 'Обратная связь', 'url' => ['feedback/index']];
+$this->title = 'Обратная связь';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-request-password-reset">
     <h4><?= Html::encode($this->title) ?></h4>
 
-    <p>Пожалуйста, заполните свой адрес электронной почты, на него будет отправлена ссылка для сброса пароля.</p>
+    <p>Заполните свой адрес электронной почты, на него будет отправлена ссылка для сброса пароля.</p>
 
     <div class="row">
         <div class="col-lg-5">

@@ -8,13 +8,13 @@ use App\Auth\Form\JoinByEmail\RequestForm;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
-$this->title = 'Присоединиться';
+$this->title = 'Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
     <h4><?= Html::encode($this->title) ?></h4>
 
-    <p>Пожалуйста, заполните форму ниже для регистрации:</p>
+    <p>Заполните форму ниже для регистрации:</p>
 
     <div class="row">
         <div class="col-lg-5">
