@@ -145,3 +145,12 @@ p.summary {
 .site-index .fixed-bottom {
     z-index: 100;
 }
+.container-pagination .detachable {
+    margin-bottom: 0;
+}
+.container-pagination .detachable.fixed-bottom {
+    margin-bottom: 1rem;
+}
+.container-pagination .mb-2.fixed-bottom {
+    margin-bottom: 0;
+}

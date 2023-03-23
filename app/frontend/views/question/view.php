@@ -83,8 +83,8 @@ $this->registerJs($js);
 
         <?php echo $this->render('question_comments', ['dataProvider' => $dataProvider]); ?>
 
-      <div class="fixed-bottom">
-        <div class="container">
+      <div class="container container-pagination">
+        <div class="detachable fixed-bottom">
             <?= LinkPager::widget(
                 [
                     'pagination' => $pagination,
@@ -93,7 +93,8 @@ $this->registerJs($js);
                     'maxButtonCount' => 5,
                     'options' => [
                         'class' => 'd-flex justify-content-center'
-                    ]
+                    ],
+                    'listOptions' => ['class' => 'pagination mb-0']
                 ]
             );
             ?>

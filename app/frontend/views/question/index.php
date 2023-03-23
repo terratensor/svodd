@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </select>
   </div>
 </div>
-<div class="list-group">
+<div class="list-group mb-4">
     <?php /** @var QuestionStats $model */
     foreach ($dataProvider->getModels() as $model): ?>
 
@@ -51,14 +51,15 @@ $this->params['breadcrumbs'][] = $this->title;
           <small>Комментариев: <?= $model->comments_count; ?></small>
         </div>
         <p class="mb-1"><?= $model->url; ?></p>
-        <small>Последний комментарий <?= $model->lastCommentDate ? $model->getLastCommentDate()->format('d.m.Y H:i') : ': дата не установлена' ?></small>
+        <small>Последний
+          комментарий <?= $model->lastCommentDate ? $model->getLastCommentDate()->format('d.m.Y H:i') : ': дата не установлена' ?></small>
       </a>
 
     <?php endforeach; ?>
 </div>
 
-<div class="fixed-bottom">
-  <div class="container">
+<div class="container container-pagination">
+  <div class="detachable fixed-bottom">
       <?= LinkPager::widget(
           [
               'pagination' => $pagination,
@@ -67,7 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
               'maxButtonCount' => 5,
               'options' => [
                   'class' => 'd-flex justify-content-center'
-              ]
+              ],
+              'listOptions' => ['class' => 'pagination mb-0']
           ]
       );
       ?>
