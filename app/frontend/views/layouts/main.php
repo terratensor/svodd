@@ -43,11 +43,11 @@ AppAsset::register($this);
           ],
           ['label' => 'Архив вопросов', 'url' => ['/question/index']],
 //        ['label' => 'О проекте', 'url' => ['/site/about']],
-          ['label' => 'Обратная связь', 'url' => ['/feedback/index']],
+//          ['label' => 'Обратная связь', 'url' => ['/feedback/index']],
       ];
-      if (Yii::$app->user->isGuest) {
-          $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/auth/join/request']];
-      }
+//      if (Yii::$app->user->isGuest) {
+//          $menuItems[] = ['label' => 'Присоединиться', 'url' => ['/auth/join/request']];
+//      }
 
       echo Nav::widget([
                            'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
