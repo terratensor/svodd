@@ -39,7 +39,7 @@ AppAsset::register($this);
           ['label' => 'СВОДД', 'url' => ['/svodd/index']],
           [
               'label' => 'Обсуждение',
-              'url' => array_merge(['/svodd/view'], Yii::$app->session->get('svodd')), // добавляем параметры предыдущего запроса к ссылке на обсуждение, чтобы восстановить сортировку и страницу
+              'url' => array_merge(['/svodd/view'], Yii::$app->session->get('svodd') ?? []), // добавляем параметры предыдущего запроса к ссылке на обсуждение, чтобы восстановить сортировку и страницу
           ],
           ['label' => 'Архив вопросов', 'url' => ['/question/index']],
 //        ['label' => 'О проекте', 'url' => ['/site/about']],
