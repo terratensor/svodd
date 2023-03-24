@@ -1,4 +1,4 @@
-init: docker-down-clear  \
+init: docker-down \
 	app-clear \
 	docker-pull docker-build docker-up \
 	app-init
@@ -12,7 +12,8 @@ app-clear:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine sh -c 'rm -rf var/cache/* var/log/* var/test/*'
 
 app-init: app-permissions app-composer-install app-wait-db app-yii-init \
-	app-migrations app-console-run app-index-create app-index-indexer
+	app-migrations app-console-run \
+#	app-index-create app-index-indexer
 
 app-permissions:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine chmod 777 var/cache var/log var/test
