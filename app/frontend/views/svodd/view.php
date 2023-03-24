@@ -14,16 +14,26 @@ $pagination = new Pagination(
         'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
     ]
 );
+
 $this->title = 'Большая СВОДДная тема';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?php
-/** @var Comment $model */
+
+<?= $this->render('comment_summary', ['pagination' => $pagination]); ?>
+
+<?php /** @var Comment $model */
 foreach ($dataProvider->getModels() as $model): ?>
-  <p>
-      <?php echo $model->data_id; ?>
-      <?php echo $model->text; ?>
-  </p>
+
+    <?php if ($model->position === 1 && $dataProvider->sort->attributeOrders['date'] === SORT_ASC): ?>
+        <?= $this->render('question', ['question' => $model->question, 'dataProvider' => $dataProvider]); ?>
+    <?php endif; ?>
+
+    <?= $this->render('comment', ['model' => $model]); ?>
+
+    <?php if ($model->position === 1 && $dataProvider->sort->attributeOrders['date'] === SORT_DESC): ?>
+        <?= $this->render('question', ['question' => $model->question, 'dataProvider' => $dataProvider]); ?>
+    <?php endif; ?>
+
 <?php endforeach; ?>
 
 <div class="container container-pagination">

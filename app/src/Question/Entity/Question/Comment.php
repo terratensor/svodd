@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace App\Question\Entity\Question;
 
 use App\behaviors\DateTimeBehavior;
+use App\Question\Entity\Statistic\QuestionStats;
 use DateTimeImmutable;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
  * @property string id
  * @property int $data_id
- * @property int $question_data_id;
- * @property int $type;
- * @property int $position;
- * @property string $username;
- * @property string $user_role;
- * @property string $text;
- * @property int date;
+ * @property int $question_data_id
+ * @property int $type
+ * @property int $position
+ * @property string $username
+ * @property string $user_role
+ * @property string $text
+ * @property int date
+ * @property Question $question
+ * @property QuestionStats $questionStat
  */
 class Comment extends ActiveRecord
 {
@@ -45,6 +49,16 @@ class Comment extends ActiveRecord
         $comment->datetime = $datetime;
 
         return $comment;
+    }
+
+    public function getQuestion(): ActiveQuery
+    {
+        return $this->hasOne(Question::class, ['data_id' => 'question_data_id']);
+    }
+
+    public function getQuestionStat(): ActiveQuery
+    {
+        return $this->hasOne(QuestionStats::class, ['question_id' => 'question_data_id']);
     }
 
     public static function tableName(): string

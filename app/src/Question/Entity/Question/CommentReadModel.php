@@ -2,24 +2,30 @@
 
 namespace App\Question\Entity\Question;
 
+use App\Question\Entity\Statistic\QuestionStats;
 use Yii;
 use yii\data\ActiveDataProvider;
-use yii\db\Query;
 
 class CommentReadModel
 {
     public function findBySvoddQuestions(): ActiveDataProvider
     {
-        $subQuery = (new Query())
-            ->select(['question_id'])
-            ->from('question_stats')
-            ->where(['not', ['number' => null]])
-        ;
+        $duration = 60;
 
-//        var_dump($subQuery);
+        $questionIds = QuestionStats::getDb()->cache(function ($db) {
+            return QuestionStats::find()
+                ->alias('qs')
+                ->select('question_id')
+                ->andWhere(['not', ['qs.number' => null]])
+                ->orderBy('qs.number')
+                ->asArray()
+                ->column();
+        }, $duration);
 
         $query = Comment::find()
-            ->andWhere(['in', 'question_data_id', $subQuery])
+            ->alias('c')
+            ->joinWith('questionStat qs')
+            ->andWhere(['in', 'c.question_data_id', $questionIds])
             ;
 
         return new ActiveDataProvider(
@@ -29,8 +35,16 @@ class CommentReadModel
                     'pageSize' => Yii::$app->params['questions']['pageSize'],
                 ],
                 'sort' => [
-                    'attributes' => ['date'],
-                    'defaultOrder' => ['date' => SORT_ASC],
+                    'attributes' => [
+                        'date' => [
+                            'asc' => ['qs.number' => SORT_ASC, 'c.date' => SORT_ASC],
+                            'desc' => ['qs.number' => SORT_DESC, 'c.date' => SORT_DESC],
+                            'default' => ['qs.number' => SORT_ASC, 'c.date' => SORT_ASC],
+                        ],
+                    ],
+                    'defaultOrder' => [
+                        'date' => SORT_ASC
+                    ],
                 ]
             ]
         );
