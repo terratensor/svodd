@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Indexer\Service;
 
+use App\Question\Entity\Question\Comment;
 use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
@@ -44,9 +45,11 @@ class StatisticService
         $question = $this->questionRepository->get($question_id);
         $comments_count = count($question->comments);
 
+        /** @var Comment[] $comments */
         $comments = $question->comments;
         $lastComment = array_pop($comments);
         $lastCommentDate = $lastComment->datetime ?? null;
+        $lastCommentDataId = $lastComment->data_id ?? null;
 
         $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
 
@@ -55,6 +58,7 @@ class StatisticService
         }
 
         $stats->changeCommentsCount($comments_count, $lastCommentDate);
+        $stats->changeLastCommentDataId($lastCommentDataId);
 
         $this->questionStatsRepository->save($stats);
     }
