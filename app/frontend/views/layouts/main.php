@@ -36,7 +36,7 @@ AppAsset::register($this);
                         ],
                     ]);
       $menuItems = [
-          ['label' => 'СВОДД', 'url' => ['/site/current']],
+          ['label' => 'СВОДД', 'url' => ['/svodd/index']],
           [
               'label' => 'Обсуждение',
               'url' => ['/question/view', 'id' => Yii::$app->params['questions']['current']['id']]

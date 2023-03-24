@@ -30,6 +30,11 @@ class QuestionStatsRepository
         return QuestionStats::find()->andWhere(['IS NOT', 'number', null])->orderBy("number DESC")->all();
     }
 
+    public function findSvoddQuestions(): array
+    {
+        return QuestionStats::find()->andWhere(['IS NOT', 'number', null])->orderBy("number ASC")->all();
+    }
+
     public function save(QuestionStats $questionStats): void
     {
         if (!$questionStats->save()) {
