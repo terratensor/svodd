@@ -33,7 +33,7 @@ class IndexAction extends Action
                             'desc' => [new Expression('last_comment_date DESC NULLS LAST')],
                         ],
                     ],
-                    'defaultOrder' => ['last_comment_date' => SORT_DESC],
+                    'defaultOrder' => ['question_date' => SORT_DESC],
                 ]
             ]
         );
