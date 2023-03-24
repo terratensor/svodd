@@ -18,7 +18,7 @@ services:
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
-      POSTGRES_HOST: app-postgres
+      POSTGRES_HOST: ${APP_POSTGRES_HOST}
       POSTGRES_USER: ${APP_POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
       POSTGRES_DB: ${APP_POSTGRES_DB}
