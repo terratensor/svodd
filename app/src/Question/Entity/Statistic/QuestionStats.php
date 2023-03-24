@@ -23,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property int|null $sort
  * @property int|null $created_at
  * @property int|null $updated_at
+ * @property int|null $last_comment_data_id
  * @property Question $question
  */
 class QuestionStats extends ActiveRecord
@@ -68,6 +69,16 @@ class QuestionStats extends ActiveRecord
     {
         $this->comments_count = $newCount;
         $this->lastCommentDate = $lastCommentDate;
+    }
+
+    /**
+     * @param int|null $data_id
+     * @return void
+     * Изменяет data_id последнего комментария в вопросе
+     */
+    public function changeLastCommentDataId(?int $data_id): void
+    {
+        $this->last_comment_data_id = $data_id;
     }
 
     public function getQuestion(): ActiveQuery
