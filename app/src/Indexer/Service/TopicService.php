@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Indexer\Service;
 
 use App\Indexer\Model\Topic;
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use App\Question\Entity\Question\Comment;
 use App\Question\Entity\Question\CommentRepository;
 use App\Question\Entity\Question\Id;

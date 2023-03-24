@@ -8,7 +8,7 @@ use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use App\Question\Entity\Question\Comment;
 use App\Question\Entity\Question\CommentRepository;
 use App\Question\Entity\Question\Id;
@@ -21,8 +21,6 @@ use Manticoresearch\Client;
 use Manticoresearch\Index;
 use Manticoresearch\Query\BoolQuery;
 use Manticoresearch\Query\In;
-use Yii;
-use yii\helpers\BaseFileHelper;
 
 /**
  * Class IndexService

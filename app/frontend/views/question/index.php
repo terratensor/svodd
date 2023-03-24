@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /** @var ActiveDataProvider $dataProvider */
 
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\data\ActiveDataProvider;

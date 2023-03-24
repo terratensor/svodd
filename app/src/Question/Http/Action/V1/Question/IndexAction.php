@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Question\Http\Action\V1\Question;
 
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use Yii;
 use yii\base\Action;
 use yii\data\ActiveDataProvider;

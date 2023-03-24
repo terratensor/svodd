@@ -1,6 +1,6 @@
 <?php
 
-namespace App\models;
+namespace App\Question\Entity\Statistic;
 
 use App\behaviors\TimestampBehavior;
 use App\Question\Entity\Question\Question;

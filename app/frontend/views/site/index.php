@@ -10,7 +10,7 @@
 use App\forms\SearchForm;
 use App\helpers\DateHelper;
 use App\models\Comment;
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\search\FollowQuestion;

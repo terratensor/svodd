@@ -2,7 +2,7 @@
 
 namespace App\repositories\Question;
 
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use yii\db\ActiveRecord;
 
 class QuestionStatsRepository
@@ -10,7 +10,7 @@ class QuestionStatsRepository
 
     /**
      * @param int $id
-     * @return array|ActiveRecord|QuestionStats
+     * @return array|ActiveRecord|\App\Question\Entity\Statistic\QuestionStats
      */
     public function getByQuestionId(int $id): array|QuestionStats|ActiveRecord
     {

@@ -2,7 +2,7 @@
 
 namespace frontend\widgets\question;
 
-use App\models\QuestionStats;
+use App\Question\Entity\Statistic\QuestionStats;
 use yii\base\Widget;
 use yii\helpers\Html;
 
