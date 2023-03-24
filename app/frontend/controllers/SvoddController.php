@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use App\repositories\Question\QuestionStatsRepository;
+use App\Question\Entity\Statistic\QuestionStatsRepository;
 use yii\web\Controller;
 
 class SvoddController extends Controller

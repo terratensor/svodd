@@ -6,7 +6,7 @@ namespace App\Indexer\Service;
 
 use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
-use App\repositories\Question\QuestionStatsRepository;
+use App\Question\Entity\Statistic\QuestionStatsRepository;
 
 class StatisticService
 {

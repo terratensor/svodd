@@ -12,7 +12,7 @@ use App\Question\Entity\Statistic\QuestionStats;
 use App\Question\Entity\Question\Comment;
 use App\Question\Entity\Question\CommentRepository;
 use App\Question\Entity\Question\Id;
-use App\repositories\Question\QuestionStatsRepository;
+use App\Question\Entity\Statistic\QuestionStatsRepository;
 use DateTimeImmutable;
 use DomainException;
 use Exception;

@@ -4,7 +4,7 @@ namespace frontend\controllers;
 
 use App\Contact\Http\Action\V1\Contact\ContactAction;
 use App\forms\SearchForm;
-use App\repositories\Question\QuestionStatsRepository;
+use App\Question\Entity\Statistic\QuestionStatsRepository;
 use App\services\ManticoreService;
 use Yii;
 use yii\web\Controller;

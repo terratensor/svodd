@@ -1,8 +1,7 @@
 <?php
 
-namespace App\repositories\Question;
+namespace App\Question\Entity\Statistic;
 
-use App\Question\Entity\Statistic\QuestionStats;
 use yii\db\ActiveRecord;
 
 class QuestionStatsRepository
