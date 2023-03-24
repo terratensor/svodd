@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
         <?php
         $values = [
-            '' => 'Сортировка по умолчанию',
+            '' => 'По дате вопроса',
             '-comments_count' => 'По количеству комментариев',
             '-last_comment_date' => 'По дате последнего комментария',
         ];
