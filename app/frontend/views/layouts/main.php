@@ -39,7 +39,7 @@ AppAsset::register($this);
           ['label' => 'СВОДД', 'url' => ['/svodd/index']],
           [
               'label' => 'Обсуждение',
-              'url' => ['/question/view', 'id' => Yii::$app->params['questions']['current']['id']]
+              'url' => ['/svodd/view']
           ],
           ['label' => 'Архив вопросов', 'url' => ['/question/index']],
 //        ['label' => 'О проекте', 'url' => ['/site/about']],
