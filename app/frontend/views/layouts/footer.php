@@ -7,7 +7,14 @@ use yii\bootstrap5\Html;
   <div class="container">
     <div class="d-flex align-items-baseline justify-content-between">
       <span><?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>
-        <?= Html::a('Обратная связь', ['site/contact']); ?>
+          <?= Html::a('Обратная связь', ['site/contact']); ?>
+          <?php
+          if (Yii::$app->user->isGuest) {
+              echo Html::a('Вход', ['/auth/auth/login'], ['class' => ['']]);
+          } else {
+              echo Html::a('Выход (' . Yii::$app->user->identity->getEmail() . ')', ['/auth/auth/logout'], ['data-method' => 'post']);
+          }
+          ?>
       </span>
       <span><?= Html::tag(
               'a',
