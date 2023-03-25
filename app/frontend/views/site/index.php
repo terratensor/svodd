@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
               [
                   'method' => 'GET',
                   'action' => ['site/index'],
-                  'options' => ['class' => 'pb-1 mb-2 pt-3'],
+                  'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
               ]
           ); ?>
         <div class="d-flex align-items-center">
@@ -63,7 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'type' => 'search',
                     'class' => 'form-control form-control-lg',
-                    'placeholder' => "Поиск"
+                    'placeholder' => "Поиск",
+                    'autocomplete' => 'off',
                 ]
             )->label(false); ?>
         </div>
