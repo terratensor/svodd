@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
           ); ?>
         <div class="d-flex align-items-center">
             <?= $form->field($model, 'query', [
-                'inputTemplate' => '<div class="input-group mb-3">
+                'inputTemplate' => '<div class="input-group mb-2">
           {input}
           <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button></div>',
                 'options' => [
@@ -49,14 +49,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ])->textInput(
                 [
+                    'type' => 'search',
                     'class' => 'form-control form-control-lg',
                     'placeholder' => "Поиск"
                 ]
             )->label(false); ?>
         </div>
-          <?= $form->field($model, 'in', ['options' => ['class' => 'pb-2']])
-              ->checkbox(['class' => 'ttt'])
-              ->label('По номеру комментария или вопроса, можно указать номера через запятую.', ['class' => 'small-text']); ?>
+          <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
+              ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
+              ->label(false); ?>
           <?php ActiveForm::end(); ?>
       </div>
     </div>
@@ -76,8 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
       <div class="row">
         <div class="col-md-12">
-          <?php if ($pagination->totalCount === 0): ?>
-            <p><strong>По вашему запросу ничего не найдено</strong></p>
+            <?php if ($pagination->totalCount === 0): ?>
+              <p><strong>По вашему запросу ничего не найдено</strong></p>
             <?php else: ?>
               <div class="row">
                 <div class="col-md-8 d-flex align-items-center">
@@ -186,6 +187,11 @@ function onScroll() {
     menuParent.css({ "padding-top": menuParentPaddingTop });
   }
 }
+
+$('input[type=radio]').on('change', function() {
+    $(this).closest("form").submit();
+});
+
 JS;
 
 $this->registerJs($js);

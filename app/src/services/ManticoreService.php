@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\services;
 
 use App\forms\SearchForm;
+use App\helpers\SearchHelper;
 use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
@@ -28,12 +29,15 @@ class ManticoreService
 
     public function search(SearchForm $form): QuestionDataProvider
     {
-        if (!$form->in) {
-            $queryString = $form->query;
-            $comments = $this->questionRepository->findByQueryStringNew($queryString);
-        } else {
-            $comments = $this->questionRepository->findByCommentId($form->query);
-        }
+        $queryString = $form->query;
+
+        $comments = match ($form->matching) {
+            'match' => $this->questionRepository->findByQueryStringMatch($queryString),
+            'match_phrase' => $this->questionRepository->findByMatchPhrase($queryString),
+            'query_string' => $this->questionRepository->findByQueryStringNew(SearchHelper::filter($queryString)),
+            'in' => $this->questionRepository->findByCommentId($queryString),
+            default => $this->questionRepository->findByQueryStringMatch($queryString),
+        };
 
         return new QuestionDataProvider(
             [

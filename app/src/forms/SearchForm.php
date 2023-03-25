@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\forms;
 
-
 use yii\base\Model;
 
 /**
@@ -14,13 +13,23 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public string $query = '';
-    public string $in = '';
+    public string $matching = 'match';
 
     public function rules(): array
     {
         return [
             ['query', 'string'],
-            ['in', 'boolean']
+            ['matching', 'in', 'range' => array_keys($this->getMatching())],
+        ];
+    }
+
+    public function getMatching(): array
+    {
+        return [
+            'match' => 'По умолчанию',
+            'match_phrase' => 'По соответствию фразе',
+            'query_string' => 'По строке запроса',
+            'in' => 'По номеру(ам) комментария или вопроса',
         ];
     }
 
