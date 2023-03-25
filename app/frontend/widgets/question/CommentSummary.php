@@ -9,6 +9,12 @@ use yii\helpers\Html;
 class CommentSummary extends Widget
 {
     public Pagination $pagination;
+    private int $totalCount;
+
+    public function init()
+    {
+        $this->totalCount = $this->pagination->totalCount;
+    }
 
     public function renderSummary(): string
     {
@@ -21,7 +27,7 @@ class CommentSummary extends Widget
 
         $string = \Yii::t(
             'app',
-            'Показано {start} – {end} из {n, plural, =0{Нет комментариев} few{# комментария} many{# комментариев} other{# комментариев}}',
+            'Показано записей {start} – {end} из {n}',
             [
                 'n' => $totalCount,
                 'start' => $start,
@@ -33,6 +39,6 @@ class CommentSummary extends Widget
 
     public function run(): string
     {
-        return $this->renderSummary();
+        return $this->totalCount ? $this->renderSummary() : '';
     }
 }

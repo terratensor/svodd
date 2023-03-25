@@ -106,8 +106,8 @@ a.desc:after {
     }
 }
 .navbar-expand .navbar-nav .nav-link {
-    padding-right: 4px;
-    padding-left: 4px;
+    padding-right: 2px;
+    padding-left: 2px;
 }
 
 .comment-text blockquote {
@@ -173,5 +173,10 @@ p.summary {
 }
 .search-block.fixed {
     position: fixed;
+}
+
+label.small-text {
+    font-size: 14px;
+    color: rgba(33, 37, 41, 0.75);
 }
 

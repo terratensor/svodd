@@ -22,8 +22,7 @@ $menuItems = [
         [
             'collapseOptions' => false,
             'options' => [
-                'class' => 'navbar navbar-expand navbar-dark bg-dark fixed-top',
-                'style' => "background-color: #e3f2fd;"
+                'class' => 'navbar navbar-expand navbar-dark bg-dark fixed-top'
             ],
         ]);
 
