@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /** @var \yii\web\View $this */
 
 /** @var string $content */
@@ -27,15 +29,17 @@ AppAsset::register($this);
   <?= $this->render('header'); ?>
 
   <main role="main" class="flex-shrink-0">
-    <div class="container">
+    <div class="container pb-0">
         <?= Breadcrumbs::widget(
             [
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]
         ) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
     </div>
+
+      <?= $content ?>
+
     <div id="toTop" style="display: block;"></div>
   </main>
 
