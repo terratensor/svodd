@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use App\Contact\Http\Action\V1\Contact\ContactAction;
 use App\forms\SearchForm;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
+use App\Search\Http\Action\V1\SearchSettings\ToggleAction;
 use App\services\ManticoreService;
 use Yii;
 use yii\web\Controller;
@@ -76,6 +77,9 @@ class SiteController extends Controller
             'contact' => [
                 'class' => ContactAction::class,
             ],
+            'search-settings' => [
+                'class' => ToggleAction::class,
+            ]
         ];
     }
 

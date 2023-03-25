@@ -22,6 +22,20 @@ use yii\helpers\Url;
 
 $this->title = 'ФКТ поиск';
 
+echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
+echo Html::hiddenInput('value', 'toggle');
+echo Html::endForm();
+
+$inputTemplate = '<div class="input-group mb-2">
+          {input}
+          <button class="btn btn-outline-primary" type="submit" id="button-search">Поиск</button>
+          <button class="btn btn-outline-secondary ' .
+    (Yii::$app->session->get('show_search_settings') ? 'active' : "") . '" id="button-search-settings">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+            </svg>
+          </button>
+          </div>';
 
 $this->title = 'Поиск по архиву вопросов и комментариев сайта ФКТ:';
 $this->params['breadcrumbs'][] = $this->title;
@@ -36,14 +50,12 @@ $this->params['breadcrumbs'][] = $this->title;
               [
                   'method' => 'GET',
                   'action' => ['site/index'],
-                  'options' => ['class' => 'pt-3'],
+                  'options' => ['class' => 'pb-1 mb-2 pt-3'],
               ]
           ); ?>
         <div class="d-flex align-items-center">
             <?= $form->field($model, 'query', [
-                'inputTemplate' => '<div class="input-group mb-2">
-          {input}
-          <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button></div>',
+                'inputTemplate' => $inputTemplate,
                 'options' => [
                     'class' => 'w-100', 'role' => 'search'
                 ]
@@ -55,9 +67,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             )->label(false); ?>
         </div>
-          <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
-              ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
-              ->label(false); ?>
+        <div id="search-setting-panel"
+             class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
+            <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
+                ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
+                ->label(false); ?>
+        </div>
           <?php ActiveForm::end(); ?>
       </div>
     </div>
@@ -165,8 +180,6 @@ var menuOffsetTop = menu.offset().top;
 var menuHeight = menu.outerHeight();
 var menuParent = menu.parent();
 var menuParentPaddingTop = parseFloat(menuParent.css("padding-top"));
-
-console.log("menuHeight: ", menuHeight)
  
 checkWidth();
  
@@ -177,15 +190,27 @@ function checkWidth() {
 }
  
 function onScroll() {
-  console.log("scrollTop", $(window).scrollTop())
-  console.log("menuOffsetTop", menuOffsetTop)
   if ($(window).scrollTop() > menuOffsetTop) {
     menu.addClass("shadow");
-    menuParent.css({ "padding-top": menuParentPaddingTop - menuHeight });
+    menuParent.css({ "padding-top": menuParentPaddingTop });
   } else {
     menu.removeClass("shadow");
     menuParent.css({ "padding-top": menuParentPaddingTop });
   }
+}
+
+const btn = document.getElementById('button-search-settings');
+btn.addEventListener('click', toggleSearchSettings, false)
+
+function toggleSearchSettings(event) {
+  event.preventDefault();
+  btn.classList.toggle('active')
+  document.getElementById('search-setting-panel').classList.toggle('show-search-settings')
+  
+  const formData = new FormData(document.forms.searchSettingsForm);
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "/site/search-settings");
+  xhr.send(formData);
 }
 
 $('input[type=radio]').on('change', function() {
