@@ -6,20 +6,24 @@ namespace App\repositories\Question;
 
 use App\helpers\SearchHelper;
 use Manticoresearch\Client;
+use Manticoresearch\Index;
+use Manticoresearch\Query\In;
 use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
 
 class QuestionRepository
 {
     private Client $client;
+    public Index $index;
     private Search $search;
-    private string $indexName = 'questions';
 
+    private string $indexName = 'questions';
     public int $pageSize = 20;
 
     public function __construct(Client $client, $pageSize)
     {
         $this->client = $client;
+        $this->index = $this->client->index('questions');
         $this->search = new Search($this->client);
         $this->pageSize = $pageSize;
     }
@@ -69,6 +73,32 @@ class QuestionRepository
             ]
         );
 
+        return $search;
+    }
+
+    public function findByCommentId($queryString): Search
+    {
+        $this->search->reset();
+
+        $result = explode(',', $queryString);
+
+        foreach ($result as $key => $item) {
+            $item = (int)$item;
+            if ($item == 0) {
+                unset($result[$key]);
+                continue;
+            }
+            $result[$key] = $item;
+        }
+
+        $query = new In('data_id', $result);
+        $search = $this->index->search($query);
+        $search->highlight(
+            ['text'],
+            [
+                'limit' => 0,
+            ]
+        );
         return $search;
     }
 

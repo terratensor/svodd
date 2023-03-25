@@ -26,12 +26,16 @@ class ManticoreService
         $this->questionRepository = $questionRepository;
     }
 
-    public function search(SearchForm $form, int $page): QuestionDataProvider
+    public function search(SearchForm $form): QuestionDataProvider
     {
-        $queryString = $form->query;
-        $comments = $this->questionRepository->findByQueryStringNew($queryString);
+        if (!$form->in) {
+            $queryString = $form->query;
+            $comments = $this->questionRepository->findByQueryStringNew($queryString);
+        } else {
+            $comments = $this->questionRepository->findByCommentId($form->query);
+        }
 
-        $commentsDataProvider = new QuestionDataProvider(
+        return new QuestionDataProvider(
             [
                 'query' => $comments,
                 'pagination' => [
@@ -45,8 +49,6 @@ class ManticoreService
                     ]
                 ],
             ]);
-
-        return $commentsDataProvider;
     }
 
     public function question(int $id): QuestionView

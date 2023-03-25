@@ -14,11 +14,13 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public string $query = '';
+    public string $in = '';
 
     public function rules(): array
     {
         return [
             ['query', 'string'],
+            ['in', 'boolean']
         ];
     }
 

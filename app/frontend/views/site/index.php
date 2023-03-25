@@ -54,6 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             )->label(false); ?>
         </div>
+          <?= $form->field($model, 'in', ['options' => ['class' => 'pb-2']])
+              ->checkbox(['class' => 'ttt'])
+              ->label('По номеру комментария или вопроса, можно указать номера через запятую.', ['class' => 'small-text']); ?>
           <?php ActiveForm::end(); ?>
       </div>
     </div>
