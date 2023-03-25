@@ -180,3 +180,16 @@ label.small-text {
     color: rgba(33, 37, 41, 0.75);
 }
 
+.search-setting-panel {
+    display: none;
+}
+.search-setting-panel.show-search-settings {
+    display: block;
+}
+.search-setting-panel.auto-hide {
+    display: block;
+}
+.search-setting-panel.show-search-settings.auto-hide {
+display: none;
+}
+
