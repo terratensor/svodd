@@ -22,6 +22,7 @@ AppAsset::register($this);
       <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
       <?php $this->head() ?>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body class="d-flex flex-column h-100">
   <?php $this->beginBody() ?>
