@@ -13,7 +13,7 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public string $query = '';
-    public string $matching = 'match';
+    public string $matching = 'query_string';
 
     public function rules(): array
     {
@@ -26,9 +26,9 @@ class SearchForm extends Model
     public function getMatching(): array
     {
         return [
-            'match' => 'По умолчанию',
+            'query_string' => 'По умолчанию',
             'match_phrase' => 'По соответствию фразе',
-            'query_string' => 'По строке запроса',
+            'match' => 'По совпадению слов',
             'in' => 'По номеру(ам) комментария или вопроса, номера через запятую',
         ];
     }
