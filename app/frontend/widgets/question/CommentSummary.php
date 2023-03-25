@@ -27,7 +27,7 @@ class CommentSummary extends Widget
 
         $string = \Yii::t(
             'app',
-            'Записей {start} – {end} из {n}',
+            'Показано записей {start} – {end} из {n}',
             [
                 'n' => $totalCount,
                 'start' => $start,
