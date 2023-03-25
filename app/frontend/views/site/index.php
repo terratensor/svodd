@@ -73,31 +73,34 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
       <div class="row">
         <div class="col-md-12">
-          <p><strong>Всего результатов: <?= $results->getTotalCount(); ?></strong></p>
-          <div class="row">
-            <div class="col-md-8 d-flex align-items-center">
-                <?= CommentSummary::widget(['pagination' => $pagination]); ?>
-            </div>
-            <div class="col-md-4">
-              <div class="d-flex align-items-start ">
-                <label aria-label="Сортировка" for="input-sort"></label>
-                <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
-                    <?php
-                    $values = [
-                        '' => 'Сортировка по умолчанию',
-                        'datetime' => 'Сначала старые комментарии',
-                        '-datetime' => 'Сначала новые комментарии',
-                    ];
-                    $current = Yii::$app->request->get('sort');
-                    ?>
-                    <?php foreach ($values as $value => $label): ?>
-                      <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>"
-                              <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $label ?></option>
-                    <?php endforeach; ?>
-                </select>
+          <?php if ($pagination->totalCount === 0): ?>
+            <p><strong>По вашему запросу ничего не найдено</strong></p>
+            <?php else: ?>
+              <div class="row">
+                <div class="col-md-8 d-flex align-items-center">
+                    <?= CommentSummary::widget(['pagination' => $pagination]); ?>
+                </div>
+                <div class="col-md-4">
+                  <div class="d-flex align-items-start ">
+                    <label aria-label="Сортировка" for="input-sort"></label>
+                    <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
+                        <?php
+                        $values = [
+                            '' => 'Сортировка по умолчанию',
+                            'datetime' => 'Сначала старые комментарии',
+                            '-datetime' => 'Сначала новые комментарии',
+                        ];
+                        $current = Yii::$app->request->get('sort');
+                        ?>
+                        <?php foreach ($values as $value => $label): ?>
+                          <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>"
+                                  <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $label ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            <?php endif; ?>
             <?php foreach ($comments as $comment): ?>
               <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between">
