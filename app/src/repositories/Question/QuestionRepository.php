@@ -10,6 +10,7 @@ use Manticoresearch\Index;
 use Manticoresearch\Query\In;
 use Manticoresearch\Query\MatchPhrase;
 use Manticoresearch\Query\MatchQuery;
+use Manticoresearch\Query\QueryString;
 use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
 
@@ -38,19 +39,15 @@ class QuestionRepository
     public function findByQueryStringNew(string $queryString): Search
     {
         $this->search->reset();
+        $queryString = SearchHelper::escapingCharacters($queryString);
 
-        $search = $this->search->setIndex($this->indexName);
-
-        $search->search(SearchHelper::filter($queryString));
-
-//        $query = new QueryString($queryString, '*');
-//        $search = $this->index->search($query);
+        $query = new QueryString($queryString);
+        $search = $this->index->search($query);
 
         $search->highlight(
             ['text'],
             [
                 'limit' => 0,
-//                'force_passages' => true,
             ]
         );
 
