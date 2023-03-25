@@ -86,6 +86,7 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
+        $this->layout = 'search';
         $results = null;
         $form = new SearchForm();
         $page = Yii::$app->request->get()['page'] ?? 1;

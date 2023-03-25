@@ -33,7 +33,6 @@ $(document).ready(function () {
     win.resize(scrolled);
 
     function scrolled() {
-      console.log(nav.offset().top)
       if (win.scrollTop() > doc.height() - win.height() - 60) {
         $('.detachable').removeClass('fixed-bottom');
       } else {

@@ -99,6 +99,16 @@ a.desc:after {
 .breadcrumb-item > a {
     text-decoration: none;
 }
+@media (min-width: 576px){
+    .navbar-expand .navbar-nav .nav-link {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }
+}
+.navbar-expand .navbar-nav .nav-link {
+    padding-right: 4px;
+    padding-left: 4px;
+}
 
 .comment-text blockquote {
     padding: 10px 20px;
@@ -154,3 +164,14 @@ p.summary {
 .container-pagination .mb-2.fixed-bottom {
     margin-bottom: 0;
 }
+
+.search-block {
+    position: sticky;
+    top: 56px;
+    z-index: 9999;
+    background-color: #ffffff;
+}
+.search-block.fixed {
+    position: fixed;
+}
+
