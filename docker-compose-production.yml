@@ -34,10 +34,14 @@ services:
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
+      - redis_password
     volumes:
       - parsed-files:/app/data
     deploy:
@@ -81,10 +85,14 @@ services:
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
+      - redis_password
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0 && php yii migrate-rbac --interactive=0'
     deploy:
       restart_policy:
@@ -129,10 +137,14 @@ services:
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
+      - redis_password
     volumes:
       - parsed-files:/app/data
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii index/updater'
@@ -184,6 +196,22 @@ services:
         constraints: [node.role == manager]
       endpoint_mode: dnsrr
 
+  app-session:
+    image: redis:7.0.10
+    restart: always
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
+    command: sh -c 'redis-server --save 60 1 --loglevel warning --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"'
+    volumes:
+      - session-cache:/data
+    secrets:
+      - redis_password
+    deploy:
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
+
 secrets:
   app_db_password:
     file: ${APP_DB_PASSWORD_FILE}
@@ -191,11 +219,15 @@ secrets:
     file: ${APP_MAILER_PASSWORD_FILE}
   sentry_dsn:
     file: ${APP_SENTRY_DSN_FILE}
+  redis_password:
+    file: ${APP_REDIS_PASSWORD_FILE}
 
 volumes:
   app-postgres:
   manticore:
   parsed-files:
+  session-cache:
+    driver: local
 
 networks:
   traefik-public:
