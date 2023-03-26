@@ -30,6 +30,7 @@ return [
             'class' => 'yii\web\DbSession',
             // this is the name of the session cookie used for login on the frontend
             'name' => 'fct-search-session',
+            'timeout' => 3500 * 24 * 7,
             'cookieParams' => [
                 'domain' => $params['cookieDomain'],
                 'httpOnly' => true,

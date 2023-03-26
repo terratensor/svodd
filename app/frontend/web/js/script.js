@@ -25,10 +25,8 @@ $(document).ready(function () {
 
   (function () {
     let nav = $('.container-pagination');
-    console.log(nav.length)
     if (!nav.length) return;
     let detachable = nav.find('.detachable');
-    console.log(detachable)
     win.scroll(scrolled);
     win.resize(scrolled);
 
