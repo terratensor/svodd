@@ -203,7 +203,7 @@ services:
       - "6379:6379"
     environment:
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
-    command: sh -c 'redis-server --save 60 1 --loglevel warning --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"'
+    command: sh -c 'redis-server --save 60 1 --loglevel warning'
     volumes:
       - session-cache:/data
     secrets:
