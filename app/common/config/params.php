@@ -25,7 +25,7 @@ return [
         'pageSize' => (int)getenv('PAGE_SIZE'),
         'current' => [
             'id' => (int)getenv('CURRENT_QUESTION'),
-            'file' => '31-qa-question-view-6006.json'
+            'file' => '32-qa-question-view-32649.json'
         ],
         'url-pattern' => "https://фкт-алтай.рф/qa/question/view-",
     ],

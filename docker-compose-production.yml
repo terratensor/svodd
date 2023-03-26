@@ -136,7 +136,7 @@ services:
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
-      CURRENT_QUESTION: 6006
+      CURRENT_QUESTION: 32649
       REDIS_HOST: ${APP_REDIS_HOST}
       REDIS_PORT: ${APP_REDIS_PORT}
       REDIS_PASSWORD_FILE: /run/secrets/redis_password

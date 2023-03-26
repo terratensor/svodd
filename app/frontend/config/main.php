@@ -27,8 +27,8 @@ return [
             'loginUrl' => ['auth/auth/login'],
         ],
         'session' => [
-//            'class' => 'yii\web\DbSession',
-            'class' => yii\redis\Session::class,
+            'class' => 'yii\web\DbSession',
+//            'class' => yii\redis\Session::class,
             // this is the name of the session cookie used for login on the frontend
             'name' => 'fct-search-session',
             'timeout' => 3500 * 24 * 7,

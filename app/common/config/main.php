@@ -9,13 +9,13 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
-        'redis' => [
-            'class' => yii\redis\Connection::class,
-            'hostname' => getenv('REDIS_HOST'),
-            'password' => trim(file_get_contents(getenv('REDIS_PASSWORD_FILE'))),
-            'port' => getenv('REDIS_PORT'),
-            'database' => 0,
-        ],
+//        'redis' => [
+//            'class' => yii\redis\Connection::class,
+//            'hostname' => getenv('REDIS_HOST'),
+//            'password' => trim(file_get_contents(getenv('REDIS_PASSWORD_FILE'))),
+//            'port' => getenv('REDIS_PORT'),
+//            'database' => 0,
+//        ],
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],

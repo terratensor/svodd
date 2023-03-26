@@ -91,7 +91,7 @@ services:
       FRONTEND_URL: http://localhost
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
-      CURRENT_QUESTION: 8162
+      CURRENT_QUESTION: 32649
       REDIS_HOST: app-session
       REDIS_PORT: 6379
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
