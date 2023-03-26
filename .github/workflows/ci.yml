@@ -75,4 +75,7 @@ jobs:
           APP_MAILER_PASSWORD_FILE: ${{ secrets.APP_MAILER_PASSWORD_FILE }}
           APP_DB_PASSWORD_FILE: ${{ secrets.APP_DB_PASSWORD_FILE }}
           APP_SENTRY_DSN_FILE: ${{ secrets.APP_SENTRY_DSN_FILE }}
+          APP_REDIS_HOST: ${{ secrets.APP_REDIS_HOST }}
+          APP_REDIS_PORT: ${{ secrets.APP_REDIS_PORT }}
+          APP_REDIS_PASSWORD_FILE: ${{ secrets.APP_REDIS_PASSWORD_FILE }}
         if: ${{ github.ref == 'refs/heads/main' }}
