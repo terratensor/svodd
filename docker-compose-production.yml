@@ -214,6 +214,8 @@ services:
     image: redis:7.0.10
     ports:
       - "6379:6379"
+    environment:
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - redis_password
     security_opt:
