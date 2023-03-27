@@ -2,8 +2,6 @@ version: "3.9"
 services:
   cron:
     image: crazymax/swarm-cronjob:latest
-    security_opt:
-      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -14,8 +12,6 @@ services:
 
   frontend:
     image: ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
-    security_opt:
-      - no-new-privileges:true
     networks:
       - traefik-public
       - default
@@ -71,8 +67,6 @@ services:
 
   app-migration:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
-    security_opt:
-      - no-new-privileges:true
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -109,8 +103,6 @@ services:
 
   fct-parser:
     image: ${REGISTRY}/fct-search-parser:main-2
-    security_opt:
-      - no-new-privileges:true
     volumes:
       - parsed-files:/app/parsed-files
 #    command: './fct-parser -j -h -a'
@@ -127,8 +119,6 @@ services:
 
   app-updater:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
-    security_opt:
-      - no-new-privileges:true
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -173,8 +163,6 @@ services:
 
   app-postgres:
     image: postgres:15.1-alpine
-    security_opt:
-      - no-new-privileges:true
     environment:
       POSTGRES_USER: ${APP_POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
@@ -190,8 +178,6 @@ services:
 
   manticore:
     image: manticoresearch/manticore
-    security_opt:
-      - no-new-privileges:true
     ulimits:
       nproc: 65535
       nofile:
@@ -212,12 +198,8 @@ services:
 
   redis:
     image: redis:7.0.10
-    ports:
-      - "6379:6379"
     secrets:
       - redis_password
-    security_opt:
-      - no-new-privileges:true
     command: sh -c 'redis-server --save 60 1 --requirepass  "$$(cat /run/secrets/redis_password)"'
     volumes:
       - session-cache:/data
