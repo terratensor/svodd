@@ -2,6 +2,8 @@ version: "3.9"
 services:
   cron:
     image: crazymax/swarm-cronjob:latest
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -12,6 +14,8 @@ services:
 
   frontend:
     image: ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
+    security_opt:
+      - no-new-privileges:true
     networks:
       - traefik-public
       - default
@@ -34,14 +38,14 @@ services:
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
-#      REDIS_HOST: ${APP_REDIS_HOST}
-#      REDIS_PORT: ${APP_REDIS_PORT}
-#      REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
-#      - redis_password
+      - redis_password
     volumes:
       - parsed-files:/app/data
     deploy:
@@ -67,6 +71,8 @@ services:
 
   app-migration:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    security_opt:
+      - no-new-privileges:true
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -85,14 +91,14 @@ services:
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
-#      REDIS_HOST: ${APP_REDIS_HOST}
-#      REDIS_PORT: ${APP_REDIS_PORT}
-#      REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
-#      - redis_password
+      - redis_password
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0 && php yii migrate-rbac --interactive=0'
     deploy:
       restart_policy:
@@ -103,6 +109,8 @@ services:
 
   fct-parser:
     image: ${REGISTRY}/fct-search-parser:main-2
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - parsed-files:/app/parsed-files
 #    command: './fct-parser -j -h -a'
@@ -119,6 +127,8 @@ services:
 
   app-updater:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    security_opt:
+      - no-new-privileges:true
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -137,14 +147,14 @@ services:
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 32649
-#      REDIS_HOST: ${APP_REDIS_HOST}
-#      REDIS_PORT: ${APP_REDIS_PORT}
-#      REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
-#      - redis_password
+      - redis_password
     volumes:
       - parsed-files:/app/data
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii index/updater'
@@ -163,6 +173,8 @@ services:
 
   app-postgres:
     image: postgres:15.1-alpine
+    security_opt:
+      - no-new-privileges:true
     environment:
       POSTGRES_USER: ${APP_POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
@@ -178,6 +190,8 @@ services:
 
   manticore:
     image: manticoresearch/manticore
+    security_opt:
+      - no-new-privileges:true
     ulimits:
       nproc: 65535
       nofile:
@@ -196,21 +210,20 @@ services:
         constraints: [node.role == manager]
       endpoint_mode: dnsrr
 
-#  app-session:
-#    image: redis:7.0.10
-#    restart: always
-#    ports:
-#      - "6379:6379"
-#    environment:
-#      REDIS_PASSWORD_FILE: /run/secrets/redis_password
-#    command: sh -c 'redis-server --save 60 1 --loglevel warning'
-#    volumes:
-#      - session-cache:/data
-#    secrets:
-#      - redis_password
-#    deploy:
-#      placement:
-#        constraints: [ node.labels.frontend == frontend ]
+  redis:
+    image: redis:7.0.10
+    ports:
+      - "6379:6379"
+    secrets:
+      - redis_password
+    security_opt:
+      - no-new-privileges:true
+    command: sh -c 'redis-server --save 60 1 --requirepass  "$$(cat $$REDIS_PASSWORD_FILE)"'
+    volumes:
+      - session-cache:/data
+    deploy:
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
 
 secrets:
   app_db_password:
@@ -219,15 +232,15 @@ secrets:
     file: ${APP_MAILER_PASSWORD_FILE}
   sentry_dsn:
     file: ${APP_SENTRY_DSN_FILE}
-#  redis_password:
-#    file: ${APP_REDIS_PASSWORD_FILE}
+  redis_password:
+    file: ${APP_REDIS_PASSWORD_FILE}
 
 volumes:
   app-postgres:
   manticore:
   parsed-files:
-#  session-cache:
-#    driver: local
+  session-cache:
+    driver: local
 
 networks:
   traefik-public:
