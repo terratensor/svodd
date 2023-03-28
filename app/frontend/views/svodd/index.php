@@ -12,7 +12,9 @@ use yii\web\View;
 $this->title = 'Хронология обсуждений событий с начала СВОДД';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
+  <div>
+    <canvas id="myChart"></canvas>
+  </div>
 <div>
     <?php echo SvoddListWidget::widget(['models' => $list]); ?>
   <div class="row">
@@ -22,28 +24,43 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
   </div>
 </div>
-<div id="myChart"></div>
+
 
 <?php $js = <<<JS
-const ctx = document.getElementById('myChart');
+var ctx = document.getElementById('myChart');
+console.log(ctx)
 
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['32. Текущая активная тема', '31. 27.03.23', 'Yellow', 'Green', 'Purple', 'Orange', 'Orange'],
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        label: '# СВОДД',
+        data: [105, 694, 957, 781, 720, 819, 1050],
         borderWidth: 1
-      }]
+      }, {
+        label: '# ФКТ',
+        data: [152, 773, 1567, 1387, 1327, 527, 333],
+        borderWidth: 1
+      }
+      ]
     },
     options: {
+      indexAxis: 'y',
       scales: {
+        x: {
+          stacked: true,
+          min: 0,
+          max: 1300
+        },
         y: {
-          beginAtZero: true
+          stacked: true,
+          beginAtZero: false,
+          // min: 100,
+          // max: 500
         }
       }
-    }
+    }   
   });
 JS;
 
