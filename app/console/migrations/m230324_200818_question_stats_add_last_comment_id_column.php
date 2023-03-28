@@ -13,6 +13,7 @@ class m230324_200818_question_stats_add_last_comment_id_column extends Migration
     public function safeUp()
     {
         $this->addColumn('{{%question_stats}}', 'last_comment_data_id', $this->integer());
+        $this->addColumn('{{%question_stats}}', 'first_comment_data_id', $this->integer());
     }
 
     /**
@@ -20,6 +21,7 @@ class m230324_200818_question_stats_add_last_comment_id_column extends Migration
      */
     public function safeDown()
     {
+        $this->dropColumn('{{%question_stats}}', 'first_comment_data_id');
         $this->dropColumn('{{%question_stats}}', 'last_comment_data_id');
     }
 }
