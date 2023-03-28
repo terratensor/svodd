@@ -1,6 +1,8 @@
 <?php
 
-/** @var View $this */
+declare(strict_types=1);
+
+/** @var \yii\web\View $this */
 
 /** @var string $content */
 
@@ -8,7 +10,6 @@ use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
-use yii\web\View;
 
 AppAsset::register($this);
 ?>
@@ -21,7 +22,6 @@ AppAsset::register($this);
       <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
       <?php $this->head() ?>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body class="d-flex flex-column h-100">
   <?php $this->beginBody() ?>
@@ -29,15 +29,17 @@ AppAsset::register($this);
   <?= $this->render('header'); ?>
 
   <main role="main" class="flex-shrink-0">
-    <div class="container">
+    <div class="container pb-0">
         <?= Breadcrumbs::widget(
             [
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]
         ) ?>
         <?= Alert::widget() ?>
-        <?= $content ?>
     </div>
+
+      <?= $content ?>
+
     <div id="toTop" style="display: block;"></div>
   </main>
 

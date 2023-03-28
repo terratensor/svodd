@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use App\Contact\Http\Action\V1\Contact\ContactAction;
 use App\forms\SearchForm;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
+use App\Search\Http\Action\V1\SearchSettings\ToggleAction;
 use App\services\ManticoreService;
 use Yii;
 use yii\web\Controller;
@@ -76,6 +77,9 @@ class SiteController extends Controller
             'contact' => [
                 'class' => ContactAction::class,
             ],
+            'search-settings' => [
+                'class' => ToggleAction::class,
+            ]
         ];
     }
 
@@ -86,13 +90,13 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
+        $this->layout = 'search';
         $results = null;
         $form = new SearchForm();
-        $page = Yii::$app->request->get()['page'] ?? 1;
 
         try {
             if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
-                $results = $this->service->search($form, $page);
+                $results = $this->service->search($form);
             }
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);

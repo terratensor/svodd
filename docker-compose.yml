@@ -46,10 +46,14 @@ services:
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
+      - redis_password
     volumes:
       - ./app:/app
 #      - parsed-files:/app/data
@@ -87,10 +91,14 @@ services:
       FRONTEND_URL: http://localhost
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
-      CURRENT_QUESTION: 8162
+      CURRENT_QUESTION: 32649
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
     secrets:
       - app_mailer_password
       - app_db_password
+      - redis_password
     volumes:
       - ./app:/app
       - ./app/data:/app/data
@@ -132,6 +140,16 @@ services:
       - manticore:/var/log/manticore
 #      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
 
+  redis:
+    image: redis:7.0.10
+    ports:
+      - "6379:6379"
+    secrets:
+      - redis_password
+    command: sh -c 'redis-server --save 60 1 --requirepass  "$$(cat /run/secrets/redis_password)"'
+    volumes:
+      - session-cache:/data
+
   mailer:
     image: mailhog/mailhog
     networks:
@@ -151,10 +169,14 @@ secrets:
     file: ./docker/development/secrets/app_mailer_password
   sentry_dsn:
     file: ./docker/development/secrets/sentry_dsn
+  redis_password:
+    file: ./docker/development/secrets/redis_password
 
 volumes:
   app-postgres:
   manticore:
+  session-cache:
+    driver: local
 
 networks:
   traefik-public:

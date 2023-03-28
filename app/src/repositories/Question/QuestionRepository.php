@@ -6,69 +6,124 @@ namespace App\repositories\Question;
 
 use App\helpers\SearchHelper;
 use Manticoresearch\Client;
+use Manticoresearch\Index;
+use Manticoresearch\Query\In;
+use Manticoresearch\Query\MatchPhrase;
+use Manticoresearch\Query\MatchQuery;
+use Manticoresearch\Query\QueryString;
 use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
 
 class QuestionRepository
 {
     private Client $client;
+    public Index $index;
     private Search $search;
-    private string $indexName = 'questions';
 
+    private string $indexName = 'questions';
     public int $pageSize = 20;
 
     public function __construct(Client $client, $pageSize)
     {
         $this->client = $client;
+        $this->index = $this->client->index('questions');
         $this->search = new Search($this->client);
         $this->pageSize = $pageSize;
     }
 
-    public function findByQueryString(string $queryString, ?int $page = null): ResultSet
-    {
-        $search = $this->search->setIndex($this->indexName);
-
-        $search->search($queryString);
-        $search->highlight(
-            ['text'],
-            [
-                'limit' => 0,
-//                'force_passages' => true,
-            ]
-        );
-
-//        $search->sort('datetime');
-
-        $search->limit($this->pageSize);
-
-        if ($page) {
-            $search->offset(($page - 1) * $this->pageSize);
-        }
-
-        $count = $search->get()->getTotal();
-
-        if ($count > 1000) {
-            $search->maxMatches($count);
-        }
-
-        return $search->get();
-    }
-
+    /**
+     * @param string $queryString
+     * @return Search
+     * "query_string" accepts an input string as a full-text query in MATCH() syntax
+     */
     public function findByQueryStringNew(string $queryString): Search
     {
         $this->search->reset();
+        $queryString = SearchHelper::escapingCharacters($queryString);
 
-        $search = $this->search->setIndex($this->indexName);
+        $query = new QueryString($queryString);
+        $search = $this->index->search($query);
 
-        $search->search(SearchHelper::filter($queryString));
         $search->highlight(
             ['text'],
             [
                 'limit' => 0,
-//                'force_passages' => true,
             ]
         );
 
+        return $search;
+    }
+
+    /**
+     * @param string $queryString
+     * @return Search
+     * "match" is a simple query that matches the specified keywords in the specified fields.
+     */
+    public function findByQueryStringMatch(string $queryString): Search
+    {
+        $this->search->reset();
+        $query = new MatchQuery($queryString, '*');
+        $search = $this->index->search($query);
+
+        $search->highlight(
+            ['text'],
+            [
+                'limit' => 0,
+            ]
+        );
+
+        return $search;
+    }
+
+    /**
+     * @param string $queryString
+     * @return Search
+     * "match_phrase" is a query that matches the entire phrase. It is similar to a phrase operator in SQL.
+     */
+    public function findByMatchPhrase(string $queryString): Search
+    {
+        $this->search->reset();
+        $query = new MatchPhrase($queryString, '*');
+        $search = $this->index->search($query);
+
+        $search->highlight(
+            ['text'],
+            [
+                'limit' => 0,
+            ]
+        );
+
+        return $search;
+    }
+
+    /**
+     * @param $queryString String Число или строка чисел через запятую
+     * @return Search
+     * Поиск по data_id, вопрос или комментарий, число или массив data_id
+     */
+    public function findByCommentId(string $queryString): Search
+    {
+        $this->search->reset();
+
+        $result = explode(',', $queryString);
+
+        foreach ($result as $key => $item) {
+            $item = (int)$item;
+            if ($item == 0) {
+                unset($result[$key]);
+                continue;
+            }
+            $result[$key] = $item;
+        }
+
+        $query = new In('data_id', $result);
+        $search = $this->index->search($query);
+        $search->highlight(
+            ['text'],
+            [
+                'limit' => 0,
+            ]
+        );
         return $search;
     }
 

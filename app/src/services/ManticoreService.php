@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\services;
 
 use App\forms\SearchForm;
+use App\helpers\SearchHelper;
 use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
@@ -26,12 +27,19 @@ class ManticoreService
         $this->questionRepository = $questionRepository;
     }
 
-    public function search(SearchForm $form, int $page): QuestionDataProvider
+    public function search(SearchForm $form): QuestionDataProvider
     {
         $queryString = $form->query;
-        $comments = $this->questionRepository->findByQueryStringNew($queryString);
 
-        $commentsDataProvider = new QuestionDataProvider(
+        $comments = match ($form->matching) {
+            'query_string' => $this->questionRepository->findByQueryStringNew($queryString),
+            'match_phrase' => $this->questionRepository->findByMatchPhrase($queryString),
+            'match' => $this->questionRepository->findByQueryStringMatch($queryString),
+            'in' => $this->questionRepository->findByCommentId($queryString),
+            default => $this->questionRepository->findByQueryStringNew($queryString),
+        };
+
+        return new QuestionDataProvider(
             [
                 'query' => $comments,
                 'pagination' => [
@@ -45,8 +53,6 @@ class ManticoreService
                     ]
                 ],
             ]);
-
-        return $commentsDataProvider;
     }
 
     public function question(int $id): QuestionView
