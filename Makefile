@@ -10,6 +10,7 @@ update-deps: app-composer-update restart
 
 app-clear:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine sh -c 'rm -rf var/cache/* var/log/* var/test/*'
+	docker run --rm -v ${PWD}/app:/app -w /app alpine sh -c 'rm -rf frontend/runtime/cache/* frontend/runtime/cache/*'
 
 app-init: app-permissions app-composer-install app-wait-db app-yii-init \
 	app-migrations app-console-run \
