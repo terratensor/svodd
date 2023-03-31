@@ -25,7 +25,8 @@
         "la-haute-societe/yii2-save-relations-behavior": "dev-master",
         "sentry/sdk": "dev-master",
         "twig/twig": "3.x-dev",
-        "yiisoft/yii2-redis": "^2.0@dev"
+        "yiisoft/yii2-redis": "^2.0@dev",
+        "ext-curl": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

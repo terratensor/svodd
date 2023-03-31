@@ -6,7 +6,7 @@ use yii\bootstrap5\Html;
 <footer class="footer mt-auto py-3 text-muted">
   <div class="container">
     <div class="d-flex align-items-baseline justify-content-between">
-      <span><?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?>
+      <span><?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?> <?= \App\helpers\VersionHelper::version(); ?>
           <?= Html::a('Обратная связь', ['site/contact']); ?>
           <?php
           if (Yii::$app->user->isGuest) {
