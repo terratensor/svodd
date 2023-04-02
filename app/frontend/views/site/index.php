@@ -28,7 +28,7 @@ echo Html::endForm();
 
 $inputTemplate = '<div class="input-group mb-2">
           {input}
-          <button class="btn btn-outline-primary" type="submit" id="button-search">Поиск</button>
+          <button class="btn btn-bd-primary" type="submit" id="button-search">Поиск</button>
           <button class="btn btn-outline-secondary ' .
     (Yii::$app->session->get('show_search_settings') ? 'active' : "") . '" id="button-search-settings">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
