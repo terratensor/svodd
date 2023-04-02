@@ -8,21 +8,25 @@ use App\Question\Entity\Question\CommentReadModel;
 use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
+use App\Svodd\Service\ChartDataUpdater;
 
 class StatisticService
 {
     private QuestionRepository $questionRepository;
     private QuestionStatsRepository $questionStatsRepository;
     private CommentReadModel $commentReadModel;
+    private ChartDataUpdater $chartDataUpdater;
 
     public function __construct(
         QuestionRepository $questionRepository,
         QuestionStatsRepository $questionStatsRepository,
         CommentReadModel $commentReadModel,
+        ChartDataUpdater $chartDataUpdater,
     ) {
         $this->questionRepository = $questionRepository;
         $this->questionStatsRepository = $questionStatsRepository;
         $this->commentReadModel = $commentReadModel;
+        $this->chartDataUpdater = $chartDataUpdater;
     }
 
     /**
@@ -69,5 +73,8 @@ class StatisticService
         $stats->changeFirstCommentDataId($firstCommentDataId);
 
         $this->questionStatsRepository->save($stats);
+
+        // Обновляем запись диаграммы статистики, тут должен быть listener
+        $this->chartDataUpdater->handle($question->data_id);
     }
 }
