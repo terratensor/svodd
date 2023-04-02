@@ -265,8 +265,8 @@ main > .container-fluid,
 .btn-bd-primary {
     --bs-btn-font-weight: 600;
     --bs-btn-color: var(--bs-white);
-    --bs-btn-bg: rgba(54, 162, 235, 1);
-    --bs-btn-border-color: rgba(54, 162, 235, 1);
+    --bs-btn-bg: rgba(54, 162, 235, 0.9);
+    --bs-btn-border-color: rgba(54, 162, 235, 0.5);
     --bs-btn-hover-color: var(--bs-white);
     --bs-btn-hover-bg: #36a2eb;
     --bs-btn-hover-border-color: #36a2eb;
