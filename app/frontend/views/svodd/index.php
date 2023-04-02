@@ -58,7 +58,7 @@ $js = '';
 
 <?php
 /** @var \App\Svodd\Entity\Chart\Data[] $data */
-$data = \App\Svodd\Entity\Chart\Data::find()->all();
+$data = \App\Svodd\Entity\Chart\Data::find()->orderBy('topic_number DESC')->all();
 
 //function drawChart($key, $label, $dataset, $dataset2): string {
 //return $js = <<<JS
@@ -108,45 +108,54 @@ $data = \App\Svodd\Entity\Chart\Data::find()->all();
 //}
 
 $labels = [];
+$labelLinks = [];
 $dataset = [];
 $dataset2 = [];
+$dataLabel1 = [];
+$dataLabel2 = [];
 /** @var \App\Svodd\Entity\Chart\Data $item */
 foreach ($data as $item) {
-    $labels[] = $item->title . ' ' . $item->questionStats->url;
+    $labels[] = sprintf("%02d", $item->topic_number). '. ' . $item->title . ' ' . $item->questionStats->url;
+    $labelLinks[] = $item->questionStats->url;
 //    $labels[] = $item->topic_number;
-    $svodd = $item->comments_count;
-    $fct = $item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count;
+    $dataLabel1[] = $svodd = $item->comments_count;
+    $dataLabel2[] = $fct = $item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count;
     $dataset[] = $svodd / ($svodd + $fct) * 100;
     $dataset2[] = $fct / ($svodd + $fct) * 100;
 
 }
 $labels = implode('","', $labels);
+$labelLinks = implode('","', $labelLinks);
 $dataset = implode(',', $dataset);
 $dataset2 = implode(',', $dataset2);
+$dataLabel1 = implode(',', $dataLabel1);
+$dataLabel2 = implode(',', $dataLabel2);
 
 $js = <<<JS
 var canvasP = document.getElementById("myChart");
 var ctxP = canvasP.getContext('2d');
 Chart.defaults.font.size = 16;
 
+console.log(Chart.register)
+
 var myChart = new Chart(ctxP, {
-    plugins: {
-      datalabels: {
-              color: "#000000"               
-            },
-    },
     type: 'bar',
     data: {
       labels: ["$labels"],
+      labelLinks: ["$labelLinks"],
       datasets: [
           {
             label: '# СВОДД',
             data: [$dataset],
-            borderWidth: 1,            
+            dataLabel: [$dataLabel1],
+            borderWidth: 1,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',                     
+            borderColor: 'rgba(54, 162, 235, 1)',
           },
           {
             label: '# ФКТ',
             data: [$dataset2],
+            dataLabel: [$dataLabel2],
             borderWidth: 1
           }
       ],      
@@ -155,11 +164,31 @@ var myChart = new Chart(ctxP, {
     options: {
       plugins: {
         legend: {
-          display: false,
+          display: true,
         },
         datalabels: {
           color: "black",
-        }
+           labels: {
+              title: {
+                font: {
+                  weight: '400'
+                }
+              },
+            },
+          // align: "right",
+          // offset: 100,
+           formatter: function(value, context) {
+              
+              // console.log(context)
+              if (context.datasetIndex === 0) {
+                return context.chart.data.datasets[0].dataLabel[context.dataIndex];
+              } 
+              if (context.datasetIndex === 1) {
+                return context.chart.data.datasets[1].dataLabel[context.dataIndex];
+              }
+              // console.log(context.chart.data.datasets[0].dataLabel[context.dataIndex])
+            },
+        },      
       },
       layout: {
         padding: 0,
@@ -194,12 +223,33 @@ var myChart = new Chart(ctxP, {
 
   function clickableScales(chart, click) {
     
-    const {ctx, canvas, scales: {x,y}} = chart
+    const { ctx, canvas, scales: { x, y } } = chart
+    const top = y.top
+    const left = y.left
+    const right = y.right
+    const bottom = y.bottom
+    const height = y.height / y.ticks.length
     
     // Mouse coordinates
-    let rect = canvas.getBoundingClientRect()
-    console.log(click)
-    console.log(rect)
+    let rect = canvas.getBoundingClientRect()    
+    const xCoor = click.clientX - rect.left
+    const yCoor = click.clientY - rect.top    
+    
+    for (let i = 0; i < y.ticks.length; i++) {
+      if (xCoor >= left && xCoor <= right && yCoor >= top + (height * i) && yCoor <= top + height + (height * i)) {
+        // console.log(i)
+        // console.log(chart.data.labelLinks[i])
+        window.open(chart.data.labelLinks[i])
+        // ctx.fillStyle = 'grey'
+        // ctx.rect(left, top + (height * i), right, height)
+        // ctx.fill()
+      }
+    }
+    
+    // console.log(y.height)
+    // console.log(y.ticks.length)
+    // console.log(height)
+   
   }
 
   myChart.canvas.addEventListener('click', (e) => {
@@ -208,10 +258,10 @@ var myChart = new Chart(ctxP, {
   
   canvasP.onclick = function(e) {
    var slice = myChart.getElementsAtEventForMode(e, 'nearest', {intersect: true}, true);
-   console.log(slice)
+   // console.log(slice)
    if (!slice.length) return; // return if not clicked on slice
    var label = myChart.data.labels[slice[0].index];
-   console.log(label)
+   // console.log(label)
    switch (label) {
       // add case for each label/slice
       case 'Värde 5':
