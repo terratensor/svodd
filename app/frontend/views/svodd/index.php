@@ -14,6 +14,8 @@ $this->title = 'Хронология обсуждений событий с на
 $this->params['breadcrumbs'][] = $this->title;
 
 $js = '';
+
+\frontend\assets\ChartJs\ChartJsAsset::register($this);
 ?>
   <div>
     <canvas id="myChart"></canvas>
@@ -21,20 +23,6 @@ $js = '';
   <div>
       <?php echo SvoddListWidget::widget(['models' => $list]); ?>
 
-    <div class="row">
-      <div class="col-md-5">
-
-          <?php foreach ($list as $key => $item): ?>
-            <div class="row">
-              <div class="col-md-4 col-sm-12"><?= sprintf("%02d", $item->number) . '. ' . $item->title; ?></div>
-              <div class="col-md-8 col-sm-12"><?= $item->url; ?></div>
-            </div>
-          <?php endforeach; ?>
-      </div>
-      <div class="col-md-7">
-        <canvas id="myChart"></canvas>
-      </div>
-    </div>
       <?php
 
       //          $label = $item->chartData->title;

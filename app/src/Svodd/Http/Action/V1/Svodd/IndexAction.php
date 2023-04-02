@@ -23,6 +23,6 @@ class IndexAction extends Action
     public function run(): string
     {
         $list = $this->questionStatsRepository->findAllForList();
-        return $this->controller->render('index', ['list' => $list]);
+        return $this->controller->render('index-new', ['list' => $list]);
     }
 }

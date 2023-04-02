@@ -25,7 +25,9 @@
         "la-haute-societe/yii2-save-relations-behavior": "dev-master",
         "sentry/sdk": "dev-master",
         "twig/twig": "3.x-dev",
-        "yiisoft/yii2-redis": "^2.0@dev"
+        "yiisoft/yii2-redis": "^2.0@dev",
+        "npm-asset/chart.js": "^4.2",
+        "npm-asset/chartjs-plugin-datalabels": "^2.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
