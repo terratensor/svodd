@@ -236,6 +236,11 @@ main > .container-fluid,
     max-width: 1320px;
 }
 
+.bg-secondary {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bd-blue-rgb), var(--bs-bg-opacity)) !important;
+}
+
 @media (max-width: 767px) {
     .more-stats {
         font-size: 14px;
