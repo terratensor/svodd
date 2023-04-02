@@ -146,6 +146,7 @@ class TopicService
     private function updateStatistic(Question $question, ?Comment $comment = null): void
     {
         $lastCommentDate = isset($comment) ? $comment->datetime : new DateTimeImmutable();
+        $lastCommentDataId = $comment?->data_id;
 
         try {
             $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
@@ -153,6 +154,7 @@ class TopicService
                 $stats->questionDate = $question->datetime;
             }
             $stats->changeCommentsCount(count($question->comments), $lastCommentDate);
+            $stats->changeLastCommentDataId($lastCommentDataId);
         } catch (DomainException $e) {
             $stats = QuestionStats::create(
                 $question->data_id,
@@ -160,6 +162,7 @@ class TopicService
                 count($question->comments) ? $lastCommentDate : null,
                 $question->datetime,
             );
+            $stats->changeLastCommentDataId($lastCommentDataId);
         }
         $this->questionStatsRepository->save($stats);
     }

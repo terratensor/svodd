@@ -4,6 +4,7 @@ namespace App\Question\Entity\Statistic;
 
 use App\behaviors\TimestampBehavior;
 use App\Question\Entity\Question\Question;
+use App\Svodd\Entity\Chart\Data;
 use DateTimeImmutable;
 use Exception;
 
@@ -23,7 +24,10 @@ use yii\db\ActiveRecord;
  * @property int|null $sort
  * @property int|null $created_at
  * @property int|null $updated_at
+ * @property int|null $last_comment_data_id
+ * @property int|null $first_comment_data_id
  * @property Question $question
+ * @property Data $chartData
  */
 class QuestionStats extends ActiveRecord
 {
@@ -62,6 +66,12 @@ class QuestionStats extends ActiveRecord
         $this->questionDate = $date;
     }
 
+    /**
+     * Изменяет счетчик количества комментариев в вопросе
+     * @param int $newCount
+     * @param DateTimeImmutable|null $lastCommentDate
+     * @return void
+     */
     public function changeCommentsCount(
         int $newCount,
         ?DateTimeImmutable $lastCommentDate): void
@@ -70,9 +80,34 @@ class QuestionStats extends ActiveRecord
         $this->lastCommentDate = $lastCommentDate;
     }
 
+    /**
+     * Изменяет data_id последнего комментария в вопросе
+     * @param int|null $data_id
+     * @return void
+     */
+    public function changeLastCommentDataId(?int $data_id): void
+    {
+        $this->last_comment_data_id = $data_id;
+    }
+
+    /**
+     * Изменяет data_id первого комментария к вопросу
+     * @param int|null $data_id
+     * @return void
+     */
+    public function changeFirstCommentDataId(?int $data_id): void
+    {
+        $this->first_comment_data_id = $data_id;
+    }
+
     public function getQuestion(): ActiveQuery
     {
         return $this->hasOne(Question::class, ['data_id' => 'question_id']);
+    }
+
+    public function getChartData(): ActiveQuery
+    {
+        return $this->hasOne(Data::class, ['question_id' => 'question_id']);
     }
 
     public static function tableName(): string

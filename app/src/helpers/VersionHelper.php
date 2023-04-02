@@ -14,7 +14,7 @@ class VersionHelper
      */
     public static function version(): string
     {
-        $version = 'v0.2.2';
+        $version = 'v0.3.0';
         return Html::a($version, 'https://github.com/audetv/fct-search/releases/latest', ['target' => '_blank']);
     }
 }
