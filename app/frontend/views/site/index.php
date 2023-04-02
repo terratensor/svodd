@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
   <div class="site-index">
     <div class="search-block">
-      <div class="container bg-white">
+      <div class="container-fluid bg-white">
           <?php if (!$results): ?>
           <?php endif; ?>
 
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php ActiveForm::end(); ?>
       </div>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <?php if ($results): ?>
         <?php
         // Property totalCount пусто пока не вызваны данные модели getModels(),

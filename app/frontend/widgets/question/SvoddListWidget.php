@@ -25,13 +25,12 @@ class SvoddListWidget extends Widget
             if ($model->number === null && $model->title === null) {
                 $item2 = Html::tag('h5', 'Просмотр вопроса') . $model->url;
             } else {
-                $item2 = Html::tag('h5', sprintf("%02d", $model->number). '. ' . $title) . $model->url
-                    . ' ' . $model->last_comment_data_id;
+                $item2 = Html::tag('h5', sprintf("%02d", $model->number). '. ' . $title) . $model->url;
             }
             $item1 = Html::tag('div', $item2, ['class' => 'ms-2 me-auto']) .
-             Html::tag('span', $model->comments_count, ['class' => 'badge bg-primary rounded-pill']);
+             Html::tag('span', $model->comments_count, ['class' => 'badge bg-secondary rounded-pill']);
             $item = Html::tag('div', $item1, ['class' => 'd-flex w-100 justify-content-between align-items-start']);
-            $link = Html::a($item, ['question/view', 'id' => $model->question_id, 'page' => 1], ['class' => 'list-group-item list-group-item-action']);
+            $link = Html::a($item, $model->url, ['class' => 'list-group-item list-group-item-action']);
 
             $links .= $link;
         }

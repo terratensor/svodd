@@ -22,7 +22,8 @@ class IndexAction extends Action
 
     public function run(): string
     {
+        $this->controller->layout = 'svodd';
         $list = $this->questionStatsRepository->findAllForList();
-        return $this->controller->render('index-new', ['list' => $list]);
+        return $this->controller->render('index', ['list' => $list]);
     }
 }

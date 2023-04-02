@@ -50,8 +50,7 @@ class Chart extends Widget
 
         $this->view->registerJs("
             var canvasP = document.getElementById(\"$this->id\");
-            var ctxP = canvasP.getContext(\"2d\");
-            Chart.defaults.font.size = 16;
+            var ctxP = canvasP.getContext(\"2d\");           
             var $this->id = new Chart(ctxP, {
                 type: $type,
                 data: $data,
@@ -64,6 +63,9 @@ class Chart extends Widget
     private function getAdditionalJs(): string
     {
         return <<<JS
+
+  responsiveFonts();
+
   function clickableScales(chart, click) {
     const { ctx, canvas, scales: { x, y } } = chart
     const top = y.top
@@ -87,6 +89,23 @@ class Chart extends Widget
   $this->id.canvas.addEventListener('click', (e) => {
     clickableScales($this->id, e)
   });
+
+  $(window).resize(responsiveFonts)
+  function responsiveFonts() {
+      if($(window).outerWidth() > 999) {
+        Chart.defaults.font.size = 16;  
+      }
+      if(  $(window).outerWidth() > 500 && $(window).outerWidth() < 999) {
+        Chart.defaults.font.size = 12;
+      }
+      if(  $(window).outerWidth() > 500 && $(window).outerWidth() < 700) {
+        Chart.defaults.font.size = 10;
+      }
+      if($(window).outerWidth() < 500) {
+        Chart.defaults.font.size = 8;
+      }
+      $this->id.update();
+  }
 JS;
     }
 }

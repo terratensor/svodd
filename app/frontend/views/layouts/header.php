@@ -21,6 +21,7 @@ $menuItems = [
     <?php NavBar::begin(
         [
             'collapseOptions' => false,
+            'innerContainerOptions' => ['class' => 'container-fluid'],
             'options' => [
                 'class' => 'navbar navbar-expand navbar-dark bg-dark fixed-top'
             ],
