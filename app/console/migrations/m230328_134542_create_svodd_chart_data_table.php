@@ -67,7 +67,7 @@ class m230328_134542_create_svodd_chart_data_table extends Migration
                 [12348, 29, '08.02.2023', 427822, 429991, 781, 0, false, $created_at],
                 [8162, 30, '12.03.2023', 429990, 432512, 957, 0, false, $created_at],
                 [6006, 31, '27.03.2023', 432513, 434105, 822, 0, false, $created_at],
-                [32649, 32, 'Текущая тема', 434106, null, 136, 0, false, $created_at],
+                [32649, 32, 'Текущая тема', 434106, null, 0, 0, true, $created_at],
             ],
         );
     }
