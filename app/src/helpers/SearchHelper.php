@@ -4,7 +4,7 @@ namespace App\helpers;
 
 class SearchHelper
 {
-    public static array $charactersList = ['!', '"', '$', "'", '(', ')', '-', '/', '<', '@', '\\', '^', '|', '&'];
+    public static array $charactersList = ['!', '"', '$', "'", '(', ')', '-', '/', '<', '@', '\\', '^', '|', '~'];
 
     /**
      * @param string $queryString
