@@ -14,6 +14,9 @@ return [
     'bootstrap' => ['log', \common\bootstrap\SetUp::class],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'db' => [
+            'enableSchemaCache' => getenv('APP_ENV') === 'prod',
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -31,7 +34,7 @@ return [
             'class' => yii\redis\Session::class,
             // this is the name of the session cookie used for login on the frontend
             'name' => 'fct-search-session',
-            'timeout' => 3500 * 24 * 7,
+            'timeout' => 3600 * 24 * 7,
             'cookieParams' => [
                 'domain' => $params['cookieDomain'],
                 'httpOnly' => true,
