@@ -1,7 +1,8 @@
 <?php
 
-declare(strict_types=1);
-;
+declare(strict_types=1);;
+
+use App\helpers\SessionHelper;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 
@@ -10,8 +11,7 @@ $menuItems = [
     ['label' => 'СВОДД', 'url' => ['/svodd/index']],
     [
         'label' => 'Обсуждение',
-        'url' => array_merge(['/svodd/view'], Yii::$app->session->get('svodd') ?? []),
-        // добавляем параметры предыдущего запроса к ссылке на обсуждение, чтобы восстановить сортировку и страницу
+        'url' => SessionHelper::svoddUrl(Yii::$app->session),
     ],
     ['label' => 'Вопросы', 'url' => ['/question/index']],
 ];

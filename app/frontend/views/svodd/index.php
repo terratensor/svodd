@@ -6,11 +6,11 @@ declare(strict_types=1);
 
 /** @var View $this */
 
+use App\helpers\SessionHelper;
 use App\Question\Entity\Statistic\QuestionStats;
 use App\Svodd\Entity\Chart\Data;
 use frontend\widgets\ChartJs\Chart;
 use frontend\widgets\question\SvoddListWidget;
-use yii\helpers\Url;
 use yii\web\JsExpression;
 use yii\web\View;
 
@@ -64,7 +64,7 @@ JS;
         <p class="bd-lead">Обратная хронология обсуждения событий, статистика комментариев в теме СВОДД и в остальных
           темах ФКТ.</p>
         <div class="d-flex flex-column flex-md-row gap-3">
-          <a href="<?= Url::to(['svodd/view']) ?>"
+          <a href="<?= SessionHelper::svoddUrl(Yii::$app->session); ?>"
              class="btn btn-lg bd-btn-lg btn-bd-primary d-flex align-items-center justify-content-center btn-svodd">
             Всё одним потоком
           </a>
@@ -99,6 +99,7 @@ JS;
         ],
         'plugins' => '[ChartDataLabels]',
         'options' => [
+            'animations' => false,
             'layout' => [
                 'padding' => [
                     'top' => -10,
