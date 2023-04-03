@@ -1,5 +1,6 @@
 $("span.link").on("click", function () {
-  window.open($(this).text(), "_blank")
+  const newWindow = window.open($(this).text(), "_blank", "noopener,noreferrer",)
+  if (newWindow) newWindow.opener = null
 })
 
 $(document).ready(function () {
