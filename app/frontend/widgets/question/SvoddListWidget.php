@@ -30,7 +30,7 @@ class SvoddListWidget extends Widget
             $item1 = Html::tag('div', $item2, ['class' => 'ms-2 me-auto']) .
              Html::tag('span', $model->comments_count, ['class' => 'badge bg-secondary rounded-pill']);
             $item = Html::tag('div', $item1, ['class' => 'd-flex w-100 justify-content-between align-items-start']);
-            $link = Html::a($item, $model->url, ['class' => 'list-group-item list-group-item-action']);
+            $link = Html::a($item, $model->url, ['class' => 'list-group-item list-group-item-action', 'target' => '_blank']);
 
             $links .= $link;
         }
