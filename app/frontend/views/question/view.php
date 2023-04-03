@@ -90,7 +90,7 @@ $this->registerJs($js);
                     'pagination' => $pagination,
                     'firstPageLabel' => true,
                     'lastPageLabel' => true,
-                    'maxButtonCount' => 5,
+                    'maxButtonCount' => 3,
                     'options' => [
                         'class' => 'd-flex justify-content-center'
                     ],
