@@ -66,7 +66,7 @@ JS;
         <div class="d-flex flex-column flex-md-row gap-3">
           <a href="<?= SessionHelper::svoddUrl(Yii::$app->session); ?>"
              class="btn btn-lg bd-btn-lg btn-bd-primary d-flex align-items-center justify-content-center btn-svodd">
-            Всё одним потоком
+            Тема одним потоком
           </a>
         </div>
       </div>
