@@ -145,7 +145,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::a(
                         $link,
                         $link . "#:~:text=" . Yii::$app->formatter->asDatetime($comment->datetime, 'php:H:i d.m.Y'),
-                        ['target' => '_blank']
+                        ['target' => '_blank', 'rel' => 'noopener noreferrer']
                     ); ?>
                 </div>
               </div>

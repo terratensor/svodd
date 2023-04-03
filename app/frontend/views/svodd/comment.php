@@ -26,7 +26,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
       <?= Html::a(
           $link,
           $link . "#:~:text=" . Yii::$app->formatter->asDatetime($model->datetime, 'php:H:i d.m.Y'),
-          ['target' => '_blank']
+          ['target' => '_blank', 'rel' => 'noopener noreferrer']
       ); ?>
   </div>
 </div>
