@@ -26,11 +26,10 @@ class UpdaterService
     public function index(): void
     {
         $file = Yii::$app->params['questions']['current']['file'];
-        $doc = $this->readFileService->readFile($file);
-        echo "parsed: " . $file . "\n";
-        $this->changeQuestion($doc);
-
-
+        if ($doc = $this->readFileService->readFile($file)){
+            echo "parsed: " . $file . "\n";
+            $this->changeQuestion($doc);
+        }
     }
 
     private function changeQuestion(string $doc): void
