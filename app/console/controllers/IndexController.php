@@ -142,7 +142,7 @@ class IndexController extends Controller
     {
         $message = 'Done!';
         try {
-            $this->updaterService->index('questions');
+            $this->updaterService->index();
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
@@ -175,8 +175,10 @@ class IndexController extends Controller
     }
 
     /**
-     * @return void разбирает файлы парсера и добавляет новые вопросы или обновляет уже сохраненные вопросы
-     * Добавляет в индекс новые вопросы и комментарии, из обновленных файлов парсера.
+     * Основная команда для чтения файлов, которые сохранил fct-parser.
+     * Добавляет новые вопросы в бд и в индекс manticore или обновляет уже существующие вопросы.
+     * Удаляет файлы после обработки.
+     * @return void
      */
     public function actionUpdatingIndex(): void
     {

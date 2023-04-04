@@ -44,10 +44,10 @@ class IndexerService
 
         $files = $this->directoryService->readDir();
         foreach ($files as $file) {
-            $doc = $this->readFileService->readFile($file);
-            echo "parsed: " . $file . "\n";
-            // Если не надо делать запись в бд, ставим saveToDb false
-            $this->addQuestion($doc, $index, true);
+            if ($doc = $this->readFileService->readFile($file)){
+                echo "parsed: " . $file . "\n";
+                $this->addQuestion($doc, $index);
+            }
         }
     }
 
