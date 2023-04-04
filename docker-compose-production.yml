@@ -147,7 +147,7 @@ services:
       - redis_password
     volumes:
       - parsed-files:/app/data
-    command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii index/updater'
+    command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii index/updating-index'
     deploy:
       labels:
         - swarm.cronjob.enable=true
