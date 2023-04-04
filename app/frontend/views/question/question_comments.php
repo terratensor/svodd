@@ -29,7 +29,7 @@ foreach ($dataProvider->getModels() as $model): ?>
           <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
           <?= Html::a(
               $link,
-              $link . "#:~:text=" . Yii::$app->formatter->asDatetime($model->datetime, 'php:H:i d.m.Y'),
+              $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
               ['target' => '_blank', 'rel' => 'noopener noreferrer']
           ); ?>
       </div>
