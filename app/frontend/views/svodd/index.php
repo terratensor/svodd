@@ -56,7 +56,7 @@ foreach ($data as $key => $item) {
 $summary = round($summarySvodd / ($summarySvodd + $summaryFct) * 100, 2);
 
 $callback = <<<JS
-  function (value, index, ticks) {
+  function callback (value, index, ticks) {
       if ($(window).width() > 340) {
         if (value === 0) {
           return this.getLabelForValue(value) + ' текущая'
@@ -82,7 +82,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
                   'labelLinks' => $labelLinks,
                   'datasets' => [
                       [
-                          'label' => '# СВОДД',
+                          'label' => 'СВОДД',
                           'data' => $datasetSvodd,
                           'dataLabel' => $dataLabelSvodd,
                           'borderWidth' => 1,
@@ -102,7 +102,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           ],
                       ],
                       [
-                          'label' => '# ФКТ',
+                          'label' => 'ФКТ',
                           'data' => $datasetFct,
                           'dataLabel' => $dataLabelFct,
                           'borderWidth' => 1,
@@ -118,7 +118,6 @@ $this->title = 'Обратная хронология обсуждения СВ�
                                 JS
                               ),
                           ],
-
                       ],
                   ]
               ],
@@ -138,6 +137,18 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           'align' => 'start',
                           'font' => ['size' => 16, 'weight' => 400],
                           'padding' => 0
+                      ],
+                      'tooltip' => [
+                          'enabled' => true,
+                          'callbacks' => [
+                              'label' => new JsExpression(<<<JS
+                              (context) => {   
+                                let value = context.formattedValue;
+                                return context.dataset.label+': ' + value + '%'                            
+                              }
+                            JS
+                              )
+                          ],
                       ],
                   ],
                   'maintainAspectRatio' => false,
@@ -196,19 +207,19 @@ $this->title = 'Обратная хронология обсуждения СВ�
         document.getElementById('svoddList').classList.remove('show')      
         document.getElementById('svodd-diagram-container').style.height = '80vh'     
       }
-      if ($(window).outerHeight() > 1080) {
+      if (screen.availHeight > 1080) {
         document.getElementById('svodd-diagram-container').style.height = '55vh'
       }
-      if ($(window).outerHeight() < 700) {
+      if (screen.availHeight < 700) {
         document.getElementById('svodd-diagram-container').style.height = '115vh'
       }
-      if ($(window).outerHeight() <= 600) {
+      if (screen.availHeight <= 600) {
         document.getElementById('svodd-diagram-container').style.height = '110vh'
       }
-      if ($(window).outerHeight() <= 500) {
+      if (screen.availHeight <= 500) {
         document.getElementById('svodd-diagram-container').style.height = '150vh'
       }
-      if ($(window).outerHeight() < 400) {
+      if (screen.availHeight < 400) {
         document.getElementById('svodd-diagram-container').style.height = '200vh'
       }
   }
