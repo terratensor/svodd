@@ -56,7 +56,7 @@ foreach ($data as $key => $item) {
 $summary = round($summarySvodd / ($summarySvodd + $summaryFct) * 100, 2);
 
 $callback = <<<JS
-  function (value, index, ticks) {
+  function callback (value, index, ticks) {
       if ($(window).width() > 340) {
         if (value === 0) {
           return this.getLabelForValue(value) + ' текущая'
@@ -118,7 +118,6 @@ $this->title = 'Обратная хронология обсуждения СВ�
                                 JS
                               ),
                           ],
-
                       ],
                   ]
               ],
@@ -138,6 +137,18 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           'align' => 'start',
                           'font' => ['size' => 16, 'weight' => 400],
                           'padding' => 0
+                      ],
+                      'tooltip' => [
+                          'enabled' => true,
+                          'callbacks' => [
+                              'label' => new JsExpression(<<<JS
+                              (context) => {   
+                                let value = context.formattedValue;
+                                return context.dataset.label+': ' + value + '%'                            
+                              }
+                            JS
+                              )
+                          ],
                       ],
                   ],
                   'maintainAspectRatio' => false,
