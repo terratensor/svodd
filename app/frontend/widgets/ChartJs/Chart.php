@@ -93,16 +93,22 @@ class Chart extends Widget
   $(window).resize(responsiveFonts)
   function responsiveFonts() {
       if($(window).outerWidth() > 999) {
-        Chart.defaults.font.size = 16;  
+        Chart.defaults.font.size = 14;  
       }
       if(  $(window).outerWidth() > 500 && $(window).outerWidth() < 999) {
-        Chart.defaults.font.size = 12;
+        Chart.defaults.font.size = 14;
       }
-      if(  $(window).outerWidth() > 500 && $(window).outerWidth() < 700) {
-        Chart.defaults.font.size = 10;
+      if(  $(window).outerWidth() > 500 && $(window).outerWidth() < 770) {
+        Chart.defaults.font.size = 14;
       }
       if($(window).outerWidth() < 500) {
-        Chart.defaults.font.size = 8;
+        Chart.defaults.font.size = 11;
+      }
+      if ($(window).outerHeight() < 860) {
+        Chart.defaults.font.size = 12;
+      }
+      if(screen.availHeight > screen.availWidth){
+        Chart.defaults.font.size = 11;
       }
       $this->id.update();
   }

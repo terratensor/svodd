@@ -8,6 +8,9 @@ use yii\db\ActiveRecord;
 
 class SvoddChartRepository
 {
+    /**
+     * @return Data[]|array
+     */
     public function findAll(): array
     {
         return Data::find()->all();
