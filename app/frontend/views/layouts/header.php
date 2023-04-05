@@ -29,7 +29,7 @@ $menuItems = [
 
     echo Nav::widget(
         [
-            'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
+            'options' => ['class' => 'navbar-nav me-auto mb-md-0'],
             'items' => $menuItems,
         ]);
     NavBar::end();
