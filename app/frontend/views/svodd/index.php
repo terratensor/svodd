@@ -82,7 +82,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
                   'labelLinks' => $labelLinks,
                   'datasets' => [
                       [
-                          'label' => '# СВОДД',
+                          'label' => 'СВОДД',
                           'data' => $datasetSvodd,
                           'dataLabel' => $dataLabelSvodd,
                           'borderWidth' => 1,
@@ -102,7 +102,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           ],
                       ],
                       [
-                          'label' => '# ФКТ',
+                          'label' => 'ФКТ',
                           'data' => $datasetFct,
                           'dataLabel' => $dataLabelFct,
                           'borderWidth' => 1,
