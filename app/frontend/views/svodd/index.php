@@ -196,19 +196,19 @@ $this->title = 'Обратная хронология обсуждения СВ�
         document.getElementById('svoddList').classList.remove('show')      
         document.getElementById('svodd-diagram-container').style.height = '80vh'     
       }
-      if ($(window).outerHeight() > 1080) {
+      if (screen.availHeight > 1080) {
         document.getElementById('svodd-diagram-container').style.height = '55vh'
       }
-      if ($(window).outerHeight() < 700) {
+      if (screen.availHeight < 700) {
         document.getElementById('svodd-diagram-container').style.height = '115vh'
       }
-      if ($(window).outerHeight() <= 600) {
+      if (screen.availHeight <= 600) {
         document.getElementById('svodd-diagram-container').style.height = '110vh'
       }
-      if ($(window).outerHeight() <= 500) {
+      if (screen.availHeight <= 500) {
         document.getElementById('svodd-diagram-container').style.height = '150vh'
       }
-      if ($(window).outerHeight() < 400) {
+      if (screen.availHeight < 400) {
         document.getElementById('svodd-diagram-container').style.height = '200vh'
       }
   }
