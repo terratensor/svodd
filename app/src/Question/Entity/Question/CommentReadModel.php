@@ -3,6 +3,7 @@
 namespace App\Question\Entity\Question;
 
 use App\Question\Entity\Statistic\QuestionStats;
+use App\Svodd\Entity\Chart\Data;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
@@ -18,6 +19,7 @@ class CommentReadModel
     {
         return Comment::find()->andWhere(['question_data_id' => $question_data_id])->count();
     }
+
     /**
      * Находит комментарий по его data_id
      * @param int $data_id
@@ -50,21 +52,17 @@ class CommentReadModel
 
     public function findBySvoddQuestions(): ActiveDataProvider
     {
-        $questionIds = QuestionStats::getDb()->cache(function ($db) {
-            return QuestionStats::find()
-                ->alias('qs')
-                ->select('question_id')
-                ->andWhere(['not', ['qs.number' => null]])
-                ->orderBy('qs.number')
-                ->asArray()
-                ->column();
-        });
+        $questionIds = Data::find()
+            ->alias('sd')
+            ->select('sd.question_id')
+            ->orderBy('sd.topic_number')
+            ->asArray()
+            ->column();
 
         $query = Comment::find()
             ->alias('c')
-            ->joinWith('questionStat qs')
-            ->andWhere(['in', 'c.question_data_id', $questionIds])
-            ;
+            ->joinWith('svoddData sd')
+            ->andWhere(['in', 'c.question_data_id', $questionIds]);
 
         return new ActiveDataProvider(
             [
@@ -75,9 +73,9 @@ class CommentReadModel
                 'sort' => [
                     'attributes' => [
                         'date' => [
-                            'asc' => ['qs.number' => SORT_ASC, 'c.date' => SORT_ASC],
-                            'desc' => ['qs.number' => SORT_DESC, 'c.date' => SORT_DESC],
-                            'default' => ['qs.number' => SORT_ASC, 'c.date' => SORT_ASC],
+                            'asc' => ['sd.topic_number' => SORT_ASC, 'c.date' => SORT_ASC],
+                            'desc' => ['sd.topic_number' => SORT_DESC, 'c.date' => SORT_DESC],
+                            'default' => ['sd.topic_number' => SORT_ASC, 'c.date' => SORT_ASC],
                         ],
                     ],
                     'defaultOrder' => [
