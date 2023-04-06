@@ -1,77 +1,92 @@
 {
-    "name": "yiisoft/yii2-app-advanced",
-    "description": "Yii 2 Advanced Project Template",
-    "keywords": ["yii2", "framework", "advanced", "project template"],
-    "homepage": "https://www.yiiframework.com/",
-    "type": "project",
-    "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "https://www.yiiframework.com/forum/",
-        "wiki": "https://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
+  "name": "yiisoft/yii2-app-advanced",
+  "description": "Yii 2 Advanced Project Template",
+  "keywords": [
+    "yii2",
+    "framework",
+    "advanced",
+    "project template"
+  ],
+  "homepage": "https://www.yiiframework.com/",
+  "type": "project",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/yiisoft/yii2/issues?state=open",
+    "forum": "https://www.yiiframework.com/forum/",
+    "wiki": "https://www.yiiframework.com/wiki/",
+    "irc": "irc://irc.freenode.net/yii",
+    "source": "https://github.com/yiisoft/yii2"
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=8.1.0",
+    "yiisoft/yii2": "~2.0.45",
+    "yiisoft/yii2-bootstrap5": "~2.0.2",
+    "yiisoft/yii2-symfonymailer": "~2.0.3",
+    "manticoresoftware/manticoresearch-php": "dev-master",
+    "ext-json": "*",
+    "webmozart/assert": "^1.11",
+    "ramsey/uuid": "5.x-dev",
+    "la-haute-societe/yii2-save-relations-behavior": "dev-master",
+    "sentry/sdk": "dev-master",
+    "twig/twig": "3.x-dev",
+    "yiisoft/yii2-redis": "^2.0@dev",
+    "npm-asset/chart.js": "^4.2",
+    "npm-asset/chartjs-plugin-datalabels": "^2.2",
+    "ext-iconv": "*"
+  },
+  "require-dev": {
+    "yiisoft/yii2-debug": "~2.1.0",
+    "yiisoft/yii2-gii": "~2.2.0",
+    "yiisoft/yii2-faker": "~2.0.0",
+    "phpunit/phpunit": "~9.5.0",
+    "codeception/codeception": "^5.0.0 || ^4.0",
+    "codeception/lib-innerbrowser": "^3.0 || ^1.1",
+    "codeception/module-asserts": "^3.0 || ^1.1",
+    "codeception/module-yii2": "^1.1",
+    "codeception/module-filesystem": "^2.0 || ^1.1",
+    "codeception/verify": "^2.2",
+    "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "common\\": "common/",
+      "frontend\\": "frontend/",
+      "backend\\": "backend/",
+      "console\\": "console/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "common\\tests\\": [
+        "common/tests/",
+        "common/tests/_support"
+      ],
+      "backend\\tests\\": [
+        "backend/tests/",
+        "backend/tests/_support"
+      ],
+      "frontend\\tests\\": [
+        "frontend/tests/",
+        "frontend/tests/_support"
+      ]
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "php-http/discovery": true
     },
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=8.1.0",
-        "yiisoft/yii2": "~2.0.45",
-        "yiisoft/yii2-bootstrap5": "~2.0.2",
-        "yiisoft/yii2-symfonymailer": "~2.0.3",
-        "manticoresoftware/manticoresearch-php": "dev-master",
-        "ext-json": "*",
-        "webmozart/assert": "^1.11",
-        "ramsey/uuid": "5.x-dev",
-        "la-haute-societe/yii2-save-relations-behavior": "dev-master",
-        "sentry/sdk": "dev-master",
-        "twig/twig": "3.x-dev",
-        "yiisoft/yii2-redis": "^2.0@dev",
-        "npm-asset/chart.js": "^4.2",
-        "npm-asset/chartjs-plugin-datalabels": "^2.2"
-    },
-    "require-dev": {
-        "yiisoft/yii2-debug": "~2.1.0",
-        "yiisoft/yii2-gii": "~2.2.0",
-        "yiisoft/yii2-faker": "~2.0.0",
-        "phpunit/phpunit": "~9.5.0",
-        "codeception/codeception": "^5.0.0 || ^4.0",
-        "codeception/lib-innerbrowser": "^3.0 || ^1.1",
-        "codeception/module-asserts": "^3.0 || ^1.1",
-        "codeception/module-yii2": "^1.1",
-        "codeception/module-filesystem": "^2.0 || ^1.1",
-        "codeception/verify": "^2.2",
-        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
-    },
-    "autoload": {
-      "psr-4": {
-        "App\\": "src/",
-        "common\\": "common/",
-        "frontend\\": "frontend/",
-        "backend\\": "backend/",
-        "console\\": "console/"
-      }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "common\\tests\\": ["common/tests/", "common/tests/_support"],
-            "backend\\tests\\": ["backend/tests/", "backend/tests/_support"],
-            "frontend\\tests\\": ["frontend/tests/", "frontend/tests/_support"]
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "yiisoft/yii2-composer": true,
-            "php-http/discovery": true
-        },
-        "process-timeout": 1800,
-        "fxp-asset": {
-            "enabled": false
-        }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    "process-timeout": 1800,
+    "fxp-asset": {
+      "enabled": false
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
 }
