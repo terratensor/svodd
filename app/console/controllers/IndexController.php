@@ -6,7 +6,6 @@ namespace console\controllers;
 
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
-use App\Indexer\Model\Question;
 use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\StatisticService;
@@ -14,7 +13,6 @@ use App\Indexer\Service\UpdaterService;
 use App\Indexer\Service\UpdatingIndex\Handler as UpdatingIndexHandler;
 use App\services\Manticore\IndexService;
 use Exception;
-use yii\base\Model;
 use yii\console\Controller;
 
 /**
@@ -52,7 +50,11 @@ class IndexController extends Controller
         $this->updatingIndexHandler = $updatingIndexHandler;
     }
 
-    public function actionCreate()
+    /**
+     * Создание пустого поискового индекса
+     * @return void
+     */
+    public function actionCreate(): void
     {
         $message = 'Done!';
         $name = $this->prompt('Введите имя индекса (по умолчанию: questions):');
@@ -70,7 +72,11 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionDelete()
+    /**
+     * Удаление поискового индекса вместе с данными!
+     * @return void
+     */
+    public function actionDelete(): void
     {
         $message = 'Done!';
         $name = $this->prompt('Введите наименование индекса для удаления:', ['required' => true]);
@@ -88,11 +94,15 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionIndexer()
+    /**
+     * @deprecated Использовался при первой инициализации программы, с пустым индексом и базой,
+     * Вместо него надо использовать actionUpdatingIndex()
+     * @return void
+     */
+    public function actionIndexer(): void
     {
         $message = 'Done!';
         try {
-//            $this->service->index();
             $this->indexerService->index('questions');
         } catch (Exception $e) {
             $message = $e->getMessage();
@@ -101,6 +111,7 @@ class IndexController extends Controller
     }
 
     /**
+     * @deprecated Не использовать, будет удалена
      * Команда для удаления вопроса $question_id из поискового индекса
      * @return void
      */
@@ -119,8 +130,8 @@ class IndexController extends Controller
     }
 
     /**
+     * @deprecated Не использовать, будет удалена
      * @return void
-     * ToDo не использовать, рассмотреть удаление метода
      */
     public function actionUpdateCurrent(): void
     {
@@ -134,7 +145,11 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionUpdateCurrentComments()
+    /**
+     * @deprecated Не использовать, будет удалена
+     * @return void
+     */
+    public function actionUpdateCurrentComments(): void
     {
         $message = 'Done!';
         try {
@@ -146,7 +161,11 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionUpdater()
+    /**
+     * @deprecated Не использовать, будет удалена
+     * @return void
+     */
+    public function actionUpdater(): void
     {
         $message = 'Done!';
         try {
@@ -158,7 +177,11 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionUpdateStatistic()
+    /**
+     * Обновление статистики по всем вопросам, читает из базы данных questions и обновляет question_stats
+     * @return void
+     */
+    public function actionUpdateStatistic(): void
     {
         $message = 'Done!';
         try {
@@ -170,7 +193,11 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionReindexDb()
+    /**
+     * Очищает данные в поисковом индексе и переиндексирует заново, читая из базы данных
+     * @return void
+     */
+    public function actionReindexDb(): void
     {
         $message = 'Done!';
         try {
