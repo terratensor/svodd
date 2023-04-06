@@ -31,4 +31,9 @@ class SvoddChartRepository
     {
         return Data::find()->andWhere(['question_id' => $question_id])->one();
     }
+
+    public function findCurrent(): array|ActiveRecord|null|Data
+    {
+        return Data::find()->andWhere(['active' => true])->one();
+    }
 }

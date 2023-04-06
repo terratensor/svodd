@@ -6,6 +6,7 @@ namespace App\Question\Entity\Question;
 
 use App\behaviors\DateTimeBehavior;
 use App\Question\Entity\Statistic\QuestionStats;
+use App\Svodd\Entity\Chart\Data;
 use DateTimeImmutable;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -22,6 +23,7 @@ use yii\db\ActiveRecord;
  * @property int date
  * @property Question $question
  * @property QuestionStats $questionStat
+ * @property Data $SvoddData
  */
 class Comment extends ActiveRecord
 {
@@ -59,6 +61,11 @@ class Comment extends ActiveRecord
     public function getQuestionStat(): ActiveQuery
     {
         return $this->hasOne(QuestionStats::class, ['question_id' => 'question_data_id']);
+    }
+
+    public function getSvoddData(): ActiveQuery
+    {
+        return $this->hasOne(Data::class, ['question_id' => 'question_data_id']);
     }
 
     public static function tableName(): string
