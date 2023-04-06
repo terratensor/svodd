@@ -40,7 +40,7 @@ foreach ($data as $key => $item) {
 
     $labelLinks[] = $item->questionStats->url;
     $dataLabelSvodd[] = $svodd = $item->comments_count;
-    $dataLabelFct[] = $fct = $item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count;
+    $dataLabelFct[] = $fct = ($item->end_comment_data_id - $item->start_comment_data_id + 1) - $item->comments_count;
 
     if ($key === 0) {
         $current = round($svodd / ($svodd + $fct) * 100, 2);
