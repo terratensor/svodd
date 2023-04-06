@@ -214,8 +214,11 @@ class IndexService
 
     }
 
-    public function deleteQuestion($id): void
+    public function deleteQuestion(int $id): void
     {
+        if ($id === 0) {
+            throw new DomainException('номер должен быть числом больше нуля');
+        }
         $index = $this->client->index('questions');
         $query = new BoolQuery();
         $query->should(new In('parent_id', [$id]));

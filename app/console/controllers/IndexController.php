@@ -6,6 +6,7 @@ namespace console\controllers;
 
 use App\forms\Manticore\IndexCreateForm;
 use App\forms\Manticore\IndexDeleteForm;
+use App\Indexer\Model\Question;
 use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\StatisticService;
@@ -13,6 +14,7 @@ use App\Indexer\Service\UpdaterService;
 use App\Indexer\Service\UpdatingIndex\Handler as UpdatingIndexHandler;
 use App\services\Manticore\IndexService;
 use Exception;
+use yii\base\Model;
 use yii\console\Controller;
 
 /**
@@ -98,11 +100,17 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionDeleteCurrentQuestion()
+    /**
+     * Команда для удаления вопроса $question_id из поискового индекса
+     * @return void
+     */
+    public function actionDeleteQuestion(): void
     {
         $message = 'Done!';
+
+        $question_id = $this->prompt('Введите номер вопроса для удаления из индекса:', ['required' => true]);
         try {
-            $this->service->deleteQuestion(\Yii::$app->params['questions']['current']['id']);
+            $this->service->deleteQuestion((int)$question_id);
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
