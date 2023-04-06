@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Svodd\Entity\Chart;
 
+use App\behaviors\TimestampBehavior;
 use App\Question\Entity\Statistic\QuestionStats;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -44,9 +45,16 @@ use yii\db\ActiveRecord;
  */
 class Data extends ActiveRecord
 {
-    public static function create()
+    public static function create($question_id, $topic_number, $start_comment_data_id): self
     {
+        $data = new static();
+        $data->question_id = $question_id;
+        $data->topic_number = $topic_number;
+        $data->start_comment_data_id = $start_comment_data_id;
 
+        $data->active = true;
+
+        return $data;
     }
 
     public function getQuestionStats(): ActiveQuery
@@ -54,8 +62,20 @@ class Data extends ActiveRecord
         return $this->hasOne(QuestionStats::class, ['question_id' => 'question_id']);
     }
 
+    public function changeActive(): void
+    {
+        $this->active = !$this->active;
+    }
+
     public static function tableName(): string
     {
         return '{{%svodd_chart_data}}';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            TimestampBehavior::class,
+        ];
     }
 }

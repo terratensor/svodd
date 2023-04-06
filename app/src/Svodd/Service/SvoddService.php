@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Svodd\Service;
 
+use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
+use App\Svodd\Entity\Chart\Data;
+use App\Svodd\Entity\Chart\SvoddChartRepository;
 use DomainException;
 
 class SvoddService
@@ -15,35 +18,46 @@ class SvoddService
         "https://xn----8sba0bbi0cdm.xn--p1ai/qa/question/view-",
         "https://фкт-алтай.рф/qa/question/view-"
     ];
+    private SvoddChartRepository $svoddChartRepository;
 
-    public function __construct(QuestionRepository $questionRepository) {
+    public function __construct(
+        QuestionRepository $questionRepository,
+        SvoddChartRepository $svoddChartRepository
+    )
+    {
         $this->questionRepository = $questionRepository;
+        $this->svoddChartRepository = $svoddChartRepository;
     }
 
     public function changeCurrent(string $url): void
     {
-        $question_id = $this->getQuestionIdFrom($url);
+        $question = $this->getQuestionIdFrom($url);
 
+        $current = $this->svoddChartRepository->findCurrent();
+        $current->changeActive();
+        $this->svoddChartRepository->save($current);
+
+        $new = Data::create($question->data_id, 33, 435403);
+        $this->svoddChartRepository->save($new);
     }
 
-    private function getQuestionIdFrom(string $url): int
+    private function getQuestionIdFrom(string $url): Question
     {
-        $questionId = '';
+        $search = 'https://фкт-алтай.рф/qa/question/view-';
 
-        foreach ($this->searchList as $search) {
-            $len = mb_strlen($search);
-            $questionId = str_replace($this->getUnicodeString($search),'', $this->getUnicodeString($url));
-            echo $len; echo mb_strlen($questionId); echo $questionId;
-            if (!$len === mb_strlen($questionId)){
-                continue;
-            }
-                break;
-        }
-
+        $len = mb_strlen($search);
+        $questionId = str_replace($this->getUnicodeString($search), '', $this->getUnicodeString($url));
         $question_id = (int)$questionId;
 
         if ($question_id === 0) {
-           throw new \DomainException('номер должен быть числом больше нуля');
+
+            $search = 'https://xn----8sba0bbi0cdm.xn--p1ai/qa/question/view-';
+            $questionId = str_replace($search, '', $url);
+            $question_id = (int)$questionId;
+        }
+
+        if ($question_id === 0) {
+            throw new \DomainException('номер должен быть числом больше нуля');
         }
 
         try {
@@ -52,8 +66,7 @@ class SvoddService
             throw new DomainException($e->getMessage());
         }
 
-        echo $question_id;
-        return $question_id;
+        return $question;
     }
 
     private function getUnicodeString(string $string): bool|string
