@@ -28,7 +28,7 @@ class SvoddListWidget extends Widget
                 try {
                     $title .= DateHelper::showDateFromString($model->svoddData->start_datetime);
                 } catch (Exception $e) {
-                    throw new DomainException('неправильный формат даты.');
+                    $title .= 'Дата не установлена';
                 }
             }
 

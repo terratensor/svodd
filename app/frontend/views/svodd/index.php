@@ -29,11 +29,17 @@ $summaryFct = 0;
 
 foreach ($data as $key => $item) {
 
-    $firstPart = sprintf("%02d", $item->topic_number) .
-        ' тема с ' .
-        Yii::$app->formatter->asDatetime($item->start_datetime, 'php:d.m.y');
+    $firstPart = sprintf("%02d", $item->topic_number) . ' тема';
 
-    $secondPart = $key !== 0 ? Yii::$app->formatter->asDatetime($item->end_datetime, 'php: по d.m.y') : '';
+    $startDatetime = $item->start_datetime ? Yii::$app->formatter->asDatetime($item->start_datetime, 'php:d.m.y') : '';
+    if ($startDatetime) {
+        $firstPart .= ' с ' . $startDatetime;
+    }
+
+    $secondPart = '';
+    if ($key !== 0) {
+        $secondPart = $item->end_datetime ? Yii::$app->formatter->asDatetime($item->end_datetime, 'php: по d.m.y') : '';
+    }
 
     $label = $firstPart . $secondPart;
     $labels[] = $label;

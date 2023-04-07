@@ -26,6 +26,10 @@ class SvoddController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * Установка даты начала и окончания темы, по текущему data_id открывающего и закрывающего комментария
+     * @return bool|int
+     */
     public function actionDateSetter(): bool|int
     {
         $message = 'Done!';
@@ -38,11 +42,32 @@ class SvoddController extends Controller
         return $this->stdout($message . PHP_EOL);
     }
 
+    /**
+     * Смена активной темы СВОДД, передается адрес новой темы
+     * @param string $url
+     * @return bool|int
+     */
     public function actionChangeCurrent(string $url): bool|int
     {
         $message = 'Done!';
         try {
             $this->service->changeCurrent($url);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        return $this->stdout($message . PHP_EOL);
+    }
+
+    /**
+     * Обновление статистики и счетчика кол-ва комментариев в диаграмме
+     * @return bool|int
+     */
+    public function actionUpdateStatistic(): bool|int
+    {
+        $message = 'Done!';
+        try {
+            $this->service->updateStatistic();
         } catch (Exception $e) {
             $message = $e->getMessage();
         }

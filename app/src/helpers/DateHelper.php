@@ -23,7 +23,7 @@ class DateHelper
      * @throws Exception
      */
     public static function showDateFromString(
-        string $date,
+        ?string $date,
         DateTimeZone $timezone = new DateTimeZone('Europe/Moscow'),
         string $format = 'd.m.Y'): string
     {
