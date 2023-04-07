@@ -7,6 +7,7 @@ use App\Svodd\Entity\Chart\Data;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
+use yii\db\Query;
 
 class CommentReadModel
 {
@@ -38,6 +39,21 @@ class CommentReadModel
     public function findMaxDataIdByQuestion(int $question_data_id): int|null
     {
         return Comment::find()->andWhere(['question_data_id' => $question_data_id])->max('data_id');
+    }
+
+    /**
+     * Возвращает колонку data_id комментариев к вопросу
+     * @param int $question_data_id
+     * @return array
+     */
+    public function findCommentsDataIds(int $question_data_id): array
+    {
+        return (new Query())
+            ->select(['data_id'])
+            ->from('question_comments')
+            ->where(['question_data_id' => $question_data_id])
+            ->orderBy('data_id ASC')
+            ->all();
     }
 
     /**
