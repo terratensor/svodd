@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace App\Svodd\Service;
 
+use App\Question\Entity\Question\CommentReadModel;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
 use App\Svodd\Entity\Chart\SvoddChartRepository;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class ChartDataUpdater
 {
     private QuestionStatsRepository $questionStatsRepository;
     private SvoddChartRepository $svoddChartRepository;
+    private CommentReadModel $commentReadModel;
 
     public function __construct(
         QuestionStatsRepository $questionStatsRepository,
         SvoddChartRepository $svoddChartRepository,
+        CommentReadModel $commentReadModel,
     ) {
         $this->questionStatsRepository = $questionStatsRepository;
         $this->svoddChartRepository = $svoddChartRepository;
+        $this->commentReadModel = $commentReadModel;
     }
 
     public function handle(int $question_id): void
@@ -37,6 +42,17 @@ class ChartDataUpdater
                 }
                 // обновляем количество комментариев в теме
                 $data->comments_count = $stats->comments_count;
+
+                // получаем колонку с комментариями, преобразовываем в массив ключ значение data_id комментария
+                // и подсчитываем полученное кол-во элементов в массиве.
+                $delta = count(ArrayHelper::getColumn(
+                    $this->commentReadModel->findCommentIDsByQuestionAfter(
+                        $question_id,
+                        $data->end_comment_data_id
+                    ), 'data_id'));
+
+                // обновляем значение дельты
+                $data->comments_delta = $delta;
 
                 $this->svoddChartRepository->save($data);
             } catch (\Exception $e) {

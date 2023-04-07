@@ -84,7 +84,6 @@ class StatisticService
         $stats->changeFirstCommentDataId($firstCommentDataId);
 
         $this->questionStatsRepository->save($stats);
-        echo "questionStatsRepository save\r\n";
 
         // Обновляем запись диаграммы статистики, тут должен быть listener
         $this->chartDataUpdater->handle($question->data_id);
