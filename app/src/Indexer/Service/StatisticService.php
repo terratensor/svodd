@@ -51,36 +51,29 @@ class StatisticService
     public function update(string $question_id): void
     {
         $question = $this->questionRepository->get($question_id);
-        // Запросы max, а особенно Min выполняются на рабочем сервере очень медленно, до 1 минуты.
-        // Принято решение, загружаем колонку комментариев в память по id вопроса
+        // SQL запросы MAX, а особенно MIN выполнялись на рабочем сервере очень медленно (до 1 минуты).
+        // Принято решение, загружать колонку data_id комментариев в память по id вопроса
+        // и получать необходимые данные с помощью полученного массива.
         $result = $this->commentReadModel->findCommentsDataIds($question->data_id);
-        // Преобразовываем в отображение ключ - значение
+        // Отображаем ключ - значение
         $commentsDataIdArray = ArrayHelper::getColumn($result, 'data_id');
 
-        // считаем количество элементов в массиве - комментарии
+        // Считаем количество элементов в массиве - комментарии
         $comments_count = count($commentsDataIdArray);
-//        $comments_count = $this->commentReadModel->commentsCountByQuestion($question->data_id);
-        echo "commentsCountByQuestion $comments_count\r\n";
 
         // Получение номера data_id последнего комментария в вопросе
-//        $lastCommentDataId = $this->commentReadModel->findMaxDataIdByQuestion($question->data_id);
-        // С помощью функции работы с массивом без запроса в БД
+        // с помощью функции работы с массивом без запроса в БД
         $lastCommentDataId = end($commentsDataIdArray);
-        echo "lastCommentDataId $lastCommentDataId\r\n";
 
         $lastComment = $lastCommentDataId ? $this->commentReadModel->findByDataId($lastCommentDataId) : null;
         // Получение даты и времени последнего комментария вопроса
         $lastCommentDate = $lastComment->datetime ?? null;
-        echo "load lastCommentDate \r\n";
 
         // Получение номера первого комментария вопроса (первый элемент массива)
-//        $firstCommentDataId = $this->commentReadModel->findMinDataIdByQuestion($question->data_id);
-        // С помощью функции работы с массивом без запроса в БД
+        // с помощью функции работы с массивом без запроса в БД
         $firstCommentDataId = current($commentsDataIdArray);
-        echo "firstCommentDataId $firstCommentDataId\r\n";
 
         $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
-        echo "getByQuestionId stats\r\n";
 
         if ($stats->questionDate === null) {
             $stats->questionDate = $question->datetime;
@@ -91,7 +84,6 @@ class StatisticService
         $stats->changeFirstCommentDataId($firstCommentDataId);
 
         $this->questionStatsRepository->save($stats);
-        echo "questionStatsRepository save\r\n";
 
         // Обновляем запись диаграммы статистики, тут должен быть listener
         $this->chartDataUpdater->handle($question->data_id);

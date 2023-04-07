@@ -2,7 +2,6 @@
 
 namespace App\Question\Entity\Question;
 
-use App\Question\Entity\Statistic\QuestionStats;
 use App\Svodd\Entity\Chart\Data;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -32,9 +31,11 @@ class CommentReadModel
     }
 
     /**
-     * Находит максимальное значение data_id комментария в вопросе question_data_id
      * @param int $question_data_id
      * @return int|null
+     * @deprecated На текущей конфигурации рабочего сервера (512 МБ RAM 1 CPU) выполняется очень долго
+     * Было установлено, что время выполнения зависело от ИД вопроса, самые старые от текущей даты комментарии в вопросе рассчитывались до 20 секунд.
+     * Находит максимальное значение data_id комментария в вопросе question_data_id
      */
     public function findMaxDataIdByQuestion(int $question_data_id): int|null
     {
@@ -57,9 +58,11 @@ class CommentReadModel
     }
 
     /**
-     * Находит минимальное значение data_id комментария в вопросе question_data_id
      * @param int $question_data_id
      * @return int|null
+     * @deprecated На текущей конфигурации рабочего сервера (512 МБ RAM 1 CPU) выполняется очень долго
+     * Было установлено, что время выполнения зависело от ИД вопроса, самые старые от текущей даты комментарии в вопросе рассчитывались до 1 минуты.
+     * Находит минимальное значение data_id комментария в вопросе question_data_id
      */
     public function findMinDataIdByQuestion(int $question_data_id): int|null
     {
@@ -100,5 +103,22 @@ class CommentReadModel
                 ]
             ]
         );
+    }
+
+    /**
+     * Возвращает массив data_id комментариев вопроса после закрывающего комментария
+     * @param int $question_data_id
+     * @param int $end_comment_data_id
+     * @return array
+     */
+    public function findCommentIDsByQuestionAfter(int $question_data_id, int $end_comment_data_id): array
+    {
+        return (new Query())
+            ->select('data_id')
+            ->from('question_comments')
+            ->where(['question_data_id' => $question_data_id])
+            ->andWhere(['>', 'data_id', $end_comment_data_id])
+            ->orderBy('data_id ASC')
+            ->all();
     }
 }
