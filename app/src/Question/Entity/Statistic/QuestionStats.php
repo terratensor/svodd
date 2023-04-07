@@ -27,7 +27,7 @@ use yii\db\ActiveRecord;
  * @property int|null $last_comment_data_id
  * @property int|null $first_comment_data_id
  * @property Question $question
- * @property Data $chartData
+ * @property Data $svoddData
  */
 class QuestionStats extends ActiveRecord
 {
@@ -105,7 +105,7 @@ class QuestionStats extends ActiveRecord
         return $this->hasOne(Question::class, ['data_id' => 'question_id']);
     }
 
-    public function getChartData(): ActiveQuery
+    public function getSvoddData(): ActiveQuery
     {
         return $this->hasOne(Data::class, ['question_id' => 'question_id']);
     }
