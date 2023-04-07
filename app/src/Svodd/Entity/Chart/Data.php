@@ -78,4 +78,9 @@ class Data extends ActiveRecord
             TimestampBehavior::class,
         ];
     }
+
+    public function isActive(): bool
+    {
+        return $this->active === true;
+    }
 }
