@@ -2,6 +2,7 @@
 
 namespace App\Question\Entity\Statistic;
 
+use App\Svodd\Entity\Chart\Data;
 use yii\db\ActiveRecord;
 
 class QuestionStatsRepository
@@ -26,7 +27,19 @@ class QuestionStatsRepository
 
     public function findAllForList(): array
     {
-        return QuestionStats::find()->andWhere(['IS NOT', 'number', null])->orderBy("number DESC")->all();
+        $questionIds = Data::find()
+            ->alias('sd')
+            ->select('sd.question_id')
+            ->orderBy('sd.topic_number')
+            ->asArray()
+            ->column();
+
+        return QuestionStats::find()
+            ->alias('qs')
+            ->joinWith('svoddData sd')
+            ->andWhere(['in', 'qs.question_id', $questionIds])
+            ->orderBy("sd.topic_number DESC")
+            ->all();
     }
 
     public function findSvoddQuestions(): array
