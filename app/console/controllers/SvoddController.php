@@ -49,4 +49,16 @@ class SvoddController extends Controller
 
         return $this->stdout($message . PHP_EOL);
     }
+
+    public function actionUpdateStatistic(): bool|int
+    {
+        $message = 'Done!';
+        try {
+            $this->service->updateStatistic();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        return $this->stdout($message . PHP_EOL);
+    }
 }

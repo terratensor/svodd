@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Svodd\Service;
 
+use App\Indexer\Service\StatisticService;
 use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
 use App\Svodd\Entity\Chart\Data;
@@ -19,14 +20,17 @@ class SvoddService
         "https://фкт-алтай.рф/qa/question/view-"
     ];
     private SvoddChartRepository $svoddChartRepository;
+    private StatisticService $statisticService;
 
     public function __construct(
         QuestionRepository $questionRepository,
-        SvoddChartRepository $svoddChartRepository
+        SvoddChartRepository $svoddChartRepository,
+        StatisticService $statisticService
     )
     {
         $this->questionRepository = $questionRepository;
         $this->svoddChartRepository = $svoddChartRepository;
+        $this->statisticService = $statisticService;
     }
 
     public function changeCurrent(string $url): void
@@ -73,5 +77,19 @@ class SvoddService
     {
         $charset = mb_detect_encoding($string);
         return iconv($charset, "UTF-8", $string);
+    }
+
+    public function updateStatistic(): void
+    {
+        $questionIDs = Data::find()
+            ->select(['question_id'])
+            ->asArray()
+            ->all();
+
+        foreach ($questionIDs as $questionID) {
+            $question = $this->questionRepository->getByDataId($questionID['question_id']);
+            $this->statisticService->update($question->id);
+            echo "Update question $question->id \r\n";
+        }
     }
 }
