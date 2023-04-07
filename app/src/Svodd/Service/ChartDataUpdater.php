@@ -24,12 +24,10 @@ class ChartDataUpdater
     public function handle(int $question_id): void
     {
         $data = $this->svoddChartRepository->findByQuestionId($question_id);
-        echo "char data updater load data\r\n";
+
         if ($data !== null) {
-            echo "обновляем chart data updater load data\r\n";
             try {
                 $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-                echo "char data updater load stats\r\n";
                 // если вопрос активный, то обновляем дату последнего комментария,
                 // иначе обновятся предыдущие записи последнего комментария и подсчет для диаграммы поломается
                 // эта дата должна быть зафиксирована после смены активной темы,
@@ -41,7 +39,6 @@ class ChartDataUpdater
                 $data->comments_count = $stats->comments_count;
 
                 $this->svoddChartRepository->save($data);
-                echo "Сохранены данные диаграммы $question_id\r\n";
             } catch (\Exception $e) {
                 Yii::$app->errorHandler->logException($e);
             }
