@@ -25,24 +25,26 @@ class ChartDataUpdater
     {
         $data = $this->svoddChartRepository->findByQuestionId($question_id);
         echo "char data updater load data\r\n";
+        if ($data !== null) {
+            echo "обновляем chart data updater load data\r\n";
+            try {
+                $stats = $this->questionStatsRepository->getByQuestionId($question_id);
+                echo "char data updater load stats\r\n";
+                // если вопрос активный, то обновляем дату последнего комментария,
+                // иначе обновятся предыдущие записи последнего комментария и подсчет для диаграммы поломается
+                // эта дата должна быть зафиксирована после смены активной темы,
+                // пока тема активна обновляется, после перехода в статус неактивна зафиксирована.
+                if ($data->isActive()) {
+                    $data->end_comment_data_id = $stats->last_comment_data_id;
+                }
+                // обновляем количество комментариев в теме
+                $data->comments_count = $stats->comments_count;
 
-        try {
-            $stats = $this->questionStatsRepository->getByQuestionId($question_id);
-            echo "char data updater load stats\r\n";
-            // если вопрос активный, то обновляем дату последнего комментария,
-            // иначе обновятся предыдущие записи последнего комментария и подсчет для диаграммы поломается
-            // эта дата должна быть зафиксирована после смены активной темы,
-            // пока тема активна обновляется, после перехода в статус неактивна зафиксирована.
-            if ($data->isActive()) {
-                $data->end_comment_data_id = $stats->last_comment_data_id;
+                $this->svoddChartRepository->save($data);
+                echo "Сохранены данные диаграммы $question_id\r\n";
+            } catch (\Exception $e) {
+                Yii::$app->errorHandler->logException($e);
             }
-            // обновляем количество комментариев в теме
-            $data->comments_count = $stats->comments_count;
-
-            $this->svoddChartRepository->save($data);
-            echo "Сохранены данные диаграммы $question_id\r\n";
-        } catch (\Exception $e) {
-            Yii::$app->errorHandler->logException($e);
         }
     }
 }
