@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Svodd\Entity\Chart;
 
+use App\Indexer\Model\Question;
 use yii\db\ActiveRecord;
 
 class SvoddChartRepository
@@ -35,5 +36,12 @@ class SvoddChartRepository
     public function findCurrent(): array|ActiveRecord|null|Data
     {
         return Data::find()->andWhere(['active' => true])->one();
+    }
+
+    public function findPreviousData(Data $data): array|ActiveRecord|null|Data
+    {
+        $previous_topic_number = ($data->topic_number - 1);
+
+        return Data::find()->andWhere(['topic_number' => $previous_topic_number])->one();
     }
 }

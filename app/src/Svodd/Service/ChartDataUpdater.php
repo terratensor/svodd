@@ -30,6 +30,9 @@ class ChartDataUpdater
     {
         $data = $this->svoddChartRepository->findByQuestionId($question_id);
 
+        $previous_data = $this->svoddChartRepository->findPreviousData($data);
+        $previous_question_id = $previous_data?->question_id;
+
         if ($data !== null) {
             try {
                 $stats = $this->questionStatsRepository->getByQuestionId($question_id);
@@ -43,15 +46,21 @@ class ChartDataUpdater
                 // обновляем количество комментариев в теме
                 $data->comments_count = $stats->comments_count;
 
-                // получаем колонку с комментариями, преобразовываем в массив ключ значение data_id комментария
+                // Устанавливаем значение 0 по умолчанию
+                $delta = 0;
+                // Если номер темы больше 1, получаем колонку с комментариями от предыдущего вопроса,
+                // преобразовываем в массив ключ значение data_id комментария
                 // и подсчитываем полученное кол-во элементов в массиве.
-                $delta = count(ArrayHelper::getColumn(
-                    $this->commentReadModel->findCommentIDsByQuestionAfter(
-                        $question_id,
-                        $data->end_comment_data_id
-                    ), 'data_id'));
+                if ($data->topic_number > 1) {
+                    $delta = count(ArrayHelper::getColumn(
+                        $this->commentReadModel->findCommentIDsByQuestionAfter(
+                            $previous_question_id,
+                            $previous_data->end_comment_data_id
+                        ), 'data_id'));
+                }
 
-                // обновляем значение дельты
+                // обновляем значение дельты, это кол-во комментариев в предыдущем вопросе,
+                // после закрывающего комментария или 0
                 $data->comments_delta = $delta;
 
                 $this->svoddChartRepository->save($data);
