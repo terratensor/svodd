@@ -81,7 +81,8 @@ class Chart extends Widget
     
     for (let i = 0; i < y.ticks.length; i++) {
       if (xCoor >= left && xCoor <= right && yCoor >= top + (height * i) && yCoor <= top + height + (height * i)) {
-        window.open(chart.data.labelLinks[i])
+        const newWindow = window.open(chart.data.labelLinks[i], "_blank", "noopener,noreferrer",)
+        if (newWindow) newWindow.opener = null        
       }
     }
   }
