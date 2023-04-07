@@ -88,6 +88,7 @@ class SvoddService
 
         foreach ($questionIDs as $questionID) {
             $question = $this->questionRepository->getByDataId($questionID['question_id']);
+            echo "statisticService update question $question->id \r\n";
             $this->statisticService->update($question->id);
             echo "Update question $question->id \r\n";
         }

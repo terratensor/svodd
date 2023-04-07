@@ -61,9 +61,9 @@ class SvoddController extends Controller
 
     /**
      * Обновление статистики и счетчика кол-ва комментариев в диаграмме
-     * @return bool|int
+     * @return void
      */
-    public function actionUpdateStatistic(): bool|int
+    public function actionUpdateStatistic(): void
     {
         $message = 'Done!';
         try {
@@ -72,6 +72,6 @@ class SvoddController extends Controller
             $message = $e->getMessage();
         }
 
-        return $this->stdout($message . PHP_EOL);
+        $this->stdout($message . PHP_EOL);
     }
 }
