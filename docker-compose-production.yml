@@ -117,6 +117,22 @@ services:
       restart_policy:
         condition: none
 
+  previous-topic-parser:
+    image: ${REGISTRY}/fct-parser:main-41
+    volumes:
+      - parsed-files:/app/parsed-files
+    command: './fct-parser -e -j -h'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=*/5 * * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
+      replicas: 0
+      restart_policy:
+        condition: none
+
   app-updater:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
     environment:
