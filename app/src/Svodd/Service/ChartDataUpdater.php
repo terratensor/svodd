@@ -30,10 +30,10 @@ class ChartDataUpdater
     {
         $data = $this->svoddChartRepository->findByQuestionId($question_id);
 
-        $previous_data = $this->svoddChartRepository->findPreviousData($data);
-        $previous_question_id = $previous_data?->question_id;
-
         if ($data !== null) {
+            $previous_data = $this->svoddChartRepository->findPreviousData($data);
+            $previous_question_id = $previous_data?->question_id;
+
             try {
                 $stats = $this->questionStatsRepository->getByQuestionId($question_id);
                 // если вопрос активный, то обновляем дату последнего комментария,

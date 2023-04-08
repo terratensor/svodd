@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Svodd\Entity\Chart;
 
-use App\Indexer\Model\Question;
 use yii\db\ActiveRecord;
 
 class SvoddChartRepository
