@@ -101,8 +101,8 @@ services:
         max_attempts: 5
         window: 120s
 
-  fct-parser:
-    image: ${REGISTRY}/fct-search-parser:main-2
+  current-topic-parser:
+    image: ${REGISTRY}/fct-parser:main-41
     volumes:
       - parsed-files:/app/parsed-files
 #    command: './fct-parser -j -h -a'
