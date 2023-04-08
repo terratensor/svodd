@@ -4,3 +4,9 @@
     hostname: "{{ hostname }}"
     labels: "{{ labels }}"
     labels_state: replace
+
+- name: Set node labels2
+  docker_node:
+    hostname: "{{ hostname2 }}"
+    labels: "{{ labels2 }}"
+    labels_state: replace
