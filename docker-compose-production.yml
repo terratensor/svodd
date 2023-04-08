@@ -112,7 +112,7 @@ services:
         - swarm.cronjob.schedule=*/1 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.frontend == frontend ]
+        constraints: [ node.labels.parser == parser ]
       replicas: 0
       restart_policy:
         condition: none
@@ -125,10 +125,10 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/38 * * * *
+        - swarm.cronjob.schedule=*/10 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.frontend == frontend ]
+        constraints: [ node.labels.parser == parser ]
       replicas: 0
       restart_policy:
         condition: none
@@ -141,15 +141,31 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/58 * * * *
+        - swarm.cronjob.schedule=*/15 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.frontend == frontend ]
+        constraints: [ node.labels.parser == parser ]
       replicas: 0
       restart_policy:
         condition: none
 
   questions-parser-2:
+    image: ${REGISTRY}/fct-parser:main-41
+    volumes:
+      - parsed-files:/app/parsed-files
+    command: './fct-parser -p=5 -j -h'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=* */1 * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.labels.parser == parser ]
+      replicas: 0
+      restart_policy:
+        condition: none
+
+  questions-parser-3:
     image: ${REGISTRY}/fct-parser:main-41
     volumes:
       - parsed-files:/app/parsed-files
@@ -160,7 +176,7 @@ services:
         - swarm.cronjob.schedule=* */12 * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.frontend == frontend ]
+        constraints: [ node.labels.parser == parser ]
       replicas: 0
       restart_policy:
         condition: none
@@ -202,7 +218,7 @@ services:
         - swarm.cronjob.schedule=*/1 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.frontend == frontend ]
+        constraints: [ node.labels.parser == parser ]
       restart_policy:
         condition: on-failure
         delay: 5s
