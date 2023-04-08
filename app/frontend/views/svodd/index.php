@@ -201,7 +201,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
     </div>
   </div>
 
-  <div class="svodd-list" id="svoddList">
+  <div class="svodd-list my-3 show" id="svoddList">
       <?php echo SvoddListWidget::widget(['models' => $list]); ?>
   </div>
 
@@ -210,11 +210,11 @@ $this->title = 'Обратная хронология обсуждения СВ�
   $(window).resize(updateList)
   function updateList() {
       if($(window).outerWidth() < 786) {
-        document.getElementById('svoddList').classList.add('show')    
+        // document.getElementById('svoddList').classList.add('show')    
         document.getElementById('svodd-diagram-container').style.height = '80vh'      
       }
       if($(window).outerWidth() >= 786) {
-        document.getElementById('svoddList').classList.remove('show')      
+        // document.getElementById('svoddList').classList.remove('show')      
         document.getElementById('svodd-diagram-container').style.height = '80vh'     
       }
       if (screen.availHeight > 1080) {
