@@ -125,7 +125,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/10 * * * *
+        - swarm.cronjob.schedule=*/8 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -157,7 +157,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/15 * * * *
+        - swarm.cronjob.schedule=*/10 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -173,7 +173,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/30 * * * *
+        - swarm.cronjob.schedule=*/20 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -189,7 +189,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=* */2 * * *
+        - swarm.cronjob.schedule=0 */50 * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
