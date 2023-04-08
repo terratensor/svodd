@@ -137,6 +137,22 @@ services:
     image: ${REGISTRY}/fct-parser:main-41
     volumes:
       - parsed-files:/app/parsed-files
+    command: './fct-parser -p=1 -j -h'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=*/5 * * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.labels.parser == parser ]
+      replicas: 0
+      restart_policy:
+        condition: none
+
+  questions-parser-2:
+    image: ${REGISTRY}/fct-parser:main-41
+    volumes:
+      - parsed-files:/app/parsed-files
     command: './fct-parser -p=2 -j -h'
     deploy:
       labels:
@@ -149,7 +165,7 @@ services:
       restart_policy:
         condition: none
 
-  questions-parser-2:
+  questions-parser-3:
     image: ${REGISTRY}/fct-parser:main-41
     volumes:
       - parsed-files:/app/parsed-files
@@ -157,7 +173,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=* */1 * * *
+        - swarm.cronjob.schedule=*/30 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -165,7 +181,7 @@ services:
       restart_policy:
         condition: none
 
-  questions-parser-3:
+  questions-parser-4:
     image: ${REGISTRY}/fct-parser:main-41
     volumes:
       - parsed-files:/app/parsed-files
@@ -173,7 +189,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=* */12 * * *
+        - swarm.cronjob.schedule=* */2 * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
