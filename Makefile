@@ -130,6 +130,9 @@ deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cp .secrets/* site_${BUILD_NUMBER}/secrets'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_current-topic-parser || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_previous-topic-parser || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_questions-parser-1 || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_questions-parser-2 || true'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_app-updater || true'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
 

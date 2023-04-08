@@ -133,6 +133,38 @@ services:
       restart_policy:
         condition: none
 
+  questions-parser-1:
+    image: ${REGISTRY}/fct-parser:main-41
+    volumes:
+      - parsed-files:/app/parsed-files
+    command: './fct-parser -p=2 -j -h'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=*/10 * * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
+      replicas: 0
+      restart_policy:
+        condition: none
+
+  questions-parser-2:
+    image: ${REGISTRY}/fct-parser:main-41
+    volumes:
+      - parsed-files:/app/parsed-files
+    command: './fct-parser -p=10 -j -h'
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=0 */1 * * *
+        - swarm.cronjob.skip-running=true
+      placement:
+        constraints: [ node.labels.frontend == frontend ]
+      replicas: 0
+      restart_policy:
+        condition: none
+
   app-updater:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
     environment:
