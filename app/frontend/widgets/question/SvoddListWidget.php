@@ -4,7 +4,6 @@ namespace frontend\widgets\question;
 
 use App\helpers\DateHelper;
 use App\Question\Entity\Statistic\QuestionStats;
-use DomainException;
 use Exception;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -39,10 +38,8 @@ class SvoddListWidget extends Widget
 
             $item = Html::tag('div', $item, ['class' => 'd-flex w-100 justify-content-between align-items-start']);
 
-            $link = Html::a($item, $model->url, [
+            $link = Html::a($item, ['question/view', 'id' => $model->question_id, 'page' => 1], [
                 'class' => 'list-group-item list-group-item-action',
-                'target' => '_blank',
-                'rel' => 'noopener noreferrer'
             ]);
 
             $links .= $link;
