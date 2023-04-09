@@ -30,6 +30,9 @@ jobs:
       - name: Dev Init
         run: make init
 
+      - name: Check Backup
+        run: make app-backup
+
       - name: Push dev cache images
         run: make push-dev-cache
 
