@@ -150,6 +150,26 @@ services:
     volumes:
       - session-cache:/data
 
+  app-postgres-backup:
+    build:
+      context: ./app/frontend/docker/common
+      dockerfile: postgres-backup/Dockerfile
+    environment:
+      BACKUP_NAME: fct-search_app-postgres
+      POSTGRES_HOST: app-postgres
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      AWS_ACCESS_KEY_ID: storage_app
+      AWS_SECRET_ACCESS_KEY_FILE: /run/secrets/backup_aws_secret_access_key
+      AWS_DEFAULT_REGION: region
+      S3_ENDPOINT: http://backup-storage:9000
+      S3_BUCKET: backup
+    secrets:
+      - app_db_password
+      - backup_aws_secret_access_key
+    command: sh -c 'wait-for-it app-postgres:5432 -t 20 && backup'
+
   mailer:
     image: mailhog/mailhog
     networks:
@@ -162,6 +182,26 @@ services:
       - traefik.http.routers.mailer.entryPoints=http
       - traefik.http.services.mailer.loadBalancer.server.port=8025
 
+  backup-storage:
+    image: minio/minio
+    environment:
+      MINIO_ROOT_USER: storage_app
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/backup_aws_secret_access_key
+    secrets:
+      - backup_aws_secret_access_key
+    volumes:
+      - backup-storage:/data
+    entrypoint: sh -c 'mkdir -p /data/backup && docker-entrypoint.sh minio server /data --console-address ":80"'
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.backup-storage.rule=Host(`backup-storage.localhost`)
+      - traefik.http.routers.backup-storage.entryPoints=http
+      - traefik.http.services.backup-storage.loadBalancer.server.port=80
+
 secrets:
   app_db_password:
     file: ./docker/development/secrets/app_db_password
@@ -171,12 +211,15 @@ secrets:
     file: ./docker/development/secrets/sentry_dsn
   redis_password:
     file: ./docker/development/secrets/redis_password
+  backup_aws_secret_access_key:
+    file: ./docker/development/secrets/backup_aws_secret_access_key
 
 volumes:
   app-postgres:
   manticore:
   session-cache:
     driver: local
+  backup-storage:
 
 networks:
   traefik-public:

@@ -38,6 +38,9 @@ app-migrations:
 	docker compose run --rm cli-php php yii migrate --interactive=0
 	docker compose run --rm cli-php php yii migrate-rbac --interactive=0
 
+app-backup:
+	docker compose run --rm app-postgres-backup
+
 app-index-create:
 	docker compose run --rm cli-php php yii index/create --interactive=0
 
@@ -80,7 +83,7 @@ update-current:
 update-current-comments:
 	docker-compose run --rm cli-php php yii index/update-current-comments
 
-build: build-frontend build-cli-php
+build: build-frontend build-cli-php build-backup
 
 build-frontend:
 	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
@@ -103,6 +106,9 @@ build-cli-php:
     	--tag ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG} \
     	--file app/console/docker/production/php-cli/Dockerfile app
 
+build-backup:
+	docker --log-level=debug build --pull --file=app/frontend/docker/common/postgres-backup/Dockerfile --tag=${REGISTRY}/fct-search-postgres-backup:${IMAGE_TAG} app/frontend/docker/common
+
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
 
@@ -118,6 +124,7 @@ push-build-cache-cli-php:
 push:
 	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
 	docker push ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+	docker push ${REGISTRY}/fct-search-postgres-backup:${IMAGE_TAG}
 
 deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay traefik-public || true'
