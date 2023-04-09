@@ -79,6 +79,10 @@ jobs:
           APP_DB_PASSWORD_FILE: ${{ secrets.APP_DB_PASSWORD_FILE }}
           APP_SENTRY_DSN_FILE: ${{ secrets.APP_SENTRY_DSN_FILE }}
           APP_REDIS_HOST: ${{ secrets.APP_REDIS_HOST }}
-          APP_REDIS_PORT: ${{ secrets.APP_REDIS_PORT }}
           APP_REDIS_PASSWORD_FILE: ${{ secrets.APP_REDIS_PASSWORD_FILE }}
+          BACKUP_AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_AWS_ACCESS_KEY_ID }}
+          BACKUP_AWS_ACCESS_KEY_FILE: ${{ secrets.BACKUP_AWS_ACCESS_KEY_FILE }}
+          BACKUP_AWS_DEFAULT_REGION: ${{ secrets.BACKUP_AWS_DEFAULT_REGION }}
+          BACKUP_S3_ENDPOINT: ${{ secrets.BACKUP_S3_ENDPOINT }}
+          BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
         if: ${{ github.ref == 'refs/heads/main' }}
