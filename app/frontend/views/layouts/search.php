@@ -22,6 +22,7 @@ AppAsset::register($this);
       <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
       <?php $this->head() ?>
+      <?= $this->render('yandex_metrika'); ?>
   </head>
   <body class="d-flex flex-column h-100">
   <?php $this->beginBody() ?>
