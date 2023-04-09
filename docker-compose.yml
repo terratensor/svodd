@@ -162,6 +162,26 @@ services:
       - traefik.http.routers.mailer.entryPoints=http
       - traefik.http.services.mailer.loadBalancer.server.port=8025
 
+  backup-storage:
+    image: minio/minio
+    environment:
+      MINIO_ROOT_USER: storage_app
+      MINIO_ROOT_PASSWORD_FILE: /run/secrets/backup_aws_secret_access_key
+    secrets:
+      - backup_aws_secret_access_key
+    volumes:
+      - backup-storage:/data
+    entrypoint: sh -c 'mkdir -p /data/backup && docker-entrypoint.sh minio server /data --console-address ":80"'
+    networks:
+      - traefik-public
+      - default
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      - traefik.http.routers.backup-storage.rule=Host(`backup-storage.localhost`)
+      - traefik.http.routers.backup-storage.entryPoints=http
+      - traefik.http.services.backup-storage.loadBalancer.server.port=80
+
 secrets:
   app_db_password:
     file: ./docker/development/secrets/app_db_password
@@ -171,12 +191,15 @@ secrets:
     file: ./docker/development/secrets/sentry_dsn
   redis_password:
     file: ./docker/development/secrets/redis_password
+  backup_aws_secret_access_key:
+    file: ./docker/development/secrets/backup_aws_secret_access_key
 
 volumes:
   app-postgres:
   manticore:
   session-cache:
     driver: local
+  backup-storage:
 
 networks:
   traefik-public:
