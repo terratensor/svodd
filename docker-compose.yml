@@ -150,6 +150,26 @@ services:
     volumes:
       - session-cache:/data
 
+  app-postgres-backup:
+    build:
+      context: ./app/frontend/docker/common
+      dockerfile: postgres-backup/Dockerfile
+    environment:
+      BACKUP_NAME: fct-search_app-postgres
+      POSTGRES_HOST: app-postgres
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      AWS_ACCESS_KEY_ID: storage_app
+      AWS_SECRET_ACCESS_KEY_FILE: /run/secrets/backup_aws_secret_access_key
+      AWS_DEFAULT_REGION: region
+      S3_ENDPOINT: http://backup-storage:9000
+      S3_BUCKET: backup
+    secrets:
+      - app_db_password
+      - backup_aws_secret_access_key
+    command: sh -c 'wait-for-it app-postgres:5432 -t 20 && backup'
+
   mailer:
     image: mailhog/mailhog
     networks:
