@@ -38,6 +38,9 @@ app-migrations:
 	docker compose run --rm cli-php php yii migrate --interactive=0
 	docker compose run --rm cli-php php yii migrate-rbac --interactive=0
 
+app-backup:
+	docker compose run --rm app-postgres-backup
+
 app-index-create:
 	docker compose run --rm cli-php php yii index/create --interactive=0
 
