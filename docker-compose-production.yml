@@ -8,7 +8,7 @@ services:
       LOG_LEVEL: info
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [ node.role == manager ]
 
   frontend:
     image: ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
@@ -71,7 +71,7 @@ services:
       APP_ENV: prod
       APP_DEBUG: 0
       POSTGRES_HOST: ${APP_POSTGRES_HOST}
-      POSTGRES_USER:  ${APP_POSTGRES_USER}
+      POSTGRES_USER: ${APP_POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
       POSTGRES_DB: ${APP_POSTGRES_DB}
       MAILER_HOST: ${APP_MAILER_HOST}
@@ -105,7 +105,7 @@ services:
     image: ${REGISTRY}/fct-parser:main-41
     volumes:
       - parsed-files:/app/parsed-files
-#    command: './fct-parser -j -h -a'
+    #    command: './fct-parser -j -h -a'
     deploy:
       labels:
         - swarm.cronjob.enable=true
@@ -141,7 +141,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/5 * * * *
+        - swarm.cronjob.schedule=5,15,25,35,45,55 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -157,7 +157,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/10 * * * *
+        - swarm.cronjob.schedule=10,30,50 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -173,7 +173,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=*/20 * * * *
+        - swarm.cronjob.schedule=20,40 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -189,7 +189,7 @@ services:
     deploy:
       labels:
         - swarm.cronjob.enable=true
-        - swarm.cronjob.schedule=0 */50 * * *
+        - swarm.cronjob.schedule=0 * * * *
         - swarm.cronjob.skip-running=true
       placement:
         constraints: [ node.labels.parser == parser ]
@@ -273,7 +273,7 @@ services:
       - manticore:/var/log/manticore
     deploy:
       placement:
-        constraints: [node.role == manager]
+        constraints: [ node.role == manager ]
       endpoint_mode: dnsrr
 
   redis:
