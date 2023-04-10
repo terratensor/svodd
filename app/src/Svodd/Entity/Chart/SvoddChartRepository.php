@@ -16,6 +16,14 @@ class SvoddChartRepository
         return Data::find()->all();
     }
 
+    /**
+     * @return array|Data[]
+     */
+    public function findAllDesc(): array
+    {
+        return Data::find()->orderBy('topic_number DESC')->all();
+    }
+
     public function save(Data $data): void
     {
         if (!$data->save()) {
