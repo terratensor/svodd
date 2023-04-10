@@ -27,9 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
         <?php
         $values = [
-            '' => 'По дате вопроса',
+            '' => 'По дате последнего комментария',
+            '-date' => 'По дате вопроса',
             '-comments_count' => 'По количеству комментариев',
-            '-last_comment_date' => 'По дате последнего комментария',
         ];
         $current = Yii::$app->request->get('sort');
         ?>
