@@ -9,8 +9,8 @@ use frontend\widgets\question\QuestionHeader;
 use yii\helpers\Html;
 
 ?>
-<div class="card mb-4">
-  <div class="card-header d-flex justify-content-between">
+<div class="card mb-4 border-secondary">
+  <div class="card-header d-flex justify-content-between border-secondary-subtle">
       <?= QuestionHeader::widget(['question' => $question]); ?>
   </div>
   <div class="card-body">
@@ -18,7 +18,7 @@ use yii\helpers\Html;
         <?php echo Yii::$app->formatter->asRaw($question->text); ?>
     </div>
   </div>
-  <div class="card-footer d-flex justify-content-end">
+  <div class="card-footer d-flex justify-content-end border-secondary-subtle">
       <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $question->data_id; ?>
       <?= Html::a(
           $link,

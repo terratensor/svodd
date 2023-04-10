@@ -15,8 +15,8 @@ use yii\data\ActiveDataProvider;
 <?php endif; ?>
 
 <div data-question-id="<?= $question->data_id; ?>" class="question-view">
-  <div class="card mb-4">
-    <div class="card-header d-flex justify-content-between">
+  <div class="card mb-4 border-secondary">
+    <div class="card-header d-flex justify-content-between border-secondary-subtle">
         <?= QuestionHeader::widget(['question' => $question]); ?>
     </div>
     <div class="card-body">
