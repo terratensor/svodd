@@ -2,19 +2,15 @@
 
 declare(strict_types=1);
 
-/** @var QuestionStats[] $list */
+/** @var Data[] $data */
 
 /** @var View $this */
 
-use App\Question\Entity\Statistic\QuestionStats;
 use App\Svodd\Entity\Chart\Data;
 use frontend\widgets\ChartJs\Chart;
-use frontend\widgets\question\SvoddListWidget;
 use yii\web\JsExpression;
 use yii\web\View;
 
-/** @var Data[] $data */
-$data = Data::find()->orderBy('topic_number DESC')->all();
 
 $labels = [];
 $labelLinks = [];
@@ -199,10 +195,6 @@ $this->title = 'Обратная хронология обсуждения СВ�
         </a>
       </p>
     </div>
-  </div>
-
-  <div class="svodd-list my-3 show" id="svoddList">
-      <?php echo SvoddListWidget::widget(['models' => $list]); ?>
   </div>
 
 <?php $js = <<<JS
