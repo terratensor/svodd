@@ -90,6 +90,29 @@ class Chart extends Widget
   $this->id.canvas.addEventListener('click', (e) => {
     clickableScales($this->id, e)
   });
+  
+  function pointerScales(chart, e) {
+    const { canvas, scales: { y } } = chart
+    const top = y.top
+    const left = y.left
+    const right = y.right
+    const bottom = y.bottom
+
+    // Mouse coordinates
+    let rect = canvas.getBoundingClientRect()    
+    const xCoor = e.clientX - rect.left
+    const yCoor = e.clientY - rect.top   
+    
+    if (xCoor >= left && xCoor <= right && yCoor > top && yCoor < bottom) {
+      e.target.style.cursor = 'pointer'  
+    } else {
+      e.target.style.cursor = 'default'
+    }
+  }
+  
+  $this->id.canvas.addEventListener('mousemove', (e) => {
+    pointerScales($this->id, e)
+  });
 
   $(window).resize(responsiveFonts)
   function responsiveFonts() {
