@@ -28,30 +28,16 @@ $this->title = 'Просмотр вопроса #' . $question->data_id;
 $this->params['breadcrumbs'][] = ['label' => 'Архив вопросов', 'url' => ['question/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$page = Yii::$app->request->get()['page'] ?? 1;
-
-$show = $page <= 1;
-
-$js = <<<JS
-  const bsCollapse = new bootstrap.Collapse('#collapseQuestion', {
-  show: $show
-})
-JS;
-
-$this->registerJs($js);
-
 ?>
 <div class="site-index">
   <div class="row">
     <div class="col-md-12">
 
-      <a class="btn btn-primary mb-3" data-bs-toggle="collapse" href="#collapseQuestion" role="button"
-         aria-controls="collapseQuestion">
-        Просмотр вопроса
-      </a>
-        <?php echo $this->render('question', ['question' => $question]); ?>
+        <?php if ($pagination->getPage() < 1): ?>
+            <?php echo $this->render('question', ['question' => $question]); ?>
+        <?php endif; ?>
 
-        <?php if ($page && $page <= 1): ?>
+        <?php if ($pagination->getPage() < 1): ?>
             <?php if (count($question->linkedQuestions) > 0) : ?>
             <p><strong>Связанных вопросов: <?= count($question->linkedQuestions); ?></strong></p>
                 <?php echo $this->render('linked_questions', ['question' => $question]); ?>
