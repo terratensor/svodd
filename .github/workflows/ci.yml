@@ -88,7 +88,6 @@ jobs:
           BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
         if: ${{ github.ref == 'refs/heads/main' }}
 
-      - uses: actions/checkout@v2
       - name: Create Sentry Release
         uses: getsentry/action-release@v1.3.1
         env:
