@@ -5,6 +5,7 @@ declare(strict_types=1);
 /** @var ActiveDataProvider $dataProvider */
 
 use App\Question\Entity\Statistic\QuestionStats;
+use frontend\widgets\Scroll\ScrollWidget;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
 use yii\data\ActiveDataProvider;
@@ -45,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
     foreach ($dataProvider->getModels() as $model): ?>
 
       <a href="<?= Url::to(['question/view', 'id' => $model->question_id, 'page' => 1]); ?>"
-         class="list-group-item list-group-item-action" aria-current="true">
+         class="list-group-item list-group-item-action" aria-current="true" data-entity-id="<?= $model->question_id; ?>">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1"><?= $model->questionDate ? $model->getQuestionDate()->format('d.m.Y') : 'Дата не установлена'; ?></h5>
           <small>Комментариев: <?= $model->comments_count; ?></small>
@@ -75,3 +76,5 @@ $this->params['breadcrumbs'][] = $this->title;
       ?>
   </div>
 </div>
+
+<?= ScrollWidget::class::widget(['position' => $model->question_id]); ?>

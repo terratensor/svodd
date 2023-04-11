@@ -29,7 +29,7 @@ AppAsset::register($this);
 
   <?= $this->render('header'); ?>
 
-  <main role="main" class="flex-shrink-0">
+  <main role="main" class="flex-shrink-0 mb-3">
     <div class="container-fluid pb-0">
         <?= Breadcrumbs::widget(
             [

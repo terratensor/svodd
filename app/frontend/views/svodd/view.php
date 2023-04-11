@@ -1,13 +1,16 @@
 <?php
 
 /** @var ActiveDataProvider $dataProvider */
+/** @var View $this */
 
 use App\Question\Entity\Question\Comment;
+use frontend\widgets\Scroll\ScrollWidget;
 use yii\bootstrap5\LinkPager;
 use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
+use yii\web\View;
 
-
+$position = 1;
 $pagination = new Pagination(
     [
         'totalCount' => $dataProvider->getTotalCount(),
@@ -29,6 +32,7 @@ foreach ($dataProvider->getModels() as $model): ?>
     <?php endif; ?>
 
     <?= $this->render('comment', ['model' => $model]); ?>
+    <?php $position = $model->data_id; ?>
 
     <?php if ($model->position === 1 && $dataProvider->sort->attributeOrders['date'] === SORT_DESC): ?>
         <?= $this->render('question', ['question' => $model->question, 'dataProvider' => $dataProvider]); ?>
@@ -53,3 +57,5 @@ foreach ($dataProvider->getModels() as $model): ?>
       ?>
   </div>
 </div>
+
+<?= ScrollWidget::widget(['position' => $model->data_id]); ?>

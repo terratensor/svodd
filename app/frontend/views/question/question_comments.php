@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 use App\Question\Entity\Question\Comment;
 use frontend\widgets\question\CommentHeader;
+use frontend\widgets\Scroll\ScrollWidget;
 use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
 
@@ -15,7 +16,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
 
 <?php /** @var Comment $model */
 foreach ($dataProvider->getModels() as $model): ?>
-    <div id="<?= $model->position; ?>"
+    <div id="<?= $model->position; ?>" data-entity-id="<?= $model->data_id; ?>"
          class="<?= $position == $model->position ? "card mb-4 border-primary" : "card mb-4" ?>">
         <div class="<?= $position == $model->position ? "card-header d-flex justify-content-between border-primary" : "card-header d-flex justify-content-between" ?>">
             <?= CommentHeader::widget(['model' => $model]); ?>
@@ -35,3 +36,4 @@ foreach ($dataProvider->getModels() as $model): ?>
       </div>
     </div>
 <?php endforeach; ?>
+<?= ScrollWidget::widget(['position' => $model->data_id]); ?>

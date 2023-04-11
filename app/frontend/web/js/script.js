@@ -14,7 +14,7 @@ $(document).ready(function () {
   });
   let mode = (window.opera) ? ((document.compatMode === "CSS1Compat") ? $('html') : $('body')) : $('html,body');
   $('#toTop').click(function () {
-    mode.animate({ scrollTop: 0 }, { duration: 400, queue: false });
+    mode.animate({ scrollTop: 0 }, { duration: 200, queue: false });
     return false;
   });
 });
