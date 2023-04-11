@@ -13,6 +13,7 @@ use App\models\Comment;
 use App\Question\Entity\Statistic\QuestionStats;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
+use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\FollowQuestion;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -122,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
               </div>
             <?php endif; ?>
             <?php foreach ($comments as $comment): ?>
-              <div class="card mb-4">
+              <div class="card mb-4" data-entity-id="<?= $comment->data_id; ?>">
                 <div class="card-header d-flex justify-content-between">
                   <div><?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->username; ?></div>
                   <div><?= "#" . $comment->data_id; ?></div>
@@ -171,6 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
       </div>
     </div>
+      <?= ScrollWidget::widget(['position' => $comment->data_id ?? 0]); ?>
       <?php endif; ?>
   </div>
 
