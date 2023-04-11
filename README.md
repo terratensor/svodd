@@ -7,10 +7,13 @@
 то можно открыть новую задачу issues и написать об этом в свободной форме тут:** https://github.com/audetv/fct-search/issues \
 
 По этой ссылке можно посмотреть список закрытых задач и обсуждение по ним:\
+https://github.com/audetv/fct-search/issues?q=is%3Aissue+is%3Aclosed \
+Это закрытыте [пул запросы](https://docs.github.com/ru/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests): \
 https://github.com/audetv/fct-search/pulls?q=is%3Apr+is%3Aclosed
 
 Тут можно посмореть список изменений, которые сделаны на сайте:\
 https://github.com/audetv/fct-search/commits/main 
+
 
 __
 
