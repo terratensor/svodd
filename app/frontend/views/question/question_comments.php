@@ -35,5 +35,5 @@ foreach ($dataProvider->getModels() as $model): ?>
           ); ?>
       </div>
     </div>
+    <?= ScrollWidget::widget(['position' => $model->data_id]); ?>
 <?php endforeach; ?>
-<?= ScrollWidget::widget(['position' => $model->data_id]); ?>
