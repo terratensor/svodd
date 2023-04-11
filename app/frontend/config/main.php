@@ -21,7 +21,8 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'assetManager' => [
-            'appendTimestamp' => true
+            'appendTimestamp' => true,
+            'linkAssets' => true,
         ],
         'user' => [
             'identityClass' => 'common\auth\Identity',
