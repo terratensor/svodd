@@ -41,7 +41,6 @@ AppAsset::register($this);
 
       <?= $content ?>
 
-    <div id="toTop" style="display: block;"></div>
   </main>
 
   <?= $this->render('footer'); ?>

@@ -20,6 +20,5 @@ use yii\bootstrap5\Breadcrumbs;
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
-    <div id="toTop" style="display: block;"></div>
 </main>
 <?php $this->endContent() ?>
