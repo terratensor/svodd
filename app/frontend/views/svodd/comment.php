@@ -11,7 +11,7 @@ use yii\data\ActiveDataProvider;
 $position = Yii::$app->request->get()['c'] ?? 0;
 
 ?>
-<div id="<?= $model->position; ?>" data-comment-id="<?= $model->data_id; ?>"
+<div id="<?= $model->position; ?>" data-entity-id="<?= $model->data_id; ?>"
      class="<?= $position == $model->position ? "card mb-4 border-primary" : "card mb-4" ?>">
   <div class="<?= $position == $model->position ? "card-header d-flex justify-content-between border-primary" : "card-header d-flex justify-content-between" ?>">
       <?= CommentHeader::widget(['model' => $model]); ?>
