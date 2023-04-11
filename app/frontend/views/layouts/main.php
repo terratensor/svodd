@@ -22,6 +22,5 @@ AppAsset::register($this);
       <?= Alert::widget() ?>
       <?= $content ?>
   </div>
-  <div id="toTop" style="display: block;"></div>
 </main>
 <?php $this->endContent() ?>

@@ -9,18 +9,38 @@ use yii\base\Widget;
 class ScrollWidget extends Widget
 {
     public string $position;
+    public bool $showTop = true;
+    public bool $showLast = true;
 
-    public function run(): void
+    public function run(): string
     {
         $this->view->registerJs($this->getJs());
-        echo '<div id="toLast" style="display: block;"></div>';
+        $str = $this->showTop ? '<div id="toTop" style="display: block;"></div>' : '';
+        $str .= $this->showLast ? '<div id="toLast" style="display: block;"></div>' : '';
+        return $str;
     }
 
     private function getJs(): string
     {
         $position = $this->position;
 
-        return <<<JS
+        $jsToTop = <<<JS
+            $(document).ready(function () {
+            
+              //scroll on top
+              $(window).scroll(function () {
+                if ($(this).scrollTop() >= 160) {
+                    $("#toTop").fadeIn();
+                } else {
+                  $("#toTop").fadeOut();
+                }
+              });
+              var mode = (window.opera) ? ((document.compatMode == "CSS1Compat") ? $('html') : $('body')) : $('html,body');
+              $('#toTop').click(function () {mode.animate({scrollTop: 0}, {duration: 200, queue: false});return false;});
+            });
+JS;
+
+        $jsToLast = <<<JS
             var lastCommentElement = document.querySelector("[data-entity-id='$position']");
             var btnToLast = document.getElementById('toLast');
             
@@ -29,6 +49,9 @@ class ScrollWidget extends Widget
             }
           btnToLast.addEventListener('click', handleToLastCommentClick);
 JS;
+        $js = $this->showTop ? $jsToTop : '';
+        $js .= $this->showLast ? $jsToLast : '';
 
+        return $js;
     }
 }
