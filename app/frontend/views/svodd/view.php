@@ -58,4 +58,4 @@ foreach ($dataProvider->getModels() as $model): ?>
   </div>
 </div>
 
-<?= ScrollWidget::widget(['position' => $model->data_id]); ?>
+<?= ScrollWidget::widget(['data_entity_id' => $model->data_id ?? 0]); ?>

@@ -172,7 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
       </div>
     </div>
-      <?= ScrollWidget::widget(['position' => $comment->data_id ?? 0]); ?>
+      <?= ScrollWidget::widget(['data_entity_id' => $comment->data_id ?? 0]); ?>
       <?php endif; ?>
   </div>
 

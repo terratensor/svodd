@@ -77,4 +77,4 @@ $this->params['breadcrumbs'][] = $this->title;
   </div>
 </div>
 
-<?= ScrollWidget::class::widget(['position' => $model->question_id]); ?>
+<?= ScrollWidget::class::widget(['data_entity_id' => $model->question_id ?? 0]); ?>

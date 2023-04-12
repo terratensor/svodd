@@ -8,21 +8,27 @@ use yii\base\Widget;
 
 class ScrollWidget extends Widget
 {
-    public string $position;
+    public int $data_entity_id;
     public bool $showTop = true;
     public bool $showLast = true;
 
     public function run(): string
     {
         $this->view->registerJs($this->getJs());
-        $str = $this->showTop ? '<div id="toTop" style="display: block;"></div>' : '';
-        $str .= $this->showLast ? '<div id="toLast" style="display: block;"></div>' : '';
+
+        $str = $this->showTop ? '<div id="toTop"></div>' : '';
+
+        if ($this->data_entity_id) {
+            $str .= $this->showLast ? '<div id="toLast" style="display: block;"></div>' : '';
+        }
         return $str;
     }
 
     private function getJs(): string
     {
-        $position = $this->position;
+        $data_entity_id = $this->data_entity_id;
+
+        if (!$data_entity_id) return '';
 
         $jsToTop = <<<JS
             $(document).ready(function () {
@@ -41,7 +47,7 @@ class ScrollWidget extends Widget
 JS;
 
         $jsToLast = <<<JS
-            var lastCommentElement = document.querySelector("[data-entity-id='$position']");
+            var lastCommentElement = document.querySelector("[data-entity-id='$data_entity_id']");
             var btnToLast = document.getElementById('toLast');
             
             function handleToLastCommentClick() {
