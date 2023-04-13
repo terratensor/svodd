@@ -118,7 +118,7 @@ services:
         condition: none
 
   previous-topic-parser:
-    image: ${REGISTRY}/fct-parser:main-41
+    image: ${REGISTRY}/fct-parser:main-44
     volumes:
       - parsed-files:/app/parsed-files
     command: './fct-parser -e -j -h'
@@ -134,7 +134,7 @@ services:
         condition: none
 
   questions-parser-1:
-    image: ${REGISTRY}/fct-parser:main-41
+    image: ${REGISTRY}/fct-parser:main-44
     volumes:
       - parsed-files:/app/parsed-files
     command: './fct-parser -p=1 -j -h'
@@ -150,7 +150,7 @@ services:
         condition: none
 
   questions-parser-2:
-    image: ${REGISTRY}/fct-parser:main-41
+    image: ${REGISTRY}/fct-parser:main-44
     volumes:
       - parsed-files:/app/parsed-files
     command: './fct-parser -p=2 -j -h'
@@ -166,7 +166,7 @@ services:
         condition: none
 
   questions-parser-3:
-    image: ${REGISTRY}/fct-parser:main-41
+    image: ${REGISTRY}/fct-parser:main-44
     volumes:
       - parsed-files:/app/parsed-files
     command: './fct-parser -p=5 -j -h'
@@ -182,7 +182,7 @@ services:
         condition: none
 
   questions-parser-4:
-    image: ${REGISTRY}/fct-parser:main-41
+    image: ${REGISTRY}/fct-parser:main-44
     volumes:
       - parsed-files:/app/parsed-files
     command: './fct-parser -p=10 -j -h'
