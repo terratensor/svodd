@@ -9,6 +9,7 @@ use App\forms\Manticore\IndexDeleteForm;
 use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\StatisticService;
+use App\Indexer\Service\UpdateDbFromParsedFiles\Handler as UpdateDbFromParsedFilesHandler;
 use App\Indexer\Service\UpdaterService;
 use App\Indexer\Service\UpdatingIndex\Handler as UpdatingIndexHandler;
 use App\services\Manticore\IndexService;
@@ -28,6 +29,7 @@ class IndexController extends Controller
     private StatisticService $statisticService;
     private Handler $reindexFromDbHandler;
     private UpdatingIndexHandler $updatingIndexHandler;
+    private UpdateDbFromParsedFilesHandler $updateDbFromParsedFilesHandler;
 
     public function __construct(
         $id,
@@ -38,6 +40,7 @@ class IndexController extends Controller
         StatisticService $statisticService,
         Handler $reindexFromDbHandler,
         UpdatingIndexHandler $updatingIndexHandler,
+        UpdateDbFromParsedFilesHandler $updateDbFromParsedFilesHandler,
         $config = []
     )
     {
@@ -48,6 +51,7 @@ class IndexController extends Controller
         $this->statisticService = $statisticService;
         $this->reindexFromDbHandler = $reindexFromDbHandler;
         $this->updatingIndexHandler = $updatingIndexHandler;
+        $this->updateDbFromParsedFilesHandler = $updateDbFromParsedFilesHandler;
     }
 
     /**
@@ -211,7 +215,8 @@ class IndexController extends Controller
 
     /**
      * Основная команда для чтения файлов, которые сохранил fct-parser.
-     * Добавляет новые вопросы в бд и в индекс manticore или обновляет уже существующие вопросы.
+     * Добавляет новые вопросы в бд и в индекс manticore или обновляет
+     * уже существующие вопросы новыми комментариями.
      * Удаляет файлы после обработки.
      * @return void
      */
@@ -220,6 +225,23 @@ class IndexController extends Controller
         $message = 'Done!';
         try {
             $this->updatingIndexHandler->handle();
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
+
+    /**
+     * Команда для чтения файлов, которе сохранил fct-parser. Обновляет уже существующие в БД записи: вопросы и комментарии.
+     * Новые записи не добавляет.
+     * @return void
+     */
+    public function actionUpdateDb(): void
+    {
+        $message = 'Done!';
+        try {
+            $this->updateDbFromParsedFilesHandler->handle();
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
