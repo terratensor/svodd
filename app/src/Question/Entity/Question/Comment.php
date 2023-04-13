@@ -56,6 +56,20 @@ class Comment extends ActiveRecord
         return $comment;
     }
 
+    public function edit(
+        string $username,
+        string $avatar_file,
+        string $user_role,
+        string $text,
+        DateTimeImmutable $datetime
+    ): void {
+        $this->username = $username;
+        $this->avatar_file = $avatar_file;
+        $this->user_role = $user_role;
+        $this->text = trim($text);
+        $this->datetime = $datetime;
+    }
+
     public function getQuestion(): ActiveQuery
     {
         return $this->hasOne(Question::class, ['data_id' => 'question_data_id']);
