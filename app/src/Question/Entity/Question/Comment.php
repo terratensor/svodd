@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property int $type
  * @property int $position
  * @property string $username
+ * @property string $avatar_file
  * @property string $user_role
  * @property string $text
  * @property int date
@@ -35,6 +36,7 @@ class Comment extends ActiveRecord
         int $question_data_id,
         int $position,
         string $username,
+        string $avatar_file,
         string $user_role,
         string $text,
         DateTimeImmutable $datetime
@@ -46,6 +48,7 @@ class Comment extends ActiveRecord
         $comment->question_data_id = $question_data_id;
         $comment->position = $position;
         $comment->username = $username;
+        $comment->avatar_file = $avatar_file;
         $comment->user_role = $user_role;
         $comment->text = $text;
         $comment->datetime = $datetime;

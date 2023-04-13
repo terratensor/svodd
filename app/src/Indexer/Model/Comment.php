@@ -19,6 +19,7 @@ class Comment
     public int $parent_id;
     public int $position;
     public int $type;
+    public string $avatar_file;
 
     /**
      * @throws Exception
@@ -31,6 +32,7 @@ class Comment
         $this->data_id = (int)$data->data_id;
         $this->parent_id = (int)$data->parent_id;
         $this->type = (int) $data->type;
+        $this->avatar_file = $data->avatar_file;
     }
 
     /**
@@ -48,6 +50,7 @@ class Comment
         $data->data_id = $dbComment->data_id;
         $data->parent_id = $dbComment->question_data_id;
         $data->type = $dbComment->getType();
+        $data->avatar_file = $dbComment->avatar_file;
 
         return new Comment($data);
     }

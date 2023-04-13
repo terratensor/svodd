@@ -6,14 +6,15 @@ use yii\base\Model;
 
 /**
  * @property int $data_id
- * @property  int $parent_id;
- * @property int $type;
- * @property int $position;
- * @property string $username;
- * @property string $role;
- * @property string $text;
- * @property string $datetime;
- * @property ?string $highlight;
+ * @property  int $parent_id
+ * @property int $type
+ * @property int $position
+ * @property string $username
+ * @property string $avatar_file
+ * @property string $role
+ * @property string $text
+ * @property string $datetime
+ * @property ?string $highlight
  */
 class Comment extends Model
 {
@@ -26,6 +27,7 @@ class Comment extends Model
     public $text;
     public $datetime;
     public $highlight;
+    public $avatar_file;
 
     public static function create(
         string $data_id,
@@ -33,6 +35,7 @@ class Comment extends Model
         string $type,
         string $position,
         string $username,
+        string $avatar_file,
         string $role,
         string $text,
         string $datetime,
@@ -45,6 +48,7 @@ class Comment extends Model
         $comment->type = $type;
         $comment->position = $position;
         $comment->username = $username;
+        $comment->avatar_file = $avatar_file;
         $comment->role = $role;
         $comment->text = $text;
         $comment->datetime = $datetime;

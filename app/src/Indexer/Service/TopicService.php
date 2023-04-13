@@ -55,6 +55,7 @@ class TopicService
                 null,
                 0,
                 $topicQuestion->username,
+                $topicQuestion->avatar_file,
                 $topicQuestion->role,
                 $topicQuestion->text,
                 $topicQuestion->datetime
@@ -68,6 +69,7 @@ class TopicService
                     $topicRelatedQuestion->parent_id,
                     $key + 1,
                     $topicRelatedQuestion->username,
+                    $topicRelatedQuestion->avatar_file,
                     $topicRelatedQuestion->role,
                     $topicRelatedQuestion->text,
                     $topicRelatedQuestion->datetime
@@ -83,6 +85,7 @@ class TopicService
                     $questionComment->parent_id,
                     $key + 1,
                     $questionComment->username,
+                    $questionComment->avatar_file,
                     $questionComment->role,
                     trim($questionComment->text),
                     $questionComment->datetime
@@ -128,6 +131,7 @@ class TopicService
                         $parsedComment->parent_id,
                         $key + 1,
                         $parsedComment->username,
+                        $parsedComment->avatar_file,
                         $parsedComment->role,
                         trim($parsedComment->text),
                         $parsedComment->datetime
