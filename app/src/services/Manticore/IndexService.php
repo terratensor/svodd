@@ -65,7 +65,8 @@ class IndexService
                 'data_id' => ['type' => 'integer'],
                 'parent_id' => ['type' => 'integer'],
                 'type' => ['type' => 'integer'],
-                'position' => ['type' => 'integer']
+                'position' => ['type' => 'integer'],
+                'avatar_file' => ['type' => 'text']
             ],
             [
                 'morphology' => 'stem_ru'
