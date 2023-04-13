@@ -36,4 +36,9 @@ class CommentRepository
             throw new RuntimeException('Saving error.');
         }
     }
+
+    public function findByDataId(int $data_id): array|ActiveRecord|null|Comment
+    {
+        return Comment::find()->andWhere(['data_id' => $data_id])->one();
+    }
 }

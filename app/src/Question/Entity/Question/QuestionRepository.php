@@ -35,4 +35,14 @@ class QuestionRepository
             throw new \RuntimeException('Saving error.');
         }
     }
+
+    public function findRelatedQuestion(mixed $data_id, mixed $param): array|ActiveRecord|null|Question
+    {
+        return Question::find()->andWhere(['parent_data_id' => $data_id, 'position' => $param])->one();
+    }
+
+    public function findByDataId(int $data_id): array|ActiveRecord|null|Question
+    {
+        return Question::find()->andWhere(['data_id' => $data_id])->one();
+    }
 }
