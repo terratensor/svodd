@@ -23,6 +23,7 @@ return [
         'assetManager' => [
             'appendTimestamp' => true,
             'linkAssets' => true,
+            'bundles' => false,
         ],
         'user' => [
             'identityClass' => 'common\auth\Identity',

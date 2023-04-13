@@ -23,6 +23,9 @@ Thumbs.db
 # composer itself is not needed
 composer.phar
 
+# node vendor
+/node_modules
+
 # Mac DS_Store Files
 .DS_Store
 

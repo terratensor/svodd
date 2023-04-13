@@ -68,6 +68,12 @@ services:
       - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
       - traefik.http.routers.frontend.middlewares=frontend-redirect
 
+  frontend-node-cli:
+    build:
+      context: app/frontend/docker/development/node
+    volumes:
+      - ./app:/app
+
   cli-php:
     image: ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
     build:

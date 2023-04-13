@@ -1,0 +1,10 @@
+[
+  "vendor/bower-asset/jquery/dist/jquery.js",
+  "vendor/bower-asset/bootstrap/dist/js/bootstrap.js",
+  "vendor/yiisoft/yii2/assets/yii.js",
+  "vendor/yiisoft/yii2/assets/yii.validation.js",
+  "vendor/yiisoft/yii2/assets/yii.activeForm.js",
+  "vendor/npm-asset/chart.js/dist/chart.umd.js",
+  "vendor/npm-asset/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js",
+  "frontend/web/js/script.js"
+]
