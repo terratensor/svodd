@@ -17,6 +17,7 @@ class Question
     public DateTimeImmutable $datetime;
     public int $data_id;
     public int $type;
+    public string $avatar_file;
 
     /**
      * @throws Exception
@@ -28,6 +29,7 @@ class Question
         $this->datetime = new DateTimeImmutable($data->datetime);
         $this->data_id = (int)$data->data_id;
         $this->type = (int) $data->type;
+        $this->avatar_file = $data->avatar_file;
     }
 
     /**
@@ -44,6 +46,7 @@ class Question
         $data->datetime = $dbQuestion->datetime->format('H:i d.m.Y');
         $data->data_id = $dbQuestion->data_id;
         $data->type = $dbQuestion->getType();
+        $data->avatar_file = $dbQuestion->avatar_file;
 
         return new Question($data);
     }

@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property int $type;
  * @property int $position;
  * @property string $username;
+ * @property string $avatar_file;
  * @property string $user_role;
  * @property string $text;
  * @property int date;
@@ -35,6 +36,7 @@ class Question extends ActiveRecord
         ?int $parent_data_id,
         int $position,
         string $username,
+        string $avatar_file,
         string $user_role,
         string $text,
         DateTimeImmutable $datetime
@@ -46,6 +48,7 @@ class Question extends ActiveRecord
         $question->parent_data_id = $parent_data_id;
         $question->position = $position;
         $question->username = $username;
+        $question->avatar_file = $avatar_file;
         $question->user_role = $user_role;
         $question->text = $text;
         $question->datetime = $datetime;

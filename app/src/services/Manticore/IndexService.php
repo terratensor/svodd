@@ -65,7 +65,8 @@ class IndexService
                 'data_id' => ['type' => 'integer'],
                 'parent_id' => ['type' => 'integer'],
                 'type' => ['type' => 'integer'],
-                'position' => ['type' => 'integer']
+                'position' => ['type' => 'integer'],
+                'avatar_file' => ['type' => 'text']
             ],
             [
                 'morphology' => 'stem_ru'
@@ -253,6 +254,7 @@ class IndexService
                     (int)$topic->question->parent_id,
                     0,
                     $topic->question->username,
+                    $topic->question->avatar_file,
                     $topic->question->role,
                     $topic->question->text,
                     $this->getDateFromTimestamp((int)$topic->question->datetime)
@@ -280,6 +282,7 @@ class IndexService
                         (int)$linkedQuestion->parent_id,
                         $linkedQuestion->position,
                         $linkedQuestion->username,
+                        $linkedQuestion->avatar_file,
                         $linkedQuestion->role,
                         $linkedQuestion->text,
                         $this->getDateFromTimestamp((int)$linkedQuestion->datetime)
@@ -358,6 +361,7 @@ class IndexService
                 (int)$questionComment->parent_id,
                 (int)$questionComment->position,
                 $questionComment->username,
+                $questionComment->avatar_file,
                 $questionComment->role,
                 trim($questionComment->text),
                 $this->getDateFromTimestamp($questionComment->datetime)

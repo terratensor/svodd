@@ -102,7 +102,7 @@ services:
         window: 120s
 
   current-topic-parser:
-    image: ${REGISTRY}/fct-parser:main-41
+    image: ${REGISTRY}/fct-parser:main-44
     volumes:
       - parsed-files:/app/parsed-files
     #    command: './fct-parser -j -h -a'
