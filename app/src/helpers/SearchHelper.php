@@ -18,4 +18,20 @@ class SearchHelper
     {
         return str_replace(self::$charactersList, '\\\\', $queryString);
     }
+
+    public static function checkGravatarUrl(string $queryString): string
+    {
+        $pattern = '/((http)s?:\/\/)?(?:www\.)?(gravatar\.com\/?avatar\/)?([a-f0-9]{32})*/';
+        preg_match($pattern, $queryString, $matches);
+//        var_dump($matches);
+        if (count($matches) > 1) {
+            $nazamenu = $matches[0];
+            $normalize_str = str_replace($matches[1], '', $matches[0]);
+            return str_replace($nazamenu, $normalize_str, $queryString);
+        }
+        return $queryString;
+//        $matches[0]
+//      print_r($matches);
+//        return $queryString;
+    }
 }
