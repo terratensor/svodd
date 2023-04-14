@@ -44,11 +44,13 @@ class QuestionRepository
         $query = new QueryString($queryString);
         $search = $this->index->search($query);
 
+        // Если нет совпадений no_match_size возвращает пустое поле для подсветки
         $search->highlight(
-            ['text'],
+            ['username', 'avatar_file', 'text'],
             [
                 'limit' => 0,
-            ]
+                "no_match_size" => 0
+            ],
         );
 
         return $search;
