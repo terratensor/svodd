@@ -121,15 +121,27 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif; ?>
             <?php foreach ($comments as $comment): ?>
               <div class="card mb-4" data-entity-id="<?= $comment->data_id; ?>">
-                <div class="card-header d-flex justify-content-between">
-                  <div><?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->username; ?></div>
-                  <div><?= "#" . $comment->data_id; ?></div>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->highlight['username']['0'] ?? $comment->username; ?>
+                        </div>
+                        <div><?= "#" . $comment->data_id; ?></div>
+                    </div>
+                    <div class="col">
+                        <small><?= $comment->highlight['avatar_file']['0'] ?? ''?></small>
+                    </div>
                 </div>
                 <div class="card-body">
+                    <?php //var_dump($comment->highlight); ?>
                     <?php foreach ($comment->highlight as $field => $snippets): ?>
                       <div class="card-text comment-text">
                           <?php foreach ($snippets as $snippet): ?>
-                              <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($snippet)); ?>
+                          <?php if (!$comment->highlight['text']): ?>
+                                <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($comment->text)); ?>
+                            <?php else: ?>
+                              <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($comment->highlight['text']['0'])); ?>
+                            <?php endif; ?>
                           <?php endforeach; ?>
                       </div>
                     <?php endforeach; ?>
