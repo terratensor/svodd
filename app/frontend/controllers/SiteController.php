@@ -103,13 +103,8 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         }
 
-        if (!$results) {
-            $list = $this->questionStatsRepository->findAllForList();
-        }
-
         return $this->render('index', [
             'results' => $results ?? null,
-            'list' => $list ?? null,
             'model' => $form,
         ]);
     }
