@@ -64,6 +64,7 @@ class StatisticService
         // Получение номера data_id последнего комментария в вопросе
         // с помощью функции работы с массивом без запроса в БД
         $lastCommentDataId = end($commentsDataIdArray);
+        $lastCommentDataId = $lastCommentDataId === false ? null : $lastCommentDataId;
 
         $lastComment = $lastCommentDataId ? $this->commentReadModel->findByDataId($lastCommentDataId) : null;
         // Получение даты и времени последнего комментария вопроса
@@ -72,6 +73,7 @@ class StatisticService
         // Получение номера первого комментария вопроса (первый элемент массива)
         // с помощью функции работы с массивом без запроса в БД
         $firstCommentDataId = current($commentsDataIdArray);
+        $firstCommentDataId = $firstCommentDataId === false ? null : $firstCommentDataId;
 
         $stats = $this->questionStatsRepository->getByQuestionId($question->data_id);
 
