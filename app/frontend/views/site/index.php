@@ -124,28 +124,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->highlight['username']['0'] ?? $comment->username; ?>
+                            <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->highlight['username'][0] ?? $comment->username; ?>
                         </div>
                         <div><?= "#" . $comment->data_id; ?></div>
                     </div>
                     <div class="col">
-                        <small><?= $comment->highlight['avatar_file']['0'] ?? ''?></small>
+                        <small><?= $comment->highlight['avatar_file'][0] ?? ''?></small>
                     </div>
                 </div>
+
                 <div class="card-body">
-                    <?php //var_dump($comment->highlight); ?>
-                    <?php foreach ($comment->highlight as $field => $snippets): ?>
-                      <div class="card-text comment-text">
-                          <?php foreach ($snippets as $snippet): ?>
-                          <?php if (!$comment->highlight['text']): ?>
-                                <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($comment->text)); ?>
-                            <?php else: ?>
-                              <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($comment->highlight['text']['0'])); ?>
-                            <?php endif; ?>
-                          <?php endforeach; ?>
-                      </div>
-                    <?php endforeach; ?>
+                  <div class="card-text comment-text">
+                  <?php if (!$comment->highlight['text'] || !$comment->highlight['text'][0]): ?>
+                        <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($comment->text)); ?>
+                    <?php else: ?>
+                      <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($comment->highlight['text'][0])); ?>
+                    <?php endif; ?>
+                  </div>
                 </div>
+
                 <div class="card-footer d-flex justify-content-between">
                     <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
                     <?php
