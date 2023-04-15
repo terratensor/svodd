@@ -31,7 +31,7 @@ class ManticoreService
     {
         $queryString = $form->query;
 
-        $queryString = SearchHelper::checkGravatarUrl($queryString);
+        $queryString = SearchHelper::processAvatarUrls($queryString);
 
         $comments = match ($form->matching) {
             'query_string' => $this->questionRepository->findByQueryStringNew($queryString),
