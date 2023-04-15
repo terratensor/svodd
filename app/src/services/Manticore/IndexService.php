@@ -59,7 +59,7 @@ class IndexService
         $index->create(
             [
                 'username' => ['type' => 'text'],
-                'role' => ['type' => 'text'],
+                'role' => ['type' => 'string'],
                 'text' => ['type' => 'text'],
                 'datetime' => ['type' => 'timestamp'],
                 'data_id' => ['type' => 'integer'],
