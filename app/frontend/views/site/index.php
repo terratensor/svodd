@@ -75,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php ActiveForm::end(); ?>
       </div>
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid search-results">
         <?php if ($results): ?>
         <?php
         // Property totalCount пусто пока не вызваны данные модели getModels(),
@@ -124,12 +124,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= $comment->highlight['username'][0] ?? $comment->username; ?>
+                            <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= \App\helpers\SearchResultsHelper::showUsername($comment); ?>
                         </div>
                         <div><?= "#" . $comment->data_id; ?></div>
-                    </div>
-                    <div class="col">
-                        <small><?= $comment->highlight['avatar_file'][0] ?? ''?></small>
                     </div>
                 </div>
 

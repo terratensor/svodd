@@ -49,7 +49,9 @@ class QuestionRepository
             ['username', 'avatar_file', 'text'],
             [
                 'limit' => 0,
-                "no_match_size" => 0
+                'no_match_size' => 0,
+                'pre_tags' => '<mark>',
+                'post_tags' => '</mark>'
             ],
         );
 
