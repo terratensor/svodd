@@ -9,8 +9,6 @@ use App\helpers\SearchHelper;
 use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
-use Manticoresearch\ResultSet;
-use Manticoresearch\Search;
 use Yii;
 
 /**
