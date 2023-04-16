@@ -13,7 +13,7 @@ class SearchResultsHelper
     {
         $str = $comment->highlight['username'][0] ?? $comment->username;
 
-        if ($comment->highlight['avatar_file'] && $comment->highlight['avatar_file'][0]) {
+        if (key_exists('avatar_file', $comment->highlight) && $comment->highlight['avatar_file'][0]) {
             return Html::tag('mark', $str);
         }
         return $str;
