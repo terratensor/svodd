@@ -1,0 +1,31 @@
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #cc0000;
+    --bs-btn-border-color: #b90000;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #a10000;
+    --bs-btn-hover-border-color: #9d0000;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #9f0000;
+    --bs-btn-active-border-color: #d50202;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #742121;
+    --bs-btn-disabled-border-color: #682020;
+}
+
+.form-check-input:checked {
+    background-color: #cc0000;
+    border-color: #b90000;
+}
+
+.search-results mark {
+    background-color: #e1e0e0;
+}
+
+span.link {
+    color: #a30000;
+    text-decoration: underline;
+    cursor: pointer;
+}
