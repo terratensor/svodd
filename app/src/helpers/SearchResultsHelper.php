@@ -12,8 +12,9 @@ class SearchResultsHelper
     public static function showUsername(Comment $comment): string
     {
         $str = $comment->highlight['username'][0] ?? $comment->username;
-
-        if (key_exists('avatar_file', $comment->highlight) && $comment->highlight['avatar_file'][0]) {
+        if (key_exists('avatar_file', $comment->highlight) &&
+            key_exists(0, $comment->highlight['avatar_file']) &&
+            $comment->highlight['avatar_file'][0]) {
             return Html::tag('mark', $str);
         }
         return $str;
