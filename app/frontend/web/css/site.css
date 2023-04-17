@@ -1,4 +1,8 @@
 :root, [data-bs-theme="svodd"] {
+    --bs-link-color: #a30000;
+    --bs-link-color-rgb: 163, 0, 0;
+    --bs-link-hover-color: #cc0000;
+    --bs-link-hover-color-rgb: 204, 0, 0;
     --bd-purple: #4c0bce;
     --bd-violet: #712cf9;
     --bd-blue: #36a2eb;

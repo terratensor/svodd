@@ -73,6 +73,9 @@ class QuestionRepository
             ['text'],
             [
                 'limit' => 0,
+                'no_match_size' => 0,
+                'pre_tags' => '<mark>',
+                'post_tags' => '</mark>'
             ]
         );
 
@@ -94,6 +97,9 @@ class QuestionRepository
             ['text'],
             [
                 'limit' => 0,
+                'no_match_size' => 0,
+                'pre_tags' => '<mark>',
+                'post_tags' => '</mark>'
             ]
         );
 
@@ -126,6 +132,9 @@ class QuestionRepository
             ['text'],
             [
                 'limit' => 0,
+                'no_match_size' => 0,
+                'pre_tags' => '<mark>',
+                'post_tags' => '</mark>'
             ]
         );
         return $search;

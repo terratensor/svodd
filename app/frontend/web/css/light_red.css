@@ -29,3 +29,8 @@ span.link {
     text-decoration: underline;
     cursor: pointer;
 }
+
+.pagination {
+    --bs-pagination-active-bg: #a10000;
+    --bs-pagination-active-border-color: #9d0000;
+}
