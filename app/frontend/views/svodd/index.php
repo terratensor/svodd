@@ -92,13 +92,13 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           'data' => $datasetSvodd,
                           'dataLabel' => $dataLabelSvodd,
                           'borderWidth' => 1,
-                          'backgroundColor' => 'rgba(54, 162, 235, 0.5)',
-                          'borderColor' => 'rgba(54, 162, 235, 1)',
+                          'backgroundColor' => 'rgba(114, 10, 10, 1)',
+                          'borderColor' => 'rgba(88, 10, 10, 1)',
                           'datalabels' => [
                               'anchor' => 'end',
                               'clamp ' => false,
                               'align' => 'start',
-                              'color' => 'black',
+                              'color' => 'white',
                               'formatter' => new JsExpression(<<<JS
                                 (value, context) => {      
                                   return context.chart.data.datasets[0].dataLabel[context.dataIndex];
@@ -112,11 +112,13 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           'data' => $datasetFct,
                           'dataLabel' => $dataLabelFct,
                           'borderWidth' => 1,
+                          'backgroundColor' => 'rgba(80, 79, 79, 1)',
+                          'borderColor' => 'rgba(54, 52, 52, 1)',
                           'datalabels' => [
                               'anchor' => 'start',
                               'clamp ' => false,
                               'align' => 'end',
-                              'color' => 'black',
+                              'color' => 'white',
                               'formatter' => new JsExpression(<<<JS
                                 (value, context) => {      
                                   return context.chart.data.datasets[1].dataLabel[context.dataIndex];
@@ -185,16 +187,6 @@ $this->title = 'Обратная хронология обсуждения СВ�
                   ],
               ],
           ]); ?>
-  </div>
-
-  <div class="row mt-3">
-    <div class="col-sm-12 more-stats">
-      <p class="text-muted">Статистика комментариев на сайте и в темах СВОДД: <a
-                href="https://vk.cc/cdjJoJ"
-                target="_blank">https://vk.cc/cdjJoJ
-        </a>
-      </p>
-    </div>
   </div>
 
 <?php $js = <<<JS
