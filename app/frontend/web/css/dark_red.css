@@ -1,0 +1,59 @@
+:root, [data-bs-theme="svodd"] {
+    --bs-link-color: #b33434;
+    --bs-link-color-rgb: 179, 52, 52;
+    --bs-link-hover-color: #af1c1c;
+    --bs-link-hover-color-rgb: 175, 28, 28;
+}
+
+body {
+    color: #bfc3c3;
+}
+
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #a50000;
+    --bs-btn-border-color: #7e0000;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #b90000;
+    --bs-btn-hover-border-color: #a50000;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #9f0000;
+    --bs-btn-active-border-color: #d50202;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #742121;
+    --bs-btn-disabled-border-color: #682020;
+}
+
+.form-check-input:checked {
+    background-color: #cc0000;
+    border-color: #b90000;
+}
+
+.search-results mark {
+    color: #cfcfcf;
+    background-color: #504f4f;
+}
+
+span.link {
+    color: #ad3434;
+    hover-color: #222222;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.pagination {
+    --bs-pagination-active-bg: #720a0a;
+    --bs-pagination-active-border-color: #560000;
+}
+
+/*
+.search-block {
+    background-color: #212529;
+    background-color-rgb: 33, 37, 41;
+    bs-body-bg: #212529;
+    bs-body-bg-rgb: 33, 37, 41;
+}
+*/ 
