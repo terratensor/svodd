@@ -39,7 +39,7 @@ $this->title = 'Поиск по архиву вопросов и коммент�
 $this->params['breadcrumbs'][] = $this->title;
 ?>
   <div class="site-index">
-    <div class="search-block">
+    <div class="bg-white search-block">
       <div class="container-fluid bg-white">
           <?php if (!$results): ?>
           <?php endif; ?>
