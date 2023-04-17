@@ -21,7 +21,7 @@ use yii\helpers\Html;
   <div class="card-footer d-flex justify-content-end border-secondary-subtle">
       <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $question->data_id; ?>
       <?= Html::a(
-          $link,
+          'Перейти к вопросу на ФКТ',
           $link . "#:~:text=" . $question->datetime->format('H:i d.m.Y'),
           ['target' => '_blank', 'rel' => 'noopener noreferrer']
       ); ?>

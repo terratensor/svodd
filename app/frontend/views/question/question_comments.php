@@ -30,7 +30,7 @@ foreach ($dataProvider->getModels() as $model): ?>
       <div class="card-footer d-flex justify-content-end">
           <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
           <?= Html::a(
-              $link,
+              'Перейти к комментарию на ФКТ',
               $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
               ['target' => '_blank', 'rel' => 'noopener noreferrer']
           ); ?>
