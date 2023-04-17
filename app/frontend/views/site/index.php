@@ -147,7 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $link = "https://фкт-алтай.рф/qa/question/view-" . $id;
                     ?>
                     <?= Html::a(
-                        $link,
+                        'Перейти к комментарию на ФКТ',
                         $link . "#:~:text=" . DateHelper::showDateFromTimestamp($comment->datetime),
                         ['target' => '_blank', 'rel' => 'noopener noreferrer']
                     ); ?>
