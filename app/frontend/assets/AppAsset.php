@@ -15,8 +15,9 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/docs.css',
         'css/site.css',
-        'css/light_red.css', 
+//        'css/light_red.css',
 //        'css/dark_red.css',
+        'css/red_svodd.css',
     ];
     public $js = [
         'js/script.js',
