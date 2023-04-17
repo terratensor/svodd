@@ -132,6 +132,13 @@ $menuItems = [
                                     </svg>
                                 </button>
                             </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                    <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+                                    Авто
+                                    <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                </button>
+                            </li>
                         </ul>
                     </li>
                 </ul>
