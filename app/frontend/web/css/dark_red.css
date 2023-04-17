@@ -3,12 +3,12 @@
     --bs-link-color-rgb: 179, 52, 52;
     --bs-link-hover-color: #af1c1c;
     --bs-link-hover-color-rgb: 175, 28, 28;
+    --bs-white-rgb: 29, 33, 36;
 }
 
 body {
     color: #bfc3c3;
 }
-
 
 .btn-primary {
     --bs-btn-color: #fff;
@@ -49,11 +49,12 @@ span.link {
     --bs-pagination-active-border-color: #560000;
 }
 
-/*
-.search-block {
-    background-color: #212529;
-    background-color-rgb: 33, 37, 41;
-    bs-body-bg: #212529;
-    bs-body-bg-rgb: 33, 37, 41;
+.footer {
+    background-color: #1d2124;
+    font-size: .9em;
+    height: 60px;
 }
-*/ 
+
+.breadcrumb {
+    background-color: #141618;
+}
