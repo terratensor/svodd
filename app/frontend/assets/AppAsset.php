@@ -2,6 +2,7 @@
 
 namespace frontend\assets;
 
+use yii\bootstrap5\BootstrapPluginAsset;
 use yii\web\AssetBundle;
 
 /**
@@ -12,6 +13,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/docs.css',
         'css/site.css',
         'css/light_red.css'
     ];
@@ -21,5 +23,6 @@ class AppAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap5\BootstrapAsset',
+        BootstrapPluginAsset::class
     ];
 }

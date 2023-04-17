@@ -28,7 +28,7 @@ AppAsset::register($this);
   <body class="d-flex flex-column h-100">
   <?php $this->beginBody() ?>
 
-  <?= $this->render('header'); ?>
+  <?= $this->render('red_header'); ?>
 
   <main role="main" class="flex-shrink-0 mb-3">
     <div class="container-fluid pb-0">
