@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\helpers;
 
-use yii\helpers\Url;
 use yii\web\Session;
 
 class SessionHelper
 {
-    public static function svoddUrl(Session $session): string
+    public static function svoddUrl(Session $session): array
     {
-        return Url::to(array_merge(['/svodd/view'], $session->get('svodd') ?? []));
+        return array_merge(['/svodd/view'], $session->get('svodd') ?? []);
     }
 }
