@@ -130,6 +130,8 @@
 
     --sr-mark-color: #212529;
     --sr-bg-color: #e1e0e0;
+
+    --bg-footer-color: #f5f5f5;
 }
 
 [data-bs-theme=dark] {
@@ -193,6 +195,8 @@
     --svodd-breadcrumb: #141618;
     --sr-mark-color: #cfcfcf;
     --sr-bg-color: #504f4f;
+
+    --bg-footer-color: #1d2124;
 }
 
 /*:root, [data-bs-theme="svodd"] {*/
@@ -244,7 +248,7 @@ span.link {
 }
 
 .footer {
-    background-color: #1d2124;
+    background-color: var(--bg-footer-color);
     font-size: .9em;
     height: 60px;
 }
