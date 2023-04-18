@@ -187,7 +187,7 @@
     --bs-link-color-rgb: 179, 52, 52;
     --bs-link-hover-color: #af1c1c;
     --bs-link-hover-color-rgb: 175, 28, 28;
-    --bs-white-rgb: 29, 33, 36;
+    /*--bs-white-rgb: 29, 33, 36;*/
 
     /*Тёмная тема красный СВОДД, наши вставки*/
     --pagination-a-bg: #720a0a;
