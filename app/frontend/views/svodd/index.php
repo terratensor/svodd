@@ -179,23 +179,6 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           ],
                           'stacked' => true,
                           'ticks' => [
-                              'color' => new JsExpression(<<<JS
-                                () => {
-                                const storedTheme = localStorage.getItem('theme')
-                                var theme
-                                if (storedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                                  theme = 'dark'
-                                } else {
-                                  if (storedTheme === 'dark') {
-                                    theme = 'dark'
-                                  } else {
-                                    theme = 'light'
-                                  }
-                                }
-                                return (theme === 'dark') ? '#bfc3c3' : '#000000' 
-                                }
-JS
-                              ),
                               'crossAlign' => "far",
                               'callback' => new JsExpression($callback),
                           ],
