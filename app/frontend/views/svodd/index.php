@@ -98,7 +98,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
                               'anchor' => 'end',
                               'clamp ' => false,
                               'align' => 'start',
-                              'color' => 'white',
+                              'color' => 'rgba(191, 195, 195, 1)',
                               'formatter' => new JsExpression(<<<JS
                                 (value, context) => {      
                                   return context.chart.data.datasets[0].dataLabel[context.dataIndex];
@@ -118,7 +118,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
                               'anchor' => 'start',
                               'clamp ' => false,
                               'align' => 'end',
-                              'color' => 'white',
+                              'color' => 'rgba(191, 195, 195, 1)',
                               'formatter' => new JsExpression(<<<JS
                                 (value, context) => {      
                                   return context.chart.data.datasets[1].dataLabel[context.dataIndex];
