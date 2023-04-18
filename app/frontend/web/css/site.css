@@ -132,7 +132,7 @@ a.desc:after {
 .comment-text blockquote {
     padding: 10px 20px;
     margin: 15px 0 0 0;
-    border-left: 5px solid #eeeeee;
+    border-left: 3px solid #eeeeee;
 }
 
 .comment-text blockquote span.author {
