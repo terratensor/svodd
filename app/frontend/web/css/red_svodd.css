@@ -130,6 +130,10 @@
 
     --sr-mark-color: #212529;
     --sr-bg-color: #e1e0e0;
+
+    --bg-footer-color: #f5f5f5;
+
+    /*--bd-red-rgb: #a30000;*/
 }
 
 [data-bs-theme=dark] {
@@ -185,7 +189,7 @@
     --bs-link-color-rgb: 179, 52, 52;
     --bs-link-hover-color: #af1c1c;
     --bs-link-hover-color-rgb: 175, 28, 28;
-    --bs-white-rgb: 29, 33, 36;
+    /*--bs-white-rgb: 29, 33, 36;*/
 
     /*Тёмная тема красный СВОДД, наши вставки*/
     --pagination-a-bg: #720a0a;
@@ -193,6 +197,13 @@
     --svodd-breadcrumb: #141618;
     --sr-mark-color: #cfcfcf;
     --sr-bg-color: #504f4f;
+
+    --bg-footer-color: #1d2124;
+
+    --bd-red-rgb: #af1c1c;
+    --bs-dropdown-link-active-color: #ffffff;
+    --bs-dropdown-link-active-bg: #a10000;
+
 }
 
 /*:root, [data-bs-theme="svodd"] {*/
@@ -244,11 +255,15 @@ span.link {
 }
 
 .footer {
-    background-color: #1d2124;
+    background-color: var(--bg-footer-color);
     font-size: .9em;
     height: 60px;
 }
 
 .breadcrumb {
     background-color: var(--svodd-breadcrumb);
+}
+
+.search-block {
+    background-color: var(--bs-body-bg);
 }
