@@ -63,7 +63,43 @@ class Chart extends Widget
     private function getAdditionalJs(): string
     {
         return <<<JS
+ 
+    document.querySelectorAll('[data-bs-theme-value]')
+      .forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const theme = toggle.getAttribute('data-bs-theme-value')
+          console.log(theme)          
+          setTheme(theme)          
+        })
+      })
 
+    function setTheme(theme) {
+      var chart = $this->id
+      const x = chart.config.options.scales.x
+      const y = chart.config.options.scales.y
+      var value
+         if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              value = 'dark'
+         } else {
+              if (theme === 'dark') {
+                value = 'dark'
+              } else {
+                value = 'light'
+              }
+         }
+           
+         if (theme === 'dark') {
+              y.ticks.color = '#bfc3c3'
+         } else {
+              y.ticks.color = '#000000'
+         }           
+       
+      chart.update()
+    }
+  
+  const theme = localStorage.getItem('theme')
+  setTheme(theme);
+  
   responsiveFonts();
 
   function clickableScales(chart, click) {
