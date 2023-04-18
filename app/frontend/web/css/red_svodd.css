@@ -132,6 +132,8 @@
     --sr-bg-color: #e1e0e0;
 
     --bg-footer-color: #f5f5f5;
+
+    /*--bd-red-rgb: #a30000;*/
 }
 
 [data-bs-theme=dark] {
@@ -197,6 +199,11 @@
     --sr-bg-color: #504f4f;
 
     --bg-footer-color: #1d2124;
+
+    --bd-red-rgb: #af1c1c;
+    --bs-dropdown-link-active-color: #ffffff;
+    --bs-dropdown-link-active-bg: #a10000;
+
 }
 
 /*:root, [data-bs-theme="svodd"] {*/
