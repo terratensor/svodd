@@ -51,7 +51,6 @@ class TopicRenewService
             );
 
             $this->questionRepository->save($question);
-            echo "обновлен вопрос $question->data_id". "\n";
 
 
             foreach ($topic->relatedQuestions as $key => $topicRelatedQuestion) {
@@ -71,7 +70,6 @@ class TopicRenewService
                 );
                 $this->questionRepository->save($relatedQuestion);
             }
-            echo "обновлено связанных вопросов " . ($key ?? 0). "\n";
 
             foreach ($topic->comments as $questionComment) {
                 /** @var Comment $questionComment * */
@@ -91,7 +89,6 @@ class TopicRenewService
                 );
 
                 $this->commentRepository->save($comment);
-                echo "обновлен комментарий $comment->data_id". "\n";
             }
         });
     }

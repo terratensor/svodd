@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c9f6fc79f205f9ae32a3d3f5b897fcc",
+    "content-hash": "3f7ae3a2b8bae7bd6e543c7939a0f47d",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -936,6 +936,56 @@
                 "source": "https://github.com/manticoresoftware/manticoresearch-php/"
             },
             "time": "2023-03-15T13:10:51+00:00"
+        },
+        {
+            "name": "nickbeen/php-cli-progress-bar",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nickbeen/php-cli-progress-bar.git",
+                "reference": "01ffa4323e508d26aab0ca902235a6e4a486ddaa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nickbeen/php-cli-progress-bar/zipball/01ffa4323e508d26aab0ca902235a6e4a486ddaa",
+                "reference": "01ffa4323e508d26aab0ca902235a6e4a486ddaa",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "NickBeen\\ProgressBar\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nick Been",
+                    "role": "Developer"
+                }
+            ],
+            "description": "For creating minimal progress bars in PHP CLI scripts",
+            "homepage": "https://github.com/nickbeen/php-cli-progress-bar",
+            "keywords": [
+                "cli",
+                "php",
+                "progress bar"
+            ],
+            "support": {
+                "issues": "https://github.com/nickbeen/php-cli-progress-bar/issues",
+                "source": "https://github.com/nickbeen/php-cli-progress-bar/tree/main"
+            },
+            "time": "2022-12-28T10:22:33+00:00"
         },
         {
             "name": "npm-asset/chart.js",
@@ -7038,7 +7088,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.1.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-iconv": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

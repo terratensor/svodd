@@ -10,6 +10,7 @@ use App\Indexer\Service\JsonUnmarshalService;
 use App\Indexer\Service\ReadFileService;
 use App\Indexer\Service\TopicRenewService;
 use App\Question\Entity\Question\QuestionRepository;
+use NickBeen\ProgressBar\ProgressBar;
 
 /**
  * Этот обработчик обновляет только уже существующие в БД записи в таблицах question и question_comments
@@ -45,15 +46,24 @@ class Handler
     {
         $files = $this->directoryService->readDir();
 
+        $key = 100 / count($files);
+        $tick = 0;
+        $progressBar = new ProgressBar(maxProgress: 100);
+        $progressBar->start();
+        echo "Обработано файлов: \r\n";
+
         foreach ($files as $file) {
             if ($doc = $this->readFileService->readFile($file)) {
-                echo "parsed: " . $file . "\n";
                 $this->updateQuestion($doc);
-                if ($this->removeFileService->handle($file)) {
-                    echo "successfully processed and deleted: " . $file . "\n";
-                }
+                $this->removeFileService->handle($file);
+            }
+            $tick = $tick + $key;
+            if ($tick >= 1) {
+                $progressBar->tick();
+                $tick = 0;
             }
         }
+        $progressBar->finish();
     }
 
     /**
