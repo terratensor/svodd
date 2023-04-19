@@ -13,7 +13,7 @@ class MaintenanceWidget extends Widget
 
     public function run(): void
     {
-        if (getenv('MAINTENANCE_MODE') === 'true') {
+        if (getenv('MAINTENANCE_MODE') === '1') {
             if (!$this->message) {
                 $this->message = \Yii::$app->params['maintenance_message'];
             }

@@ -17,7 +17,7 @@ services:
       - default
     environment:
       APP_ENV: prod
-      MAINTENANCE_MODE: false
+      MAINTENANCE_MODE: 0
       APP_DEBUG: 0
       POSTGRES_HOST: ${APP_POSTGRES_HOST}
       POSTGRES_USER: ${APP_POSTGRES_USER}
