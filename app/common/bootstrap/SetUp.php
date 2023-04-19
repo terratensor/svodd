@@ -5,6 +5,8 @@ namespace common\bootstrap;
 
 
 use App\Auth\Service\Tokenizer;
+use App\FeatureToggle\Feature;
+use App\FeatureToggle\FeatureFlag;
 use App\Frontend\FrontendUrlGenerator;
 use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
@@ -101,6 +103,11 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(FrontendUrlGenerator::class, [], [
             Yii::$app->params['frontendHostInfo'],
         ]);
+
+        $container->setSingleton(FeatureFlag::class, function () use ($app) {
+            $config = Yii::$app->params['feature-toggle'];
+            return new Feature($config['features']);
+        });
 
         require __DIR__ . '/twig.php';
     }

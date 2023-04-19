@@ -13,10 +13,7 @@ class DateHelper
         DateTimeZone $timezone = new DateTimeZone('Europe/Moscow'),
         string $format = 'H:i d.m.Y'): string
     {
-        $date = new DateTimeImmutable();
-        $date = $date->setTimeStamp($timestamp);
-
-        $date = $date->setTimezone($timezone);
+        $date = new DateTimeImmutable("@$timestamp");
         return $date->format($format);
     }
 
@@ -29,7 +26,6 @@ class DateHelper
         string $format = 'd.m.Y'): string
     {
         $date = new DateTimeImmutable($date);
-        $date = $date->setTimezone($timezone);
         return $date->format($format);
     }
 }
