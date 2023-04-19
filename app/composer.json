@@ -33,7 +33,8 @@
     "yiisoft/yii2-redis": "^2.0@dev",
     "npm-asset/chart.js": "^4.2",
     "npm-asset/chartjs-plugin-datalabels": "^2.2",
-    "ext-iconv": "*"
+    "ext-iconv": "*",
+    "nickbeen/php-cli-progress-bar": "dev-main"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

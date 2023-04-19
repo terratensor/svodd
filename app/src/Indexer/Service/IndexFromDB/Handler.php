@@ -8,6 +8,7 @@ use App\Question\Entity\Question\Question;
 use App\Question\Entity\Question\QuestionRepository;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
+use NickBeen\ProgressBar\ProgressBar;
 
 class Handler
 {
@@ -39,24 +40,34 @@ class Handler
             ->asArray()
             ->all();
 
+        $key = 100 / count($questionIDs);
+        $tick = 0;
+        $progressBar = new ProgressBar(maxProgress: 100);
+        $progressBar->start();
+        echo "Проиндексировано вопросов: \r\n";
+
         foreach ($questionIDs as $questionID) {
             $question = $this->questionRepository->get($questionID['id']);
 
             $topicQuestion = \App\Indexer\Model\Question::createFromDB($question);
             $index->addDocument($topicQuestion->getSource());
-            echo (new \DateTimeImmutable())->format('H:i:s d.m.Y') . ' ' . "Добавлен вопрос $topicQuestion->data_id \r\n";
 
             foreach ($question->relatedQuestions as $relatedQuestion) {
                 $topicRelatedQuestion = RelatedQuestion::createFromDB($relatedQuestion);
                 $index->addDocument($topicRelatedQuestion->getSource());
-                echo "Добавлен связанный вопрос $topicRelatedQuestion->parent_id \r\n";
             }
 
             foreach ($question->comments as $comment) {
                 $topicQuestionComment = Comment::createFromDB($comment);
                 $index->addDocument($topicQuestionComment->getSource($comment->position - 1));
-                echo "Добавлен связанный комментарий $comment->data_id \r\n";
+            }
+
+            $tick = $tick + $key;
+            if ($tick >= 1) {
+                $progressBar->tick();
+                $tick = 0;
             }
         }
+        $progressBar->finish();
     }
 }
