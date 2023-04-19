@@ -152,13 +152,16 @@ $this->params['breadcrumbs'][] = $this->title;
         $timezone = new DateTimeZone('Europe/Moscow');
         $format = 'H:i d.m.Y';
 
-        $date = new DateTimeImmutable();
+        $date = new DateTimeImmutable("@$timestamp");
         var_dump($date);
+        echo "<br>";
         $date = $date->setTimeStamp($timestamp);
         var_dump($date);
+                                echo "<br>";
 
         $date = $date->setTimezone($timezone);
         var_dump($date);
+                                echo "<br>";
         echo $date->format($format);
 
 
