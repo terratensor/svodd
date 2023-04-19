@@ -54,7 +54,7 @@ class Handler
 
             foreach ($question->comments as $comment) {
                 $topicQuestionComment = Comment::createFromDB($comment);
-                $index->addDocument($topicQuestionComment->getSource($comment->position));
+                $index->addDocument($topicQuestionComment->getSource($comment->position - 1));
                 echo "Добавлен связанный комментарий $comment->data_id \r\n";
             }
         }
