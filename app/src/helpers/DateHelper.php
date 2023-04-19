@@ -16,8 +16,6 @@ class DateHelper
         $date = new DateTimeImmutable();
         $date = $date->setTimeStamp($timestamp);
 
-        $timezone = YII_ENV === 'prod' ? new DateTimeZone('UTC' ) : $timezone;
-
         $date = $date->setTimezone($timezone);
         return $date->format($format);
     }
