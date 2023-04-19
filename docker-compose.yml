@@ -77,7 +77,6 @@ services:
         - ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
     environment:
       APP_ENV: dev
-      TZ: Europe/Moscow
       POSTGRES_HOST: app-postgres
       POSTGRES_USER: app
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
@@ -107,7 +106,6 @@ services:
     image: postgres:15.1-alpine
     environment:
       APP_ENV: dev
-      TZ: Europe/Moscow
       POSTGRES_USER: app
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
       POSTGRES_DB: app
