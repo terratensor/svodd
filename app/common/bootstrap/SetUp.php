@@ -105,8 +105,8 @@ class SetUp implements BootstrapInterface
         ]);
 
         $container->setSingleton(FeatureFlag::class, function () use ($app) {
-                $config = Yii::$app->params['feature-toggle'];
-                return new Feature($config['features']);
+            $config = Yii::$app->params['feature-toggle'];
+            return new Feature($config['features']);
         });
 
         require __DIR__ . '/twig.php';

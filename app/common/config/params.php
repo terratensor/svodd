@@ -52,7 +52,7 @@ return [
     ],
     'feature-toggle' => [
         'features' => [
-            'SEARCH_FIX_DATE' => true,
+            'SEARCH_FIX_DATE' => false,
         ],
     ],
 ];
