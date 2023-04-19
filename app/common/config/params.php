@@ -50,4 +50,9 @@ return [
             FrontendUrlTwigExtension::class
         ],
     ],
+    'feature-toggle' => [
+        'features' => [
+            'SEARCH_FIX_DATE' => true,
+        ],
+    ],
 ];
