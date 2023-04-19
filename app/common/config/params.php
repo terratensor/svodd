@@ -13,6 +13,7 @@ return [
     'user.rememberMeDuration' => 3600 * 24 * 30,
     'cookieDomain' => getenv('COOKIE_DOMAIN'),
     'frontendHostInfo' => getenv('FRONTEND_URL'),
+    'maintenance_message' => 'На сайте проводятся технические работы по обновлению поискового индекса. Возможно, на ваш запрос, вы увидите только часть результатов поиска. Приносим извинения за неудобство.',
     'manticore' => [
         'host' => 'manticore',
         'port' => 9308

@@ -28,6 +28,7 @@ services:
       - default
     environment:
       APP_ENV: dev
+      MAINTENANCE_MODE: false
       APP_DEBUG: 0
       POSTGRES_HOST: app-postgres
       POSTGRES_USER: app
