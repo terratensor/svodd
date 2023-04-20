@@ -4,17 +4,14 @@
 - Тут надо написать текст о проекте.
 
 #### https://github.com/audetv/fct-search
-**Если у вас есть идея или пожелание, или вы заметили какой-то баг - ошибку или неправильное поведение страниц, сервисов,
-то можно открыть новую задачу issues и написать об этом в свободной форме тут:** https://github.com/audetv/fct-search/issues
+Если у вас есть идея или пожелание, или вы заметили какой-то баг - ошибку или неправильное поведение страниц, сервисов,
+то можно [открыть новую задачу issues](https://github.com/audetv/fct-search/issues), где в свободной форме описать проблему.
 
-По этой ссылке можно посмотреть список закрытых задач и обсуждение по ним:\
-https://github.com/audetv/fct-search/issues?q=is%3Aissue+is%3Aclosed \
-Это закрытые [пул запросы](https://docs.github.com/ru/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests): \
-https://github.com/audetv/fct-search/pulls?q=is%3Apr+is%3Aclosed
+Здесь находится [список закрытых задач и обсуждение по ним](https://github.com/audetv/fct-search/issues?q=is%3Aissue+is%3Aclosed)
 
-Тут можно посмотреть список изменений, которые сделаны на сайте:\
-https://github.com/audetv/fct-search/commits/main
+Это [закрытые пул запросы](https://docs.github.com/ru/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
 
+Тут можно посмотреть [список изменений](https://github.com/audetv/fct-search/commits/main), которые сделаны на сайте
 
 __
 
