@@ -126,11 +126,11 @@
     /*Светлая тема красный СВОДД, наши вставки*/
     --pagination-a-bg: #a10000;
     --pagination-a-border-color: #9d0000;
-    --svodd-breadcrumb: #e9ecef;
-
+    --svodd-breadcrumb: #dfddda;
+    --sv-quote-border: #c5c2c2;
     --sr-mark-color: #212529;
     --sr-bg-color: #e1e0e0;
-
+    --sv-card-bg: #f3f1ed;
     --bg-footer-color: #f5f5f5;
 
     --sv-search-form: #8d8585;
@@ -142,7 +142,7 @@
 [data-bs-theme=dark] {
     --bs-body-color: #bfc3c3;
     --bs-body-color-rgb: 173, 181, 189;
-    --bs-body-bg: #1e1c1e;
+    --bs-body-bg: #1c1c1e;
     --bs-body-bg-rgb: 30, 30, 29;
     --bs-emphasis-color: #f8f9fa;
     --bs-emphasis-color-rgb: 248, 249, 250;
@@ -200,9 +200,9 @@
     --svodd-breadcrumb: #141618;
     --sr-mark-color: #cfcfcf;
     --sr-bg-color: #504f4f;
-
+    --sv-card-bg: #19181c;
     --bg-footer-color: #1d2124;
-
+    --sv-quote-border: #545151;
     --bd-red-rgb: #af1c1c;
     --bs-dropdown-link-active-color: #ffffff;
     --bs-dropdown-link-active-bg: #a10000;
@@ -277,4 +277,12 @@ span.link {
     color: var(--sv-search-form);
     background-color: var(--sv-search-form-bg);
     border: var(--bs-border-width) solid var(--sv-search-form);
+}
+
+.card {
+    --bs-card-bg: var(--sv-card-bg);
+}
+
+.comment-text blockquote {
+     border-left: solid var(--sv-quote-border);
 }
