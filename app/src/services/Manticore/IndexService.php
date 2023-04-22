@@ -69,7 +69,13 @@ class IndexService
                 'avatar_file' => ['type' => 'text']
             ],
             [
-                'morphology' => 'stem_ru'
+                'index_sp' => 1,
+                'morphology' => 'stem_ru',
+                'wordforms' => [
+                    '/var/lib/manticore/wordforms.txt',
+                    '/var/lib/manticore/alternateforms.txt',
+                    '/var/lib/manticore/dict*.txt'
+                ]
             ]
         );
     }
@@ -98,7 +104,7 @@ class IndexService
         $files = $this->readDir();
         foreach ($files as $file) {
             $doc = $this->readFile($file);
-            echo "parsed: " . $file ."\n";
+            echo "parsed: " . $file . "\n";
             // Если не надо делать запись в бд, ставим saveToDb false
             $this->addQuestion($doc, $index, true);
         }
@@ -107,7 +113,7 @@ class IndexService
     private function readFile(string $file): bool|string
     {
 
-        return file_get_contents(__DIR__ . '/../../..'. '/data/test/'.$file);
+        return file_get_contents(__DIR__ . '/../../..' . '/data/test/' . $file);
     }
 
     private function readDir(): array
@@ -308,7 +314,7 @@ class IndexService
             }
         }
 
-        $lastCommentDate =  isset($questionComment) ?
+        $lastCommentDate = isset($questionComment) ?
             $this->getDateFromTimestamp($questionComment->datetime) : new DateTimeImmutable();
 
         // Если установлена saveToDB, сохраняем статистику комментариев к вопросу
