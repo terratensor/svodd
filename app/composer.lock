@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f7ae3a2b8bae7bd6e543c7939a0f47d",
+    "content-hash": "110c0d9d263c1801e4237ec722592ff0",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -812,62 +812,6 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.x"
             },
             "time": "2022-12-21T21:54:25+00:00"
-        },
-        {
-            "name": "la-haute-societe/yii2-save-relations-behavior",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/la-haute-societe/yii2-save-relations-behavior.git",
-                "reference": "3aa286f7c9f8399b3d4ba93c502878925f1be7d5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/la-haute-societe/yii2-save-relations-behavior/zipball/3aa286f7c9f8399b3d4ba93c502878925f1be7d5",
-                "reference": "3aa286f7c9f8399b3d4ba93c502878925f1be7d5",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": ">=2.0.14"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.8.36"
-            },
-            "default-branch": true,
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "lhs\\Yii2SaveRelationsBehavior\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alban Jubert",
-                    "email": "alban@lahautesociete.com"
-                }
-            ],
-            "description": "Validate and save automatically related Active Record models.",
-            "keywords": [
-                "Behavior",
-                "active-query",
-                "active-record",
-                "database",
-                "extension",
-                "has-many",
-                "has-one",
-                "relations",
-                "yii2"
-            ],
-            "support": {
-                "issues": "https://github.com/la-haute-societe/yii2-save-relations-behavior/issues",
-                "source": "https://github.com/la-haute-societe/yii2-save-relations-behavior/tree/master"
-            },
-            "abandoned": true,
-            "time": "2021-02-19T17:22:39+00:00"
         },
         {
             "name": "manticoresoftware/manticoresearch-php",
@@ -7079,10 +7023,10 @@
     "stability-flags": {
         "manticoresoftware/manticoresearch-php": 20,
         "ramsey/uuid": 20,
-        "la-haute-societe/yii2-save-relations-behavior": 20,
         "sentry/sdk": 20,
         "twig/twig": 20,
-        "yiisoft/yii2-redis": 20
+        "yiisoft/yii2-redis": 20,
+        "nickbeen/php-cli-progress-bar": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
