@@ -42,9 +42,9 @@ class Handler
 
         $key = 100 / count($questionIDs);
         $tick = 0;
+        echo "Проиндексировано вопросов: \r\n";
         $progressBar = new ProgressBar(maxProgress: 100);
         $progressBar->start();
-        echo "Проиндексировано вопросов: \r\n";
 
         foreach ($questionIDs as $questionID) {
             $question = $this->questionRepository->get($questionID['id']);
