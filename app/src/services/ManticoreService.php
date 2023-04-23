@@ -31,12 +31,16 @@ class ManticoreService
 
         $queryString = SearchHelper::processAvatarUrls($queryString);
 
+        if ($form->dictionary) {
+            $indexName = 'questions_ext';
+        }
+
         $comments = match ($form->matching) {
-            'query_string' => $this->questionRepository->findByQueryStringNew($queryString),
-            'match_phrase' => $this->questionRepository->findByMatchPhrase($queryString),
-            'match' => $this->questionRepository->findByQueryStringMatch($queryString),
-            'in' => $this->questionRepository->findByCommentId($queryString),
-            default => $this->questionRepository->findByQueryStringNew($queryString),
+            'query_string' => $this->questionRepository->findByQueryStringNew($queryString, $indexName ?? null),
+            'match_phrase' => $this->questionRepository->findByMatchPhrase($queryString, $indexName ?? null),
+            'match' => $this->questionRepository->findByQueryStringMatch($queryString, $indexName ?? null),
+            'in' => $this->questionRepository->findByCommentId($queryString, $indexName ?? null),
+            default => $this->questionRepository->findByQueryStringNew($queryString, $indexName ?? null),
         };
 
         return new QuestionDataProvider(
