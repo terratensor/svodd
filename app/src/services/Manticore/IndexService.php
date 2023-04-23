@@ -75,7 +75,7 @@ class IndexService
                 ]
             );
         }
-        if ($name === 'question_ext') {
+        if ($name === 'questions_ext') {
             $index->create(
                 [
                     'username' => ['type' => 'text'],
