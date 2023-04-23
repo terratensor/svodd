@@ -137,10 +137,7 @@ services:
     volumes:
       - manticore:/var/lib/manticore
       - manticore:/var/log/manticore
-      - ./manticore/wordforms.txt:/var/lib/manticore/wordforms.txt
-#      - ./manticore/alternateforms.txt:/var/lib/manticore/alternateforms.txt
-      - ./dictionary/alternateforms.txt:/var/lib/manticore/alternateforms.txt
-      - ./dictionary/alternateforms.txt:/var/lib/manticore/questions/alternateforms.txt
+      - ./dictionary/wordforms.txt:/var/lib/manticore/wordforms.txt
 #      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
 
   redis:
