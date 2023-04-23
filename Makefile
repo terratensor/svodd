@@ -148,3 +148,9 @@ deploy-clean:
 
 rollback:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
+
+reindex:
+	docker compose run --rm cli-php php yii index/reindex-db
+
+reindex-ext:
+	docker compose run --rm cli-php php yii index/reindex-db-ext

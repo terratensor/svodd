@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
                 ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
                 ->label(false); ?>
+            <?= $form->field($model, 'dictionary')->checkbox()->label('Словарь концептуальных терминов (тестирование)'); ?>
         </div>
           <?php ActiveForm::end(); ?>
       </div>

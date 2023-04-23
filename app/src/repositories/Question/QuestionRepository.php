@@ -26,19 +26,24 @@ class QuestionRepository
     public function __construct(Client $client, $pageSize)
     {
         $this->client = $client;
-        $this->index = $this->client->index('questions');
+        $this->setIndex($this->client->index('questions'));
         $this->search = new Search($this->client);
         $this->pageSize = $pageSize;
     }
 
     /**
      * @param string $queryString
+     * @param string|null $indexName
      * @return Search
      * "query_string" accepts an input string as a full-text query in MATCH() syntax
      */
-    public function findByQueryStringNew(string $queryString): Search
+    public function findByQueryStringNew(string $queryString, ?string $indexName = null): Search
     {
         $this->search->reset();
+        if ($indexName) {
+            $this->setIndex($this->client->index($indexName));
+        }
+
         $queryString = SearchHelper::escapingCharacters($queryString);
 
         $query = new QueryString($queryString);
@@ -60,12 +65,17 @@ class QuestionRepository
 
     /**
      * @param string $queryString
+     * @param string|null $indexName
      * @return Search
      * "match" is a simple query that matches the specified keywords in the specified fields.
      */
-    public function findByQueryStringMatch(string $queryString): Search
+    public function findByQueryStringMatch(string $queryString, ?string $indexName = null): Search
     {
         $this->search->reset();
+        if ($indexName) {
+            $this->setIndex($this->client->index($indexName));
+        }
+
         $query = new MatchQuery($queryString, '*');
         $search = $this->index->search($query);
 
@@ -84,12 +94,17 @@ class QuestionRepository
 
     /**
      * @param string $queryString
+     * @param string|null $indexName
      * @return Search
      * "match_phrase" is a query that matches the entire phrase. It is similar to a phrase operator in SQL.
      */
-    public function findByMatchPhrase(string $queryString): Search
+    public function findByMatchPhrase(string $queryString, ?string $indexName = null): Search
     {
         $this->search->reset();
+        if ($indexName) {
+            $this->setIndex($this->client->index($indexName));
+        }
+
         $query = new MatchPhrase($queryString, '*');
         $search = $this->index->search($query);
 
@@ -108,12 +123,16 @@ class QuestionRepository
 
     /**
      * @param $queryString String Число или строка чисел через запятую
+     * @param string|null $indexName
      * @return Search
      * Поиск по data_id, вопрос или комментарий, число или массив data_id
      */
-    public function findByCommentId(string $queryString): Search
+    public function findByCommentId(string $queryString, ?string $indexName = null): Search
     {
         $this->search->reset();
+        if ($indexName) {
+            $this->setIndex($this->client->index($indexName));
+        }
 
         $result = explode(',', $queryString);
 
@@ -185,5 +204,13 @@ class QuestionRepository
         $search->limit($count);
 
         return $search->get();
+    }
+
+    /**
+     * @param Index $index
+     */
+    public function setIndex(Index $index): void
+    {
+        $this->index = $index;
     }
 }
