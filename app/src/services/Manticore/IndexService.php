@@ -56,28 +56,47 @@ class IndexService
         $index->setName($name);
         $index->drop(true);
 
-        $index->create(
-            [
-                'username' => ['type' => 'text'],
-                'role' => ['type' => 'string'],
-                'text' => ['type' => 'text'],
-                'datetime' => ['type' => 'timestamp'],
-                'data_id' => ['type' => 'integer'],
-                'parent_id' => ['type' => 'integer'],
-                'type' => ['type' => 'integer'],
-                'position' => ['type' => 'integer'],
-                'avatar_file' => ['type' => 'text']
-            ],
-            [
-                'index_sp' => 1,
-                'morphology' => 'stem_ru',
-                'wordforms' => [
-                    '/var/lib/manticore/wordforms.txt',
-                    '/var/lib/manticore/alternateforms.txt',
-                    '/var/lib/manticore/dict*.txt'
+        if ($name === 'questions') {
+            $index->create(
+                [
+                    'username' => ['type' => 'text'],
+                    'role' => ['type' => 'string'],
+                    'text' => ['type' => 'text'],
+                    'datetime' => ['type' => 'timestamp'],
+                    'data_id' => ['type' => 'integer'],
+                    'parent_id' => ['type' => 'integer'],
+                    'type' => ['type' => 'integer'],
+                    'position' => ['type' => 'integer'],
+                    'avatar_file' => ['type' => 'text']
+                ],
+                [
+                    'index_sp' => 1,
+                    'morphology' => 'stem_ru',
                 ]
-            ]
-        );
+            );
+        }
+        if ($name === 'question_ext') {
+            $index->create(
+                [
+                    'username' => ['type' => 'text'],
+                    'role' => ['type' => 'string'],
+                    'text' => ['type' => 'text'],
+                    'datetime' => ['type' => 'timestamp'],
+                    'data_id' => ['type' => 'integer'],
+                    'parent_id' => ['type' => 'integer'],
+                    'type' => ['type' => 'integer'],
+                    'position' => ['type' => 'integer'],
+                    'avatar_file' => ['type' => 'text']
+                ],
+                [
+                    'index_sp' => 1,
+                    'morphology' => 'stem_ru',
+                    'wordforms' => [
+                        '/var/lib/manticore/wordforms.txt',
+                    ]
+                ]
+            );
+        }
     }
 
     public function delete(IndexDeleteForm $form): void
