@@ -95,9 +95,9 @@ class Chart extends Widget
               y.ticks.color = '#bfc3c3'    
          } else {
               // настройки для светлой темы, цвет текста
-              Chart.defaults.color = '#000000';
+              Chart.defaults.color = '#212529';
               // цвет текста заголовка оси y, номер темы
-              y.ticks.color = '#000000'
+              y.ticks.color = '#212529'
          }           
        
       chart.update()
