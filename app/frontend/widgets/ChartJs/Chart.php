@@ -87,7 +87,7 @@ class Chart extends Widget
                 value = 'light'
               }
          }
-           console.log(chart.config.data.datasets)
+           
          if (theme === 'dark') {
               // настройки для темной темы, цвет текста
               Chart.defaults.color = 'rgba(191, 195, 195, 1)';
