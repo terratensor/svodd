@@ -87,17 +87,29 @@ class Chart extends Widget
                 value = 'light'
               }
          }
-           
+           console.log(chart.config.data.datasets)
          if (theme === 'dark') {
               // настройки для темной темы, цвет текста
               Chart.defaults.color = 'rgba(191, 195, 195, 1)';
               // цвет текста заголовка оси y, номер темы
               y.ticks.color = '#bfc3c3'    
+              // цвет dataset СВОДД, горизонтальные линии - красный
+              chart.config.data.datasets[0].backgroundColor = 'rgba(114, 10, 10, 1)'
+              chart.config.data.datasets[0].borderColor = 'rgba(88, 10, 10, 1)'
+              // цвет dataset ФКТ, горизонтальные линии - серый
+              chart.config.data.datasets[1].backgroundColor = 'rgba(80, 79, 79, 1)'
+              chart.config.data.datasets[1].borderColor = 'rgba(54, 52, 52, 1)'
          } else {
               // настройки для светлой темы, цвет текста
               Chart.defaults.color = '#000000';
               // цвет текста заголовка оси y, номер темы
               y.ticks.color = '#000000'
+              // цвет dataset СВОДД, горизонтальные линии - красный
+              chart.config.data.datasets[0].backgroundColor = 'rgba(114, 10, 10, 1)'
+              chart.config.data.datasets[0].borderColor = 'rgba(88, 10, 10, 1)'
+              // цвет dataset ФКТ, горизонтальные линии - серый
+              chart.config.data.datasets[1].backgroundColor = 'rgba(80, 79, 79, 1)'
+              chart.config.data.datasets[1].borderColor = 'rgba(54, 52, 52, 1)'
          }           
        
       chart.update()
