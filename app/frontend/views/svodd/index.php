@@ -143,8 +143,8 @@ $this->title = 'Обратная хронология обсуждения СВ�
                           'text' => "Текущая тема $current% Всего $summary%",
                           'position' => 'top',
                           'align' => 'start',
-                          'font' => ['size' => 16, 'weight' => 400, 'color' => 'rgba(191, 195, 195, 1)'],
-                          'padding' => 0
+                          'font' => ['size' => 16, 'weight' => 400],
+                          'padding' => 0,
                       ],
                       'tooltip' => [
                           'enabled' => true,

@@ -89,8 +89,14 @@ class Chart extends Widget
          }
            
          if (theme === 'dark') {
-              y.ticks.color = '#bfc3c3'
+              // настройки для темной темы, цвет текста
+              Chart.defaults.color = 'rgba(191, 195, 195, 1)';
+              // цвет текста заголовка оси y, номер темы
+              y.ticks.color = '#bfc3c3'    
          } else {
+              // настройки для светлой темы, цвет текста
+              Chart.defaults.color = '#000000';
+              // цвет текста заголовка оси y, номер темы
               y.ticks.color = '#000000'
          }           
        
