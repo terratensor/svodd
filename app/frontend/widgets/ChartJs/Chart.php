@@ -90,7 +90,7 @@ class Chart extends Widget
            
          if (theme === 'dark') {
               // настройки для темной темы, цвет текста
-              Chart.defaults.color = 'rgba(191, 195, 195, 1)';
+              Chart.defaults.color = '#bfc3c3';
               // цвет текста заголовка оси y, номер темы
               y.ticks.color = '#bfc3c3'    
               // цвет dataset СВОДД, горизонтальные линии - красный
@@ -101,15 +101,15 @@ class Chart extends Widget
               chart.config.data.datasets[1].borderColor = 'rgba(54, 52, 52, 1)'
          } else {
               // настройки для светлой темы, цвет текста
-              Chart.defaults.color = '#f1ecec';
+              Chart.defaults.color = '#212529';
               // цвет текста заголовка оси y, номер темы
               y.ticks.color = '#212529'
               // цвет dataset СВОДД, горизонтальные линии - красный
               chart.config.data.datasets[0].backgroundColor = 'rgba(193, 12, 12, 1)'
               chart.config.data.datasets[0].borderColor = 'rgba(141, 11, 11, 1)'
               // цвет dataset ФКТ, горизонтальные линии - серый
-              chart.config.data.datasets[1].backgroundColor = 'rgba(202, 205, 209, 1)'
-              chart.config.data.datasets[1].borderColor = 'rgba(131, 134, 139, 1)'
+              chart.config.data.datasets[1].backgroundColor = '#dce0e5'
+              chart.config.data.datasets[1].borderColor = '#8e9093'
          }           
        
       chart.update()
