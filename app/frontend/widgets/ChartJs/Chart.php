@@ -105,11 +105,11 @@ class Chart extends Widget
               // цвет текста заголовка оси y, номер темы
               y.ticks.color = '#212529'
               // цвет dataset СВОДД, горизонтальные линии - красный
-              chart.config.data.datasets[0].backgroundColor = 'rgba(114, 10, 10, 1)'
-              chart.config.data.datasets[0].borderColor = 'rgba(88, 10, 10, 1)'
+              chart.config.data.datasets[0].backgroundColor = 'rgba(193, 12, 12, 1)'
+              chart.config.data.datasets[0].borderColor = 'rgba(141, 11, 11, 1)'
               // цвет dataset ФКТ, горизонтальные линии - серый
-              chart.config.data.datasets[1].backgroundColor = 'rgba(80, 79, 79, 1)'
-              chart.config.data.datasets[1].borderColor = 'rgba(54, 52, 52, 1)'
+              chart.config.data.datasets[1].backgroundColor = 'rgba(193, 194, 203, 1)'
+              chart.config.data.datasets[1].borderColor = 'rgba(111, 112, 116, 1)'
          }           
        
       chart.update()
