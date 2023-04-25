@@ -72,6 +72,7 @@ class IndexService
                 [
                     'index_sp' => 1,
                     'morphology' => 'stem_ru',
+                    'stopwords' => 'en, ru',
                 ]
             );
         }
@@ -91,9 +92,9 @@ class IndexService
                 [
                     'index_sp' => 1,
                     'morphology' => 'stem_ru',
-                    'wordforms' => [
-                        '/var/lib/manticore/wordforms.txt',
-                    ]
+                    'stopwords' => 'en, ru',
+                    'exceptions' => ['/var/lib/manticore/exceptions.txt'],
+                    'wordforms' => ['/var/lib/manticore/wordforms.txt'],
                 ]
             );
         }
