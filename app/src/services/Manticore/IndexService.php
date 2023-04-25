@@ -92,7 +92,9 @@ class IndexService
                 [
                     'index_sp' => 1,
                     'morphology' => 'stem_ru',
+                    'morphology_skip_fields' => 'avatar_file',
                     'stopwords' => 'en, ru',
+                    'stopwords_unstemmed' => 1,
                     'exceptions' => ['/var/lib/manticore/exceptions.txt'],
                     'wordforms' => ['/var/lib/manticore/wordforms.txt'],
                 ]

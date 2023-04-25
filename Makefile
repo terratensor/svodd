@@ -154,5 +154,6 @@ reindex:
 
 reindex-ext:
 	docker compose run --rm cli-php php yii index/reindex-db-ext
+
 alter-questions-ext:
-	docker exec -it fct-search-manticore-1 mysql -e "alter table questions_ext wordforms='/var/lib/manticore/wordforms.txt';"
+	docker exec -it fct-search-manticore-1 mysql -e "alter table questions_ext wordforms='/var/lib/manticore/wordforms.txt' exceptions='/var/lib/manticore/exceptions.txt';"
