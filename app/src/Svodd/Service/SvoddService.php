@@ -41,7 +41,7 @@ class SvoddService
         $current->changeActive();
         $this->svoddChartRepository->save($current);
 
-        $new = Data::create($question->data_id, 33, 435403);
+        $new = Data::create($question->data_id, 34, 436851);
         $this->svoddChartRepository->save($new);
     }
 
