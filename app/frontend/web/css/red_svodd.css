@@ -157,7 +157,7 @@
     --bs-emphasis-color: #fff;
     --bs-primary-text: #6ea8fe;
     --bs-secondary-text: #dee2e6;
-    --bs-success-text: #75b798;
+    --bs-success-text: rgb(80, 250, 123);
     --bs-info-text: #6edff6;
     --bs-warning-text: #ffda6a;
     --bs-danger-text: #ea868f;
@@ -194,6 +194,8 @@
     --bs-link-hover-color-rgb: 175, 28, 28;
     /*--bs-white-rgb: 29, 33, 36;*/
 
+    /* Зеленый цвет для setFlash success alerts */
+    --bs-success-text-emphasis: rgb(67, 193, 102);
     /*Тёмная тема красный СВОДД, наши вставки*/
     --pagination-a-bg: #720a0a;
     --pagination-a-border-color: #560000;

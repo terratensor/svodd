@@ -50,13 +50,13 @@ class IndexService
     {
         $name = $form->name;
         if ($name === '') {
-            $name = 'questions';
+            $name = \Yii::$app->params['indexes']['common'];
         }
         $index = new Index($this->client);
         $index->setName($name);
         $index->drop(true);
 
-        if ($name === 'questions') {
+        if ($name === \Yii::$app->params['indexes']['common']) {
             $index->create(
                 [
                     'username' => ['type' => 'text'],
@@ -76,7 +76,7 @@ class IndexService
                 ]
             );
         }
-        if ($name === 'questions_ext') {
+        if ($name === \Yii::$app->params['indexes']['concept']) {
             $index->create(
                 [
                     'username' => ['type' => 'text'],

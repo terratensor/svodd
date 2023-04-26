@@ -48,9 +48,9 @@ class Handler
 
         $key = 100 / count($files);
         $tick = 0;
+        echo "Обработано файлов: \r\n";
         $progressBar = new ProgressBar(maxProgress: 100);
         $progressBar->start();
-        echo "Обработано файлов: \r\n";
 
         foreach ($files as $file) {
             if ($doc = $this->readFileService->readFile($file)) {

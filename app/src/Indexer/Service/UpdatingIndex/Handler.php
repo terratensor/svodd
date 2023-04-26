@@ -16,6 +16,7 @@ class Handler
 {
     private Client $client;
     public Index $index;
+    public Index $conceptIndex;
     private DirectoryService $directoryService;
     private ReadFileService $readFileService;
     private QuestionRepository $questionRepository;
@@ -46,6 +47,7 @@ class Handler
     public function handle(string $name = 'questions'): void
     {
         $this->index = $this->client->index($name);
+        $this->conceptIndex = $this->client->index(\Yii::$app->params['indexes']['concept']);
 
         $files = $this->directoryService->readDir();
 
@@ -79,16 +81,19 @@ class Handler
 
             // Добавляем вопрос в поисковый индекс manticore
             $this->index->addDocument($topic->question->getSource());
+            $this->conceptIndex->addDocument($topic->question->getSource());
 
             // Добавляем связанные вопросы в поисковый индекс manticore
             foreach ($topic->relatedQuestions as $relatedQuestion) {
                 $this->index->addDocument($relatedQuestion->getSource());
+                $this->conceptIndex->addDocument($relatedQuestion->getSource());
             }
 
             // Добавляем комментарии в поисковый индекс manticore
             /** @var Comment $comment */
             foreach ($topic->comments as $key => $comment) {
                 $this->index->addDocument($comment->getSource($key));
+                $this->conceptIndex->addDocument($comment->getSource($key));
             }
         }
     }
