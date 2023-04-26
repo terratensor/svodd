@@ -10,27 +10,6 @@ services:
       placement:
         constraints: [ node.role == manager ]
 
-  audetv:
-    image: "traefik/whoami"
-    networks:
-      - traefik-public
-      - default
-    deploy:
-      placement:
-        constraints: [ node.labels.parser == parser ]
-      labels:
-        - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.http.routers.frontend.rule=Host(`fct-search.audetv.ru`) || Host(`www.fct-search.audetv.ru`)
-        - traefik.http.services.frontend.loadBalancer.server.port=80
-        - traefik.http.middlewares.frontend-redirect.redirectRegex.regex=^(https?://)www.fct-search.audetv.ru/(.*)$$
-        - traefik.http.middlewares.frontend-redirect.redirectRegex.replacement=$${1}fct-search.audetv.ru/$${2}
-        - traefik.http.middlewares.frontend-redirect.redirectRegex.permanent=true
-        - traefik.http.routers.frontend.middlewares=frontend-redirect,secure-headers
-        - traefik.http.routers.frontend.entryPoints=https
-        - traefik.http.routers.frontend.tls=true
-        - traefik.http.routers.frontend.tls.certResolver=letsEncrypt
-
   frontend:
     image: ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
     networks:
