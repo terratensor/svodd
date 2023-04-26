@@ -91,7 +91,7 @@ class IndexService
                 ],
                 [
                     'index_sp' => 1,
-                    'morphology' => 'stem_ru',
+                    'morphology' => 'stem_ru, stem_en',
                     'morphology_skip_fields' => 'avatar_file',
                     'stopwords' => 'en, ru',
                     'stopwords_unstemmed' => 1,
