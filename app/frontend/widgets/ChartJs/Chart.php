@@ -88,7 +88,7 @@ class Chart extends Widget
               }
          }
            
-         if (theme === 'dark') {
+         if (value === 'dark') {
               // настройки для темной темы, цвет текста
               Chart.defaults.color = '#bfc3c3';
               // цвет текста заголовка оси y, номер темы
