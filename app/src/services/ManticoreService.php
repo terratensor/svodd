@@ -32,7 +32,7 @@ class ManticoreService
         $queryString = SearchHelper::processAvatarUrls($queryString);
 
         if ($form->dictionary) {
-            $indexName = 'questions_ext';
+            $indexName = \Yii::$app->params['indexes']['concept'];
         }
 
         $comments = match ($form->matching) {

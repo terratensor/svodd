@@ -55,4 +55,8 @@ return [
             'SEARCH_FIX_DATE' => false,
         ],
     ],
+    'indexes' => [
+        'common' => 'questions',
+        'concept' => 'questions_ext',
+    ]
 ];
