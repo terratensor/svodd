@@ -17,7 +17,7 @@ class MaintenanceWidget extends Widget
             if (!$this->message) {
                 $this->message = \Yii::$app->params['maintenance_message'];
             }
-            Yii::$app->session->setFlash('warning', $this->message);
+            Yii::$app->session->setFlash('success', $this->message);
         }
     }
 }
