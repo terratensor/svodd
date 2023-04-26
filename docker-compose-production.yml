@@ -85,7 +85,7 @@ services:
       replicas: 2
       update_config:
         parallelism: 1
-        delay: 30s
+        delay: 15s
 
   app-migration:
     image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
