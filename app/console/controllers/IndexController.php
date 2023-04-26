@@ -221,7 +221,7 @@ class IndexController extends Controller
     {
         $message = 'Done!';
         try {
-            $this->reindexFromDbHandler->handle('questions_ext');
+            $this->reindexFromDbHandler->handle(\Yii::$app->params['indexes']['common']);
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
