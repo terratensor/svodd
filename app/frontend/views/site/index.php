@@ -18,7 +18,7 @@ use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
 use yii\helpers\Url;
 
-$this->title = 'ФКТ поиск';
+$this->title = 'Поиск по ФКТ';
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
 echo Html::hiddenInput('value', 'toggle');
@@ -35,7 +35,7 @@ $inputTemplate = '<div class="input-group mb-2">
           </button>
           </div>';
 
-$this->title = 'Поиск по архиву вопросов и комментариев сайта ФКТ:';
+//$this->title = 'Поиск по ФКТ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
   <div class="site-index">
