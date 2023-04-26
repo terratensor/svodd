@@ -56,22 +56,47 @@ class IndexService
         $index->setName($name);
         $index->drop(true);
 
-        $index->create(
-            [
-                'username' => ['type' => 'text'],
-                'role' => ['type' => 'string'],
-                'text' => ['type' => 'text'],
-                'datetime' => ['type' => 'timestamp'],
-                'data_id' => ['type' => 'integer'],
-                'parent_id' => ['type' => 'integer'],
-                'type' => ['type' => 'integer'],
-                'position' => ['type' => 'integer'],
-                'avatar_file' => ['type' => 'text']
-            ],
-            [
-                'morphology' => 'stem_ru'
-            ]
-        );
+        if ($name === 'questions') {
+            $index->create(
+                [
+                    'username' => ['type' => 'text'],
+                    'role' => ['type' => 'string'],
+                    'text' => ['type' => 'text'],
+                    'datetime' => ['type' => 'timestamp'],
+                    'data_id' => ['type' => 'integer'],
+                    'parent_id' => ['type' => 'integer'],
+                    'type' => ['type' => 'integer'],
+                    'position' => ['type' => 'integer'],
+                    'avatar_file' => ['type' => 'text']
+                ],
+                [
+                    'index_sp' => 1,
+                    'morphology' => 'stem_ru',
+                ]
+            );
+        }
+        if ($name === 'questions_ext') {
+            $index->create(
+                [
+                    'username' => ['type' => 'text'],
+                    'role' => ['type' => 'string'],
+                    'text' => ['type' => 'text'],
+                    'datetime' => ['type' => 'timestamp'],
+                    'data_id' => ['type' => 'integer'],
+                    'parent_id' => ['type' => 'integer'],
+                    'type' => ['type' => 'integer'],
+                    'position' => ['type' => 'integer'],
+                    'avatar_file' => ['type' => 'text']
+                ],
+                [
+                    'index_sp' => 1,
+                    'morphology' => 'stem_ru',
+                    'wordforms' => [
+                        '/var/lib/manticore/wordforms.txt',
+                    ]
+                ]
+            );
+        }
     }
 
     public function delete(IndexDeleteForm $form): void
@@ -98,7 +123,7 @@ class IndexService
         $files = $this->readDir();
         foreach ($files as $file) {
             $doc = $this->readFile($file);
-            echo "parsed: " . $file ."\n";
+            echo "parsed: " . $file . "\n";
             // Если не надо делать запись в бд, ставим saveToDb false
             $this->addQuestion($doc, $index, true);
         }
@@ -107,7 +132,7 @@ class IndexService
     private function readFile(string $file): bool|string
     {
 
-        return file_get_contents(__DIR__ . '/../../..'. '/data/test/'.$file);
+        return file_get_contents(__DIR__ . '/../../..' . '/data/test/' . $file);
     }
 
     private function readDir(): array
@@ -308,7 +333,7 @@ class IndexService
             }
         }
 
-        $lastCommentDate =  isset($questionComment) ?
+        $lastCommentDate = isset($questionComment) ?
             $this->getDateFromTimestamp($questionComment->datetime) : new DateTimeImmutable();
 
         // Если установлена saveToDB, сохраняем статистику комментариев к вопросу

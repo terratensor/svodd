@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use App\Svodd\Http\Action\V1\Svodd\IndexAction;
+use App\Svodd\Http\Action\V1\Svodd\RedirectAction;
 use App\Svodd\Http\Action\V1\Svodd\ViewAction;
 use yii\web\Controller;
 
@@ -17,6 +18,7 @@ class SvoddController extends Controller
             'view' => [
                 'class' => ViewAction::class,
             ],
+            'redirect' => RedirectAction::class
         ];
     }
 }

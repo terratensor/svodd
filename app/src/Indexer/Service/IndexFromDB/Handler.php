@@ -47,20 +47,26 @@ class Handler
         $progressBar->start();
 
         foreach ($questionIDs as $questionID) {
+            $params = [];
             $question = $this->questionRepository->get($questionID['id']);
 
             $topicQuestion = \App\Indexer\Model\Question::createFromDB($question);
-            $index->addDocument($topicQuestion->getSource());
+            $params[] = $topicQuestion->getSource();
+//            $index->addDocument($topicQuestion->getSource());
 
             foreach ($question->relatedQuestions as $relatedQuestion) {
                 $topicRelatedQuestion = RelatedQuestion::createFromDB($relatedQuestion);
-                $index->addDocument($topicRelatedQuestion->getSource());
+                $params[] = $topicRelatedQuestion->getSource();
+//                $index->addDocument($topicRelatedQuestion->getSource());
             }
 
             foreach ($question->comments as $comment) {
                 $topicQuestionComment = Comment::createFromDB($comment);
-                $index->addDocument($topicQuestionComment->getSource($comment->position - 1));
+                $params[] = $topicQuestionComment->getSource($comment->position - 1);
+//                $index->addDocument($topicQuestionComment->getSource($comment->position - 1));
             }
+
+            $index->addDocuments($params);
 
             $tick = $tick + $key;
             if ($tick >= 1) {

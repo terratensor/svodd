@@ -214,6 +214,22 @@ class IndexController extends Controller
     }
 
     /**
+     * Очищает данные в экспериментальном поисковом индексе и переиндексирует заново, читая из базы данных
+     * @return void
+     */
+    public function actionReindexDbExt(): void
+    {
+        $message = 'Done!';
+        try {
+            $this->reindexFromDbHandler->handle('questions_ext');
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+
+        $this->stdout($message . PHP_EOL);
+    }
+
+    /**
      * Основная команда для чтения файлов, которые сохранил fct-parser.
      * Добавляет новые вопросы в бд и в индекс manticore или обновляет
      * уже существующие вопросы новыми комментариями.

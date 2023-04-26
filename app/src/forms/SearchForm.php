@@ -14,12 +14,14 @@ class SearchForm extends Model
 {
     public string $query = '';
     public string $matching = 'query_string';
+    public bool $dictionary = false;
 
     public function rules(): array
     {
         return [
             ['query', 'string'],
             ['matching', 'in', 'range' => array_keys($this->getMatching())],
+            ['dictionary', 'boolean']
         ];
     }
 
