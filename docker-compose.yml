@@ -138,6 +138,7 @@ services:
       - manticore:/var/lib/manticore
       - manticore:/var/log/manticore
       - ./dictionary/wordforms.txt:/var/lib/manticore/wordforms.txt
+      - ./dictionary/exceptions.txt:/var/lib/manticore/exceptions.txt
 #      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
 
   redis:
