@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Indexer\Model;
 
 use App\Question\Entity\Question\Question as DbQuestion;
+use DateTime;
 use DateTimeImmutable;
 use Exception;
 use stdClass;
@@ -26,7 +27,7 @@ class Question
         $this->username = $data->username;
         $this->role = $data->role;
         $this->text = $data->text;
-        $this->datetime = new DateTimeImmutable($data->datetime);
+        $this->datetime = new DateTimeImmutable($data->datetime, new \DateTimeZone('UTC'));
         $this->data_id = (int)$data->data_id;
         $this->type = (int) $data->type;
         $this->avatar_file = $data->avatar_file ?? '';
