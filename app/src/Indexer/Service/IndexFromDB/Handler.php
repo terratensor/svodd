@@ -26,7 +26,7 @@ class Handler
     /**
      * @throws \Exception
      */
-    public function handle(string $name = 'questions'): void
+    public function handle(string $name = 'questions', bool $test = false): void
     {
         $params = ['index' => $name];
         $this->client->indices()->truncate($params);
@@ -46,32 +46,35 @@ class Handler
         $progressBar = new ProgressBar(maxProgress: 100);
         $progressBar->start();
 
+        $percent = 0;
         foreach ($questionIDs as $questionID) {
             $params = [];
             $question = $this->questionRepository->get($questionID['id']);
 
             $topicQuestion = \App\Indexer\Model\Question::createFromDB($question);
             $params[] = $topicQuestion->getSource();
-//            $index->addDocument($topicQuestion->getSource());
 
             foreach ($question->relatedQuestions as $relatedQuestion) {
                 $topicRelatedQuestion = RelatedQuestion::createFromDB($relatedQuestion);
                 $params[] = $topicRelatedQuestion->getSource();
-//                $index->addDocument($topicRelatedQuestion->getSource());
             }
 
             foreach ($question->comments as $comment) {
                 $topicQuestionComment = Comment::createFromDB($comment);
                 $params[] = $topicQuestionComment->getSource($comment->position - 1);
-//                $index->addDocument($topicQuestionComment->getSource($comment->position - 1));
             }
 
             $index->addDocuments($params);
 
             $tick = $tick + $key;
             if ($tick >= 1) {
+                $percent = ++$percent;
                 $progressBar->tick();
                 $tick = 0;
+            }
+            // нужно для тестирования, пересборка только 10% индекса
+            if ($percent >= 10 && $test) {
+                break;
             }
         }
         $progressBar->finish();

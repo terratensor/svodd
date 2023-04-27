@@ -6,6 +6,12 @@ up: docker-up
 down: docker-down
 restart: down up
 
+wordforms: permission \
+ 		index-delete-create
+
+permission:
+	chown -R 1000:1000 ./dictionary/*
+
 update-deps: app-composer-update restart
 
 app-clear:
@@ -157,3 +163,8 @@ reindex-ext:
 
 alter-questions-ext:
 	docker exec -it fct-search-manticore-1 mysql -e "alter table questions_ext wordforms='/var/lib/manticore/wordforms.txt' exceptions='/var/lib/manticore/exceptions.txt';"
+
+
+index-delete-create:
+	docker compose restart manticore
+	docker compose run --rm cli-php php yii index/index-renew test=1
