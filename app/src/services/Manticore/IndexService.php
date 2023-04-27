@@ -90,13 +90,10 @@ class IndexService
                     'avatar_file' => ['type' => 'text']
                 ],
                 [
-                    'index_sp' => 1,
                     'morphology' => 'stem_ru, stem_en',
-                    'morphology_skip_fields' => 'avatar_file',
                     'stopwords' => 'en, ru',
-                    'stopwords_unstemmed' => 1,
                     'exceptions' => ['/var/lib/manticore/exceptions.txt'],
-                    'wordforms' => ['/var/lib/manticore/wordforms.txt'],
+                    'wordforms' => ['/var/lib/manticore/wordforms.txt /var/lib/manticore/alternateforms.txt',],
                 ]
             );
         }

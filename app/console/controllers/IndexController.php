@@ -264,4 +264,23 @@ class IndexController extends Controller
 
         $this->stdout($message . PHP_EOL);
     }
+
+    public function actionIndexRenew($test = 0): void
+    {
+        $message = 'Done!';
+
+        $name = \Yii::$app->params['indexes']['concept'];
+        $deleteForm = new IndexDeleteForm();
+        $deleteForm->name = $name;
+        $createForm = new IndexCreateForm();
+        $createForm->name = $name;
+
+        try {
+            $this->service->delete($deleteForm);
+            $this->service->create($createForm);
+            $this->reindexFromDbHandler->handle(\Yii::$app->params['indexes']['concept'], (bool)$test);
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+        }
+    }
 }

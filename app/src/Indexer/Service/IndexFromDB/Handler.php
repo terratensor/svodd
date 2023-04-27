@@ -26,7 +26,7 @@ class Handler
     /**
      * @throws \Exception
      */
-    public function handle(string $name = 'questions'): void
+    public function handle(string $name = 'questions', bool $test = false): void
     {
         $params = ['index' => $name];
         $this->client->indices()->truncate($params);
@@ -46,6 +46,7 @@ class Handler
         $progressBar = new ProgressBar(maxProgress: 100);
         $progressBar->start();
 
+        $percent = 0;
         foreach ($questionIDs as $questionID) {
             $params = [];
             $question = $this->questionRepository->get($questionID['id']);
@@ -70,8 +71,12 @@ class Handler
 
             $tick = $tick + $key;
             if ($tick >= 1) {
+                $percent = ++$percent;
                 $progressBar->tick();
                 $tick = 0;
+            }
+            if ($percent >= 10 && $test) {
+                break;
             }
         }
         $progressBar->finish();
