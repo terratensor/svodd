@@ -266,16 +266,23 @@ class IndexController extends Controller
     }
 
     /**
-     * Команда для тестирования словаря, удаляет, создает индекс и запускает индексирования 10% базы вопросов,
+     * Команда, удаляет, создает индекс с указанным именем и запускает индексирования базы вопросов.
+     * В тестовом режиме команда, удаляет, создает индекс и запускает индексирования 10% базы вопросов,
      * для ускорения процесса, для теста этого достаточно.
-     * @param string $test
+     * @param string $name имя индекса
+     * @param string $test = test включение тестового режима
      * @return void
      */
-    public function actionIndexRenew(string $test = '0'): void
+    public function actionIndexRenew(string $test = '0', string $name = ''): void
     {
         $message = 'Done!';
 
-        $name = \Yii::$app->params['indexes']['concept'];
+        $test = $test === 'test';
+
+        if ($name === '') {
+            $name = \Yii::$app->params['indexes']['concept'];
+        }
+
         $deleteForm = new IndexDeleteForm();
         $deleteForm->name = $name;
         $createForm = new IndexCreateForm();
@@ -284,9 +291,11 @@ class IndexController extends Controller
         try {
             $this->service->delete($deleteForm);
             $this->service->create($createForm);
-            $this->reindexFromDbHandler->handle(\Yii::$app->params['indexes']['concept'], (bool)$test);
+            $this->reindexFromDbHandler->handle($name, $test);
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
+
+        $this->stdout($message . PHP_EOL);
     }
 }
