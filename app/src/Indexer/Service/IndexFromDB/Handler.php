@@ -53,18 +53,15 @@ class Handler
 
             $topicQuestion = \App\Indexer\Model\Question::createFromDB($question);
             $params[] = $topicQuestion->getSource();
-//            $index->addDocument($topicQuestion->getSource());
 
             foreach ($question->relatedQuestions as $relatedQuestion) {
                 $topicRelatedQuestion = RelatedQuestion::createFromDB($relatedQuestion);
                 $params[] = $topicRelatedQuestion->getSource();
-//                $index->addDocument($topicRelatedQuestion->getSource());
             }
 
             foreach ($question->comments as $comment) {
                 $topicQuestionComment = Comment::createFromDB($comment);
                 $params[] = $topicQuestionComment->getSource($comment->position - 1);
-//                $index->addDocument($topicQuestionComment->getSource($comment->position - 1));
             }
 
             $index->addDocuments($params);
@@ -75,6 +72,7 @@ class Handler
                 $progressBar->tick();
                 $tick = 0;
             }
+            // нужно для тестирования, пересборка только 10% индекса
             if ($percent >= 10 && $test) {
                 break;
             }

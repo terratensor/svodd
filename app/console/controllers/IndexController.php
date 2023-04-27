@@ -265,7 +265,13 @@ class IndexController extends Controller
         $this->stdout($message . PHP_EOL);
     }
 
-    public function actionIndexRenew($test = 0): void
+    /**
+     * Команда для тестирования словаря, удаляет, создает индекс и запускает индексирования 10% базы вопросов,
+     * для ускорения процесса, для теста этого достаточно.
+     * @param string $test
+     * @return void
+     */
+    public function actionIndexRenew(string $test = '0'): void
     {
         $message = 'Done!';
 
