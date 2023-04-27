@@ -42,7 +42,7 @@ class Handler
 
         $key = 100 / count($questionIDs);
         $tick = 0;
-        echo "Проиндексировано вопросов: \r\n";
+        echo "Индекс: $name \r\nПроиндексировано вопросов: \r\n";
         $progressBar = new ProgressBar(maxProgress: 100);
         $progressBar->start();
 
