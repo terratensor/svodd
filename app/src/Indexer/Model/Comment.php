@@ -28,7 +28,7 @@ class Comment
         $this->username = $data->username;
         $this->role = $data->role;
         $this->text = $data->text;
-        $this->datetime = new DateTimeImmutable($data->datetime);
+        $this->datetime = new DateTimeImmutable($data->datetime, new \DateTimeZone('UTC'));
         $this->data_id = (int)$data->data_id;
         $this->parent_id = (int)$data->parent_id;
         $this->type = (int) $data->type;
