@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use App\Contact\Http\Action\V1\Contact\ContactAction;
-use App\FeatureToggle\FeatureFlag;
 use App\forms\SearchForm;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
 use App\Search\Http\Action\V1\SearchSettings\ToggleAction;
@@ -20,21 +19,18 @@ class SiteController extends Controller
 {
     private ManticoreService $service;
     private QuestionStatsRepository $questionStatsRepository;
-    private FeatureFlag $flag;
 
     public function __construct(
         $id,
         $module,
         ManticoreService $service,
         QuestionStatsRepository $questionStatsRepository,
-        FeatureFlag $flag,
         $config = []
     )
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->questionStatsRepository = $questionStatsRepository;
-        $this->flag = $flag;
     }
 
     /**
@@ -91,7 +87,7 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex($feature = null): string
+    public function actionIndex(): string
     {
         $this->layout = 'search';
         $results = null;
@@ -104,19 +100,6 @@ class SiteController extends Controller
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
-        }
-
-        foreach ($this->flag->features as $key => $value) {
-            if ($feature === $key) {
-                $this->flag->enable($key);
-            }
-        }
-
-        if ($this->flag->isEnabled('SEARCH_FIX_DATE')) {
-            return $this->render('feature/fix-index', [
-                'results' => $results ?? null,
-                'model' => $form,
-            ]);
         }
 
         return $this->render('index', [
