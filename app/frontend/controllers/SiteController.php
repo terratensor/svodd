@@ -31,7 +31,6 @@ class SiteController extends Controller
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->questionStatsRepository = $questionStatsRepository;
-        $this->flag = $flag;
     }
 
     /**
