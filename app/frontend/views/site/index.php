@@ -12,6 +12,7 @@ use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\FollowQuestion;
+use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
@@ -66,43 +67,79 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             )->label(false); ?>
         </div>
-        <div id="search-setting-panel"
-             class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
-            <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
-                ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
-                ->label(false); ?>
-            <?= $form->field($model, 'dictionary')->checkbox()->label('Словарь концептуальных терминов (тестирование)'); ?>
-        </div>
+          <div id="search-setting-panel"
+               class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
+
+              <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
+                  ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
+                  ->label(false); ?>
+
+              <div class="row">
+                  <div class="col-md-6">
+                      <?php
+                      // Widget https://demos.krajee.com/date-range
+                      // timePicker https://www.daterangepicker.com/#config
+                      echo DateRangePicker::widget(
+                          [
+                              'model' => $model,
+                              'attribute' => 'date',
+                              'name' => 'date_range_3',
+                              'presetDropdown' => true,
+                              'language' => 'ru',
+                              'convertFormat' => true,
+                              'pluginOptions' => [
+                                  'timePicker' => true,
+                                  'timePicker24Hour' => true,
+//                          'timePickerIncrement' => 15,
+//                          'minuteStep' => 1,
+                                  'locale' => ['format' => 'd.m.Y H:i']
+                              ],
+                              'containerOptions' => [
+                                  'class' => 'mb-3 kv-drp-container'
+                              ],
+                              'pluginEvents' => [
+                                  'apply.daterangepicker' => 'function() { $(this).closest("form").submit(); }',
+                              ],
+                          ],
+                      ); ?>
+                  </div>
+                  <div class="col-md-6 d-flex align-items-center">
+                      <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
+                          ->checkbox()
+                          ->label('Словарь концептуальных терминов (тестирование)'); ?>
+                  </div>
+              </div>
+          </div>
           <?php ActiveForm::end(); ?>
       </div>
     </div>
-    <div class="container-fluid search-results">
-        <?php if ($results): ?>
-        <?php
-        // Property totalCount пусто пока не вызваны данные модели getModels(),
-        // сначала получаем массив моделей, потом получаем общее их количество
-        /** @var Comment[] $comments */
-        $comments = $results->getModels();
-        $pagination = new Pagination(
-            [
-                'totalCount' => $results->getTotalCount(),
-                'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
-            ]
-        );
-        ?>
-      <div class="row">
-        <div class="col-md-12">
-            <?php if ($pagination->totalCount === 0): ?>
-              <p><strong>По вашему запросу ничего не найдено</strong></p>
-            <?php else: ?>
-              <div class="row">
-                <div class="col-md-8 d-flex align-items-center">
-                    <?= CommentSummary::widget(['pagination' => $pagination]); ?>
-                </div>
-                <div class="col-md-4">
-                  <div class="d-flex align-items-start ">
-                    <label aria-label="Сортировка" for="input-sort"></label>
-                    <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
+      <div class="container-fluid search-results">
+          <?php if ($results): ?>
+          <?php
+          // Property totalCount пусто пока не вызваны данные модели getModels(),
+          // сначала получаем массив моделей, потом получаем общее их количество
+          /** @var Comment[] $comments */
+          $comments = $results->getModels();
+          $pagination = new Pagination(
+              [
+                  'totalCount' => $results->getTotalCount(),
+                  'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
+              ]
+          );
+          ?>
+          <div class="row">
+              <div class="col-md-12">
+                  <?php if ($pagination->totalCount === 0): ?>
+                      <p><strong>По вашему запросу ничего не найдено</strong></p>
+                  <?php else: ?>
+                      <div class="row">
+                          <div class="col-md-8 d-flex align-items-center">
+                              <?= CommentSummary::widget(['pagination' => $pagination]); ?>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="d-flex align-items-start ">
+                                  <label aria-label="Сортировка" for="input-sort"></label>
+                                  <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
                         <?php
                         $values = [
                             '' => 'Сортировка по умолчанию',

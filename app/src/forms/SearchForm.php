@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\forms;
 
+use kartik\daterange\DateRangeBehavior;
 use yii\base\Model;
 
 /**
@@ -13,13 +14,30 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public string $query = '';
+    public string $date_from = '';
+    public string $date_to = '';
+    public string $date = '';
     public string $matching = 'query_string';
     public bool $dictionary = false;
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => DateRangeBehavior::class,
+                'attribute' => 'date',
+                'dateStartAttribute' => 'date_from',
+                'dateEndAttribute' => 'date_to',
+            ]
+        ];
+    }
 
     public function rules(): array
     {
         return [
             ['query', 'string'],
+            [['date'], 'match', 'pattern' => '/^.+\s\-\s.+$/'],
+            [['date_from', 'date_to'], 'date', 'format' => 'php:d.m.Y H:i'],
             ['matching', 'in', 'range' => array_keys($this->getMatching())],
             ['dictionary', 'boolean']
         ];

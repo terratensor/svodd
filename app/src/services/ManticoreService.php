@@ -36,11 +36,16 @@ class ManticoreService
         }
 
         $comments = match ($form->matching) {
-            'query_string' => $this->questionRepository->findByQueryStringNew($queryString, $indexName ?? null),
-            'match_phrase' => $this->questionRepository->findByMatchPhrase($queryString, $indexName ?? null),
-            'match' => $this->questionRepository->findByQueryStringMatch($queryString, $indexName ?? null),
-            'in' => $this->questionRepository->findByCommentId($queryString, $indexName ?? null),
-            default => $this->questionRepository->findByQueryStringNew($queryString, $indexName ?? null),
+            'query_string' => $this->questionRepository
+                ->findByQueryStringNew($queryString, $indexName ?? null, $form),
+            'match_phrase' => $this->questionRepository
+                ->findByMatchPhrase($queryString, $indexName ?? null, $form),
+            'match' => $this->questionRepository
+                ->findByQueryStringMatch($queryString, $indexName ?? null, $form),
+            'in' => $this->questionRepository
+                ->findByCommentId($queryString, $indexName ?? null, $form),
+//            default => $this->questionRepository
+//                ->findByQueryStringNew($queryString, $indexName ?? null, $form),
         };
 
         return new QuestionDataProvider(

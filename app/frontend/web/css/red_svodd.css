@@ -202,14 +202,18 @@
     --svodd-breadcrumb: #141618;
     --sr-mark-color: #cfcfcf;
     --sr-bg-color: #504f4f;
-    --sv-card-bg: #19181c;
+    --sv-card-bg: #212121;
     --bg-footer-color: #1d2124;
     --sv-quote-border: #545151;
-    --bd-red-rgb: #af1c1c;
+    /*--bd-red-rgb: #af1c1c;*/
+    --bd-red-rgb: 175,28,28;
     --bs-dropdown-link-active-color: #ffffff;
     --bs-dropdown-link-active-bg: #a10000;
     --sv-search-form: #9f9797;
     --sv-search-form-bg: #1c1a1a;
+
+    --daterangepicker-off-rgb: 33, 33, 33;
+    --daterangepicker-hover: #b90000;
 
 }
 
@@ -304,4 +308,53 @@ input:focus:-moz-placeholder {
 
 input:focus:-ms-input-placeholder {
     color: transparent;
+}
+
+/* daterangepicker */
+.daterangepicker {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+}
+
+.daterangepicker .ranges li.active,
+.daterangepicker .ranges li.active:hover {
+    background-color: rgb(var(--bd-red-rgb));
+    color: #fff;
+}
+
+.daterangepicker .ranges li:hover {
+    background-color: rgba(var(--bd-red-rgb), 0.1);
+}
+
+.daterangepicker .calendar-table {
+    background-color: var(--bs-body-bg);
+}
+
+.daterangepicker td.active, .daterangepicker td.active:hover,
+.daterangepicker td.active, .daterangepicker td.active.end-date {
+    background-color: rgb(var(--bd-red-rgb));
+}
+
+.daterangepicker td.in-range {
+    background-color: rgba(var(--bd-red-rgb), 0.1);
+    color: var(--bs-body-color);
+}
+
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+    background-color: rgb(var(--daterangepicker-off-rgb));
+}
+
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+    background-color: var(--daterangepicker-hover);
+}
+
+.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+    color: #fff;
+    border: solid var(--bs-body-color);
+    border-width: 0 2px 2px 0;
+}
+
+.daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
 }
