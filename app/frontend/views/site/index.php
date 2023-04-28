@@ -74,36 +74,41 @@ $this->params['breadcrumbs'][] = $this->title;
                   ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
                   ->label(false); ?>
 
-              <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
-                  ->checkbox()
-                  ->label('Словарь концептуальных терминов (тестирование)'); ?>
-
-              <?php
-              // Widget https://demos.krajee.com/date-range
-              // timePicker https://www.daterangepicker.com/#config
-              echo DateRangePicker::widget(
-                  [
-                      'model' => $model,
-                      'attribute' => 'date',
-                      'name' => 'date_range_3',
-                      'presetDropdown' => true,
-                      'language' => 'ru',
-                      'convertFormat' => true,
-                      'pluginOptions' => [
-                          'timePicker' => true,
-                          'timePicker24Hour' => true,
+              <div class="row">
+                  <div class="col-md-6">
+                      <?php
+                      // Widget https://demos.krajee.com/date-range
+                      // timePicker https://www.daterangepicker.com/#config
+                      echo DateRangePicker::widget(
+                          [
+                              'model' => $model,
+                              'attribute' => 'date',
+                              'name' => 'date_range_3',
+                              'presetDropdown' => true,
+                              'language' => 'ru',
+                              'convertFormat' => true,
+                              'pluginOptions' => [
+                                  'timePicker' => true,
+                                  'timePicker24Hour' => true,
 //                          'timePickerIncrement' => 15,
 //                          'minuteStep' => 1,
-                          'locale' => ['format' => 'd.m.Y H:i']
-                      ],
-                      'containerOptions' => [
-                          'class' => 'mb-3 kv-drp-container'
-                      ],
-                      'pluginEvents' => [
-                          'apply.daterangepicker' => 'function() { $(this).closest("form").submit(); }',
-                      ],
-                  ],
-              ); ?>
+                                  'locale' => ['format' => 'd.m.Y H:i']
+                              ],
+                              'containerOptions' => [
+                                  'class' => 'mb-3 kv-drp-container'
+                              ],
+                              'pluginEvents' => [
+                                  'apply.daterangepicker' => 'function() { $(this).closest("form").submit(); }',
+                              ],
+                          ],
+                      ); ?>
+                  </div>
+                  <div class="col-md-6 d-flex align-items-center">
+                      <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
+                          ->checkbox()
+                          ->label('Словарь концептуальных терминов (тестирование)'); ?>
+                  </div>
+              </div>
           </div>
           <?php ActiveForm::end(); ?>
       </div>
