@@ -33,7 +33,8 @@
     "npm-asset/chart.js": "^4.2",
     "npm-asset/chartjs-plugin-datalabels": "^2.2",
     "ext-iconv": "*",
-    "nickbeen/php-cli-progress-bar": "dev-main"
+    "nickbeen/php-cli-progress-bar": "dev-main",
+    "kartik-v/yii2-date-range": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

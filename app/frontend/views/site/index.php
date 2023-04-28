@@ -12,6 +12,7 @@ use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\FollowQuestion;
+use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
@@ -66,43 +67,58 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             )->label(false); ?>
         </div>
-        <div id="search-setting-panel"
-             class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
-            <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
-                ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
-                ->label(false); ?>
-            <?= $form->field($model, 'dictionary')->checkbox()->label('Словарь концептуальных терминов (тестирование)'); ?>
-        </div>
+          <div id="search-setting-panel"
+               class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
+              <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
+                  ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
+                  ->label(false); ?>
+              <?= $form->field($model, 'dictionary')->checkbox()->label('Словарь концептуальных терминов (тестирование)'); ?>
+          </div>
+          <?php
+          //  Date and Time picker with time increment of 15 minutes and without any input group addons.
+          echo DateRangePicker::widget(
+              [
+                  'name' => 'date_range_3',
+                  'value' => '2023-04-28 12:00 AM - 2023-04-28 01:00 PM',
+                  'convertFormat' => true,
+                  'pluginOptions' => [
+                      'timePicker' => true,
+                      'timePickerIncrement' => 15,
+                      'locale' => ['format' => 'Y-m-d h:i A']
+                  ]
+              ]
+          );
+          ?>
           <?php ActiveForm::end(); ?>
       </div>
     </div>
-    <div class="container-fluid search-results">
-        <?php if ($results): ?>
-        <?php
-        // Property totalCount пусто пока не вызваны данные модели getModels(),
-        // сначала получаем массив моделей, потом получаем общее их количество
-        /** @var Comment[] $comments */
-        $comments = $results->getModels();
-        $pagination = new Pagination(
-            [
-                'totalCount' => $results->getTotalCount(),
-                'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
-            ]
-        );
-        ?>
-      <div class="row">
-        <div class="col-md-12">
-            <?php if ($pagination->totalCount === 0): ?>
-              <p><strong>По вашему запросу ничего не найдено</strong></p>
-            <?php else: ?>
-              <div class="row">
-                <div class="col-md-8 d-flex align-items-center">
-                    <?= CommentSummary::widget(['pagination' => $pagination]); ?>
-                </div>
-                <div class="col-md-4">
-                  <div class="d-flex align-items-start ">
-                    <label aria-label="Сортировка" for="input-sort"></label>
-                    <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
+      <div class="container-fluid search-results">
+          <?php if ($results): ?>
+          <?php
+          // Property totalCount пусто пока не вызваны данные модели getModels(),
+          // сначала получаем массив моделей, потом получаем общее их количество
+          /** @var Comment[] $comments */
+          $comments = $results->getModels();
+          $pagination = new Pagination(
+              [
+                  'totalCount' => $results->getTotalCount(),
+                  'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
+              ]
+          );
+          ?>
+          <div class="row">
+              <div class="col-md-12">
+                  <?php if ($pagination->totalCount === 0): ?>
+                      <p><strong>По вашему запросу ничего не найдено</strong></p>
+                  <?php else: ?>
+                      <div class="row">
+                          <div class="col-md-8 d-flex align-items-center">
+                              <?= CommentSummary::widget(['pagination' => $pagination]); ?>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="d-flex align-items-start ">
+                                  <label aria-label="Сортировка" for="input-sort"></label>
+                                  <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
                         <?php
                         $values = [
                             '' => 'Сортировка по умолчанию',
