@@ -288,3 +288,20 @@ span.link {
 .comment-text blockquote {
      border-left: solid var(--sv-quote-border);
 }
+
+/*Placeholder*/
+input:focus::-webkit-input-placeholder {
+    color: transparent!important;
+}
+
+input:focus::-moz-placeholder {
+    color: transparent;
+}
+
+input:focus:-moz-placeholder {
+    color: transparent;
+}
+
+input:focus:-ms-input-placeholder {
+    color: transparent;
+}
