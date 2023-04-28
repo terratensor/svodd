@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\repositories\Question;
 
+use App\forms\SearchForm;
 use App\helpers\SearchHelper;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
+use Manticoresearch\Query\BoolQuery;
 use Manticoresearch\Query\In;
 use Manticoresearch\Query\MatchPhrase;
 use Manticoresearch\Query\MatchQuery;
 use Manticoresearch\Query\QueryString;
+use Manticoresearch\Query\Range;
 use Manticoresearch\ResultSet;
 use Manticoresearch\Search;
 
@@ -34,11 +37,15 @@ class QuestionRepository
     /**
      * @param string $queryString
      * @param string|null $indexName
+     * @param SearchForm|null $form
      * @return Search
      * "query_string" accepts an input string as a full-text query in MATCH() syntax
      */
-    public function findByQueryStringNew(string $queryString, ?string $indexName = null): Search
-    {
+    public function findByQueryStringNew(
+        string $queryString,
+        ?string $indexName = null,
+        ?SearchForm $form = null
+    ): Search {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
@@ -46,7 +53,20 @@ class QuestionRepository
 
         $queryString = SearchHelper::escapingCharacters($queryString);
 
-        $query = new QueryString($queryString);
+        // Запрос переделан под фильтр
+        $query = new BoolQuery();
+
+        $query->must(new QueryString($queryString));
+
+        if ($form) {
+            $this->dataTimeRangeFilter($query, $form);
+        }
+
+        // Добавлен фильтр по диапазону даты и времени
+        if ($form && $form->date_from && $form->date_to) {
+            $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
+        }
+
         $search = $this->index->search($query);
 
         // Если нет совпадений no_match_size возвращает пустое поле для подсветки
@@ -66,17 +86,29 @@ class QuestionRepository
     /**
      * @param string $queryString
      * @param string|null $indexName
+     * @param SearchForm|null $form
      * @return Search
      * "match" is a simple query that matches the specified keywords in the specified fields.
      */
-    public function findByQueryStringMatch(string $queryString, ?string $indexName = null): Search
-    {
+    public function findByQueryStringMatch(
+        string $queryString,
+        ?string $indexName = null,
+        ?SearchForm $form = null
+    ): Search {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
         }
 
-        $query = new MatchQuery($queryString, '*');
+        // Запрос переделан под фильтр
+        $query = new BoolQuery();
+
+        $query->must(new MatchQuery($queryString, '*'));
+
+        if ($form) {
+            $this->dataTimeRangeFilter($query, $form);
+        }
+
         $search = $this->index->search($query);
 
         $search->highlight(
@@ -98,14 +130,26 @@ class QuestionRepository
      * @return Search
      * "match_phrase" is a query that matches the entire phrase. It is similar to a phrase operator in SQL.
      */
-    public function findByMatchPhrase(string $queryString, ?string $indexName = null): Search
+    public function findByMatchPhrase(
+        string $queryString,
+        ?string $indexName = null,
+        ?SearchForm $form = null
+    ): Search
     {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
         }
 
-        $query = new MatchPhrase($queryString, '*');
+        // Запрос переделан под фильтр
+        $query = new BoolQuery();
+
+        $query->must(new MatchPhrase($queryString, '*'));
+
+        if ($form) {
+            $this->dataTimeRangeFilter($query, $form);
+        }
+
         $search = $this->index->search($query);
 
         $search->highlight(
@@ -127,7 +171,11 @@ class QuestionRepository
      * @return Search
      * Поиск по data_id, вопрос или комментарий, число или массив data_id
      */
-    public function findByCommentId(string $queryString, ?string $indexName = null): Search
+    public function findByCommentId(
+        string $queryString,
+        ?string $indexName = null,
+        ?SearchForm $form = null
+    ): Search
     {
         $this->search->reset();
         if ($indexName) {
@@ -144,9 +192,17 @@ class QuestionRepository
             }
             $result[$key] = $item;
         }
+        // Запрос переделан под фильтр
+        $query = new BoolQuery();
 
-        $query = new In('data_id', $result);
+        $query->must(new In('data_id', $result));
+
+        if ($form) {
+            $this->dataTimeRangeFilter($query, $form);
+        }
+
         $search = $this->index->search($query);
+
         $search->highlight(
             ['text'],
             [
@@ -212,5 +268,16 @@ class QuestionRepository
     public function setIndex(Index $index): void
     {
         $this->index = $index;
+    }
+
+    /**
+     * Добавлен фильтр по диапазону даты и времени
+     * @param BoolQuery $query
+     * @param SearchForm $form
+     */
+    private function dataTimeRangeFilter(BoolQuery $query, SearchForm $form): void {
+        if ($form->date_from && $form->date_to) {
+            $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
+        }
     }
 }
