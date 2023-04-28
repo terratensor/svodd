@@ -69,26 +69,42 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
           <div id="search-setting-panel"
                class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
+
               <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
                   ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
                   ->label(false); ?>
-              <?= $form->field($model, 'dictionary')->checkbox()->label('Словарь концептуальных терминов (тестирование)'); ?>
+
+              <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
+                  ->checkbox()
+                  ->label('Словарь концептуальных терминов (тестирование)'); ?>
+
+              <?php
+              // Widget https://demos.krajee.com/date-range
+              // timePicker https://www.daterangepicker.com/#config
+              echo DateRangePicker::widget(
+                  [
+                      'model' => $model,
+                      'attribute' => 'date',
+                      'name' => 'date_range_3',
+                      'presetDropdown' => true,
+                      'language' => 'ru',
+                      'convertFormat' => true,
+                      'pluginOptions' => [
+                          'timePicker' => true,
+                          'timePicker24Hour' => true,
+//                          'timePickerIncrement' => 15,
+//                          'minuteStep' => 1,
+                          'locale' => ['format' => 'd.m.Y H:i']
+                      ],
+                      'containerOptions' => [
+                          'class' => 'mb-3 kv-drp-container'
+                      ],
+                      'pluginEvents' => [
+                          'apply.daterangepicker' => 'function() { $(this).closest("form").submit(); }',
+                      ],
+                  ],
+              ); ?>
           </div>
-          <?php
-          //  Date and Time picker with time increment of 15 minutes and without any input group addons.
-          echo DateRangePicker::widget(
-              [
-                  'name' => 'date_range_3',
-                  'value' => '2023-04-28 12:00 AM - 2023-04-28 01:00 PM',
-                  'convertFormat' => true,
-                  'pluginOptions' => [
-                      'timePicker' => true,
-                      'timePickerIncrement' => 15,
-                      'locale' => ['format' => 'Y-m-d h:i A']
-                  ]
-              ]
-          );
-          ?>
           <?php ActiveForm::end(); ?>
       </div>
     </div>
