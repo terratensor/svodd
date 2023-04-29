@@ -207,7 +207,7 @@ p.summary {
 
 .search-block {
     position: sticky;
-    top: 56px;
+    top: 55px;
     z-index: 999;
 }
 
