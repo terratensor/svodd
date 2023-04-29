@@ -143,7 +143,7 @@
     --dr-range-pick: #970b0b;
     --dr-body-color: #ddd3d3;
     --dr-hover: #dd9393;
-    --dr-fullrange: #8f6969;
+    --dr-fullrange: #787676;
     --dr-picker-off: #d3d1cf;
     --dr-picker-off-body: #7c7979;
     --dr-month-frame: #cfcccc;
@@ -230,8 +230,8 @@
     --dr-border-color: #4e4b4b;
     --dr-range-pick: #970b0b;
     --dr-body-color: #ddd3d3;
-    --dr-hover: #700404;
-    --dr-fullrange: #503f3e;
+    --dr-hover: #783838;
+    --dr-fullrange: #4c4a4a;
     --dr-picker-off: #2c2a2c;
     --dr-picker-off-body: #6a6868;
     --dr-month-frame: #343434;
@@ -326,6 +326,7 @@ input:focus:-ms-input-placeholder {
 }
 
 /** daterangepicker */
+
 /** Весь общий контейнер с календарем, цвет фона и рамка */
 .daterangepicker {
     background-color: var(--dr-body-bg);
@@ -338,40 +339,41 @@ input:focus:-ms-input-placeholder {
     background-color: var(--dr-range-pick);
     color: #fff;
 }
+
 /** При наведении на список: сегодня, вчера, последние 7 дней и т.д. */
 .daterangepicker .ranges li:hover {
     background-color: var(--dr-hover);
 }
+
 /** контейнер сетки календаря */
 .daterangepicker .calendar-table {
     background-color: var(--dr-body-bg);
 }
+
 /** Активный элемент начала и конца периода */
 .daterangepicker td.active, .daterangepicker td.active:hover,
 .daterangepicker td.active, .daterangepicker td.active.end-date {
     background-color: var(--dr-range-pick);
     color: var(--dr-body-color);
 }
+
 /** Выделенный период */
 .daterangepicker td.in-range {
     background-color: var(--dr-fullrange);
     color: var(--dr-body-color);
 }
+
 /** Элементы календаря - дни, за пределами месяца, но которые попадают в таблицу месяца */
 .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
     background-color: var(--dr-picker-off);
     color: var(--dr-picker-off-body);
 }
+
 /** контейнер при наведении на элемент календаря - день */
 .daterangepicker td.available:hover, .daterangepicker th.available:hover {
     background-color: var(--dr-hover);
 }
-/** Стелки переключения месяцев в календаре */
-.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
-    color: #fff;
-    border: solid var(--dr-body-color);
-    border-width: 0 2px 2px 0;
-}
+
 /** поля select времени под календарем */
 .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
     color: var(--dr-body-color);
@@ -383,7 +385,7 @@ input:focus:-ms-input-placeholder {
     border: 1px solid var(--dr-month-frame);
 }
 
-/* Рамка слева выпадающего календаря */
+/* Рамка между списком выборов и месяцами */
 .daterangepicker.show-ranges .drp-calendar.left {
     border-left: 1px solid var(--dr-month-frame);
 }
@@ -407,4 +409,11 @@ input:focus:-ms-input-placeholder {
 /* Граница футера календаря */
 .daterangepicker .drp-buttons {
     border-top: 1px solid var(--dr-month-frame);
+}
+
+/* Переключатель месяцев календаря */
+.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+    color: #fff;
+    border: solid var(--bs-body-color);
+    border-width: 0 2px 2px 0;
 }
