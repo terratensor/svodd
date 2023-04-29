@@ -1,9 +1,12 @@
 <?php
 
-/** @var yii\web\View $this */
-/** @var QuestionDataProvider $results */
-/** @var Pagination $pages */
-/** @var SearchForm $model */
+/**
+ * @var yii\web\View $this
+ * @var QuestionDataProvider $results
+ * @var Pagination $pages
+ * @var SearchForm $model
+ * @var string $errorQueryMessage
+ */
 
 use App\forms\SearchForm;
 use App\helpers\DateHelper;
@@ -36,14 +39,11 @@ $inputTemplate = '<div class="input-group mb-2">
           </button>
           </div>';
 
-//$this->title = 'Поиск по ФКТ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
   <div class="site-index">
     <div class="search-block">
       <div class="container-fluid">
-          <?php if (!$results): ?>
-          <?php endif; ?>
 
           <?php $form = ActiveForm::begin(
               [
@@ -113,7 +113,15 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php ActiveForm::end(); ?>
       </div>
     </div>
+
       <div class="container-fluid search-results">
+          <?php if (!$results): ?>
+              <?php if ($errorQueryMessage): ?>
+                  <div class="card">
+                      <div class="card-body"><?= $errorQueryMessage; ?></div>
+                  </div>
+              <?php endif; ?>
+          <?php endif; ?>
           <?php if ($results): ?>
           <?php
           // Property totalCount пусто пока не вызваны данные модели getModels(),
