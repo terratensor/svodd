@@ -56,18 +56,21 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        $query->must(new QueryString($queryString));
+        if ($form->query) {
+            $query->must(new QueryString($queryString));
+        }
 
         if ($form) {
             $this->dataTimeRangeFilter($query, $form);
         }
 
-        // Добавлен фильтр по диапазону даты и времени
-        if ($form && $form->date_from && $form->date_to) {
-            $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
+        // Выполняем поиск если установлен фильтр или установлен строка поиска
+        if ($form->date || $form->query) {
+            $search = $this->index->search($query);
+            $search->facet('type');
+        } else {
+            throw new \DomainException('Задан пустой поисковый запрос');
         }
-
-        $search = $this->index->search($query);
 
         // Если нет совпадений no_match_size возвращает пустое поле для подсветки
         $search->highlight(
@@ -103,13 +106,21 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        $query->must(new MatchQuery($queryString, '*'));
+        if ($form->query) {
+            $query->must(new MatchQuery($queryString, '*'));
+        }
 
         if ($form) {
             $this->dataTimeRangeFilter($query, $form);
         }
 
-        $search = $this->index->search($query);
+        // Выполняем поиск если установлен фильтр или установлен строка поиска
+        if ($form->date || $form->query) {
+            $search = $this->index->search($query);
+            $search->facet('type');
+        } else {
+            throw new \DomainException('Задан пустой поисковый запрос');
+        }
 
         $search->highlight(
             ['text'],
@@ -144,13 +155,21 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        $query->must(new MatchPhrase($queryString, '*'));
+        if ($form->query) {
+            $query->must(new MatchPhrase($queryString, '*'));
+        }
 
         if ($form) {
             $this->dataTimeRangeFilter($query, $form);
         }
 
-        $search = $this->index->search($query);
+        // Выполняем поиск если установлен фильтр или установлен строка поиска
+        if ($form->date || $form->query) {
+            $search = $this->index->search($query);
+            $search->facet('type');
+        } else {
+            throw new \DomainException('Задан пустой поисковый запрос');
+        }
 
         $search->highlight(
             ['text'],
@@ -195,13 +214,23 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        $query->must(new In('data_id', $result));
+        if (!empty($result)) {
+            $query->must(new In('data_id', $result));
+        } else {
+            throw new \DomainException('Неправильный запрос, при поиске по номеру(ам) надо указать номер вопроса или комментария, или перечислить номера через запятую');
+        }
 
         if ($form) {
             $this->dataTimeRangeFilter($query, $form);
         }
 
-        $search = $this->index->search($query);
+        // Выполняем поиск если установлен фильтр или установлен строка поиска
+        if ($form->date) {
+            $search = $this->index->search($query);
+            $search->facet('type');
+        } else {
+            throw new \DomainException('Задан пустой поисковый запрос');
+        }
 
         $search->highlight(
             ['text'],
@@ -275,9 +304,11 @@ class QuestionRepository
      * @param BoolQuery $query
      * @param SearchForm $form
      */
-    private function dataTimeRangeFilter(BoolQuery $query, SearchForm $form): void {
+    private function dataTimeRangeFilter(BoolQuery $query, SearchForm $form): BoolQuery
+    {
         if ($form->date_from && $form->date_to) {
             $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
         }
+        return $query;
     }
 }
