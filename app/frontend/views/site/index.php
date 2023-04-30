@@ -14,6 +14,7 @@ use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
+use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
 use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
@@ -188,15 +189,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="card-footer d-flex justify-content-between">
                     <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
-                    <?php
-                    $id = ($comment->type === 1) ? $comment->data_id : $comment->parent_id;
-                    $link = "https://фкт-алтай.рф/qa/question/view-" . $id;
-                    ?>
-                    <?= Html::a(
-                        'Перейти к комментарию на ФКТ',
-                        $link . "#:~:text=" . DateHelper::showDateFromTimestamp($comment->datetime),
-                        ['target' => '_blank', 'rel' => 'noopener noreferrer']
-                    ); ?>
+                    <?= FollowLink::widget(['comment' => $comment]); ?>
                 </div>
               </div>
             <?php endforeach; ?>
