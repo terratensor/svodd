@@ -215,7 +215,7 @@ class QuestionRepository
         $query = new BoolQuery();
 
         if (!empty($result)) {
-            $query->must(new In('data_id', $result));
+            $query->must(new In('data_id', array_values($result)));
         } else {
             throw new \DomainException('Неправильный запрос, при поиске по номеру(ам) надо указать номер вопроса или комментария, или перечислить номера через запятую');
         }
@@ -225,7 +225,7 @@ class QuestionRepository
         }
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date) {
+        if ($form->date || $form->query) {
             $search = $this->index->search($query);
             $search->facet('type');
         } else {
