@@ -148,6 +148,9 @@
     --dr-picker-off-body: #7c7979;
     --dr-month-frame: #cfcccc;
     --dr-time-border: #9f9494;
+    --dr-search-form-bg: #bdbab6;
+    --dr-search-form-body: #19191a; 
+    --dr-search-form-border: #f9f8f6;
 }
 
 [data-bs-theme=dark] {
@@ -236,7 +239,9 @@
     --dr-picker-off-body: #6a6868;
     --dr-month-frame: #343434;
     --dr-time-border: #5e5b5b;
-
+    --dr-search-form-bg: #3d3d40;
+    --dr-search-form-body: #cfd1d7; 
+    --dr-search-form-border: #191a1c;
 }
 
 /* СТИЛИ */
@@ -416,4 +421,14 @@ input:focus:-ms-input-placeholder {
     color: #fff;
     border: solid var(--bs-body-color);
     border-width: 0 2px 2px 0;
+}
+
+/* Форма ввода календаря */
+.kv-drp-dropdown .range-value {
+    background: var(--dr-search-form-bg);
+    padding-left: 2rem;
+    opacity: .9;
+    width: 100%;
+    border: var(--dr-search-form-border);
+    color: var(--dr-search-form-body);
 }
