@@ -426,7 +426,7 @@ input:focus:-ms-input-placeholder {
 /* Форма ввода календаря */
 .kv-drp-dropdown .range-value {
     background: var(--dr-search-form-bg);
-    padding-left: 2rem;
+    padding-left: 1rem;
     opacity: .9;
     width: 100%;
     border: var(--dr-search-form-border);

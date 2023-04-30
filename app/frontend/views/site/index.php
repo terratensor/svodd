@@ -95,6 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
 //                          'minuteStep' => 1,
                                   'locale' => ['format' => 'd.m.Y H:i']
                               ],
+                              'options' => ['placeholder' => 'За весь период'],
                               'containerOptions' => [
                                   'class' => 'mb-3 kv-drp-container'
                               ],
