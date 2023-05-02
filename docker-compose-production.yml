@@ -316,6 +316,42 @@ services:
       restart_policy:
         condition: none
 
+  dictionary-renew:
+    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      POSTGRES_HOST: ${APP_POSTGRES_HOST}
+      POSTGRES_USER: ${APP_POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
+      POSTGRES_DB: ${APP_POSTGRES_DB}
+      MAILER_HOST: ${APP_MAILER_HOST}
+      MAILER_PORT: ${APP_MAILER_PORT}
+      MAILER_USERNAME: ${APP_MAILER_USERNAME}
+      MAILER_PASSWORD_FILE: /run/secrets/app_mailer_password
+      MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
+      FRONTEND_URL: https://svodd.ru
+      SENTRY_DSN_FILE: /run/secrets/sentry_dsn
+      PARSED_FILES_DIR: /data
+      PAGE_SIZE: 50
+      CURRENT_QUESTION: 6006
+      REDIS_HOST: ${APP_REDIS_HOST}
+      REDIS_PORT: ${APP_REDIS_PORT}
+      REDIS_PASSWORD_FILE: /run/secrets/redis_password
+    secrets:
+      - app_db_password
+      - app_mailer_password
+      - sentry_dsn
+      - redis_password
+    command: sh -c 'wait-for-it manticore:9308 -t 60 && php yii index/index-renew 0 questions_ext'
+    deploy:
+      replicas: 0
+      placement:
+        constraints: [ node.labels.clo_worker == clo_worker ]
+      restart_policy:
+        condition: none
+
 secrets:
   app_db_password:
     file: ${APP_DB_PASSWORD_FILE}
