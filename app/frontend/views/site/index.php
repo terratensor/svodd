@@ -119,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
       <?php if ($flag && $flag->isEnabled('09051945A')): ?>
 
-    <div class="video-wrapper">
+    <div class="video-wrapper mb-3">
           <video
               playsinline
               autoplay
@@ -135,9 +135,8 @@ $this->params['breadcrumbs'][] = $this->title;
           </video>
       </div>
     <?php endif; ?>
-      <div class="container-fluid search-results">
-<?php if ($flag && $flag->isEnabled('09051945B')): ?>
-    <div class="row">
+      <?php if ($flag && $flag->isEnabled('09051945B')): ?>
+          <div class="row mb-3">
               <video
                   playsinline
                   autoplay
@@ -152,7 +151,8 @@ $this->params['breadcrumbs'][] = $this->title;
                   <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
               </video>
           </div>
-<?php endif; ?>
+      <?php endif; ?>
+      <div class="container-fluid search-results">
           <?php if (!$results): ?>
               <?php if ($errorQueryMessage): ?>
                   <div class="card">
