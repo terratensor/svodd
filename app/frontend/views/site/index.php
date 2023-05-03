@@ -6,8 +6,10 @@
  * @var Pagination $pages
  * @var SearchForm $model
  * @var string $errorQueryMessage
+ * @var FeatureFlag $flag
  */
 
+use App\FeatureToggle\FeatureFlag;
 use App\forms\SearchForm;
 use App\helpers\DateHelper;
 use App\models\Comment;
@@ -115,8 +117,42 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php ActiveForm::end(); ?>
       </div>
     </div>
+      <?php if ($flag && $flag->isEnabled('09051945A')): ?>
 
+    <div class="video-wrapper">
+          <video
+              playsinline
+              autoplay
+              muted
+              loop
+          >
+              <source
+                  src="video/denpobedy.mp4"
+                  type="video/mp4"
+              />
+              Элемент video не поддерживается вашим браузером.
+              <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
+          </video>
+      </div>
+    <?php endif; ?>
       <div class="container-fluid search-results">
+<?php if ($flag && $flag->isEnabled('09051945B')): ?>
+    <div class="row">
+              <video
+                  playsinline
+                  autoplay
+                  muted
+                  loop
+              >
+                  <source
+                      src="video/denpobedy.mp4"
+                      type="video/mp4"
+                  />
+                  Элемент video не поддерживается вашим браузером.
+                  <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
+              </video>
+          </div>
+<?php endif; ?>
           <?php if (!$results): ?>
               <?php if ($errorQueryMessage): ?>
                   <div class="card">
