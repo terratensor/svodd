@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use App\Contact\Http\Action\V1\Contact\ContactAction;
+use App\FeatureToggle\FeatureFlag;
 use App\forms\SearchForm;
 use App\Question\Entity\Statistic\QuestionStatsRepository;
 use App\Search\Http\Action\V1\SearchSettings\ToggleAction;
@@ -20,18 +21,21 @@ class SiteController extends Controller
 {
     private ManticoreService $service;
     private QuestionStatsRepository $questionStatsRepository;
+    private FeatureFlag $flag;
 
     public function __construct(
         $id,
         $module,
         ManticoreService $service,
         QuestionStatsRepository $questionStatsRepository,
+        FeatureFlag $flag,
         $config = []
     )
     {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->questionStatsRepository = $questionStatsRepository;
+        $this->flag = $flag;
     }
 
     /**
@@ -88,7 +92,7 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex(): string
+    public function actionIndex($feature = null): string
     {
         $this->layout = 'search';
         $results = null;
@@ -106,10 +110,17 @@ class SiteController extends Controller
             $errorQueryMessage = $e->getMessage();
         }
 
+        foreach ($this->flag->features as $key => $value) {
+            if ($feature === $key) {
+                $this->flag->enable($key);
+            }
+        }
+
         return $this->render('index', [
             'results' => $results ?? null,
             'model' => $form,
             'errorQueryMessage' => $errorQueryMessage,
+            'flag' => $this->flag ?? null
         ]);
     }
 

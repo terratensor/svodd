@@ -51,7 +51,10 @@ return [
         ],
     ],
     'feature-toggle' => [
-        'features' => [],
+        'features' => [
+            '09051945A' => false,
+            '09051945B' => false,
+        ],
     ],
     'indexes' => [
         'common' => 'questions',
