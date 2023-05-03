@@ -117,39 +117,23 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php ActiveForm::end(); ?>
       </div>
     </div>
-      <?php if ($flag && $flag->isEnabled('09051945A')): ?>
-
-    <div class="video-wrapper mb-3">
-          <video
-              playsinline
-              autoplay
-              muted
-              loop
-          >
-              <source
-                  src="video/denpobedy.mp4"
-                  type="video/mp4"
-              />
-              Элемент video не поддерживается вашим браузером.
-              <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
-          </video>
-      </div>
-    <?php endif; ?>
       <?php if ($flag && $flag->isEnabled('09051945B')): ?>
-          <div class="row mb-3">
-              <video
-                  playsinline
-                  autoplay
-                  muted
-                  loop
-              >
-                  <source
-                      src="video/denpobedy.mp4"
-                      type="video/mp4"
-                  />
-                  Элемент video не поддерживается вашим браузером.
-                  <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
-              </video>
+          <div class="denpobedy mb-3">
+                  <video
+                      playsinline
+                      autoplay
+                      muted
+                      loop
+                      poster="/video/denpobedy.png"
+                      class="object-fit-md-contain"
+                  >
+                      <source
+                          src="video/denpobedy.mp4"
+                          type="video/mp4"
+                      />
+                      Элемент video не поддерживается вашим браузером.
+                      <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
+                  </video>
           </div>
       <?php endif; ?>
       <div class="container-fluid search-results">
