@@ -165,6 +165,6 @@ alter-questions-ext:
 	docker exec -it fct-search-manticore-1 mysql -e "alter table questions_ext wordforms='/var/lib/manticore/wordforms.txt' exceptions='/var/lib/manticore/exceptions.txt';"
 
 
-index-delete-create:
+index-renew-test:
 	docker compose restart manticore
-	docker compose run --rm cli-php php yii index/index-renew test=1
+	docker compose run --rm cli-php php yii index/index-renew test
