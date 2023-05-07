@@ -33,11 +33,14 @@ AppAsset::register($this);
 
   <main role="main" class="flex-shrink-0 mb-3">
     <div class="container-fluid pb-0">
-        <?= Breadcrumbs::widget(
-            [
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]
-        ) ?>
+        <div class="d-flex justify-content-between align-items-baseline svodd-breadcrumb">
+            <?= Breadcrumbs::widget(
+                [
+                    'links' => $this->params['breadcrumbs'] ?? [],
+                ]
+            ) ?>
+            <button id="createShortUrl" class="btn btn-primary">Короткая ссылка ★</button>
+        </div>
         <?php \frontend\widgets\MaintenanceWidget::widget(); ?>
         <?= Alert::widget() ?>
     </div>
