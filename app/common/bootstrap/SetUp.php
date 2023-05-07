@@ -109,6 +109,10 @@ class SetUp implements BootstrapInterface
             return new Feature($config['features']);
         });
 
+        $container->setSingleton(\App\UrlShortener\Command\Create\Request\Handler::class, [], [
+            new \yii\httpclient\Client()
+        ]);
+
         require __DIR__ . '/twig.php';
     }
 }
