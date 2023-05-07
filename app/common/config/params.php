@@ -13,7 +13,8 @@ return [
     'user.rememberMeDuration' => 3600 * 24 * 30,
     'cookieDomain' => getenv('COOKIE_DOMAIN'),
     'frontendHostInfo' => getenv('FRONTEND_URL'),
-    'urlShortenerHostInfo' => getenv('URL_SHORTENER_HOST'),
+    'urlShortenerHost' => getenv('URL_SHORTENER_HOST'), // Хост в сети, в локальной сети это наименования сервиса
+    'urlShortenerUrl' => getenv('URL_SHORTENER_URL'), // наименование домена, в локальной сети поддомен.localhost
     'maintenance_message' => 'На сайте проводятся технические работы по обновлению поискового индекса. Возможно, на ваш запрос, вы увидите только часть результатов поиска. Приносим извинения за неудобство.',
     'manticore' => [
         'host' => 'manticore',
