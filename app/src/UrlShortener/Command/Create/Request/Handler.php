@@ -20,20 +20,22 @@ class Handler
      * @throws Exception
      * @throws InvalidConfigException
      */
-    public function handler(Command $command)
+    public function handle(Command $command): \yii\httpclient\Response|string
     {
         $origin = $command->origin;
 
         $response = $this->client
             ->createRequest()
+            ->setFormat(Client::FORMAT_JSON)
             ->setMethod('post')
             ->setUrl('url-shortener:8000/create')
             ->setData(['origin' => $origin])
             ->send();
 
         if ($response->isOk) {
-            $data = $response->data;
-            var_dump($data);
+            return $response->content;
         }
+
+        return "";
     }
 }
