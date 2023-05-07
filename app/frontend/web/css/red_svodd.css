@@ -293,7 +293,25 @@ span.link {
     height: 60px;
 }
 
+/** Контейнер flex для хлебных крошек и кнопки Короткая ссылка ★ */
+/** С отступом слева */
+.svodd-breadcrumb nav {
+    flex-grow: 1;
+    padding-right: 0.75rem;
+}
+/** Медиа запрос, когда ширина меньше 576px, складываются друг под друга и отступ слева обнуляется */
+@media (max-width: 576px) {
+    .svodd-breadcrumb {
+        flex-direction: column;
+    }
+    .svodd-breadcrumb nav {
+        width: 100%;
+        padding-right: 0;
+    }
+}
+
 .breadcrumb {
+    width: 100%;
     background-color: var(--svodd-breadcrumb);
 }
 

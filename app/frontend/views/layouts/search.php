@@ -10,6 +10,7 @@ use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
+use yii\bootstrap5\Modal;
 
 AppAsset::register($this);
 ?>
@@ -22,7 +23,7 @@ AppAsset::register($this);
       <?php $this->registerCsrfMetaTags() ?>
       <script src="/js/color-mode-toggler.js"></script>
       <?= $this->render('favicon'); ?>
-    <title><?= Html::encode($this->title) ?></title>
+      <title><?= Html::encode($this->title) ?></title>
       <?php $this->head() ?>
       <?= $this->render('yandex_metrika'); ?>
   </head>
@@ -32,15 +33,35 @@ AppAsset::register($this);
   <?= $this->render('red_header'); ?>
 
   <main role="main" class="flex-shrink-0 mb-3">
-    <div class="container-fluid pb-0">
-        <?= Breadcrumbs::widget(
-            [
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]
-        ) ?>
-        <?php \frontend\widgets\MaintenanceWidget::widget(); ?>
-        <?= Alert::widget() ?>
-    </div>
+      <div class="container-fluid pb-0">
+          <div class="d-flex justify-content-between align-items-baseline svodd-breadcrumb">
+              <?= Breadcrumbs::widget(
+                  [
+                      'links' => $this->params['breadcrumbs'] ?? [],
+                  ]
+              ) ?>
+              <?php Modal::begin(
+                  [
+                      'title' => '<h2>Короткая ссылка</h2>',
+                      'id' => 'shortLinkModal',
+                      'toggleButton' => [
+                          'class' => 'btn btn-primary',
+                          'label' => 'Короткая ссылка ★'
+                      ],
+                      'dialogOptions' => [
+                          'class' => 'modal-fullscreen-md-down'
+                      ],
+                      'footer' => '<button id="copyUrlButton" type="button" class="btn btn-primary">Копировать в буфер</button>
+<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>',
+                  ]); ?>
+
+              <?= $this->render('_short_link'); ?>
+
+              <?php Modal::end(); ?>
+          </div>
+          <?php \frontend\widgets\MaintenanceWidget::widget(); ?>
+          <?= Alert::widget() ?>
+      </div>
 
       <?= $content ?>
 
