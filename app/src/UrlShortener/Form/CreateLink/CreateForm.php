@@ -13,7 +13,12 @@ class CreateForm extends Model
     public function rules(): array
     {
         return [
-            ['origin', 'url'],
+            YII_ENV_PROD ? ['origin', 'url'] : ['origin', 'string'],
         ];
+    }
+
+    public function formName(): string
+    {
+        return 'shortLinkCreateForm';
     }
 }
