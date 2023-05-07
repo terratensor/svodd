@@ -76,7 +76,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => \App\Search\Http\Action\V1\Error\ErrorAction::class,
             ],
             'contact' => [
                 'class' => ContactAction::class,
@@ -90,6 +90,7 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
+     * @param null $feature
      * @return string
      */
     public function actionIndex($feature = null): string
