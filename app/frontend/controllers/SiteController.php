@@ -9,6 +9,8 @@ use App\Question\Entity\Statistic\QuestionStatsRepository;
 use App\Search\Http\Action\V1\SearchSettings\ToggleAction;
 use App\services\EmptySearchRequestExceptions;
 use App\services\ManticoreService;
+use App\UrlShortener\Form\CreateLink\CreateForm;
+use App\UrlShortener\Http\Action\V1\UrlShortener\ShortLinkAction;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -83,7 +85,10 @@ class SiteController extends Controller
             ],
             'search-settings' => [
                 'class' => ToggleAction::class,
-            ]
+            ],
+            'short-link' => [
+                'class' => ShortLinkAction::Class,
+            ],
         ];
     }
 
