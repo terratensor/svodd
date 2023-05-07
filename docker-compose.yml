@@ -42,6 +42,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       COOKIE_DOMAIN: localhost
+      URL_SHORTENER_HOST: url-shortener:8000
       FRONTEND_URL: http://localhost
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
@@ -89,6 +90,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
+      URL_SHORTENER_HOST: url-shortener:8000
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 32649
@@ -137,9 +139,9 @@ services:
     volumes:
       - manticore:/var/lib/manticore
       - manticore:/var/log/manticore
-      - ./dictionary/wordforms.txt:/var/lib/manticore/wordforms.txt
-      - ./dictionary/alternateforms.txt:/var/lib/manticore/alternateforms.txt
-      - ./dictionary/exceptions.txt:/var/lib/manticore/exceptions.txt
+#      - ./dictionary/wordforms.txt:/var/lib/manticore/wordforms.txt
+#      - ./dictionary/alternateforms.txt:/var/lib/manticore/alternateforms.txt
+#      - ./dictionary/exceptions.txt:/var/lib/manticore/exceptions.txt
 #      - ./manticore/manticore.conf:/etc/manticoresearch/manticore.conf
 
   redis:
