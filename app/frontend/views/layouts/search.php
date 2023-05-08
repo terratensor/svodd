@@ -8,9 +8,10 @@ declare(strict_types=1);
 
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
+use frontend\widgets\MaintenanceWidget;
+use frontend\widgets\search\ShortLinkModal;
 use yii\bootstrap5\Breadcrumbs;
 use yii\bootstrap5\Html;
-use yii\bootstrap5\Modal;
 
 AppAsset::register($this);
 ?>
@@ -40,25 +41,9 @@ AppAsset::register($this);
                       'links' => $this->params['breadcrumbs'] ?? [],
                   ]
               ) ?>
-              <?php Modal::begin(
-                  [
-                      'title' => '<h2>Короткая ссылка</h2>',
-                      'id' => 'shortLinkModal',
-                      'toggleButton' => [
-                          'class' => 'btn btn-primary',
-                          'label' => 'Короткая ссылка ★'
-                      ],
-                      'dialogOptions' => [
-                          'class' => 'modal-fullscreen-md-down'
-                      ],
-                      'footer' => '<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>',
-                  ]); ?>
-
-              <?= $this->render('_short_link'); ?>
-
-              <?php Modal::end(); ?>
+              <?= ShortLinkModal::widget(); ?>
           </div>
-          <?php \frontend\widgets\MaintenanceWidget::widget(); ?>
+          <?php MaintenanceWidget::widget(); ?>
           <?= Alert::widget() ?>
       </div>
 
