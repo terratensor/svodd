@@ -25,9 +25,6 @@ use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
 use yii\helpers\Url;
 
-$origin = Yii::$app->request->getAbsoluteUrl();
-$host = Yii::$app->params['frontendHostInfo'];
-
 $this->title = 'Поиск по ФКТ';
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
@@ -285,37 +282,6 @@ function toggleSearchSettings(event) {
 $('input[type=radio]').on('change', function() {
     $(this).closest("form").submit();
 });
-
-    const myModalEl = document.getElementById('shortLinkModal')
-    myModalEl.addEventListener('show.bs.modal', event => {
-        var input = document.getElementById('shortlinkcreateform-origin')    
-        if (input.value === "$origin") {
-          return
-        }
-        input.value = "$origin" 
-        const formData = new FormData(document.forms.createShortLinkForm);
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/site/short-link");
-        xhr.send(formData);
-        xhr.onload = function() {
-          if (xhr.status !== 200) {
-            console.log("Ошибка "+xhr.status +":" + xhr.statusText);
-          } else {
-            var obj = JSON.parse(xhr.response);      
-            document.getElementById('shortLinkResult').innerText = "★ $host/"+obj.short
-          }
-        }
-    })
-    
-    const copyBtn = document.getElementById('copyUrlButton')
-    copyBtn.addEventListener('click', e => {
-      var text = document.getElementById('shortLinkResult')
-      navigator.clipboard.writeText(text.innerText)
-          .then(() => {})
-          .catch(err => {
-            console.log('Something went wrong', err);
-          });
-    })
 
 JS;
 
