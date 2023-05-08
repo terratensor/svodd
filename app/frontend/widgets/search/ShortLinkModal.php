@@ -23,7 +23,14 @@ class ShortLinkModal extends Widget
     {
         $get = \Yii::$app->request->get();
 
-        if ($get['search']['query'] !== "" || $get['search']['date'] !== "") {
+        if (!key_exists('search', $get)) {
+            return;
+        }
+        $search = $get['search'];
+
+        if ((key_exists('query', $search) && $search['query'] !== "") ||
+            (key_exists('date', $search) && $search['date'] !== "")) {
+
             $this->view->registerJs($this->getJS());
 
             Modal::begin(
