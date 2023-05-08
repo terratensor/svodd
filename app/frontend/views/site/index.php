@@ -302,20 +302,39 @@ $('input[type=radio]').on('change', function() {
             console.log("Ошибка "+xhr.status +":" + xhr.statusText);
           } else {
             var obj = JSON.parse(xhr.response);      
+            document.getElementById('inputShortLink1').value = "★ $host/"+obj.short
+            document.getElementById('inputShortLink2').value = "$host/"+obj.short
             document.getElementById('shortLinkResult').innerText = "★ $host/"+obj.short
           }
         }
     })
     
-    const copyBtn = document.getElementById('copyUrlButton')
-    copyBtn.addEventListener('click', e => {
-      var text = document.getElementById('shortLinkResult')
-      navigator.clipboard.writeText(text.innerText)
+    const copyBtn1 = document.getElementById('buttonInputShortLink1')
+    copyBtn1.addEventListener('click', e => {
+      var text = document.getElementById('inputShortLink1')
+      navigator.clipboard.writeText(text.value)
           .then(() => {})
           .catch(err => {
             console.log('Something went wrong', err);
           });
     })
+    
+    const copyBtn2 = document.getElementById('buttonInputShortLink2')
+    copyBtn2.addEventListener('click', e => {
+      var text = document.getElementById('inputShortLink2')
+      navigator.clipboard.writeText(text.value)
+          .then(() => {})
+          .catch(err => {
+            console.log('Something went wrong', err);
+          });
+    })
+    
+    document.getElementById("inputShortLink1").addEventListener("focus", function() {
+      this.select();
+    });
+    document.getElementById("inputShortLink2").addEventListener("focus", function() {
+      this.select();
+    });
 
 JS;
 

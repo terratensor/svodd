@@ -51,8 +51,7 @@ AppAsset::register($this);
                       'dialogOptions' => [
                           'class' => 'modal-fullscreen-md-down'
                       ],
-                      'footer' => '<button id="copyUrlButton" type="button" class="btn btn-primary">Копировать в буфер</button>
-<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>',
+                      'footer' => '<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>',
                   ]); ?>
 
               <?= $this->render('_short_link'); ?>
