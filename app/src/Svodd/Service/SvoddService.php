@@ -33,7 +33,14 @@ class SvoddService
         $this->statisticService = $statisticService;
     }
 
-    public function changeCurrent(string $url): void
+    /**
+     * Устанавливает новую активную тему СВОДД на ФКТ
+     * @param string $url
+     * @param string $topic_number
+     * @param string $start_comment_data_id
+     * @return void
+     */
+    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): void
     {
         $question = $this->getQuestionIdFrom($url);
 
@@ -41,7 +48,7 @@ class SvoddService
         $current->changeActive();
         $this->svoddChartRepository->save($current);
 
-        $new = Data::create($question->data_id, 34, 436851);
+        $new = Data::create($question->data_id, $topic_number, $start_comment_data_id);
         $this->svoddChartRepository->save($new);
     }
 
