@@ -27,7 +27,9 @@ class SvoddController extends Controller
     }
 
     /**
-     * Установка даты начала и окончания темы, по текущему data_id открывающего и закрывающего комментария
+     * Установка даты начала и окончания темы, по-текущему data_id открывающего и закрывающего комментария.
+     * Запускается после смены активной темы, для того чтобы пересчитать даты последнего комментарий у всех предыдущих тем,
+     * в том числе устанавливает дату закрывающего комментария для предпоследней темы.
      * @return bool|int
      */
     public function actionDateSetter(): bool|int
@@ -44,14 +46,18 @@ class SvoddController extends Controller
 
     /**
      * Смена активной темы СВОДД, передается адрес новой темы
-     * @param string $url
+     * Для открытия новой темы, которая будет подключена к странице «Большая СВОДДная тема»
+     * и создаст новую запись - строку для диаграммы статистики, необходимо передать следующие параметры:
+     * @param string $url адрес страницы вопроса, следующей темы
+     * @param string $number номер следующей темы
+     * @param string $data_id ИД комментария, открывающего новую тему
      * @return bool|int
      */
-    public function actionChangeCurrent(string $url): bool|int
+    public function actionChangeCurrent(string $url, string $number, string $data_id): bool|int
     {
         $message = 'Done!';
         try {
-            $this->service->changeCurrent($url);
+            $this->service->changeCurrent($url, $number, $data_id);
         } catch (Exception $e) {
             $message = $e->getMessage();
         }
