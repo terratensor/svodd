@@ -49,7 +49,7 @@ services:
       - parsed-files:/app/data
     deploy:
       placement:
-        constraints: [ node.labels.clo_worker == clo_worker ]
+        constraints: [ node.role == manager ]
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
@@ -260,7 +260,7 @@ services:
       - app-postgres:/var/lib/postgresql/data
     deploy:
       placement:
-        constraints: [ node.labels.clo_worker == clo_worker ]
+        constraints: [ node.role == manager ]
       endpoint_mode: dnsrr
 
   manticore:
@@ -280,7 +280,7 @@ services:
       - manticore:/var/log/manticore
     deploy:
       placement:
-        constraints: [ node.labels.clo_worker == clo_worker ]
+        constraints: [ node.role == manager ]
       endpoint_mode: dnsrr
 
   redis:
@@ -292,7 +292,7 @@ services:
       - session-cache:/data
     deploy:
       placement:
-        constraints: [ node.labels.clo_worker == clo_worker ]
+        constraints: [ node.role == manager ]
 
   app-postgres-backup:
     image: ${REGISTRY}/fct-search-postgres-backup:${IMAGE_TAG}
@@ -356,7 +356,7 @@ services:
     deploy:
       replicas: 0
       placement:
-        constraints: [ node.labels.clo_worker == clo_worker ]
+        constraints: [ node.role == manager ]
       restart_policy:
         condition: none
 
