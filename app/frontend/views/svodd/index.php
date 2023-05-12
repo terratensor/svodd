@@ -48,12 +48,16 @@ foreach ($data as $key => $item) {
         - $item->comments_count
         - $item->comments_delta;
 
+    // Fixed FCT-SEARCH-CX [c114e2c19536b12101994a4eb1a9c56f][error][DivisionByZeroError]
+    $total = ($svodd + $fct);
+    $total = $total === 0 ? 1 : $total;
+
     if ($key === 0) {
-        $current = round($svodd / ($svodd + $fct) * 100, 2);
+        $current = round($svodd / $total  * 100, 2);
     }
 
-    $datasetSvodd[] = $progress = round($svodd / ($svodd + $fct) * 100, 2);
-    $datasetFct[] = round($fct / ($svodd + $fct) * 100, 2);
+    $datasetSvodd[] = $progress = round($svodd / $total  * 100, 2);
+    $datasetFct[] = round($fct / $total  * 100, 2);
 
     $summarySvodd = $summarySvodd + $svodd;
     $summaryFct = $summaryFct + $fct;
@@ -194,11 +198,11 @@ $this->title = 'Обратная хронология обсуждения СВ�
   function updateList() {
       if($(window).outerWidth() < 786) {
         // document.getElementById('svoddList').classList.add('show')    
-        document.getElementById('svodd-diagram-container').style.height = '80vh'      
+        document.getElementById('svodd-diagram-container').style.height = '81vh'      
       }
       if($(window).outerWidth() >= 786) {
         // document.getElementById('svoddList').classList.remove('show')      
-        document.getElementById('svodd-diagram-container').style.height = '80vh'     
+        document.getElementById('svodd-diagram-container').style.height = '81vh'     
       }
       if (screen.availHeight > 1080) {
         document.getElementById('svodd-diagram-container').style.height = '55vh'
