@@ -11,7 +11,7 @@ services:
         constraints: [ node.role == manager ]
 
   frontend:
-    image: ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
+    image: ${REGISTRY}/svodd-frontend:${IMAGE_TAG}
     networks:
       - traefik-public
       - default
@@ -69,7 +69,7 @@ services:
         delay: 15s
 
   app-migration:
-    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    image: ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -203,7 +203,7 @@ services:
         condition: none
 
   app-updater:
-    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    image: ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -295,7 +295,7 @@ services:
         constraints: [ node.role == manager ]
 
   app-postgres-backup:
-    image: ${REGISTRY}/fct-search-postgres-backup:${IMAGE_TAG}
+    image: ${REGISTRY}/svodd-postgres-backup:${IMAGE_TAG}
     environment:
       BACKUP_NAME: fct-search_app-postgres
       POSTGRES_HOST: ${APP_POSTGRES_HOST}
@@ -323,7 +323,7 @@ services:
         condition: none
 
   dictionary-renew:
-    image: ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
+    image: ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
