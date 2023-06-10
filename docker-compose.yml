@@ -17,12 +17,12 @@ services:
       - traefik.docker.network=traefik-public
 
   frontend:
-    image: ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
+    image: ${REGISTRY:-localhost}/svodd-dev-frontend:cache
     build:
       context: app/frontend/docker
       dockerfile: development/nginx/Dockerfile
       cache_from:
-        - ${REGISTRY:-localhost}/fct-search-dev-frontend:cache
+        - ${REGISTRY:-localhost}/svodd-dev-frontend:cache
     networks:
       - traefik-public
       - default
@@ -77,12 +77,12 @@ services:
 #      - traefik.http.routers.frontend-static.middlewares=frontend-static-redirect
 
   cli-php:
-    image: ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
+    image: ${REGISTRY:-localhost}/svodd-dev-cli-php:cache
     build:
       context: app/console/docker
       dockerfile: development/php-cli/Dockerfile
       cache_from:
-        - ${REGISTRY:-localhost}/fct-search-dev-cli-php:cache
+        - ${REGISTRY:-localhost}/svodd-dev-cli-php:cache
     environment:
       APP_ENV: dev
       POSTGRES_HOST: app-postgres

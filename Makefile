@@ -93,27 +93,27 @@ build: build-frontend build-cli-php build-backup
 
 build-frontend:
 	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
-        --cache-from ${REGISTRY}/fct-search-frontend:cache \
-        --tag ${REGISTRY}/fct-search-frontend:cache \
-        --tag ${REGISTRY}/fct-search-frontend:${IMAGE_TAG} \
+        --cache-from ${REGISTRY}/svodd-frontend:cache \
+        --tag ${REGISTRY}/svodd-frontend:cache \
+        --tag ${REGISTRY}/svodd-frontend:${IMAGE_TAG} \
         --file app/frontend/docker/production/nginx/Dockerfile app
 
 build-cli-php:
 	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
 		--target builder \
-		--cache-from ${REGISTRY}/fct-search-cli-php:cache-builder \
-		--tag ${REGISTRY}/fct-search-cli-php:cache-builder \
+		--cache-from ${REGISTRY}/svodd-cli-php:cache-builder \
+		--tag ${REGISTRY}/svodd-cli-php:cache-builder \
 		--file app/console/docker/production/php-cli/Dockerfile app
 
 	DOCKER_BUILDKIT=1 docker --log-level=debug build --pull --build-arg BUILDKIT_INLINE_CACHE=1 \
-    	--cache-from ${REGISTRY}/fct-search-cli-php:cache-builder \
-    	--cache-from ${REGISTRY}/fct-search-cli-php:cache \
-    	--tag ${REGISTRY}/fct-search-cli-php:cache \
-    	--tag ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG} \
+    	--cache-from ${REGISTRY}/svodd-cli-php:cache-builder \
+    	--cache-from ${REGISTRY}/svodd-cli-php:cache \
+    	--tag ${REGISTRY}/svodd-cli-php:cache \
+    	--tag ${REGISTRY}/svodd-cli-php:${IMAGE_TAG} \
     	--file app/console/docker/production/php-cli/Dockerfile app
 
 build-backup:
-	docker --log-level=debug build --pull --file=app/frontend/docker/common/postgres-backup/Dockerfile --tag=${REGISTRY}/fct-search-postgres-backup:${IMAGE_TAG} app/frontend/docker/common
+	docker --log-level=debug build --pull --file=app/frontend/docker/common/postgres-backup/Dockerfile --tag=${REGISTRY}/svodd-postgres-backup:${IMAGE_TAG} app/frontend/docker/common
 
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
@@ -121,16 +121,16 @@ try-build:
 push-build-cache: push-build-cache-frontend push-build-cache-cli-php
 
 push-build-cache-frontend:
-	docker push ${REGISTRY}/fct-search-frontend:cache
+	docker push ${REGISTRY}/svodd-frontend:cache
 
 push-build-cache-cli-php:
-	docker push ${REGISTRY}/fct-search-cli-php:cache-builder
-	docker push ${REGISTRY}/fct-search-cli-php:cache
+	docker push ${REGISTRY}/svodd-cli-php:cache-builder
+	docker push ${REGISTRY}/svodd-cli-php:cache
 
 push:
-	docker push ${REGISTRY}/fct-search-frontend:${IMAGE_TAG}
-	docker push ${REGISTRY}/fct-search-cli-php:${IMAGE_TAG}
-	docker push ${REGISTRY}/fct-search-postgres-backup:${IMAGE_TAG}
+	docker push ${REGISTRY}/svodd-frontend:${IMAGE_TAG}
+	docker push ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
+	docker push ${REGISTRY}/svodd-postgres-backup:${IMAGE_TAG}
 
 deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay traefik-public || true'
@@ -142,18 +142,18 @@ deploy:
 
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cp .secrets/* site_${BUILD_NUMBER}/secrets'
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_current-topic-parser || true'
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_previous-topic-parser || true'
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_questions-parser-1 || true'
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_questions-parser-2 || true'
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm fct-search_app-updater || true'
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm svodd_current-topic-parser || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm svodd_previous-topic-parser || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm svodd_questions-parser-1 || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm svodd_questions-parser-2 || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker service rm svodd_app-updater || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml svodd --with-registry-auth --prune'
 
 deploy-clean:
 	rm -f docker-compose-production-env.yml
 
 rollback:
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml fct-search --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml svodd --with-registry-auth --prune'
 
 reindex:
 	docker compose run --rm cli-php php yii index/reindex-db
@@ -162,7 +162,7 @@ reindex-ext:
 	docker compose run --rm cli-php php yii index/reindex-db-ext
 
 alter-questions-ext:
-	docker exec -it fct-search-manticore-1 mysql -e "alter table questions_ext wordforms='/var/lib/manticore/wordforms.txt' exceptions='/var/lib/manticore/exceptions.txt';"
+	docker exec -it svodd-manticore-1 mysql -e "alter table questions_ext wordforms='/var/lib/manticore/wordforms.txt' exceptions='/var/lib/manticore/exceptions.txt';"
 
 
 index-renew-test:

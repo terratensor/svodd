@@ -23,8 +23,8 @@ use yii\bootstrap5\Html;
 </svg>',
               [
                   'class ' => 'btn btn-link link-dark',
-                  'aria-label' => "fct-search",
-                  'href' => 'https://github.com/audetv/fct-search',
+                  'aria-label' => "svodd",
+                  'href' => 'https://github.com/terratensor/svodd',
                   'target' => "_blank",
                   'rel' => "noopener noreferrer",
 

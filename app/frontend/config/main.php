@@ -34,7 +34,7 @@ return [
 //            'class' => 'yii\web\DbSession',
             'class' => yii\redis\Session::class,
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'fct-search-session',
+            'name' => 'svodd-session',
             'timeout' => 3600 * 24 * 7,
             'cookieParams' => [
                 'domain' => $params['cookieDomain'],
