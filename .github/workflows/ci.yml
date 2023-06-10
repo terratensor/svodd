@@ -87,13 +87,3 @@ jobs:
           BACKUP_S3_ENDPOINT: ${{ secrets.BACKUP_S3_ENDPOINT }}
           BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
         if: ${{ github.ref == 'refs/heads/main' }}
-
-      - name: Create Sentry Release
-        uses: getsentry/action-release@v1.4.1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          environment: production
-        if: ${{ github.ref == 'refs/heads/main' }}
