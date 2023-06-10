@@ -3,15 +3,15 @@
 Поиск по архиву вопросов и комментариев сайта ФКТ
 - Тут надо написать текст о проекте.
 
-#### https://github.com/audetv/fct-search
+#### https://github.com/terratensor/svodd
 Если у вас есть идея или пожелание, или вы заметили какой-то баг - ошибку или неправильное поведение страниц, сервисов,
-то можно [открыть новую задачу issues](https://github.com/audetv/fct-search/issues), где в свободной форме описать проблему.
+то можно [открыть новую задачу issues](https://github.com/terratensor/svodd/issues), где в свободной форме описать проблему.
 
-Здесь находится [список закрытых задач и обсуждение по ним](https://github.com/audetv/fct-search/issues?q=is%3Aissue+is%3Aclosed)
+Здесь находится [список закрытых задач и обсуждение по ним](https://github.com/terratensor/svodd/issues?q=is%3Aissue+is%3Aclosed)
 
-Это [закрытые пул запросы](https://docs.github.com/ru/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+Это [закрытые пул запросы](https://github.com/terratensor/svodd/pulls?q=is%3Apr+is%3Aclosed)
 
-Тут можно посмотреть [список изменений](https://github.com/audetv/fct-search/commits/main), которые сделаны на сайте
+Тут можно посмотреть [список изменений](https://github.com/terratensor/svodd/commits/main), которые сделаны на сайте
 
 __
 

@@ -24,7 +24,7 @@ use yii\bootstrap5\Html;
               [
                   'class ' => 'btn btn-link link-dark',
                   'aria-label' => "fct-search",
-                  'href' => 'https://github.com/audetv/fct-search',
+                  'href' => 'https://github.com/terratensor/svodd',
                   'target' => "_blank",
                   'rel' => "noopener noreferrer",
 
