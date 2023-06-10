@@ -68,7 +68,7 @@ $menuItems = [
                 <hr class="d-lg-none text-white-50">
                 <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
                     <li class="nav-item col-6 col-lg-auto">
-                        <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/audetv/fct-search"
+                        <a class="nav-link py-2 px-0 px-lg-2" href="https://github.com/terratensor/svodd"
                            target="_blank" rel="noopener">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="navbar-nav-svg"
                                  viewBox="0 0 512 499.36" role="img"><title>GitHub</title>

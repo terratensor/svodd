@@ -54,10 +54,10 @@ make docker-login
 cd ..
 ```
 ```
-REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 make build
+REGISTRY=ghcr.io/terratensor IMAGE_TAG=master-1 make build
 ```
 ```
-REGISTRY=ghcr.io/audetv IMAGE_TAG=master-1 make push
+REGISTRY=ghcr.io/terratensor IMAGE_TAG=master-1 make push
 ```
 
 `
@@ -68,4 +68,4 @@ https://yiiframework.ru/forum/viewtopic.php?t=50446
 
 
 `docker stack ls` \
-`docker stack rm fct-search`
+`docker stack rm svodd`
