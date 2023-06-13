@@ -92,13 +92,25 @@ class CommentReadModel
                 'sort' => [
                     'attributes' => [
                         'date' => [
-                            'asc' => ['sd.topic_number' => SORT_ASC, 'c.date' => SORT_ASC],
-                            'desc' => ['sd.topic_number' => SORT_DESC, 'c.date' => SORT_DESC],
-                            'default' => ['sd.topic_number' => SORT_ASC, 'c.date' => SORT_ASC],
+                            'asc' => [
+                                'sd.topic_number' => SORT_ASC,
+                                'c.date' => SORT_ASC,
+                                'c.data_id' => SORT_ASC
+                            ],
+                            'desc' => [
+                                'sd.topic_number' => SORT_DESC,
+                                'c.date' => SORT_DESC,
+                                'c.data_id' => SORT_DESC
+                            ],
+                            'default' => [
+                                'sd.topic_number' => SORT_ASC,
+                                'c.date' => SORT_ASC,
+                                'c.data_id' => SORT_ASC
+                            ],
                         ],
                     ],
                     'defaultOrder' => [
-                        'date' => SORT_ASC
+                        'date' => SORT_ASC,
                     ],
                 ]
             ]
