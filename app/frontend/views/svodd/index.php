@@ -196,14 +196,6 @@ $this->title = 'Обратная хронология обсуждения СВ�
   updateList();
   $(window).resize(updateList)
   function updateList() {
-      if($(window).outerWidth() < 786) {
-        // document.getElementById('svoddList').classList.add('show')    
-        document.getElementById('svodd-diagram-container').style.height = '81vh'      
-      }
-      if($(window).outerWidth() >= 786) {
-        // document.getElementById('svoddList').classList.remove('show')      
-        document.getElementById('svodd-diagram-container').style.height = '81vh'     
-      }
       if (screen.availHeight > 1080) {
         document.getElementById('svodd-diagram-container').style.height = '55vh'
       }
