@@ -127,8 +127,12 @@ $this->params['breadcrumbs'][] = $this->title;
                       poster="/video/denpobedy.png"
                       class="object-fit-md-contain"
                   >
+                    <source
+                            src="<?= Yii::$app->params['staticHostInfo']."/video/denpobedy.webm"; ?>"
+                            type="video/webm"
+                    />
                       <source
-                          src="video/denpobedy.mp4"
+                          src="<?= Yii::$app->params['staticHostInfo']."/video/denpobedy.mp4"; ?>"
                           type="video/mp4"
                       />
                       Элемент video не поддерживается вашим браузером.
