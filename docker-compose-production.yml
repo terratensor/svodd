@@ -31,6 +31,7 @@ services:
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       COOKIE_DOMAIN: svodd.ru
       FRONTEND_URL: https://svodd.ru
+      STATIC_URL: https://static.svodd.ru
       URL_SHORTENER_HOST: url-shortener:8000
       URL_SHORTENER_URL: https://url.svodd.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
@@ -84,6 +85,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://svodd.ru
+      STATIC_URL: https://static.svodd.ru
       URL_SHORTENER_HOST: url-shortener:8000
       URL_SHORTENER_URL: https://url.svodd.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
@@ -218,6 +220,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://svodd.ru
+      STATIC_URL: https://static.svodd.ru
       URL_SHORTENER_HOST: url-shortener:8000
       URL_SHORTENER_URL: https://url.svodd.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn
@@ -338,6 +341,7 @@ services:
       MAILER_ENCRYPTION: tls
       MAILER_FROM_EMAIL: ${APP_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://svodd.ru
+      STATIC_URL: https://static.svodd.ru
       URL_SHORTENER_HOST: url-shortener:8000
       URL_SHORTENER_URL: https://url.svodd.ru
       SENTRY_DSN_FILE: /run/secrets/sentry_dsn

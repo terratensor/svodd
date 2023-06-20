@@ -45,6 +45,7 @@ services:
       URL_SHORTENER_HOST: url-shortener:8000
       URL_SHORTENER_URL: http://url.localhost
       FRONTEND_URL: http://localhost
+      STATIC_URL: http://static.localhost
       PARSED_FILES_DIR: /data
       PAGE_SIZE: 50
       CURRENT_QUESTION: 6006
@@ -96,6 +97,7 @@ services:
       MAILER_FROM_EMAIL: mail@app.test
       ADMIN_EMAIL: admin@app.test
       FRONTEND_URL: http://localhost
+      STATIC_URL: http://static.localhost
       URL_SHORTENER_HOST: url-shortener:8000
       URL_SHORTENER_URL: http://url.localhost
       PARSED_FILES_DIR: /data
