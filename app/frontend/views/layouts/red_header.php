@@ -5,8 +5,14 @@ use yii\bootstrap5\Nav;
 
 $menuItems = [
     [
-        'label' => 'Поиск',
+        'label' => 'Поиск ФКТ',
         'url' => ['/site/index'],
+        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
+        'options' => ['class' => 'nav-item col-6 col-lg-auto'],
+    ],
+    [
+        'label' => 'КОБ',
+        'url' => 'https://kob.svodd.ru',
         'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
         'options' => ['class' => 'nav-item col-6 col-lg-auto'],
     ],
