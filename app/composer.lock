@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e33a50d9f041f92ca0f968dd6238864",
+    "content-hash": "85faaa831b4dcf905a747702042ee15d",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -804,22 +804,21 @@
         },
         {
             "name": "kartik-v/yii2-date-range",
-            "version": "dev-master",
+            "version": "v1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-date-range.git",
-                "reference": "7a0da87f2f8c8e415b78c7c6285c52c6d4d3b08e"
+                "reference": "7d80d6e2598e252487fe1acf911b8cb43f45e3b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/7a0da87f2f8c8e415b78c7c6285c52c6d4d3b08e",
-                "reference": "7a0da87f2f8c8e415b78c7c6285c52c6d4d3b08e",
+                "url": "https://api.github.com/repos/kartik-v/yii2-date-range/zipball/7d80d6e2598e252487fe1acf911b8cb43f45e3b1",
+                "reference": "7d80d6e2598e252487fe1acf911b8cb43f45e3b1",
                 "shasum": ""
             },
             "require": {
                 "kartik-v/yii2-krajee-base": ">=3.0.0"
             },
-            "default-branch": true,
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
@@ -857,9 +856,9 @@
             ],
             "support": {
                 "issues": "https://github.com/kartik-v/yii2-date-range/issues",
-                "source": "https://github.com/kartik-v/yii2-date-range/tree/master"
+                "source": "https://github.com/kartik-v/yii2-date-range/tree/v1.7.3"
             },
-            "time": "2023-03-03T15:26:35+00:00"
+            "time": "2021-09-01T12:16:39+00:00"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -920,16 +919,16 @@
         },
         {
             "name": "manticoresoftware/manticoresearch-php",
-            "version": "dev-master",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/manticoresoftware/manticoresearch-php.git",
-                "reference": "58642486ddcddee13d9a6d20d03d33f8b109dd28"
+                "reference": "16dd33d86204cfa606fdb17c5e819ac72fddd975"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/manticoresoftware/manticoresearch-php/zipball/58642486ddcddee13d9a6d20d03d33f8b109dd28",
-                "reference": "58642486ddcddee13d9a6d20d03d33f8b109dd28",
+                "url": "https://api.github.com/repos/manticoresoftware/manticoresearch-php/zipball/16dd33d86204cfa606fdb17c5e819ac72fddd975",
+                "reference": "16dd33d86204cfa606fdb17c5e819ac72fddd975",
                 "shasum": ""
             },
             "require": {
@@ -950,7 +949,6 @@
                 "php-http/httplug": "^1.1",
                 "php-http/message": "^1.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -984,7 +982,7 @@
                 "issues": "https://github.com/manticoresoftware/manticoresearch-php/issues",
                 "source": "https://github.com/manticoresoftware/manticoresearch-php/"
             },
-            "time": "2023-05-24T08:06:24+00:00"
+            "time": "2023-05-24T06:52:59+00:00"
         },
         {
             "name": "nickbeen/php-cli-progress-bar",
@@ -1196,16 +1194,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.18.1",
+            "version": "1.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "f258b3a1d16acb7b21f3b42d7a2494a733365237"
+                "reference": "1856a119a0b0ba8da8b5c33c080aa7af8fac25b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/f258b3a1d16acb7b21f3b42d7a2494a733365237",
-                "reference": "f258b3a1d16acb7b21f3b42d7a2494a733365237",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/1856a119a0b0ba8da8b5c33c080aa7af8fac25b4",
+                "reference": "1856a119a0b0ba8da8b5c33c080aa7af8fac25b4",
                 "shasum": ""
             },
             "require": {
@@ -1268,9 +1266,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.18.1"
+                "source": "https://github.com/php-http/discovery/tree/1.19.0"
             },
-            "time": "2023-05-17T08:53:10+00:00"
+            "time": "2023-06-19T08:45:36+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -1868,23 +1866,113 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
-            "name": "ramsey/uuid",
-            "version": "5.x-dev",
+            "name": "ramsey/collection",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ramsey/uuid.git",
-                "reference": "d04a1b479e9b9e9fc51fc81e3ac2fda83d41c1e9"
+                "url": "https://github.com/ramsey/collection.git",
+                "reference": "a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/d04a1b479e9b9e9fc51fc81e3ac2fda83d41c1e9",
-                "reference": "d04a1b479e9b9e9fc51fc81e3ac2fda83d41c1e9",
+                "url": "https://api.github.com/repos/ramsey/collection/zipball/a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5",
+                "reference": "a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "captainhook/plugin-composer": "^5.3",
+                "ergebnis/composer-normalize": "^2.28.3",
+                "fakerphp/faker": "^1.21",
+                "hamcrest/hamcrest-php": "^2.0",
+                "jangregor/phpstan-prophecy": "^1.0",
+                "mockery/mockery": "^1.5",
+                "php-parallel-lint/php-console-highlighter": "^1.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpcsstandards/phpcsutils": "^1.0.0-rc1",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "phpstan/extension-installer": "^1.2",
+                "phpstan/phpstan": "^1.9",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpstan/phpstan-phpunit": "^1.3",
+                "phpunit/phpunit": "^9.5",
+                "psalm/plugin-mockery": "^1.1",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "ramsey/coding-standard": "^2.0.3",
+                "ramsey/conventional-commits": "^1.3",
+                "vimeo/psalm": "^5.4"
+            },
+            "type": "library",
+            "extra": {
+                "captainhook": {
+                    "force-install": true
+                },
+                "ramsey/conventional-commits": {
+                    "configFile": "conventional-commits.json"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ramsey\\Collection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Ramsey",
+                    "email": "ben@benramsey.com",
+                    "homepage": "https://benramsey.com"
+                }
+            ],
+            "description": "A PHP library for representing and manipulating collections.",
+            "keywords": [
+                "array",
+                "collection",
+                "hash",
+                "map",
+                "queue",
+                "set"
+            ],
+            "support": {
+                "issues": "https://github.com/ramsey/collection/issues",
+                "source": "https://github.com/ramsey/collection/tree/2.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ramsey",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/ramsey/collection",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-12-31T21:50:55+00:00"
+        },
+        {
+            "name": "ramsey/uuid",
+            "version": "4.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ramsey/uuid.git",
+                "reference": "60a4c63ab724854332900504274f6150ff26d286"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/60a4c63ab724854332900504274f6150ff26d286",
+                "reference": "60a4c63ab724854332900504274f6150ff26d286",
                 "shasum": ""
             },
             "require": {
                 "brick/math": "^0.8.8 || ^0.9 || ^0.10 || ^0.11",
                 "ext-json": "*",
-                "php": "^8.1"
+                "php": "^8.0",
+                "ramsey/collection": "^1.2 || ^2.0"
             },
             "replace": {
                 "rhumsaa/uuid": "self.version"
@@ -1896,6 +1984,7 @@
                 "doctrine/annotations": "^1.8",
                 "ergebnis/composer-normalize": "^2.15",
                 "mockery/mockery": "^1.3",
+                "paragonie/random-lib": "^2",
                 "php-mock/php-mock": "^2.2",
                 "php-mock/php-mock-mockery": "^1.3",
                 "php-parallel-lint/php-parallel-lint": "^1.1",
@@ -1904,17 +1993,17 @@
                 "phpstan/phpstan": "^1.8",
                 "phpstan/phpstan-mockery": "^1.1",
                 "phpstan/phpstan-phpunit": "^1.1",
-                "phpunit/phpunit": "^9.5",
-                "psalm/plugin-phpunit": "^0.16.1",
+                "phpunit/phpunit": "^8.5 || ^9",
                 "ramsey/composer-repl": "^1.4",
                 "slevomat/coding-standard": "^8.4",
                 "squizlabs/php_codesniffer": "^3.5",
-                "vimeo/psalm": "^4.22"
+                "vimeo/psalm": "^4.9"
             },
             "suggest": {
                 "ext-bcmath": "Enables faster math with arbitrary-precision integers using BCMath.",
                 "ext-gmp": "Enables faster math with arbitrary-precision integers using GMP.",
                 "ext-uuid": "Enables the use of PeclUuidTimeGenerator and PeclUuidRandomGenerator.",
+                "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
                 "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
             },
             "type": "library",
@@ -1943,7 +2032,7 @@
             ],
             "support": {
                 "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/5.x"
+                "source": "https://github.com/ramsey/uuid/tree/4.7.4"
             },
             "funding": [
                 {
@@ -1955,7 +2044,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-15T23:38:51+00:00"
+            "time": "2023-04-15T23:01:58+00:00"
         },
         {
             "name": "sentry/sdk",
@@ -2001,7 +2090,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php-sdk/issues",
-                "source": "https://github.com/getsentry/sentry-php-sdk/tree/master"
+                "source": "https://github.com/getsentry/sentry-php-sdk/tree/3.5.0"
             },
             "funding": [
                 {
@@ -2017,16 +2106,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "3.19.1",
+            "version": "3.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "dd1057fb37d4484ebb2d1bc9b05fa5969c078436"
+                "reference": "644ad9768c18139a80ac510090fad000d9ffd8a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/dd1057fb37d4484ebb2d1bc9b05fa5969c078436",
-                "reference": "dd1057fb37d4484ebb2d1bc9b05fa5969c078436",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/644ad9768c18139a80ac510090fad000d9ffd8a4",
+                "reference": "644ad9768c18139a80ac510090fad000d9ffd8a4",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2195,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.19.1"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.20.1"
             },
             "funding": [
                 {
@@ -2118,7 +2207,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-05-25T06:19:09+00:00"
+            "time": "2023-06-26T11:01:40+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -2350,16 +2439,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v6.3.0",
+            "version": "v6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "b2f892c91e4e02a939edddeb7ef452522d10a424"
+                "reference": "1c828a06aef2f5eeba42026dfc532d4fc5406123"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/b2f892c91e4e02a939edddeb7ef452522d10a424",
-                "reference": "b2f892c91e4e02a939edddeb7ef452522d10a424",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/1c828a06aef2f5eeba42026dfc532d4fc5406123",
+                "reference": "1c828a06aef2f5eeba42026dfc532d4fc5406123",
                 "shasum": ""
             },
             "require": {
@@ -2422,7 +2511,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v6.3.0"
+                "source": "https://github.com/symfony/http-client/tree/v6.3.1"
             },
             "funding": [
                 {
@@ -2438,7 +2527,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-12T08:49:48+00:00"
+            "time": "2023-06-24T11:51:27+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -3331,12 +3420,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "2fa539bfe73e3e3f98ad0933f69a5b1219ada13e"
+                "reference": "e145d3626614ec64a664cb08339cef4f8df82da5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/2fa539bfe73e3e3f98ad0933f69a5b1219ada13e",
-                "reference": "2fa539bfe73e3e3f98ad0933f69a5b1219ada13e",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e145d3626614ec64a664cb08339cef4f8df82da5",
+                "reference": "e145d3626614ec64a664cb08339cef4f8df82da5",
                 "shasum": ""
             },
             "require": {
@@ -3395,7 +3484,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-12T06:17:02+00:00"
+            "time": "2023-07-05T10:13:55+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -3736,16 +3825,16 @@
         },
         {
             "name": "yiisoft/yii2-httpclient",
-            "version": "dev-master",
+            "version": "2.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-httpclient.git",
-                "reference": "259b45218654e30b9488705af839b69501ce27ba"
+                "reference": "5a8350e15f2db3555ba52830c9c701587c136e87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/259b45218654e30b9488705af839b69501ce27ba",
-                "reference": "259b45218654e30b9488705af839b69501ce27ba",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/5a8350e15f2db3555ba52830c9c701587c136e87",
+                "reference": "5a8350e15f2db3555ba52830c9c701587c136e87",
                 "shasum": ""
             },
             "require": {
@@ -3756,7 +3845,6 @@
                 "cweagans/composer-patches": "^1.7",
                 "phpunit/phpunit": "4.8.34"
             },
-            "default-branch": true,
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
@@ -3816,20 +3904,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-22T18:32:47+00:00"
+            "time": "2023-05-22T18:32:24+00:00"
         },
         {
             "name": "yiisoft/yii2-redis",
-            "version": "dev-master",
+            "version": "2.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-redis.git",
-                "reference": "4629747bbf5d84b07a5f331403b20ee0da06c55b"
+                "reference": "08aecdf44e091c5fae3411e719ac0fdb803ef594"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/4629747bbf5d84b07a5f331403b20ee0da06c55b",
-                "reference": "4629747bbf5d84b07a5f331403b20ee0da06c55b",
+                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/08aecdf44e091c5fae3411e719ac0fdb803ef594",
+                "reference": "08aecdf44e091c5fae3411e719ac0fdb803ef594",
                 "shasum": ""
             },
             "require": {
@@ -3840,7 +3928,6 @@
                 "phpunit/phpunit": "<7",
                 "yiisoft/yii2-dev": "~2.0.39"
             },
-            "default-branch": true,
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
@@ -3871,11 +3958,11 @@
                 "yii2"
             ],
             "support": {
-                "forum": "https://www.yiiframework.com/forum/",
-                "irc": "ircs://irc.libera.chat:6697/yii",
+                "forum": "http://www.yiiframework.com/forum/",
+                "irc": "irc://irc.freenode.net/yii",
                 "issues": "https://github.com/yiisoft/yii2-redis/issues",
                 "source": "https://github.com/yiisoft/yii2-redis",
-                "wiki": "https://www.yiiframework.com/wiki/"
+                "wiki": "http://www.yiiframework.com/wiki/"
             },
             "funding": [
                 {
@@ -3891,7 +3978,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-30T07:51:54+00:00"
+            "time": "2022-09-04T10:34:42+00:00"
         },
         {
             "name": "yiisoft/yii2-symfonymailer",
@@ -4753,16 +4840,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.15.5",
+            "version": "v4.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "11e2663a5bc9db5d714eedb4277ee300403b4a9e"
+                "reference": "19526a33fb561ef417e822e85f08a00db4059c17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/11e2663a5bc9db5d714eedb4277ee300403b4a9e",
-                "reference": "11e2663a5bc9db5d714eedb4277ee300403b4a9e",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/19526a33fb561ef417e822e85f08a00db4059c17",
+                "reference": "19526a33fb561ef417e822e85f08a00db4059c17",
                 "shasum": ""
             },
             "require": {
@@ -4803,9 +4890,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.5"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.16.0"
             },
-            "time": "2023-05-19T20:20:00+00:00"
+            "time": "2023-06-25T14:52:30+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6637,16 +6724,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v5.4.23",
+            "version": "v5.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "4a286c916b74ecfb6e2caf1aa31d3fe2a34b7e08"
+                "reference": "d2aefa5a7acc5511422792931d14d1be96fe9fea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/4a286c916b74ecfb6e2caf1aa31d3fe2a34b7e08",
-                "reference": "4a286c916b74ecfb6e2caf1aa31d3fe2a34b7e08",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/d2aefa5a7acc5511422792931d14d1be96fe9fea",
+                "reference": "d2aefa5a7acc5511422792931d14d1be96fe9fea",
                 "shasum": ""
             },
             "require": {
@@ -6692,7 +6779,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/v5.4.23"
+                "source": "https://github.com/symfony/dom-crawler/tree/v5.4.25"
             },
             "funding": [
                 {
@@ -6708,7 +6795,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-08T21:20:19+00:00"
+            "time": "2023-06-05T08:05:41+00:00"
         },
         {
             "name": "symfony/finder",
@@ -7157,14 +7244,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "manticoresoftware/manticoresearch-php": 20,
-        "ramsey/uuid": 20,
         "sentry/sdk": 20,
         "twig/twig": 20,
-        "yiisoft/yii2-redis": 20,
-        "nickbeen/php-cli-progress-bar": 20,
-        "kartik-v/yii2-date-range": 20,
-        "yiisoft/yii2-httpclient": 20
+        "nickbeen/php-cli-progress-bar": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
