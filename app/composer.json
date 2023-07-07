@@ -6,22 +6,22 @@
   "license": "BSD-3-Clause",
   "require": {
     "php": ">=8.1.0",
-    "yiisoft/yii2": "~2.0.45",
+    "yiisoft/yii2": "2.0.48.1",
     "yiisoft/yii2-bootstrap5": "~2.0.2",
     "yiisoft/yii2-symfonymailer": "^3.0",
-    "manticoresoftware/manticoresearch-php": "dev-master",
+    "manticoresoftware/manticoresearch-php": "^3.0",
     "ext-json": "*",
     "webmozart/assert": "^1.11",
-    "ramsey/uuid": "5.x-dev",
+    "ramsey/uuid": "^4.7",
     "sentry/sdk": "dev-master",
     "twig/twig": "3.x-dev",
-    "yiisoft/yii2-redis": "^2.0@dev",
+    "yiisoft/yii2-redis": "^2.0",
     "npm-asset/chart.js": "^4.2",
     "npm-asset/chartjs-plugin-datalabels": "^2.2",
     "ext-iconv": "*",
     "nickbeen/php-cli-progress-bar": "dev-main",
-    "kartik-v/yii2-date-range": "dev-master",
-    "yiisoft/yii2-httpclient": "^2.0@dev"
+    "kartik-v/yii2-date-range": "^1.7",
+    "yiisoft/yii2-httpclient": "^2.0"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
