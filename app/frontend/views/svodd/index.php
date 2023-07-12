@@ -197,7 +197,7 @@ $this->title = 'Обратная хронология обсуждения СВ�
   $(window).resize(updateList)
   function updateList() {
       if (screen.availHeight > 1080) {
-        document.getElementById('svodd-diagram-container').style.height = '55vh'
+        document.getElementById('svodd-diagram-container').style.height = '85vh'
       }
       if (screen.availHeight < 700) {
         document.getElementById('svodd-diagram-container').style.height = '115vh'
