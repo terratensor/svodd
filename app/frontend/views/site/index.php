@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
           <?php ActiveForm::end(); ?>
       </div>
     </div>
-      <?php if ($flag && $flag->isEnabled('09051945B')): ?>
+      <?php if ($flag && $flag->isEnabled('09051945B') && !$results): ?>
           <div class="denpobedy mb-3">
                   <video
                       playsinline
