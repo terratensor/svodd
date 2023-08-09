@@ -26,8 +26,10 @@ use yii\db\ActiveRecord;
  * @property QuestionStats $questionStat
  * @property Data $SvoddData
  */
-class Comment extends ActiveRecord
+class Comment extends ActiveRecord implements AggregateRoot
 {
+    use EventTrait;
+
     public DateTimeImmutable $datetime;
 
     public static function create(
@@ -52,6 +54,8 @@ class Comment extends ActiveRecord
         $comment->user_role = $user_role;
         $comment->text = $text;
         $comment->datetime = $datetime;
+
+        $comment->recordEvent(new events\CommentCreated($data_id, $text));
 
         return $comment;
     }

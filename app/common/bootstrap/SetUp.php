@@ -11,6 +11,10 @@ use App\Frontend\FrontendUrlGenerator;
 use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\QuestionIndexService;
+use App\Question\dispatchers\AppEventDispatcher;
+use App\Question\dispatchers\SimpleAppEventDispatcher;
+use App\Question\Entity\listeners\CommentCreatedListener;
+use App\Question\Entity\Question\events\CommentCreated;
 use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
 use DateInterval;
@@ -18,6 +22,7 @@ use Manticoresearch\Client;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Mailer\EventListener\EnvelopeListener;
 use Yii;
+use yii\di\Container;
 use yii\base\BootstrapInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
@@ -36,7 +41,7 @@ class SetUp implements BootstrapInterface
     /**
      * @throws \Exception
      */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         $container = Yii::$container;
 
@@ -107,6 +112,14 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(FeatureFlag::class, function () use ($app) {
             $config = Yii::$app->params['feature-toggle'];
             return new Feature($config['features']);
+        });
+
+        $container->setSingleton(AppEventDispatcher::class, SimpleAppEventDispatcher::class);
+
+        $container->setSingleton(SimpleAppEventDispatcher::class, function (Container $container) {
+            return new SimpleAppEventDispatcher($container, [
+                CommentCreated::class => [CommentCreatedListener::class],
+            ]);
         });
 
         $container->setSingleton(\App\UrlShortener\Command\Create\Request\Handler::class, [], [
