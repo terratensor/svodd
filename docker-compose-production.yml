@@ -206,6 +206,9 @@ services:
 
   app-updater:
     image: ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
+    networks:
+      - rmq-net
+      - default
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -230,6 +233,11 @@ services:
       REDIS_HOST: ${APP_REDIS_HOST}
       REDIS_PORT: ${APP_REDIS_PORT}
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      RABBIT_HOSTNAME: ${APP_RABBIT_HOSTNAME}
+      RABBIT_USERNAME: ${APP_RABBIT_USERNAME}
+      RABBIT_PASSWORD_FILE: /run/secrets/rabbit_password_file
+      RABBIT_EXCHANGE_NAME: ${APP_RABBIT_EXCHANGE_NAME}
+      RABBIT_QUEUE_NAME: ${APP_RABBIT_QUEUE_NAME}
     secrets:
       - app_db_password
       - app_mailer_password
@@ -375,6 +383,8 @@ secrets:
     file: ${APP_REDIS_PASSWORD_FILE}
   backup_aws_secret_access_key:
     file: ${BACKUP_AWS_ACCESS_KEY_FILE}
+  rabbit_password_file:
+    file: ${APP_RABBIT_PASSWORD_FILE}
 
 volumes:
   app-postgres:
@@ -386,3 +396,5 @@ volumes:
 networks:
   traefik-public:
     external: true
+  rmq-net:
+    name: rmq-net

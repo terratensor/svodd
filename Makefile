@@ -2,6 +2,9 @@ init: docker-down \
 	app-clear \
 	docker-pull docker-build docker-up \
 	app-init
+dev-init: app-clear \
+	docker-pull docker-build docker-up \
+	app-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -134,6 +137,7 @@ push:
 
 deploy:
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay traefik-public || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay rmq-net || true'
 	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER} && mkdir site_${BUILD_NUMBER}'
 
 	envsubst < docker-compose-production.yml > docker-compose-production-env.yml

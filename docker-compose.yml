@@ -84,6 +84,9 @@ services:
       dockerfile: development/php-cli/Dockerfile
       cache_from:
         - ${REGISTRY:-localhost}/svodd-dev-cli-php:cache
+    networks:
+      - rmq-net
+      - default
     environment:
       APP_ENV: dev
       POSTGRES_HOST: app-postgres
@@ -106,6 +109,11 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      RABBIT_HOSTNAME: rmq
+      RABBIT_USERNAME: guest
+      RABBIT_PASSWORD: guest
+      RABBIT_EXCHANGE_NAME: ex1
+      RABBIT_QUEUE_NAME: q1
     secrets:
       - app_mailer_password
       - app_db_password
@@ -237,3 +245,5 @@ volumes:
 networks:
   traefik-public:
     name: traefik-public
+  rmq-net:
+    name: rmq-net
