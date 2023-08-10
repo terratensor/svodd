@@ -55,7 +55,7 @@ class Comment extends ActiveRecord implements AggregateRoot
         $comment->text = $text;
         $comment->datetime = $datetime;
 
-        $comment->recordEvent(new events\CommentCreated($data_id, $text));
+        $comment->recordEvent(new events\CommentCreated($data_id, $question_data_id, $text));
 
         return $comment;
     }
