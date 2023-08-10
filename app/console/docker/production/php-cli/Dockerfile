@@ -2,7 +2,7 @@ FROM php:8.1-cli-alpine AS builder
 
 RUN apk add --no-cache postgresql-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo_pgsql opcache
+    && docker-php-ext-install sockets pdo_pgsql opcache
 
 RUN apk add --no-cache unzip
 
