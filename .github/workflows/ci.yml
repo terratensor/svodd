@@ -88,7 +88,7 @@ jobs:
           BACKUP_S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
           APP_RABBIT_HOSTNAME: ${{ secrets.APP_RABBIT_HOSTNAME }}
           APP_RABBIT_USERNAME: ${{ secrets.APP_RABBIT_USERNAME }}
-          RABBIT_EXCHANGE_NAME: ${{ secrets.RABBIT_EXCHANGE_NAME }}
-          RABBIT_QUEUE_NAME: ${{ secrets.RABBIT_QUEUE_NAME }}
+          RABBIT_EXCHANGE_NAME: ${{ secrets.APP_RABBIT_EXCHANGE_NAME }}
+          RABBIT_QUEUE_NAME: ${{ secrets.APP_RABBIT_QUEUE_NAME }}
           APP_RABBIT_PASSWORD_FILE: ${{ secrets.APP_RABBIT_PASSWORD_FILE }}
         if: ${{ github.ref == 'refs/heads/main' }}

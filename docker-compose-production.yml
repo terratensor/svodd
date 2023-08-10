@@ -243,6 +243,7 @@ services:
       - app_mailer_password
       - sentry_dsn
       - redis_password
+      - rabbit_password_file
     volumes:
       - parsed-files:/app/data
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii index/updating-index'
@@ -398,3 +399,4 @@ networks:
     external: true
   rmq-net:
     name: rmq-net
+    external: true
