@@ -28,7 +28,7 @@ jobs:
             password: ${{ github.token }}
 
       - name: Dev Init
-        run: make init
+        run: make dev-init
 
       - name: Check Backup
         run: make app-backup

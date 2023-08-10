@@ -2,6 +2,9 @@ init: docker-down \
 	app-clear \
 	docker-pull docker-build docker-up \
 	app-init
+dev-init: app-clear \
+	docker-pull docker-build docker-up \
+	app-init
 up: docker-up
 down: docker-down
 restart: down up

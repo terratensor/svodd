@@ -398,4 +398,3 @@ networks:
     external: true
   rmq-net:
     name: rmq-net
-    external: true
