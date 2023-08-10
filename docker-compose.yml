@@ -109,12 +109,11 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
-      RABBIT_HOSTNAME: amqp://localhost
+      RABBIT_HOSTNAME: rmq
       RABBIT_USERNAME: guest
       RABBIT_PASSWORD: guest
       RABBIT_EXCHANGE_NAME: ex1
       RABBIT_QUEUE_NAME: q1
-      RABBIT_PRODUCER_NAME: svoddru
     secrets:
       - app_mailer_password
       - app_db_password
