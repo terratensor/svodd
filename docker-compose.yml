@@ -111,13 +111,14 @@ services:
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
       RABBIT_HOSTNAME: rmq
       RABBIT_USERNAME: guest
-      RABBIT_PASSWORD: guest
+      RABBIT_PASSWORD_FILE: /run/secrets/rabbit_password_file
       RABBIT_EXCHANGE_NAME: ex1
       RABBIT_QUEUE_NAME: q1
     secrets:
       - app_mailer_password
       - app_db_password
       - redis_password
+      - rabbit_password_file
     volumes:
       - ./app:/app
       - ./app/data:/app/data
@@ -234,6 +235,8 @@ secrets:
     file: ./docker/development/secrets/redis_password
   backup_aws_secret_access_key:
     file: ./docker/development/secrets/backup_aws_secret_access_key
+  rabbit_password_file:
+    file: ./docker/development/secrets/rabbit_password_file
 
 volumes:
   app-postgres:
@@ -247,3 +250,4 @@ networks:
     name: traefik-public
   rmq-net:
     name: rmq-net
+    external: true

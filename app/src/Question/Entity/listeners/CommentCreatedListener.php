@@ -18,9 +18,6 @@ class CommentCreatedListener
         $this->repository = $repository;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function handle(CommentCreated $event): void
     {
         $current = $this->repository->findCurrent();
@@ -32,13 +29,17 @@ class CommentCreatedListener
         $exchange = getenv('RABBIT_EXCHANGE_NAME');
         $queue = getenv('RABBIT_QUEUE_NAME');
 
-        $connection = new AMQPStreamConnection(
-            getenv('RABBIT_HOSTNAME'),
-            5672,
-            getenv('RABBIT_USERNAME'),
-            getenv('RABBIT_PASSWORD'),
-            '/'
-        );
+        try {
+            $connection = new AMQPStreamConnection(
+                getenv('RABBIT_HOSTNAME'),
+                5672,
+                getenv('RABBIT_USERNAME'),
+                trim(file_get_contents(getenv('RABBIT_PASSWORD_FILE'))),
+                '/'
+            );
+        } catch (\Exception $e) {
+            echo $e;
+        }
         $channel = $connection->channel();
 
         $channel->queue_declare($queue, false, true, false, false);
