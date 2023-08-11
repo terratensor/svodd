@@ -250,3 +250,4 @@ networks:
     name: traefik-public
   rmq-net:
     name: rmq-net
+    external: true
