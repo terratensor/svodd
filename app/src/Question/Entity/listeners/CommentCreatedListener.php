@@ -20,6 +20,10 @@ class CommentCreatedListener
 
     public function handle(CommentCreated $event): void
     {
+        if ((getenv('APP_ENV') === 'prod')) {
+            \Sentry\init(['dsn' => trim(file_get_contents(getenv('SENTRY_DSN_FILE')))]);
+        }
+
         $current = $this->repository->findCurrent();
 
         if ($current->question_id !== $event->question_data_id) {
@@ -38,7 +42,8 @@ class CommentCreatedListener
                 '/'
             );
         } catch (\Exception $e) {
-            echo $e;
+            \Sentry\captureException($e);
+            return;
         }
         $channel = $connection->channel();
 
