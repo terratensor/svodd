@@ -16,7 +16,7 @@ $(document).ready(function () {
     win.resize(scrolled);
 
     function scrolled() {
-      if (win.scrollTop() > doc.height() - win.height() - 60) {
+      if (win.scrollTop() > doc.height() - win.outerHeight() - 60) {
         $('.detachable').removeClass('fixed-bottom');
       } else {
         $('.detachable').addClass('fixed-bottom');

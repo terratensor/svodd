@@ -27,6 +27,22 @@ use yii\helpers\Url;
 
 $this->title = 'Поиск по ФКТ';
 
+$this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ';
+
+$this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->urlManager->createAbsoluteUrl('/')]);
+$this->registerMetaTag(['property' => 'og:type', 'content' => 'website']);
+$this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
+$this->registerMetaTag(['property' => 'og:description', 'content' => $this->params['meta_description']]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.png']);
+$this->registerMetaTag(['property' => 'og:video', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.webm']);
+
+if ($results) {
+    $this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
+} else {
+    $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
+    $this->registerMetaTag(['name' => 'robots', 'content' => 'index, nofollow']);
+}
+
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
 echo Html::hiddenInput('value', 'toggle');
 echo Html::endForm();

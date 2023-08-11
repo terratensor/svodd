@@ -194,6 +194,7 @@ p.summary {
 }
 
 .container-pagination .detachable {
+    margin-top: 16px;
     margin-bottom: 0;
 }
 
