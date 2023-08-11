@@ -10,6 +10,18 @@ use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use yii\web\View;
 
+
+$this->title = 'Большая СВОДДная тема';
+
+$this->params['meta_description'] = '24 февраля 2022 года президент России Владимир Путин в ответ на обращение руководителей республик Донбасса принял решение о проведении СВОДД. 3 октября ЛНР, ДНР, Херсонская и Запорожская области стали частью России. Сообщество ведёт соборное обсуждение глобальной специальной военной операции денацификации и демилитаризации.';
+
+$this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/view'])]);
+$this->registerMetaTag(['property' => 'og:type', 'content' => 'website']);
+$this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
+$this->registerMetaTag(['property' => 'og:description', 'content' => $this->params['meta_description']]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.png']);
+$this->registerMetaTag(['property' => 'og:video', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.webm']);
+
 $position = 1;
 $pagination = new Pagination(
     [
@@ -18,7 +30,6 @@ $pagination = new Pagination(
     ]
 );
 
-$this->title = 'Большая СВОДДная тема';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

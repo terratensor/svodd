@@ -26,7 +26,7 @@ $this->registerJsFile('/js/color-mode-toggler.js', ['position' => \yii\web\View:
   <html lang="<?= Yii::$app->language ?>" class="h-100" data-bs-theme="light">
 <head>
     <?= $this->render('favicon'); ?>
-  <title><?= Html::encode($this->title) ?></title>
+<title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <?= $this->render('yandex_metrika'); ?>
 </head>
