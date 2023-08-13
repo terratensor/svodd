@@ -26,8 +26,7 @@ class SvoddService
         QuestionRepository $questionRepository,
         SvoddChartRepository $svoddChartRepository,
         StatisticService $statisticService
-    )
-    {
+    ) {
         $this->questionRepository = $questionRepository;
         $this->svoddChartRepository = $svoddChartRepository;
         $this->statisticService = $statisticService;
@@ -38,11 +37,15 @@ class SvoddService
      * @param string $url
      * @param string $topic_number
      * @param string $start_comment_data_id
-     * @return void
+     * @return Data
      */
-    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): void
+    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): Data
     {
         $question = $this->getQuestionIdFrom($url);
+
+        if ($this->svoddChartRepository->findByQuestionId($question->data_id) !== null) {
+            throw new DomainException("Переданный вопрос # $question->data_id уже зарегистрирован в СВОДДной теме.");
+        }
 
         $current = $this->svoddChartRepository->findCurrent();
         $current->changeActive();
@@ -50,6 +53,8 @@ class SvoddService
 
         $new = Data::create($question->data_id, $topic_number, $start_comment_data_id);
         $this->svoddChartRepository->save($new);
+
+        return $new;
     }
 
     private function getQuestionIdFrom(string $url): Question
@@ -94,9 +99,12 @@ class SvoddService
             ->all();
 
         foreach ($questionIDs as $questionID) {
-            $question = $this->questionRepository->getByDataId($questionID['question_id']);
-            $this->statisticService->update($question->id);
-            echo "Update question stats for $question->id \r\n";
+            try {
+                $question = $this->questionRepository->getByDataId($questionID['question_id']);
+                $this->statisticService->update($question->id);
+            } catch (DomainException $e) {
+                continue;
+            }
         }
     }
 }

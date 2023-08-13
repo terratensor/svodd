@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Question\Entity\Question;
 
 use App\Question\dispatchers\AppEventDispatcher;
+use App\Svodd\Entity\Chart\Data;
 use DomainException;
 use RuntimeException;
 use yii\db\ActiveRecord;
@@ -49,5 +50,22 @@ class CommentRepository
     public function findByDataId(int $data_id): array|ActiveRecord|null|Comment
     {
         return Comment::find()->andWhere(['data_id' => $data_id])->one();
+    }
+
+
+    /**
+     * Возвращает все комментарии темы вопроса с открывающего комментария
+     * используется для нахождения комментариев новой установленной темы
+     * для последующей отправки этих комментариев в очередь для отправки в телеграм
+     * @param Data $data
+     * @return array|ActiveRecord[]
+     */
+    public function findCommentsByChartData(Data $data): array
+    {
+        return Comment::find()
+            ->andWhere(['question_data_id' => $data->question_id])
+            ->andWhere(['>', 'data_id', $data->start_comment_data_id])
+            ->orderBy('data_id ASC')
+            ->all();
     }
 }

@@ -121,4 +121,9 @@ class Comment extends ActiveRecord implements AggregateRoot
     {
         return Type::QUESTION_COMMENT;
     }
+
+    public function sendToQueue(): void
+    {
+        $this->recordEvent(new events\CommentCreated($this->data_id, $this->question_data_id, $this->text));
+    }
 }

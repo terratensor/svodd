@@ -26,6 +26,7 @@ services:
     networks:
       - traefik-public
       - default
+      - rmq-net
     environment:
       APP_ENV: dev
       MAINTENANCE_MODE: 0
@@ -53,11 +54,17 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD_FILE: /run/secrets/redis_password
+      RABBIT_HOSTNAME: rmq
+      RABBIT_USERNAME: guest
+      RABBIT_PASSWORD_FILE: /run/secrets/rabbit_password_file
+      RABBIT_EXCHANGE_NAME: ex1
+      RABBIT_QUEUE_NAME: q1
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
       - redis_password
+      - rabbit_password_file
     volumes:
       - ./app:/app
 #      - parsed-files:/app/data
