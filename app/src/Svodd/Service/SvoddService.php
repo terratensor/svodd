@@ -39,7 +39,7 @@ class SvoddService
      * @param string $start_comment_data_id
      * @return Data
      */
-    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): void
+    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): Data
     {
         $question = $this->getQuestionIdFrom($url);
 
@@ -53,6 +53,8 @@ class SvoddService
 
         $new = Data::create($question->data_id, $topic_number, $start_comment_data_id);
         $this->svoddChartRepository->save($new);
+
+        return $new;
     }
 
     private function getQuestionIdFrom(string $url): Question
