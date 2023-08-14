@@ -64,7 +64,7 @@ class CommentRepository
     {
         return Comment::find()
             ->andWhere(['question_data_id' => $data->question_id])
-            ->andWhere(['>', 'data_id', $data->start_comment_data_id])
+            ->andWhere(['>=', 'data_id', $data->start_comment_data_id])
             ->orderBy('data_id ASC')
             ->all();
     }
