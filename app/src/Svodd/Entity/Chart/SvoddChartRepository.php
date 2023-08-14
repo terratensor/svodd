@@ -24,6 +24,11 @@ class SvoddChartRepository
         return Data::find()->orderBy('topic_number DESC')->all();
     }
 
+    public function findAllAsc(): array
+    {
+        return Data::find()->orderBy('topic_number ASC')->all();
+    }
+
     public function save(Data $data): void
     {
         if (!$data->save()) {
