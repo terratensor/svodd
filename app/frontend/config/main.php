@@ -51,6 +51,9 @@ return [
                 [
                     'class' => \App\Sentry\SentryTarget::class,
                     'levels' => ['error', 'warning'],
+                    'except' => [
+                        'yii\web\HttpException:404',
+                    ],
                 ],
             ],
         ],
