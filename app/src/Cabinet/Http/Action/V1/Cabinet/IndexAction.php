@@ -29,7 +29,6 @@ class IndexAction extends Action
             try {
                 $command = new Command();
                 $command->url = $form->url;
-                $command->number = $form->number;
                 $command->data_id = $form->data_id;
 
                 $this->handler->handle($command);

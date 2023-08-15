@@ -14,9 +14,11 @@ class QuestionListHandler
     private SvoddChartRepository $repository;
 
     public string $url_prefix = "https://фкт-алтай.рф/qa/question/view-";
+    private ChartDatetimeSetter $datetimeSetter;
 
-    public function __construct(SvoddChartRepository $repository) {
+    public function __construct(SvoddChartRepository $repository, ChartDatetimeSetter $datetimeSetter) {
         $this->repository = $repository;
+        $this->datetimeSetter = $datetimeSetter;
     }
 
     public function handle(): array
@@ -25,6 +27,9 @@ class QuestionListHandler
         $response = [];
         foreach ($models as $model) {
             /** @var $model Data */
+            if ($model->start_datetime === null) {
+                $this->datetimeSetter->handle();
+            }
             try {
                 $date = Yii::$app->formatter->asDatetime($model->start_datetime, 'php:d.m.y');
             } catch (InvalidConfigException $e) {
@@ -35,7 +40,10 @@ class QuestionListHandler
                 'num' => str_pad((string)$model->topic_number, 2, '0', STR_PAD_LEFT),
                 'date' =>  $date,
                 'url' => $this->url_prefix . $model->question_id,
+                'start_comment' => $model->start_comment_data_id,
+                'end_comment' => $model->end_comment_data_id,
                 'comments' => $model->comments_count,
+                'delta' => $model->comments_delta,
             ];
         }
         return $response;
