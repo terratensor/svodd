@@ -22,7 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'url')->textInput(['autofocus' => true])->label('Адрес страницы вопроса, следующей темы') ?>
 
-        <?= $form->field($model, 'number')->textInput()->label('Номер следующей темы, например 37') ?>
         <?= $form->field($model, 'data_id')->textInput()->label('ИД комментария, открывающего новую тему') ?>
 
         <div class="form-group">
