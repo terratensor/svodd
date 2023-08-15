@@ -74,7 +74,7 @@ class ShortLinkModal extends Widget
             var obj = JSON.parse(xhr.response);      
             document.getElementById('inputShortLink1').value = "★ $this->host/"+obj.short
             document.getElementById('inputShortLink2').value = "$this->host/"+obj.short
-            document.getElementById('shortLinkResult').innerText = "★ $this->host/"+obj.short
+            document.getElementById('shortLinkResult').innerHTML = "★&nbsp;$this->host/"+obj.short+"&nbsp;★"
           }
         }
     })
