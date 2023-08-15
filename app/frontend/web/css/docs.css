@@ -12038,3 +12038,14 @@ textarea.form-control-lg {
     padding-top: 4.5rem !important;
     padding-bottom: 4.5rem !important
 }
+
+#shortLinkResult {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+@media (max-width: 768px) {
+    #shortLinkResult {
+        padding: 10px 0;
+    }
+}
