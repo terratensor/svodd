@@ -2,42 +2,76 @@
 
 use App\helpers\SessionHelper;
 use yii\bootstrap5\Nav;
+use yii\web\View;
+
+/** @var $this View */
 
 $menuItems = [
+    [
+
+        'label' => 'Поиск',
+        'url' => ['/site/index'],
+        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto d-none d-lg-inline'],
+        'items' => [
+            [
+                'label' => 'Поиск вопросов и комментариев ФКТ',
+                'url' => ['/site/index'],
+                'linkOptions' => ['class' => 'nav-link py-2 px-2 px-lg-2'],
+                'options' => ['class' => 'nav-item col-12 col-lg-auto'],
+            ],
+            [
+                'label' => 'Поиск по толстым книгам ВП СССР',
+                'url' => 'https://kob.svodd.ru',
+                'linkOptions' => ['class' => 'nav-link py-2 px-2 px-lg-2'],
+                'options' => ['class' => 'nav-item col-12 col-lg-auto'],
+            ],
+            [
+                'label' => 'Поиск по военно-исторической библиотеке',
+                'url' => 'https://lib.svodd.ru',
+                'linkOptions' => ['class' => 'nav-link py-2 px-2 px-lg-2'],
+                'options' => ['class' => 'nav-item col-12 col-lg-auto'],
+            ],
+        ]
+    ],
     [
         'label' => 'Поиск ФКТ',
         'url' => ['/site/index'],
         'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
-        'options' => ['class' => 'nav-item col-6 col-lg-auto'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto d-sm-inline d-lg-none'],
     ],
     [
-        'label' => 'КОБ',
+        'label' => 'Поиск КОБ',
         'url' => 'https://kob.svodd.ru',
         'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
-        'options' => ['class' => 'nav-item col-6 col-lg-auto'],
-    ],
-    [
-        'label' => 'Статистика',
-        'url' => ['/svodd/index'],
-        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
-        'options' => ['class' => 'nav-item col-6 col-lg-auto'],
-    ],
-    [
-        'label' => 'Обсуждение',
-        'url' => SessionHelper::svoddUrl(Yii::$app->session),
-        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
-        'options' => ['class' => 'nav-item col-6 col-lg-auto'],
-    ],
-    [
-        'label' => 'Вопросы',
-        'url' => ['/question/index'],
-        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
-        'options' => ['class' => 'nav-item col-6 col-lg-auto'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto d-sm-inline d-lg-none'],
     ],
     [
         'label' => 'Поиск по военно-исторической библиотеке',
         'url' => 'https://lib.svodd.ru',
         'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto d-sm-inline d-lg-none'],
+    ],
+    [
+        'label' => 'Обсуждение',
+        'url' => SessionHelper::svoddUrl(Yii::$app->session),
+        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto'],
+    ],
+    [
+        'label' => 'Вопросы',
+        'url' => ['/question/index'],
+        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto'],
+    ],
+    [
+        'label' => ' <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-fill d-none d-lg-inline" viewBox="0 0 16 16">
+  <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+</svg><div class="d-lg-none ms-0">Статистика и хронология обсуждения СВОДД</div>',
+        'url' => ['svodd/index'],
+        'linkOptions' => [
+            'class' => 'nav-link py-2 px-0 px-lg-2', 'title' => 'Статистика и хронология обсуждения СВОДД'
+        ],
         'options' => ['class' => 'nav-item col-12 col-lg-auto'],
     ],
 ];
@@ -57,7 +91,7 @@ $menuItems = [
         </a>
         <button class="navbar-toggler d-flex d-lg-none order-3 p-2" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation" id="menuButton">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots"
                  viewBox="0 0 16 16">
                 <path
@@ -68,21 +102,26 @@ $menuItems = [
             <div class="offcanvas-header px-4 pb-0">
                 <h5 class="offcanvas-title text-white" id="bdNavbarOffcanvasLabel">ФКТ Поиск</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"
-                        data-bs-target="#bdNavbar"></button>
+                        data-bs-target="#bdNavbar" id="menuCloseButton"></button>
             </div>
             <div class="offcanvas-body p-4 pt-0 p-lg-0">
                 <hr class="d-lg-none text-white-50">
                 <?php echo Nav::widget(
                     [
-                        'options' => ['class' => 'navbar-nav flex-row flex-wrap bd-navbar-nav'],
+                        'options' => [
+                            'class' => 'navbar-nav flex-row flex-wrap bd-navbar-nav',
+                        ],
+                        'encodeLabels' => false,
                         'items' => $menuItems,
                     ]); ?>
                 <hr class="d-lg-none text-white-50">
                 <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
-                    <li class="nav-item col-6 col-lg-auto">
+
+                  <li class="nav-item col-6 col-lg-auto">
                         <a class="nav-link py-2 px-0 px-lg-2" href="https://t.me/svoddru"
                            target="_blank" rel="noopener">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-telegram navbar-nav-svg" viewBox="0 0 16 16" role="img"><title>Telegram</title>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                               class="bi bi-telegram navbar-nav-svg" viewBox="0 0 16 16" role="img"><title>Телеграм канал @svoddru</title>
                             <path fill="currentColor" fill-rule="evenodd"
                                   d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"/>
                           </svg>
@@ -123,7 +162,7 @@ $menuItems = [
                         <button
                             class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
                             id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
-                            data-bs-display="static" aria-label="Переключить тему (светлая)">
+                            data-bs-display="static" aria-label="Переключить тему (светлая)" title="Переключить тему">
                             <svg class="bi my-1 theme-icon-active">
                                 <use href="#sun-fill"></use>
                             </svg>
@@ -170,3 +209,35 @@ $menuItems = [
         </div>
     </nav>
 </header>
+
+<?php $js = <<<JS
+const menuOffcanvas = document.getElementById('bdNavbar')
+const togglerButton = document.getElementById('menuButton')
+
+
+
+
+
+
+
+togglerButton.addEventListener('click', event => {
+  const dropdownElementList = document.querySelectorAll('.dropdown-toggle')
+const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl))
+// console.log(dropdownList)
+ //console.log(dropdownList[0])
+ const dropdown = dropdownList[0]
+
+ var myDropdown = bootstrap.Dropdown.getInstance($("#searchDropdownItem")[0]);
+  setTimeout(function() {
+    console.log(myDropdown.toggle());
+}, (100));
+        
+//console.log(dropdown)
+//dropdown.show()
+//console.log(event)
+// dropdownList[0].show()
+})
+
+JS;
+
+//$this->registerJs($js);
