@@ -5,6 +5,7 @@
 
 use App\Question\Entity\Question\Comment;
 use frontend\widgets\question\CommentHeader;
+use frontend\widgets\question\parser\CommentViewParser;
 use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
 
@@ -18,7 +19,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
   </div>
   <div class="card-body">
     <div class="card-text comment-text">
-        <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($model->text)); ?>
+        <?= CommentViewParser::widget(['text' => $model->text]); ?>
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end">

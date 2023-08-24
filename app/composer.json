@@ -22,7 +22,8 @@
     "nickbeen/php-cli-progress-bar": "dev-main",
     "kartik-v/yii2-date-range": "^1.7",
     "yiisoft/yii2-httpclient": "^2.0",
-    "php-amqplib/php-amqplib": "3.5.4"
+    "php-amqplib/php-amqplib": "3.5.4",
+    "mapkyca/php-ogp": "^1.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
