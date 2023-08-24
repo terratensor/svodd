@@ -19,7 +19,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
   </div>
   <div class="card-body">
     <div class="card-text comment-text">
-        <?= CommentViewParser::widget(['text' => $model->text]); ?>
+        <?= CommentViewParser::widget(['model' => $model]); ?>
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end">
