@@ -11,12 +11,14 @@ use App\Frontend\FrontendUrlGenerator;
 use App\Indexer\Service\IndexerService;
 use App\Indexer\Service\IndexFromDB\Handler;
 use App\Indexer\Service\QuestionIndexService;
-use App\Question\dispatchers\AppEventDispatcher;
-use App\Question\dispatchers\SimpleAppEventDispatcher;
+use App\dispatchers\AppEventDispatcher;
+use App\dispatchers\SimpleAppEventDispatcher;
 use App\Question\Entity\listeners\CommentCreatedListener;
 use App\Question\Entity\Question\events\CommentCreated;
 use App\repositories\Question\QuestionRepository;
 use App\services\Manticore\IndexService;
+use App\Svodd\Entity\Chart\events\StartCommentDataIDSetter;
+use App\Svodd\Entity\listeners\CommentDataIDSetterListener;
 use DateInterval;
 use Manticoresearch\Client;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -119,6 +121,7 @@ class SetUp implements BootstrapInterface
         $container->setSingleton(SimpleAppEventDispatcher::class, function (Container $container) {
             return new SimpleAppEventDispatcher($container, [
                 CommentCreated::class => [CommentCreatedListener::class],
+                StartCommentDataIDSetter::class => [CommentDataIDSetterListener::class]
             ]);
         });
 

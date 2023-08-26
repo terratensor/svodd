@@ -4,10 +4,17 @@ declare(strict_types=1);
 
 namespace App\Svodd\Entity\Chart;
 
+use App\dispatchers\AppEventDispatcher;
 use yii\db\ActiveRecord;
 
 class SvoddChartRepository
 {
+    private AppEventDispatcher $dispatcher;
+
+    public function __construct(AppEventDispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
     /**
      * @return Data[]|array
      */
@@ -34,7 +41,7 @@ class SvoddChartRepository
         if (!$data->save()) {
             throw new \RuntimeException('Saving error.');
         }
-    }
+        $this->dispatcher->dispatchAll($data->releaseEvents());    }
 
     /**
      * @param int $question_id
