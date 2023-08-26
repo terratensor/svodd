@@ -48,7 +48,7 @@ class Data extends ActiveRecord implements AggregateRoot
 {
     use EventTrait;
 
-    public static function create($question_id, $topic_number, $start_comment_data_id): self
+    public static function create($question_id, $topic_number, $start_comment_data_id = null): self
     {
         $data = new static();
         $data->question_id = $question_id;

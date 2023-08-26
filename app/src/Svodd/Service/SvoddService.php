@@ -36,10 +36,10 @@ class SvoddService
      * Устанавливает новую активную тему СВОДД на ФКТ
      * @param string $url
      * @param string $topic_number
-     * @param string $start_comment_data_id
+     * @param string|null $start_comment_data_id
      * @return Data
      */
-    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): Data
+    public function changeCurrent(string $url, string $topic_number, ?string $start_comment_data_id): Data
     {
         $question = $this->getQuestionIdFrom($url);
 
