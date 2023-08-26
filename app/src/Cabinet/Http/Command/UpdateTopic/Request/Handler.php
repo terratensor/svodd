@@ -37,8 +37,21 @@ class Handler
         $number = $this->generator->generate();
         $command->number = (string)$number;
 
-        $this->service->changeCurrent($command->url, $command->number, $command->data_id);
+        $newCurrent = $this->service->changeCurrent($command->url, $command->number, $command->data_id);
 
+        if ($newCurrent->start_comment_data_id) {
+            $comments = $this->commentRepository->findCommentsByChartData($newCurrent);
+            /**
+             * Итерируемся по массиву полученных комментариев вызываем метод sendToQueue()
+             * для записи события events\CommentCreated
+             * и сохраняем их без изменения для запуска listener
+             * @var $comment Comment
+             */
+            foreach ($comments as $comment) {
+                $comment->sendToQueue();
+                $this->commentRepository->save($comment);
+            }
+        }
         $this->datetimeSetter->handle();
         $this->service->updateStatistic();
     }

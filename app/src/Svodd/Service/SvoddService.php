@@ -52,9 +52,10 @@ class SvoddService
         $this->svoddChartRepository->save($current);
 
         $new = Data::create($question->data_id, $topic_number, $start_comment_data_id);
+        $new->callStartCommentDataIDSetter();
         $this->svoddChartRepository->save($new);
 
-        return $new;
+        return $this->svoddChartRepository->findCurrent();
     }
 
     private function getQuestionIdFrom(string $url): Question
