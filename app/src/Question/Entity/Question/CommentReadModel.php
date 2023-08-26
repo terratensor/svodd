@@ -133,4 +133,21 @@ class CommentReadModel
             ->orderBy('data_id ASC')
             ->all();
     }
+
+    /**
+     * Возвращает первый комментарий в вопросе, дата которого больше даты начала текущих суток,
+     * необходимо для установки начального комментария при смене вопроса
+     * @param int $question_data_id
+     * @return array|bool|Comment
+     */
+    public function findByQuestionToday(int $question_data_id): array|bool|Comment
+    {
+        return (new Query())
+            ->select('data_id')
+            ->from('question_comments')
+            ->where(['question_data_id' => $question_data_id])
+            ->andWhere(['>', 'date', date('Y-m-d 00:00:00.000 +0300', time())])
+            ->orderBy('data_id ASC')
+            ->one();
+    }
 }

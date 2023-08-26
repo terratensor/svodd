@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Question\Entity\Question;
 
-use App\Question\dispatchers\AppEventDispatcher;
+use App\dispatchers\AppEventDispatcher;
 use App\Svodd\Entity\Chart\Data;
 use DomainException;
 use RuntimeException;

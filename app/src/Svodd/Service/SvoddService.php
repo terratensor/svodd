@@ -36,10 +36,10 @@ class SvoddService
      * Устанавливает новую активную тему СВОДД на ФКТ
      * @param string $url
      * @param string $topic_number
-     * @param string $start_comment_data_id
+     * @param string|null $start_comment_data_id
      * @return Data
      */
-    public function changeCurrent(string $url, string $topic_number, string $start_comment_data_id): Data
+    public function changeCurrent(string $url, string $topic_number, ?string $start_comment_data_id): Data
     {
         $question = $this->getQuestionIdFrom($url);
 
@@ -52,9 +52,10 @@ class SvoddService
         $this->svoddChartRepository->save($current);
 
         $new = Data::create($question->data_id, $topic_number, $start_comment_data_id);
+        $new->callStartCommentDataIDSetter();
         $this->svoddChartRepository->save($new);
 
-        return $new;
+        return $this->svoddChartRepository->findCurrent();
     }
 
     private function getQuestionIdFrom(string $url): Question

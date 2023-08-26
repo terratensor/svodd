@@ -22,8 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model, 'url')->textInput(['autofocus' => true])->label('Адрес страницы вопроса, следующей темы') ?>
 
-        <?= $form->field($model, 'data_id')->textInput()->label('ИД комментария, открывающего новую тему') ?>
-
         <div class="form-group">
             <?= Html::submitButton('Сохранить', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
         </div>

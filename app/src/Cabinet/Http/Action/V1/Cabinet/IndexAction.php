@@ -29,7 +29,6 @@ class IndexAction extends Action
             try {
                 $command = new Command();
                 $command->url = $form->url;
-                $command->data_id = $form->data_id;
 
                 $this->handler->handle($command);
                 Yii::$app->session->setFlash('success', "Новая активная тема $command->number успешно активирована.");

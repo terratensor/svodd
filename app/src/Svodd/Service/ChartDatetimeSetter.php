@@ -24,9 +24,13 @@ class ChartDatetimeSetter
     {
         $entries = $this->svoddChartRepository->findAll();
         foreach ($entries as $data) {
-            $startComment = $this->commentReadModel->findByDataId($data->start_comment_data_id);
-            if ($startComment !== null) {
-                $data->start_datetime = $startComment->datetime->format('Y-m-d H:i:s');
+            if ($data->start_comment_data_id !== null) {
+                $startComment = $this->commentReadModel->findByDataId($data->start_comment_data_id);
+                if ($startComment !== null) {
+                    $data->start_datetime = $startComment->datetime->format('Y-m-d H:i:s');
+                }
+            } else {
+                $data->callStartCommentDataIDSetter();
             }
 
             if ($data->end_comment_data_id !== null) {

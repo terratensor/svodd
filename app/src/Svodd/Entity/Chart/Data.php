@@ -6,6 +6,7 @@ namespace App\Svodd\Entity\Chart;
 
 use App\behaviors\TimestampBehavior;
 use App\Question\Entity\Statistic\QuestionStats;
+use App\Svodd\Entity\Chart\events\StartCommentDataIDSetter;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -43,9 +44,11 @@ use yii\db\ActiveRecord;
  *
  * @property QuestionStats $questionStats
  */
-class Data extends ActiveRecord
+class Data extends ActiveRecord implements AggregateRoot
 {
-    public static function create($question_id, $topic_number, $start_comment_data_id): self
+    use EventTrait;
+
+    public static function create($question_id, $topic_number, $start_comment_data_id = null): self
     {
         $data = new static();
         $data->question_id = $question_id;
@@ -55,6 +58,11 @@ class Data extends ActiveRecord
         $data->active = true;
 
         return $data;
+    }
+
+    public function callStartCommentDataIDSetter(): void
+    {
+        $this->recordEvent(new StartCommentDataIDSetter($this->question_id));
     }
 
     public function getQuestionStats(): ActiveQuery
