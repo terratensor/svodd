@@ -128,13 +128,8 @@ class CommentCreatedListener
     {
         $comment = $this->commentRepository->getByDataId($event->data_id);
 
-        $link = "https://xn----8sba0bbi0cdm.xn--p1ai/qa/question/view-" .
+       return "https://xn----8sba0bbi0cdm.xn--p1ai/qa/question/view-" .
             $event->question_data_id . "#:~:text=" .
             $comment->datetime->format('H:i d.m.Y');
-
-        return "★&nbsp;" . Html::tag('i', Html::a(
-                'Источник',
-                $link,
-            ));
     }
 }
