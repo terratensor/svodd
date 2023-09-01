@@ -456,3 +456,17 @@ input:focus:-ms-input-placeholder {
 .denpobedy video {
     width: 100%;
 }
+
+.dropdown-menu.show .nav-link.dropdown-item {
+    margin-top: 2px;
+}
+.dropdown-menu.show .nav-link.dropdown-item  {
+    color: var(--bs-dropdown-link-color);
+}
+
+.dropdown-menu.show .nav-link.dropdown-item.active  {
+    color: var(--bs-dropdown-link-active-color);
+}
+.dropdown-menu.show .nav-link.dropdown-item:active {
+    color: var(--bs-dropdown-link-active-color);
+}
