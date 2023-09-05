@@ -11,6 +11,19 @@ use frontend\widgets\ChartJs\Chart;
 use yii\web\JsExpression;
 use yii\web\View;
 
+$this->title = 'Обратная хронология обсуждения СВОДД';
+$this->params['meta_description'] = 'Статистика и хронология обсуждения СВОДД';
+
+$this->registerMetaTag(['property' => 'og:site_name', 'content' => 'svodd.ru']);
+$this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/index'])]);
+$this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
+$this->registerMetaTag(['property' => 'og:image', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.png']);
+$this->registerMetaTag(['property' => 'og:image:width', 'content' => '1920']);
+$this->registerMetaTag(['property' => 'og:image:height', 'content' => '480']);
+$this->registerMetaTag(['property' => 'og:description', 'content' => $this->params['meta_description']]);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/index'])]);
+
+
 
 $labels = [];
 $labelLinks = [];
@@ -77,8 +90,6 @@ $callback = <<<JS
       }
   }
 JS;
-
-$this->title = 'Обратная хронология обсуждения СВОДД';
 
 ?>
   <h1 class="svodd-title py-3">Обратная хронология обсуждения</h1>
