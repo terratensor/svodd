@@ -9,6 +9,8 @@ use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Обратная связь';
+$this->params['meta_description'] = 'Если у вас есть вопрос, предложение или пожелание по развитию проекта, пожалуйста заполните форму ниже и отправьте ваше письмо. Спасибо.';
+
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
