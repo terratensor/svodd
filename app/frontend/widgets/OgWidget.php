@@ -38,5 +38,7 @@ class OgWidget extends Widget
         $this->view->registerMetaTag(['property' => 'og:image:width', 'content' => '1920']);
 
         $this->view->registerMetaTag(['property' => 'og:image:height', 'content' => '480']);
+
+        $this->view->registerMetaTag(['name' => 'twitter:card', 'content' => 'summary_large_image']);
     }
 }
