@@ -19,11 +19,7 @@ class OgWidget extends Widget
                 'content' => Yii::$app->request->absoluteUrl
             ]);
 
-        $this->view->registerMetaTag(
-            ['property' => 'og:type', 'content' => 'website']);
-
-        $this->view->registerMetaTag(
-            ['property' => 'og:title', 'content' => $this->view->title]);
+        $this->view->registerMetaTag(['property' => 'og:title', 'content' => $this->view->title]);
 
         if (key_exists('meta_description', $this->view->params)) {
             $this->view->registerMetaTag(
@@ -39,10 +35,8 @@ class OgWidget extends Widget
                 'content' => Yii::$app->params['staticHostInfo'] . '/video/denpobedy.png'
             ]);
 
-        $this->view->registerMetaTag(
-            ['property' => 'og:image:width', 'content' => '1920']);
+        $this->view->registerMetaTag(['property' => 'og:image:width', 'content' => '1920']);
 
-        $this->view->registerMetaTag(
-            ['property' => 'og:image:height', 'content' => '480']);
+        $this->view->registerMetaTag(['property' => 'og:image:height', 'content' => '480']);
     }
 }
