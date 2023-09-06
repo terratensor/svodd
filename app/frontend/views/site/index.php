@@ -27,21 +27,7 @@ use yii\helpers\Url;
 
 $this->title = 'Поиск по ФКТ';
 
-$this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ';
-
-$this->registerMetaTag(['property' => 'og:site_name', 'content' => 'svodd.ru']);
-$this->registerMetaTag(['property' => 'og:url', 'content' => Yii::$app->urlManager->createAbsoluteUrl('/')]);
-$this->registerMetaTag(['property' => 'og:title', 'content' => $this->title]);
-$this->registerMetaTag(['property' => 'og:image', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.png']);
-$this->registerMetaTag(['property' => 'og:image:width', 'content' => '1920']);
-$this->registerMetaTag(['property' => 'og:image:height', 'content' => '480']);
-$this->registerMetaTag(['property' => 'og:description', 'content' => $this->params['meta_description']]);
-$this->registerMetaTag(['property' => 'og:type', 'content' => 'video.other']);
-$this->registerMetaTag(['property' => 'og:video:url', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.mp4']);
-$this->registerMetaTag(['property' => 'og:video:secure_url', 'content' => Yii::$app->params['staticHostInfo'].'/video/denpobedy.mp4']);
-$this->registerMetaTag(['property' => 'og:video:type', 'content' => 'text/html']);
-$this->registerMetaTag(['property' => 'og:video:width', 'content' => '1920']);
-$this->registerMetaTag(['property' => 'og:video:height', 'content' => '480']);
+$this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.';
 
 if ($results) {
     $this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
