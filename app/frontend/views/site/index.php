@@ -31,6 +31,7 @@ $this->params['meta_description'] = 'Поиск вопросов и коммен
 
 if ($results) {
     $this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
+    $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);
 } else {
     $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
     $this->registerMetaTag(['name' => 'robots', 'content' => 'index, nofollow']);
@@ -173,6 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
           <div class="row">
               <div class="col-md-12">
                   <?php if ($pagination->totalCount === 0): ?>
+                    <?php $this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.'; ?>
                       <p><strong>По вашему запросу ничего не найдено</strong></p>
                   <?php else: ?>
                       <div class="row">
