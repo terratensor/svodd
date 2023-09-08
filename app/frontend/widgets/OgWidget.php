@@ -13,6 +13,8 @@ class OgWidget extends Widget
     {
         $this->view->registerMetaTag(['property' => 'og:site_name', 'content' => 'svodd.ru']);
 
+        $this->view->registerMetaTag(['property' => 'og:type', 'content' => 'website']);
+
         $this->view->registerMetaTag(
             [
                 'property' => 'og:url',
