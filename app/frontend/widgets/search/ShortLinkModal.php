@@ -124,6 +124,17 @@ class ShortLinkModal extends Widget
         this.select();
       });
     })
+    
+    // Действие по ctrl+c — копирование текста, закрытие окна, смена иконки кнопки
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.key === 'c') {
+        const el = event.target.attributes
+        const elID = el.getNamedItem('aria-describedby').value
+        const btn = document.getElementById(elID)
+        checkButton(btn)
+        hideFunc()
+      }
+});
 
 JS;
 
