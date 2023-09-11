@@ -35,7 +35,7 @@ class ShortLinkModal extends Widget
 
             Modal::begin(
                 [
-                    'title' => '<h2>Короткая ссылка</h2>',
+                    'title' => '<div><h2>Короткая ссылка</h2><h5 id="shortLinkResult" class=""></h5></div>',
                     'id' => 'shortLinkModal',
                     'toggleButton' => [
                         'class' => 'btn btn-primary',
@@ -44,7 +44,6 @@ class ShortLinkModal extends Widget
                     'dialogOptions' => [
                         'class' => 'modal-fullscreen-md-down'
                     ],
-                    'footer' => '<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>',
                 ]);
 
             echo $this->render('short_link_form');

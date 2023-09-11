@@ -53,6 +53,5 @@ $buttonTitle = 'Скопировать в буфер обмена'
     ><i class="bi bi-clipboard"></i></button>
   </div>
 </div>
-<h5 id="shortLinkResult" class=""></h5>
 
 <?php ActiveForm::end(); ?>

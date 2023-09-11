@@ -470,3 +470,7 @@ input:focus:-ms-input-placeholder {
 .dropdown-menu.show .nav-link.dropdown-item:active {
     color: var(--bs-dropdown-link-active-color);
 }
+
+#shortLinkModal .modal-header {
+    padding: 15px 15px 5px 20px;
+}
