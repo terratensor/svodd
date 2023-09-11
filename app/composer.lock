@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "deb6561ac1c433479443072d1c3f078d",
+    "content-hash": "7a72b10c808d67ab2c6a5f4aca7289be",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1033,6 +1033,18 @@
                 "source": "https://github.com/nickbeen/php-cli-progress-bar/tree/main"
             },
             "time": "2022-12-28T10:22:33+00:00"
+        },
+        {
+            "name": "npm-asset/bootstrap-icons",
+            "version": "1.10.5",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/bootstrap-icons/-/bootstrap-icons-1.10.5.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
         },
         {
             "name": "npm-asset/chart.js",
@@ -7511,5 +7523,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
