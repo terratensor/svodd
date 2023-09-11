@@ -127,7 +127,7 @@ class ShortLinkModal extends Widget
     
     // Действие по ctrl+c — копирование текста, закрытие окна, смена иконки кнопки
     document.addEventListener('keydown', function(event) {
-      if (event.ctrlKey && event.key === 'c') {
+      if (event.ctrlKey && event.code === 'KeyC') {
         const el = event.target.attributes
         const elID = el.getNamedItem('aria-describedby').value
         const btn = document.getElementById(elID)
