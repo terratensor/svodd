@@ -8,6 +8,7 @@ use yii\httpclient\Client;
 use yii\base\InvalidConfigException;
 use yii\httpclient\Exception;
 use yii\web\Response;
+use function PHPUnit\Framework\isEmpty;
 
 class ErrorAction extends \yii\web\ErrorAction
 {
@@ -26,8 +27,9 @@ class ErrorAction extends \yii\web\ErrorAction
         );
 
         if (\Yii::$app->getResponse()->statusCode === 404) {
-            $path = \Yii::$app->request->getPathInfo();
-
+            
+            $path = $this->processPath(\Yii::$app->request->getPathInfo());
+            
             $searchUrl = $host . "/short?q=" . $path;
 
             $response = $client->createRequest()
@@ -44,5 +46,20 @@ class ErrorAction extends \yii\web\ErrorAction
             }
         }
         return parent::run();
+    }
+
+    /**
+     * Если в адресе есть пробел и звезда, то вырезаем их из адреса
+     * и возвращаем только код ссылки из 8 знаков в matches[1]
+     * @param string $getPathInfo
+     * @return string
+     */
+    private function processPath(string $getPathInfo): string
+    {
+       preg_match('/([^\W_]{8,})(\s★)/imu', $getPathInfo, $matches);
+       if (!isEmpty($matches)) {
+           return $getPathInfo;
+       }
+       return $matches[1];
     }
 }
