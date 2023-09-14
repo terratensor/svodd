@@ -74,7 +74,7 @@ class ShortLinkModal extends Widget
             document.getElementById('inputShortLink1').value = "★ $this->host/"+obj.short
             document.getElementById('inputShortLink2').value = "$this->host/"+obj.short
             document.getElementById('inputShortLink3').value = "★ $this->host/"+obj.short+" ★"
-            document.getElementById('shortLinkResult').innerHTML = "★&nbsp;$this->host/"+obj.short+"&nbsp;★"
+            document.getElementById('shortLinkResult').innerHTML = "★&nbsp;$this->host/"+obj.short+" ★"
           }
         }
     })   

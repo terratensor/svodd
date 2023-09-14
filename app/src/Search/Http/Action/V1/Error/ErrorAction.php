@@ -57,7 +57,7 @@ class ErrorAction extends \yii\web\ErrorAction
     private function processPath(string $getPathInfo): string
     {
        preg_match('/([^\W_]{8,})(\s★)/imu', $getPathInfo, $matches);
-       if (!isEmpty($matches)) {
+       if (!$matches) {
            return $getPathInfo;
        }
        return $matches[1];
