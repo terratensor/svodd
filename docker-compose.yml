@@ -59,6 +59,7 @@ services:
       RABBIT_PASSWORD_FILE: /run/secrets/rabbit_password_file
       RABBIT_EXCHANGE_NAME: ex1
       RABBIT_QUEUE_NAME: q1
+      CUT_TELEGRAM_LINKS: 1
     secrets:
       - app_db_password
       - app_mailer_password
