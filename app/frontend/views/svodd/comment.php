@@ -3,6 +3,7 @@
 /** @var ActiveDataProvider $dataProvider */
 /** @var Comment $model */
 
+use App\helpers\TgLinkClipper;
 use App\Question\Entity\Question\Comment;
 use frontend\widgets\question\CommentHeader;
 use yii\bootstrap5\Html;
@@ -18,7 +19,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
   </div>
   <div class="card-body">
     <div class="card-text comment-text">
-        <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($model->text)); ?>
+        <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode(TgLinkClipper::process($model->text))); ?>
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end">

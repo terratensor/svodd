@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /** @var ActiveDataProvider $dataProvider */
 
+use App\helpers\TgLinkClipper;
 use App\Question\Entity\Question\Comment;
 use frontend\widgets\question\CommentHeader;
 use frontend\widgets\Scroll\ScrollWidget;
@@ -24,7 +25,7 @@ foreach ($dataProvider->getModels() as $model): ?>
         </div>
         <div class="card-body">
             <div class="card-text comment-text">
-                <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode($model->text)); ?>
+                <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode(TgLinkClipper::process($model->text))); ?>
             </div>
         </div>
       <div class="card-footer d-flex justify-content-end">

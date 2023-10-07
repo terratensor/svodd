@@ -17,6 +17,7 @@ return [
     'urlShortenerHost' => getenv('URL_SHORTENER_HOST'), // Хост в сети, в локальной сети это наименования сервиса
     'urlShortenerUrl' => getenv('URL_SHORTENER_URL'), // наименование домена, в локальной сети поддомен.localhost
     'maintenance_message' => 'На сайте проводятся технические работы по обновлению поискового индекса. Возможно, на ваш запрос, вы увидите только часть результатов поиска. Приносим извинения за неудобство.',
+    'cut_telegram_links' => getenv('CUT_TELEGRAM_LINKS'),
     'manticore' => [
         'host' => 'manticore',
         'port' => 9308
