@@ -16,6 +16,10 @@ class TextProcessor extends Widget
         // Производим конвертацию сломанных в цитате quote кавычек в двойные кавычки
         $text = html_entity_decode(htmlentities(str_replace("&amp;quot;", "&#034;", $this->text)));
 
-        return Yii::$app->formatter->asHtml(TgLinkClipper::process($text));
+        // Добавлен mark html tag в конфигурацию. https://github.com/mewebstudio/Purifier/issues/32
+        return Yii::$app->formatter->asHtml(TgLinkClipper::process($text), function ($config) {
+            $config->getHTMLDefinition(true)
+                ->addElement('mark', 'Inline', 'Inline', 'Common');
+        });
     }
 }
