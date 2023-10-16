@@ -37,7 +37,6 @@ class TgLinkClipper
         foreach ($node->attributes as $attribute) {
             $value = $node->nodeValue;
             if ($attribute->name == 'class' && $attribute->value === 'link') {
-                var_dump("true");
                 if (preg_match("/https:\/\/t.me\/svoddru/", $value, $mm)) {
                     break;
                 }
