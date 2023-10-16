@@ -23,7 +23,8 @@
     "kartik-v/yii2-date-range": "^1.7",
     "yiisoft/yii2-httpclient": "^2.0",
     "php-amqplib/php-amqplib": "3.5.4",
-    "npm-asset/bootstrap-icons": "^1.10"
+    "npm-asset/bootstrap-icons": "^1.10",
+    "ext-dom": "*"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
