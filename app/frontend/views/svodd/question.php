@@ -5,6 +5,7 @@ declare(strict_types=1);
 /** @var Question $question */
 /** @var ActiveDataProvider $dataProvider */
 
+use App\helpers\TextProcessor;
 use App\Question\Entity\Question\Question;
 use frontend\widgets\question\QuestionHeader;
 use yii\data\ActiveDataProvider;
@@ -21,7 +22,7 @@ use yii\data\ActiveDataProvider;
     </div>
     <div class="card-body">
       <div class="card-text comment-text">
-          <?php echo Yii::$app->formatter->asRaw($question->text); ?>
+          <?php echo TextProcessor::widget(['text' => $question->text]); ?>
       </div>
     </div>
   </div>

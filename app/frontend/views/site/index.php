@@ -12,6 +12,7 @@
 use App\FeatureToggle\FeatureFlag;
 use App\forms\SearchForm;
 use App\helpers\DateHelper;
+use App\helpers\TextProcessor;
 use App\helpers\TgLinkClipper;
 use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
@@ -217,9 +218,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="card-body">
                   <div class="card-text comment-text">
                   <?php if (!$comment->highlight['text'] || !$comment->highlight['text'][0]): ?>
-                        <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode(TgLinkClipper::process($comment->text))); ?>
+                        <?php echo TextProcessor::widget(['text' => $comment->text]); ?>
                     <?php else: ?>
-                      <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode(TgLinkClipper::process($comment->highlight['text'][0]))); ?>
+                      <?php echo TextProcessor::widget(['text' => $comment->highlight['text'][0]]); ?>
                     <?php endif; ?>
                   </div>
                 </div>

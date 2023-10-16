@@ -5,6 +5,7 @@ declare(strict_types=1);
 /** @var QuestionView $question */
 
 use App\helpers\DateHelper;
+use App\helpers\TextProcessor;
 use App\models\QuestionView;
 
 ?>
@@ -16,7 +17,7 @@ use App\models\QuestionView;
     </div>
     <div class="card-body">
       <div class="card-text comment-text">
-          <?php echo Yii::$app->formatter->asRaw($hit->getData()['text']); ?>
+          <?php echo TextProcessor::widget(['text' => $hit->getData()['text']]); ?>
       </div>
     </div>
   </div>

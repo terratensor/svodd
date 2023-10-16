@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /** @var Comment[] $comments */
 
+use App\helpers\TextProcessor;
 use App\helpers\TgLinkClipper;
 use App\models\Comment;
 use frontend\widgets\question\card\Header;
@@ -20,7 +21,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
     </div>
     <div class="card-body">
       <div class="card-text comment-text">
-          <?php echo Yii::$app->formatter->asRaw(htmlspecialchars_decode(TgLinkClipper::process($model->text))); ?>
+          <?php echo TextProcessor::widget(['text' => $model->text]); ?>
       </div>
     </div>
   </div>
