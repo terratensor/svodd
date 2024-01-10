@@ -51,7 +51,7 @@ class ContactForm extends Model
         $command = new Command();
         $command->token = $this->token;
         $command->ip = $_SERVER['REMOTE_ADDR'];
-        $handler = new Handler("ysc2_b6dOTGUlzkMhda8tddgdztCVs0fpPhPQgDtomuLAded23111");
+        $handler = new Handler("smartcaptcha_server_key");
         $result = $handler->handle($command);
         if (!$result) {
             $this->addError($attribute, 'Вы не прошли проверку капчи. Попробуйте еще раз.');
