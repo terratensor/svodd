@@ -50,13 +50,14 @@ class ErrorAction extends \yii\web\ErrorAction
 
     /**
      * Если в адресе есть пробел и звезда, то вырезаем их из адреса
-     * и возвращаем только код ссылки из 8 знаков в matches[1]
+     * и возвращаем только код ссылки из 8 знаков в matches[1].
+     * Добавлено или если адрес заканчивается на длинное тире, или пробел и длинное тире.
      * @param string $getPathInfo
      * @return string
      */
     private function processPath(string $getPathInfo): string
     {
-       preg_match('/([^\W_]{8,})(\s★)/imu', $getPathInfo, $matches);
+       preg_match('/([^\W_]{8,})((\s★)|(\s—)|(—))/imu', $getPathInfo, $matches);
        if (!$matches) {
            return $getPathInfo;
        }
