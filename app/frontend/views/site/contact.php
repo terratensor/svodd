@@ -52,7 +52,7 @@ $this->registerJsFile("https://smartcaptcha.yandexcloud.net/captcha.js?render=on
                     'id' => 'smartcaptcha-demo-submit',
                     'class' => 'btn btn-primary',
                     'name' => 'contact-button',
-//                    'disabled' => 'disabled',
+                    'disabled' => 'disabled',
                 ]) ?>
         </div>
           <?php ActiveForm::end(); ?>
@@ -61,52 +61,4 @@ $this->registerJsFile("https://smartcaptcha.yandexcloud.net/captcha.js?render=on
 
   </div>
 
-<?php $js = <<<JS
-  function callback(token) {
-    console.log(token);
-    
-    document.getElementById('contactform-token').value = token;
-    
-    if (token) {
-      document
-        .getElementById('smartcaptcha-demo-submit')
-        .removeAttribute('disabled');
-    } else {
-      document
-        .getElementById('smartcaptcha-demo-submit')
-        .setAttribute('disabled', '1');
-    }
-  }
-
-  function smartCaptchaInit() {
-    if (!window.smartCaptcha) {
-      return;
-    }
-
-    window.smartCaptcha.render('captcha-container', {
-      sitekey: 'ysc1_uSeMNobmkLqkrZOgCwINpFfKphN8FLJKIw6Ep2rg9e745874',
-      callback: callback,
-    });
-  }
-
-  function smartCaptchaReset() {
-    if (!window.smartCaptcha) {
-      return;
-    }
-
-    window.smartCaptcha.reset();
-  }
-
-  function smartCaptchaGetResponse() {
-    if (!window.smartCaptcha) {
-      return;
-    }
-
-    var resp = window.smartCaptcha.getResponse();
-    console.log(resp);
-    alert(resp);
-  }
-JS;
-
-$this->registerJs($js, \yii\web\View::POS_END, 'smart-captcha');
-
+<?php $this->registerJsFile(Yii::getAlias('@web/js/yacaptcha.js'), ['position' => \yii\web\View::POS_END], 'smart-captcha');
