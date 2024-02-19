@@ -60,12 +60,14 @@ services:
       RABBIT_EXCHANGE_NAME: ex1
       RABBIT_QUEUE_NAME: q1
       CUT_TELEGRAM_LINKS: 1
+      YANDEX_CAPTCHA_KEY: /run/secrets/ya_captcha
     secrets:
       - app_db_password
       - app_mailer_password
       - sentry_dsn
       - redis_password
       - rabbit_password_file
+      - ya_captcha
     volumes:
       - ./app:/app
 #      - parsed-files:/app/data
@@ -245,6 +247,8 @@ secrets:
     file: ./docker/development/secrets/backup_aws_secret_access_key
   rabbit_password_file:
     file: ./docker/development/secrets/rabbit_password_file
+  ya_captcha:
+    file: ./docker/development/secrets/ya_captcha
 
 volumes:
   app-postgres:

@@ -91,4 +91,5 @@ jobs:
           APP_RABBIT_EXCHANGE_NAME: ${{ secrets.APP_RABBIT_EXCHANGE_NAME }}
           APP_RABBIT_QUEUE_NAME: ${{ secrets.APP_RABBIT_QUEUE_NAME }}
           APP_RABBIT_PASSWORD_FILE: ${{ secrets.APP_RABBIT_PASSWORD_FILE }}
+          APP_YA_CAPTCHA_FILE: ${{ secrets.APP_YA_CAPTCHA_FILE }}
         if: ${{ github.ref == 'refs/heads/main' }}

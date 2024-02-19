@@ -30,9 +30,10 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body', 'token'], 'required'],
+            [['name', 'email', 'subject', 'body'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
+            ['token', 'required', 'message' => 'Вы не ввели код проверки. Попробуйте еще раз.'],
             ['token', 'validateToken'],
         ];
     }
@@ -51,7 +52,7 @@ class ContactForm extends Model
         $command = new Command();
         $command->token = $this->token;
         $command->ip = $_SERVER['REMOTE_ADDR'];
-        $handler = new Handler("smartcaptcha_server_key");
+        $handler = new Handler(\Yii::$app->params['smartCaptchaServerKey']);
         $result = $handler->handle($command);
         if (!$result) {
             $this->addError($attribute, 'Вы не прошли проверку капчи. Попробуйте еще раз.');

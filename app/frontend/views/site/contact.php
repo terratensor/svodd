@@ -38,13 +38,12 @@ $this->registerJsFile("https://smartcaptcha.yandexcloud.net/captcha.js?render=on
 
           <?= $form->field($model, 'body')->textarea(['rows' => 6]) ?>
 
-          <?= $form->field($model, 'token')->textInput(['id' => 'contactform-token', 'value' => ''])->label(false) ?>
         <div
                 id="captcha-container"
                 class="smart-captcha mb-3"
-                data-sitekey="ysc1_b6dOTGUlzkMhda8tddgdBBUMqpaJOa9k4ndZ8X7acc1ae76c"
                 data-hl="ru"
         ></div>
+          <?= $form->field($model, 'token')->hiddenInput(['id' => 'contactform-token', 'value' => ''])->label(false) ?>
 
         <div class="form-group">
             <?= Html::submitButton(
@@ -85,7 +84,7 @@ $this->registerJsFile("https://smartcaptcha.yandexcloud.net/captcha.js?render=on
     }
 
     window.smartCaptcha.render('captcha-container', {
-      sitekey: 'ysc1_b6dOTGUlzkMhda8tddgdBBUMqpaJOa9k4ndZ8X7acc1ae76c',
+      sitekey: 'ysc1_uSeMNobmkLqkrZOgCwINpFfKphN8FLJKIw6Ep2rg9e745874',
       callback: callback,
     });
   }
