@@ -4,8 +4,66 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a72b10c808d67ab2c6a5f4aca7289be",
+    "content-hash": "51700ca98015175eadd51fab6f9e28e0",
     "packages": [
+        {
+            "name": "audetv/yandex-smart-captcha",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/audetv/Yandex-SmartCaptcha.git",
+                "reference": "0cc014e4b771cfd389558606782c477b14e20a79"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/audetv/Yandex-SmartCaptcha/zipball/0cc014e4b771cfd389558606782c477b14e20a79",
+                "reference": "0cc014e4b771cfd389558606782c477b14e20a79",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Audetv\\YandexSmartCaptcha\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Audetv\\YandexSmartCaptcha\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit --testdox --no-interaction"
+                ],
+                "test-watch": [
+                    "phpunit-watcher watch"
+                ]
+            },
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksey Gusev",
+                    "email": "audetv@gmail.com"
+                }
+            ],
+            "description": "PHP implementation for Yandex SmartCaptcha",
+            "support": {
+                "source": "https://github.com/audetv/Yandex-SmartCaptcha/tree/main",
+                "issues": "https://github.com/audetv/Yandex-SmartCaptcha/issues"
+            },
+            "time": "2024-01-10T19:46:26+00:00"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v5.3.1",
@@ -7513,14 +7571,16 @@
     "stability-flags": {
         "sentry/sdk": 20,
         "twig/twig": 20,
-        "nickbeen/php-cli-progress-bar": 20
+        "nickbeen/php-cli-progress-bar": 20,
+        "audetv/yandex-smart-captcha": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.1.0",
         "ext-json": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-dom": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

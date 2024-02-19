@@ -3,6 +3,17 @@
 use App\Frontend\FrontendUrlTwigExtension;
 use Twig\Loader\FilesystemLoader;
 
+function getCaptchaServerKey(): string
+{
+    $file = getenv('YANDEX_CAPTCHA_KEY');
+    if (!$file) {
+        return '';
+    }
+
+    return trim(file_get_contents(getenv('YANDEX_CAPTCHA_KEY')));
+}
+
+
 return [
     'adminEmail' => getenv('ADMIN_EMAIL'),
     'supportEmail' => getenv('SUPPORT_EMAIL'),
@@ -18,6 +29,7 @@ return [
     'urlShortenerUrl' => getenv('URL_SHORTENER_URL'), // наименование домена, в локальной сети поддомен.localhost
     'maintenance_message' => 'На сайте проводятся технические работы по обновлению поискового индекса. Возможно, на ваш запрос, вы увидите только часть результатов поиска. Приносим извинения за неудобство.',
     'cut_telegram_links' => getenv('CUT_TELEGRAM_LINKS'),
+    'smartCaptchaServerKey' => getCaptchaServerKey(),
     'manticore' => [
         'host' => 'manticore',
         'port' => 9308

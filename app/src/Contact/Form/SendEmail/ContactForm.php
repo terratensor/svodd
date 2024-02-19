@@ -2,6 +2,8 @@
 
 namespace App\Contact\Form\SendEmail;
 
+use Audetv\YandexSmartCaptcha\Command\CheckCaptcha\Command;
+use Audetv\YandexSmartCaptcha\Command\CheckCaptcha\Handler;
 use common\auth\Identity;
 use yii\base\Model;
 
@@ -14,6 +16,7 @@ class ContactForm extends Model
     public string $email = '';
     public string $subject = '';
     public string $body = '';
+    public string $token = '';
 
     public function __construct(?Identity $identity = null, $config = [])
     {
@@ -30,6 +33,8 @@ class ContactForm extends Model
             [['name', 'email', 'subject', 'body'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
+            ['token', 'required', 'message' => 'Вы не ввели код проверки. Попробуйте еще раз.'],
+            ['token', 'validateToken'],
         ];
     }
 
@@ -40,5 +45,17 @@ class ContactForm extends Model
             'subject' => 'Тема сообщения',
             'body' => 'Текст сообщения'
         ];
+    }
+
+    public function validateToken($attribute, $params): void
+    {
+        $command = new Command();
+        $command->token = $this->token;
+        $command->ip = $_SERVER['REMOTE_ADDR'];
+        $handler = new Handler(\Yii::$app->params['smartCaptchaServerKey']);
+        $result = $handler->handle($command);
+        if (!$result) {
+            $this->addError($attribute, 'Вы не прошли проверку капчи. Попробуйте еще раз.');
+        }
     }
 }
