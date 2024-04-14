@@ -32,6 +32,12 @@ $menuItems = [
                 'linkOptions' => ['class' => 'nav-link py-2 px-2 px-lg-2'],
                 'options' => ['class' => 'nav-item col-12 col-lg-auto'],
             ],
+            [
+                'label' => 'Поиск по сайтам Кремля, МИД и Минобороны',
+                'url' => 'https://feed.svodd.ru',
+                'linkOptions' => ['class' => 'nav-link py-2 px-2 px-lg-2'],
+                'options' => ['class' => 'nav-item col-12 col-lg-auto'],
+            ]
         ]
     ],
     [
@@ -49,6 +55,12 @@ $menuItems = [
     [
         'label' => 'Поиск по военно-исторической библиотеке',
         'url' => 'https://lib.svodd.ru',
+        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto d-sm-inline d-lg-none'],
+    ],
+    [
+        'label' => 'Поиск по сайтам Кремля, МИД и Минобороны',
+        'url' => 'https://feed.svodd.ru',
         'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
         'options' => ['class' => 'nav-item col-12 col-lg-auto d-sm-inline d-lg-none'],
     ],
