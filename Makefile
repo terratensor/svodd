@@ -29,19 +29,19 @@ app-permissions:
 	docker run --rm -v ${PWD}/app:/app -w /app alpine chmod 777 var/cache var/log var/test
 
 app-yii-init: # инициализация yii framework
-	docker-compose run --rm cli-php php init-actions --interactive=0
+	docker compose run --rm cli-php php init-actions --interactive=0
 
 app-composer-install:
-	docker-compose run --rm cli-php composer install
+	docker compose run --rm cli-php composer install
 
 app-composer-update:
-	docker-compose run --rm cli-php composer update
+	docker compose run --rm cli-php composer update
 
 app-wait-db:
-	docker-compose run --rm cli-php wait-for-it app-postgres:5432 -t 30
+	docker compose run --rm cli-php wait-for-it app-postgres:5432 -t 30
 
 app-console-run:
-	docker-compose run --rm cli-php php yii rules/bootstrap
+	docker compose run --rm cli-php php yii rules/bootstrap
 
 app-migrations:
 	docker compose run --rm cli-php php yii migrate --interactive=0
@@ -57,22 +57,22 @@ app-index-indexer:
 	docker compose run --rm cli-php php yii index/indexer --interactive=0
 
 docker-up:
-	docker-compose up -d
+	docker compose up -d
 
 docker-down:
-	docker-compose down --remove-orphans
+	docker compose down --remove-orphans
 
 docker-down-clear:
-	docker-compose down -v --remove-orphans
+	docker compose down -v --remove-orphans
 
 docker-pull:
-	- docker-compose pull
+	- docker compose pull
 
 docker-build:
-	DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose build --build-arg BUILDKIT_INLINE_CACHE=1 --pull
+	DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker compose build --build-arg BUILDKIT_INLINE_CACHE=1 --pull
 
 push-dev-cache:
-	docker-compose push
+	docker compose push
 
 parse-all:
 	./app/bin/fct-parser.linux.amd64 -a -j -h -o ./app/data/
@@ -82,15 +82,15 @@ parse-current:
 	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/
 
 indexer:
-	docker-compose run --rm cli-php php yii index/indexer
+	docker compose run --rm cli-php php yii index/indexer
 
 update-current:
 	./app/bin/fct-parser.linux.amd64 -j -h -o ./app/data/site https://фкт-алтай.рф/qa/question/view-8162
-	docker-compose run --rm cli-php php yii index/update-current-comments
+	docker compose run --rm cli-php php yii index/update-current-comments
 
 
 update-current-comments:
-	docker-compose run --rm cli-php php yii index/update-current-comments
+	docker compose run --rm cli-php php yii index/update-current-comments
 
 build: build-frontend build-cli-php build-backup
 
