@@ -56,10 +56,11 @@ foreach ($data as $key => $item) {
 
     if ($key === 0) {
         $current = round($svodd / $total  * 100, 2);
+        $current = min($current, 100);
     }
 
-    $datasetSvodd[] = $progress = round($svodd / $total  * 100, 2);
-    $datasetFct[] = round($fct / $total  * 100, 2);
+    $datasetSvodd[] = $progress = min(round($svodd / $total  * 100, 2), 100);
+    $datasetFct[] = min(round($fct / $total  * 100, 2), 100);
 
     $summarySvodd = $summarySvodd + $svodd;
     $summaryFct = $summaryFct + $fct;
