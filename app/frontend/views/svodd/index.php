@@ -197,19 +197,19 @@ JS;
   $(window).resize(updateList)
   function updateList() {
       if (screen.availHeight > 1080) {
-        document.getElementById('svodd-diagram-container').style.height = '85vh'
+        document.getElementById('svodd-diagram-container').style.height = '100vh'
       }
       if (screen.availHeight < 700) {
-        document.getElementById('svodd-diagram-container').style.height = '115vh'
+        document.getElementById('svodd-diagram-container').style.height = '140vh'
       }
       if (screen.availHeight <= 600) {
-        document.getElementById('svodd-diagram-container').style.height = '110vh'
+        document.getElementById('svodd-diagram-container').style.height = '160vh'
       }
       if (screen.availHeight <= 500) {
-        document.getElementById('svodd-diagram-container').style.height = '150vh'
+        document.getElementById('svodd-diagram-container').style.height = '190vh'
       }
       if (screen.availHeight < 400) {
-        document.getElementById('svodd-diagram-container').style.height = '200vh'
+        document.getElementById('svodd-diagram-container').style.height = '250vh'
       }
   }
 JS;
