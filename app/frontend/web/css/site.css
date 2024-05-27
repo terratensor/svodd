@@ -238,7 +238,7 @@ label.small-text {
 }
 
 #svodd-diagram-container {
-    height: 100vh;
+    height: 130vh;
     max-width: 45vw;
 }
 @media screen and (orientation: portrait) {
