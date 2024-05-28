@@ -45,10 +45,7 @@ foreach ($data as $key => $item) {
     $labelLinks[] = $item->questionStats->url;
     $dataLabelSvodd[] = $svodd = $item->comments_count;
     $dataLabelFct[] = $fct =
-        $item->end_comment_data_id
-        - $item->start_comment_data_id
-        - $item->comments_count
-        - $item->comments_delta;
+        max(($item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
 
     // Fixed FCT-SEARCH-CX [c114e2c19536b12101994a4eb1a9c56f][error][DivisionByZeroError]
     $total = ($svodd + $fct);
