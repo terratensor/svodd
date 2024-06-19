@@ -338,7 +338,7 @@ services:
         - swarm.cronjob.schedule=6 */12 * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.parser == parser ]
+        constraints: [ node.labels.worker == worker-1 ]
       replicas: 0
       restart_policy:
         condition: none
