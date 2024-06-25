@@ -32,7 +32,7 @@ class m230305_134352_create_question_comments_table extends Migration
         $this->addForeignKey(
             'fk-question_comments-parent_data_id',
             '{{%questions}}',
-            'parent_data_id',
+            'question_data_id',
             '{{%questions}}',
             'data_id'
         );
