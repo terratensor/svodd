@@ -24,6 +24,18 @@ class CommentHeader extends Widget
                     ['class' => 'username']
                 )
             ) .
-            Html::tag('div', "#" . $this->model->data_id);
+            Html::tag('div',
+
+                      Html::a('<i class="bi bi-star"></i>', [
+                          'bookmark/add', 'id' => $this->model->data_id
+                      ],
+                              [
+                                  'class' => 'text-decoration-none', 'data-method' => 'post',
+                                  'data-pjax' => '0'
+                              ]
+                      ) .
+                      Html::tag('div', "#" . $this->model->data_id)
+                ,     ['class' => 'd-flex justify-content-between']
+            );
     }
 }

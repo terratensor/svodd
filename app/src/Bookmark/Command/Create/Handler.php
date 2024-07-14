@@ -27,7 +27,7 @@ class Handler
         $this->bookmarkRepository = $bookmarkRepository;
     }
 
-    public function handle(Command $command): Bookmark
+    public function handle(Command $command): void
     {
         try {
             $user = $this->userRepository->get(new UserID($command->user_id));
@@ -41,15 +41,19 @@ class Handler
             throw new \DomainException($e->getMessage());
         }
 
-        $bookmark = Bookmark::create(
-            Id::generate(),
-            $user->getId(),
-            $comment->id,
-            $comment->data_id,
-            new \DateTimeImmutable()
-        );
+        $bookmark = $this->bookmarkRepository->getBy($user->id, $comment->id);
 
-        $this->bookmarkRepository->save($bookmark);
-        return $bookmark;
+        if (!$bookmark) {
+            $bookmark = Bookmark::create(
+                Id::generate(),
+                $user->getId(),
+                $comment->id,
+                $comment->data_id,
+            );
+
+            $this->bookmarkRepository->save($bookmark);
+        } else {
+            $this->bookmarkRepository->delete($bookmark);
+        }
     }
 }
