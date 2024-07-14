@@ -5,6 +5,7 @@ namespace App\models;
 use yii\base\Model;
 
 /**
+ * @property int $sid
  * @property int $data_id
  * @property  int $parent_id
  * @property int $type
@@ -19,6 +20,13 @@ use yii\base\Model;
  */
 class Comment extends Model
 {
+    const TYPE_QUESTION = 1;
+    const LINKED_QUESTION = 2;
+    const TYPE_COMMENT = 3;
+    const TYPE_QA_TEASER = 4;
+    const TYPE_QA_FRAGMENT = 5;
+
+    public $sid;
     public $data_id;
     public $parent_id;
     public $type;
@@ -59,5 +67,10 @@ class Comment extends Model
         $comment->url = $url;
 
         return $comment;
+    }
+
+    public function populateManticoreID(string $id): void
+    {
+        $this->sid = $id;
     }
 }

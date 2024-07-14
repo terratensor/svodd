@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\services\Manticore;
@@ -62,6 +63,7 @@ class IndexService
                     'username' => ['type' => 'text'],
                     'role' => ['type' => 'string'],
                     'text' => ['type' => 'text'],
+                    'url' => ['type' => 'string'],
                     'datetime' => ['type' => 'timestamp'],
                     'data_id' => ['type' => 'integer'],
                     'parent_id' => ['type' => 'integer'],
@@ -82,6 +84,7 @@ class IndexService
                     'username' => ['type' => 'text'],
                     'role' => ['type' => 'string'],
                     'text' => ['type' => 'text'],
+                    'url' => ['type' => 'string'],
                     'datetime' => ['type' => 'timestamp'],
                     'data_id' => ['type' => 'integer'],
                     'parent_id' => ['type' => 'integer'],
@@ -237,7 +240,6 @@ class IndexService
 
         $doc = $this->readFile(\Yii::$app->params['questions']['current']['file']);
         $this->addQuestion($doc, $index);
-
     }
 
     public function deleteQuestion(int $id): void
@@ -393,7 +395,6 @@ class IndexService
             );
 
             $this->commentRepository->save($comment);
-
         }
         return $comment;
     }

@@ -87,7 +87,7 @@ class SiteController extends Controller
                 'class' => ToggleAction::class,
             ],
             'short-link' => [
-                'class' => ShortLinkAction::Class,
+                'class' => ShortLinkAction::class,
             ],
         ];
     }
