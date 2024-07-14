@@ -14,6 +14,7 @@ use yii\base\Model;
  * @property string $role
  * @property string $text
  * @property string $datetime
+ * @property string $url
  * @property ?string $highlight
  */
 class Comment extends Model
@@ -28,6 +29,7 @@ class Comment extends Model
     public $datetime;
     public $highlight;
     public $avatar_file;
+    public $url;
 
     public static function create(
         string $data_id,
@@ -39,6 +41,7 @@ class Comment extends Model
         string $role,
         string $text,
         string $datetime,
+        string $url,
         ?string $highlight,
     ): self {
         $comment = new static();
@@ -53,6 +56,7 @@ class Comment extends Model
         $comment->text = $text;
         $comment->datetime = $datetime;
         $comment->highlight = $highlight;
+        $comment->url = $url;
 
         return $comment;
     }
