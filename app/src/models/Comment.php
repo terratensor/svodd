@@ -5,6 +5,7 @@ namespace App\models;
 use yii\base\Model;
 
 /**
+ * @property int $sid
  * @property int $data_id
  * @property  int $parent_id
  * @property int $type
@@ -14,10 +15,18 @@ use yii\base\Model;
  * @property string $role
  * @property string $text
  * @property string $datetime
+ * @property string $url
  * @property ?string $highlight
  */
 class Comment extends Model
 {
+    const TYPE_QUESTION = 1;
+    const LINKED_QUESTION = 2;
+    const TYPE_COMMENT = 3;
+    const TYPE_QA_TEASER = 4;
+    const TYPE_QA_FRAGMENT = 5;
+
+    public $sid;
     public $data_id;
     public $parent_id;
     public $type;
@@ -28,6 +37,7 @@ class Comment extends Model
     public $datetime;
     public $highlight;
     public $avatar_file;
+    public $url;
 
     public static function create(
         string $data_id,
@@ -39,6 +49,7 @@ class Comment extends Model
         string $role,
         string $text,
         string $datetime,
+        string $url,
         ?string $highlight,
     ): self {
         $comment = new static();
@@ -53,7 +64,13 @@ class Comment extends Model
         $comment->text = $text;
         $comment->datetime = $datetime;
         $comment->highlight = $highlight;
+        $comment->url = $url;
 
         return $comment;
+    }
+
+    public function populateManticoreID(string $id): void
+    {
+        $this->sid = $id;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace console\controllers;
@@ -42,8 +43,7 @@ class IndexController extends Controller
         UpdatingIndexHandler $updatingIndexHandler,
         UpdateDbFromParsedFilesHandler $updateDbFromParsedFilesHandler,
         $config = []
-    )
-    {
+    ) {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->indexerService = $indexerService;
@@ -55,13 +55,13 @@ class IndexController extends Controller
     }
 
     /**
-     * Создание пустого поискового индекса
+     * Создание пустого поискового индекса по-умолчанию questions, questions_ext
      * @return void
      */
     public function actionCreate(): void
     {
         $message = 'Done!';
-        $name = $this->prompt('Введите имя индекса (по умолчанию: questions):');
+        $name = $this->prompt('Будет созданы индексы по умолчанию: questions, questions_ext');
 
         $form = new IndexCreateForm();
 

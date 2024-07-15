@@ -37,7 +37,7 @@ class FollowQuestion extends Widget
 
     public function getUrl(): string
     {
-        $total = ceil($this->comment->position /$this->pagination->pageSize);
+        $total = ceil($this->comment->position / $this->pagination->pageSize);
         return Url::to(
             [
                 'question/view',
@@ -47,11 +47,14 @@ class FollowQuestion extends Widget
                 '#' => $this->position
             ]
         );
-
     }
 
     public function run(): string
     {
+        $id = $this->comment->type === 1 ? $this->comment->data_id : $this->question_id;
+        if (!$id) {
+            return '<span></span>';
+        }
         return Html::a(
             $this->title,
             $this->getUrl(),

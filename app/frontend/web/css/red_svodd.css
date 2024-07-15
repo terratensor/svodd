@@ -150,7 +150,7 @@
     --dr-month-frame: #cfcccc;
     --dr-time-border: #9f9494;
     --dr-search-form-bg: #bdbab6;
-    --dr-search-form-body: #19191a; 
+    --dr-search-form-body: #19191a;
     --dr-search-form-border: #f9f8f6;
 }
 
@@ -221,7 +221,7 @@
     --bg-footer-color: #1d2124;
     --sv-quote-border: #545151;
     /*--bd-red-rgb: #af1c1c;*/
-    --bd-red-rgb: 175,28,28;
+    --bd-red-rgb: 175, 28, 28;
     --bs-dropdown-link-active-color: #ffffff;
     --bs-dropdown-link-active-bg: #a10000;
     --sv-search-form: #cfcad3;
@@ -242,7 +242,7 @@
     --dr-month-frame: #343434;
     --dr-time-border: #5e5b5b;
     --dr-search-form-bg: #3d3d40;
-    --dr-search-form-body: #cfd1d7; 
+    --dr-search-form-body: #cfd1d7;
     --dr-search-form-border: #191a1c;
 }
 
@@ -299,11 +299,13 @@ span.link {
     flex-grow: 1;
     padding-right: 0.75rem;
 }
+
 /** Медиа запрос, когда ширина меньше 576px, складываются друг под друга и отступ слева обнуляется */
 @media (max-width: 576px) {
     .svodd-breadcrumb {
         flex-direction: column;
     }
+
     .svodd-breadcrumb nav {
         width: 100%;
         padding-right: 0;
@@ -330,12 +332,12 @@ span.link {
 }
 
 .comment-text blockquote {
-     border-left: solid var(--sv-quote-border);
+    border-left: solid var(--sv-quote-border);
 }
 
 /*Placeholder*/
 input:focus::-webkit-input-placeholder {
-    color: transparent!important;
+    color: transparent !important;
 }
 
 input:focus::-moz-placeholder {
@@ -376,8 +378,10 @@ input:focus:-ms-input-placeholder {
 }
 
 /** Активный элемент начала и конца периода */
-.daterangepicker td.active, .daterangepicker td.active:hover,
-.daterangepicker td.active, .daterangepicker td.active.end-date {
+.daterangepicker td.active,
+.daterangepicker td.active:hover,
+.daterangepicker td.active,
+.daterangepicker td.active.end-date {
     background-color: var(--dr-range-pick);
     color: var(--dr-body-color);
 }
@@ -389,18 +393,25 @@ input:focus:-ms-input-placeholder {
 }
 
 /** Элементы календаря - дни, за пределами месяца, но которые попадают в таблицу месяца */
-.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+.daterangepicker td.off,
+.daterangepicker td.off.in-range,
+.daterangepicker td.off.start-date,
+.daterangepicker td.off.end-date {
     background-color: var(--dr-picker-off);
     color: var(--dr-picker-off-body);
 }
 
 /** контейнер при наведении на элемент календаря - день */
-.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+.daterangepicker td.available:hover,
+.daterangepicker th.available:hover {
     background-color: var(--dr-hover);
 }
 
 /** поля select времени под календарем */
-.daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
+.daterangepicker select.hourselect,
+.daterangepicker select.minuteselect,
+.daterangepicker select.secondselect,
+.daterangepicker select.ampmselect {
     color: var(--dr-body-color);
     background-color: var(--dr-body-bg);
 }
@@ -421,13 +432,19 @@ input:focus:-ms-input-placeholder {
 }
 
 /* Окошки ввода времени */
-.daterangepicker select.ampmselect, .daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect {
+.daterangepicker select.ampmselect,
+.daterangepicker select.hourselect,
+.daterangepicker select.minuteselect,
+.daterangepicker select.secondselect {
     background: var(--dr-body-bg);
     border: 1px solid var(--dr-time-border);
 }
 
 /* Текст в окошках ввода времени */
-.daterangepicker select.hourselect, .daterangepicker select.minuteselect, .daterangepicker select.secondselect, .daterangepicker select.ampmselect {
+.daterangepicker select.hourselect,
+.daterangepicker select.minuteselect,
+.daterangepicker select.secondselect,
+.daterangepicker select.ampmselect {
     color: var(--bs-body-color);
 }
 
@@ -437,7 +454,8 @@ input:focus:-ms-input-placeholder {
 }
 
 /* Переключатель месяцев календаря */
-.daterangepicker .calendar-table .next span, .daterangepicker .calendar-table .prev span {
+.daterangepicker .calendar-table .next span,
+.daterangepicker .calendar-table .prev span {
     color: #fff;
     border: solid var(--bs-body-color);
     border-width: 0 2px 2px 0;
@@ -460,17 +478,24 @@ input:focus:-ms-input-placeholder {
 .dropdown-menu.show .nav-link.dropdown-item {
     margin-top: 2px;
 }
-.dropdown-menu.show .nav-link.dropdown-item  {
+
+.dropdown-menu.show .nav-link.dropdown-item {
     color: var(--bs-dropdown-link-color);
 }
 
-.dropdown-menu.show .nav-link.dropdown-item.active  {
+.dropdown-menu.show .nav-link.dropdown-item.active {
     color: var(--bs-dropdown-link-active-color);
 }
+
 .dropdown-menu.show .nav-link.dropdown-item:active {
     color: var(--bs-dropdown-link-active-color);
 }
 
 #shortLinkModal .modal-header {
     padding: 15px 15px 5px 20px;
+}
+
+.card-text.comment-text .question {
+    padding: 10px 20px;
+    border-left: solid var(--sv-quote-border);
 }
