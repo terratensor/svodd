@@ -75,8 +75,8 @@ class IndexService
                     ],
                     [
                         'index_sp' => 1,
-                        "index_exact_words" => 1,
-                        "min_infix_len" => 3,
+                        'index_exact_words' => 1,
+                        'min_infix_len' => 3,
                         'morphology' => 'stem_en, stem_ru',
                         'stopwords' => 'en, ru',
                     ]
@@ -98,8 +98,8 @@ class IndexService
                     ],
                     [
                         'index_sp' => 1,
-                        "index_exact_words" => 1,
-                        "min_infix_len" => 3,
+                        'index_exact_words' => 1,
+                        'min_infix_len' => 3,
                         'morphology' => 'stem_ru, stem_en',
                         'stopwords' => 'en, ru',
                         'exceptions' => ['/var/lib/manticore/exceptions.txt'],
