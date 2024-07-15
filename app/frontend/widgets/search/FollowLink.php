@@ -21,7 +21,7 @@ class FollowLink extends Widget
             $id = null;
             $link = $this->comment->url;
             $paragraph = $this->extractAnswerText($this->comment);
-            $fragment = $this->extractFirstWords($paragraph, 5);
+            $fragment = $this->extractWords($paragraph);
             return Html::a(
                 $text,
                 $fragment ? $link . "#:~:text=" . $fragment : $link,
@@ -54,10 +54,24 @@ class FollowLink extends Widget
         }
     }
 
-    public function extractFirstWords($answer, $n)
+    public function extractWords($inputString)
     {
-        $words = preg_split("/\s+/", $answer);
-        $firstSevenWords = array_slice($words, 0, $n);
-        return implode(" ", $firstSevenWords);
+        $pattern = "/\b(?:[a-zA-Zа-яА-Я]+\s){5}\b/u";
+        if (preg_match($pattern, $inputString, $matches)) {
+            return $matches[0];
+        }
+        $pattern = "/\b(?:[a-zA-Zа-яА-Я]+\s){4}\b/u";
+        if (preg_match($pattern, $inputString, $matches)) {
+            return $matches[0];
+        }
+        $pattern = "/\b(?:[a-zA-Zа-яА-Я]+\s){3}\b/u";
+        if (preg_match($pattern, $inputString, $matches)) {
+            return $matches[0];
+        }
+        $pattern = "/\b(?:[a-zA-Zа-яА-Я]+\s){2}\b/u";
+        if (preg_match($pattern, $inputString, $matches)) {
+            return $matches[0];
+        }
+        return "";
     }
 }
