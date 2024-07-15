@@ -50,55 +50,63 @@ class IndexService
     public function create(IndexCreateForm $form): void
     {
         $name = $form->name;
-        if ($name === '') {
+        if ($name !== '') {
+            echo "Операция создания индексов успешно отменена!";
+            return;
             $name = \Yii::$app->params['indexes']['common'];
         }
-        $index = new Index($this->client);
-        $index->setName($name);
-        $index->drop(true);
+        foreach (\Yii::$app->params['indexes'] as $key => $name) {
+            $$key = new Index($this->client);
+            $$key->setName($name);
 
-        if ($name === \Yii::$app->params['indexes']['common']) {
-            $index->create(
-                [
-                    'username' => ['type' => 'text'],
-                    'role' => ['type' => 'string'],
-                    'text' => ['type' => 'text'],
-                    'url' => ['type' => 'string'],
-                    'datetime' => ['type' => 'timestamp'],
-                    'data_id' => ['type' => 'integer'],
-                    'parent_id' => ['type' => 'integer'],
-                    'type' => ['type' => 'integer'],
-                    'position' => ['type' => 'integer'],
-                    'avatar_file' => ['type' => 'text']
-                ],
-                [
-                    'index_sp' => 1,
-                    'morphology' => 'stem_ru',
-                    'stopwords' => 'en, ru',
-                ]
-            );
-        }
-        if ($name === \Yii::$app->params['indexes']['concept']) {
-            $index->create(
-                [
-                    'username' => ['type' => 'text'],
-                    'role' => ['type' => 'string'],
-                    'text' => ['type' => 'text'],
-                    'url' => ['type' => 'string'],
-                    'datetime' => ['type' => 'timestamp'],
-                    'data_id' => ['type' => 'integer'],
-                    'parent_id' => ['type' => 'integer'],
-                    'type' => ['type' => 'integer'],
-                    'position' => ['type' => 'integer'],
-                    'avatar_file' => ['type' => 'text']
-                ],
-                [
-                    'morphology' => 'stem_ru, stem_en',
-                    'stopwords' => 'en, ru',
-                    'exceptions' => ['/var/lib/manticore/exceptions.txt'],
-                    'wordforms' => ['/var/lib/manticore/wordforms.txt /var/lib/manticore/alternateforms.txt',],
-                ]
-            );
+            if ($name === \Yii::$app->params['indexes']['common']) {
+                $$key->create(
+                    [
+                        'username' => ['type' => 'text'],
+                        'role' => ['type' => 'string'],
+                        'text' => ['type' => 'text'],
+                        'url' => ['type' => 'string'],
+                        'datetime' => ['type' => 'timestamp'],
+                        'data_id' => ['type' => 'integer'],
+                        'parent_id' => ['type' => 'integer'],
+                        'type' => ['type' => 'integer'],
+                        'position' => ['type' => 'integer'],
+                        'avatar_file' => ['type' => 'text']
+                    ],
+                    [
+                        'index_sp' => 1,
+                        "index_exact_words" => 1,
+                        "min_infix_len" => 3,
+                        'morphology' => 'stem_en, stem_ru',
+                        'stopwords' => 'en, ru',
+                    ]
+                );
+            }
+            if ($name === \Yii::$app->params['indexes']['concept']) {
+                $$key->create(
+                    [
+                        'username' => ['type' => 'text'],
+                        'role' => ['type' => 'string'],
+                        'text' => ['type' => 'text'],
+                        'url' => ['type' => 'string'],
+                        'datetime' => ['type' => 'timestamp'],
+                        'data_id' => ['type' => 'integer'],
+                        'parent_id' => ['type' => 'integer'],
+                        'type' => ['type' => 'integer'],
+                        'position' => ['type' => 'integer'],
+                        'avatar_file' => ['type' => 'text']
+                    ],
+                    [
+                        'index_sp' => 1,
+                        "index_exact_words" => 1,
+                        "min_infix_len" => 3,
+                        'morphology' => 'stem_ru, stem_en',
+                        'stopwords' => 'en, ru',
+                        'exceptions' => ['/var/lib/manticore/exceptions.txt'],
+                        'wordforms' => ['/var/lib/manticore/wordforms.txt /var/lib/manticore/alternateforms.txt',],
+                    ]
+                );
+            }
         }
     }
 
