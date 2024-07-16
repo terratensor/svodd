@@ -32,7 +32,10 @@ class QuestionDataProvider extends BaseDataProvider
         if ($pagination === false) {
             // в случае отсутствия разбивки на страницы - прочитать все строки
             foreach ($this->query->get() as $hit) {
-                $models[] = new Comment($hit->getData());
+                $id = $hit->getId();
+                $comment = new Comment($hit->getData());
+                $comment->populateManticoreID($id);
+                $models[] = $comment;
             }
         } else {
             // в случае, если разбивка на страницы есть - прочитать только одну страницу
@@ -52,7 +55,9 @@ class QuestionDataProvider extends BaseDataProvider
             }
 
             for ($count = 0; $count < $limit; ++$count) {
+                $id = $data->current()->getId();
                 $model = new Comment($data->current()->getData());
+                $model->populateManticoreID($id);
                 try {
                     $model->highlight = $data->current()->getHighlight();
                 } catch (\Exception $e) {

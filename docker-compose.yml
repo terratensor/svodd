@@ -26,6 +26,7 @@ services:
       - traefik-public
       - default
       - rmq-net
+      - svodd-network
     environment:
       APP_ENV: dev
       MAINTENANCE_MODE: 0
@@ -96,6 +97,7 @@ services:
     networks:
       - rmq-net
       - default
+      - svodd-network
     environment:
       APP_ENV: dev
       POSTGRES_HOST: app-postgres
@@ -141,6 +143,8 @@ services:
       POSTGRES_DB: app
     secrets:
       - app_db_password
+    networks:
+      - svodd-network
     volumes:
       - app-postgres:/var/lib/postgresql/data
     ports:
@@ -163,6 +167,8 @@ services:
         hard: -1
     environment:
       searchd_query_log: /var/log/manticore/query.log
+    networks:
+      - svodd-network
     volumes:
       - manticore:/var/lib/manticore
       - manticore:/var/log/manticore
@@ -173,6 +179,9 @@ services:
 
   redis:
     image: redis:7.0.10
+    networks:
+      - default
+      - svodd-network
     ports:
       - "6379:6379"
     secrets:
@@ -185,6 +194,9 @@ services:
     build:
       context: ./app/frontend/docker/common
       dockerfile: postgres-backup/Dockerfile
+    networks:
+      - default
+      - svodd-network    
     environment:
       BACKUP_NAME: fct-search_app-postgres
       POSTGRES_HOST: app-postgres
@@ -206,6 +218,7 @@ services:
     networks:
       - traefik-public
       - default
+      - svodd-network
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
@@ -226,6 +239,7 @@ services:
     networks:
       - traefik-public
       - default
+      - svodd-network
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-public
@@ -261,3 +275,5 @@ networks:
     name: traefik-public
   rmq-net:
     name: rmq-net
+  svodd-network:
+    name: svodd-network

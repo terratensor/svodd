@@ -15,6 +15,7 @@ services:
       - traefik-public
       - default
       - rmq-net
+      - svodd-network
     environment:
       APP_ENV: prod
       MAINTENANCE_MODE: 0
@@ -80,6 +81,9 @@ services:
 
   app-migration:
     image: ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
+    networks:
+      - default
+      - svodd-network
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -218,6 +222,7 @@ services:
     networks:
       - rmq-net
       - default
+      - svodd-network
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -271,6 +276,9 @@ services:
 
   app-postgres:
     image: postgres:15.1-alpine
+    networks:
+      - default
+      - svodd-network
     environment:
       POSTGRES_USER: ${APP_POSTGRES_USER}
       POSTGRES_PASSWORD_FILE: /run/secrets/app_db_password
@@ -299,6 +307,9 @@ services:
     volumes:
       - manticore:/var/lib/manticore
       - manticore:/var/log/manticore
+    networks:
+      - default
+      - svodd-network
     deploy:
       placement:
         constraints: [ node.role == manager ]
@@ -306,6 +317,9 @@ services:
 
   redis:
     image: redis:7.0.10
+    networks:
+      - default
+      - svodd-network
     secrets:
       - redis_password
     command: sh -c 'redis-server --save 60 1 --requirepass  "$$(cat /run/secrets/redis_password)"'
@@ -317,6 +331,9 @@ services:
 
   app-postgres-backup:
     image: ${REGISTRY}/svodd-postgres-backup:${IMAGE_TAG}
+    networks:
+      - default
+      - svodd-network
     environment:
       BACKUP_NAME: fct-search_app-postgres
       POSTGRES_HOST: ${APP_POSTGRES_HOST}
@@ -345,6 +362,9 @@ services:
 
   dictionary-renew:
     image: ${REGISTRY}/svodd-cli-php:${IMAGE_TAG}
+    networks:
+      - default
+      - svodd-network
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -410,4 +430,7 @@ networks:
     external: true
   rmq-net:
     name: rmq-net
+    external: true
+  svodd-network:
+    name: svodd-network
     external: true

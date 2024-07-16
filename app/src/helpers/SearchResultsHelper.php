@@ -9,6 +9,11 @@ use yii\bootstrap5\Html;
 
 class SearchResultsHelper
 {
+    public static function showTitle(Comment $comment): string
+    {
+        return "Вопрос — Ответ";
+    }
+
     public static function showUsername(Comment $comment): string
     {
         $str = $comment->highlight['username'][0] ?? $comment->username;

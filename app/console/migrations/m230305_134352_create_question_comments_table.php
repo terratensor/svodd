@@ -31,7 +31,7 @@ class m230305_134352_create_question_comments_table extends Migration
         $this->createIndex('question_comments-position', '{{%question_comments}}', 'position');
         $this->addForeignKey(
             'fk-question_comments-parent_data_id',
-            '{{%questions}}',
+            '{{%question_comments}}',
             'question_data_id',
             '{{%questions}}',
             'data_id'
