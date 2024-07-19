@@ -500,15 +500,31 @@ input:focus:-ms-input-placeholder {
     border-left: solid var(--sv-quote-border);
 }
 
-.comment-text .badge {
+.comment-text .badge,
+.search-block .badge {
     display: inline-flex;
     align-items: center;
     border-radius: .125rem;
-    padding: .125rem .875rem;
+    padding: .125rem .475rem;
     font-size: .875rem;
     line-height: 1.25rem;
     font-weight: 500;
     /* cursor: pointer; */
+}
+
+.search-block .badge {
+    cursor: pointer;
+}
+
+.badge-filter {
+    gap: .25rem;
+}
+
+.badge-default {
+    --tw-text-opacity: 1;
+    color: rgb(224 217 217 / var(--tw-text-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(73 80 87 / var(--tw-bg-opacity));
 }
 
 .badge-container {

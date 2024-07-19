@@ -20,6 +20,7 @@ use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\Badge;
+use frontend\widgets\search\BadgeFilter;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
 use kartik\daterange\DateRangePicker;
@@ -45,7 +46,7 @@ echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettin
 echo Html::hiddenInput('value', 'toggle');
 echo Html::endForm();
 
-$inputTemplate = '<div class="input-group mb-2">
+$inputTemplate = '<div class="input-group mb-1">
           {input}
           <button class="btn btn-primary" type="submit" id="button-search">Поиск</button>
           <button class="btn btn-outline-secondary ' .
@@ -84,6 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
           ]
         )->label(false); ?>
       </div>
+      <?= BadgeFilter::widget(['model' => $model]); ?>
       <div id="search-setting-panel" class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
 
         <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
