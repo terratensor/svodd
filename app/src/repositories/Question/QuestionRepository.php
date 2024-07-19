@@ -6,6 +6,7 @@ namespace App\repositories\Question;
 
 use App\forms\SearchForm;
 use App\helpers\SearchHelper;
+use App\Svodd\Entity\Chart\Data;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
 use Manticoresearch\Query\BoolQuery;
@@ -64,6 +65,8 @@ class QuestionRepository
             $this->dataTimeRangeFilter($query, $form);
         }
 
+        $this->applyBadgeFilter($query, $form);
+
         // Выполняем поиск если установлен фильтр или установлен строка поиска
         if ($form->date || $form->query) {
             $search = $this->index->search($query);
@@ -114,6 +117,8 @@ class QuestionRepository
             $this->dataTimeRangeFilter($query, $form);
         }
 
+        $this->applyBadgeFilter($query, $form);
+
         // Выполняем поиск если установлен фильтр или установлен строка поиска
         if ($form->date || $form->query) {
             $search = $this->index->search($query);
@@ -145,8 +150,7 @@ class QuestionRepository
         string $queryString,
         ?string $indexName = null,
         ?SearchForm $form = null
-    ): Search
-    {
+    ): Search {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
@@ -162,6 +166,8 @@ class QuestionRepository
         if ($form) {
             $this->dataTimeRangeFilter($query, $form);
         }
+
+        $this->applyBadgeFilter($query, $form);
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
         if ($form->date || $form->query) {
@@ -194,8 +200,7 @@ class QuestionRepository
         string $queryString,
         ?string $indexName = null,
         ?SearchForm $form = null
-    ): Search
-    {
+    ): Search {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
@@ -224,8 +229,10 @@ class QuestionRepository
             $this->dataTimeRangeFilter($query, $form);
         }
 
+        $this->applyBadgeFilter($query, $form);
+
         // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
+        if ($form->date || $form->query || $form->badge) {
             $search = $this->index->search($query);
             $search->facet('type');
         } else {
@@ -310,5 +317,41 @@ class QuestionRepository
             $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
         }
         return $query;
+    }
+
+
+    public function applyBadgeFilter(BoolQuery $query, SearchForm $form): BoolQuery
+    {
+        if ($form && isset($form->badge)) {
+            $badge = $form->badge;
+            switch ($badge) {
+                case "svodd":
+                    $query->should(
+                        new In('parent_id', $this->getSvoddQuestionIds()),
+                        new In('data_id', $this->getSvoddQuestionIds())
+                    );
+                    break;
+                case "aq":
+                    $query->must(new In('type', [4, 5]));
+                    break;
+                case "comments":
+                    $query->mustNot(new In('data_id', $this->getSvoddQuestionIds()))
+                        ->mustNot(new In('parent_id', $this->getSvoddQuestionIds()))
+                        ->must(new In('type', [1, 2, 3]));
+                    break;
+            }
+        }
+        return $query;
+    }
+
+    /**
+     * @return array
+     */
+    private function getSvoddQuestionIds(): array
+    {
+        return Data::find()
+            ->select(['question_id'])
+            ->asArray()
+            ->column();
     }
 }
