@@ -6,7 +6,8 @@
  * @var Pagination $pages
  * @var SearchForm $model
  * @var string $errorQueryMessage
- * @var FeatureFlag $flag
+ * @var FeatureFlag $
+ * @var array $sids
  */
 
 use App\FeatureToggle\FeatureFlag;
@@ -18,6 +19,8 @@ use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
+use frontend\widgets\search\Badge;
+use frontend\widgets\search\BadgeFilter;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
 use kartik\daterange\DateRangePicker;
@@ -43,7 +46,7 @@ echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettin
 echo Html::hiddenInput('value', 'toggle');
 echo Html::endForm();
 
-$inputTemplate = '<div class="input-group mb-2">
+$inputTemplate = '<div class="input-group mb-1">
           {input}
           <button class="btn btn-primary" type="submit" id="button-search">Поиск</button>
           <button class="btn btn-outline-secondary ' .
@@ -82,6 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
           ]
         )->label(false); ?>
       </div>
+      <?= BadgeFilter::widget(['model' => $model]); ?>
       <div id="search-setting-panel" class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
 
         <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
@@ -117,6 +121,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
               ],
             ); ?>
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <?= $form->field($model, 'badge', ['inline' => true, 'options' => ['class' => 'pb-2']])
+              ->radioList($model->makeBadgeList(), ['class' => 'form-check-inline'])
+              ->label(false); ?>
           </div>
           <div class="col-md-6 d-flex align-items-center">
             <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
@@ -207,6 +216,9 @@ $this->params['breadcrumbs'][] = $this->title;
                   <?php else : ?>
                     <?php echo TextProcessor::widget(['text' => $comment->highlight['text'][0]]); ?>
                   <?php endif; ?>
+                  <div class="badge-container">
+                    <?= Badge::widget(['comment' => $comment, 'svodd_questions' => $sids]); ?>
+                  </div>
                 </div>
               </div>
 

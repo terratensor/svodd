@@ -70,7 +70,8 @@ class ManticoreService
                         'datetime'
                     ]
                 ],
-            ]);
+            ]
+        );
     }
 
     public function question(int $id): QuestionView
@@ -102,7 +103,8 @@ class ManticoreService
                         'datetime'
                     ]
                 ],
-            ]);
+            ]
+        );
 
         return QuestionView::create(
             $id,

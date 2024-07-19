@@ -32,8 +32,7 @@ class SiteController extends Controller
         QuestionStatsRepository $questionStatsRepository,
         FeatureFlag $flag,
         $config = []
-    )
-    {
+    ) {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->questionStatsRepository = $questionStatsRepository;
@@ -126,7 +125,8 @@ class SiteController extends Controller
             'results' => $results ?? null,
             'model' => $form,
             'errorQueryMessage' => $errorQueryMessage,
-            'flag' => $this->flag ?? null
+            'flag' => $this->flag ?? null,
+            'sids' => $this->questionStatsRepository->findSvoddQuestionIds(),
         ]);
     }
 
@@ -150,8 +150,8 @@ class SiteController extends Controller
      *
      * @return string
      */
-//    public function actionAbout(): string
-//    {
-//        return $this->render('about');
-//    }
+    //    public function actionAbout(): string
+    //    {
+    //        return $this->render('about');
+    //    }
 }
