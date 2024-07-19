@@ -119,6 +119,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ); ?>
           </div>
           <div class="col-md-6 d-flex align-items-center">
+            <?= $form->field($model, 'badge', ['inline' => true, 'options' => ['class' => 'pb-2']])
+              ->radioList($model->makeBadgeList(), ['class' => 'form-check-inline'])
+              ->label(false); ?>
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
             <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
               ->checkbox()
               ->label('Словарь концептуальных терминов (тестирование)'); ?>
