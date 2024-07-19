@@ -6,7 +6,8 @@
  * @var Pagination $pages
  * @var SearchForm $model
  * @var string $errorQueryMessage
- * @var FeatureFlag $flag
+ * @var FeatureFlag $
+ * @var array $sids
  */
 
 use App\FeatureToggle\FeatureFlag;
@@ -18,6 +19,7 @@ use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
+use frontend\widgets\search\Badge;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
 use kartik\daterange\DateRangePicker;
@@ -212,6 +214,9 @@ $this->params['breadcrumbs'][] = $this->title;
                   <?php else : ?>
                     <?php echo TextProcessor::widget(['text' => $comment->highlight['text'][0]]); ?>
                   <?php endif; ?>
+                  <div class="badge-container">
+                    <?= Badge::widget(['comment' => $comment, 'svodd_questions' => $sids]); ?>
+                  </div>
                 </div>
               </div>
 

@@ -499,3 +499,44 @@ input:focus:-ms-input-placeholder {
     padding: 10px 20px;
     border-left: solid var(--sv-quote-border);
 }
+
+.comment-text .badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: .125rem;
+    padding: .125rem .875rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    /* cursor: pointer; */
+}
+
+.badge-container {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin-top: 1rem;
+}
+
+.text-svoddWhite-300 {
+    --tw-text-opacity: 1;
+    color: rgb(224 217 217 / var(--tw-text-opacity));
+}
+
+.badge-aq,
+.badge-svodd,
+.badge-comments {
+    --tw-bg-opacity: 1;
+}
+
+.badge-aq {
+    background-color: rgb(189 142 0 / var(--tw-bg-opacity));
+}
+
+.badge-svodd {
+    background-color: rgb(181 29 0 / var(--tw-bg-opacity));
+}
+
+.badge-comments {
+    background-color: rgb(45 126 35 / var(--tw-bg-opacity));
+}
