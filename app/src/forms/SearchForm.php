@@ -49,10 +49,10 @@ class SearchForm extends Model
     public function getMatching(): array
     {
         return [
-            'query_string' => 'По умолчанию',
-            'match_phrase' => 'По соответствию фразе',
-            'match' => 'По совпадению слов',
-            'in' => 'По номеру(ам) комментария или вопроса, номера через запятую',
+            'query_string' => 'Обычный поиск',
+            'match_phrase' => 'Точное соответствие',
+            'match' => 'Любое слово',
+            'in' => 'По номерам записей через запятую',
         ];
     }
 

@@ -25,11 +25,21 @@ class Badge extends Widget
 
     public function run()
     {
-        // var_dump($this->getBadgeFromQuery());
         $badge = $this->getBadgeType($this->comment);
 
-        $res = Html::tag('span', $this->retrieveBadgeName($badge), ['class' => 'badge ' .
-            $this->getBadgeClass($badge)],);
+        $location =  \yii\helpers\Url::to(BadgeFilter::makeUrl($badge === $this->currentQueryBadge() ? 'all' : $badge));
+        $title = $badge === $this->currentQueryBadge() ? 'Отключить фильтр по ' . $this->retrieveBadgeName($badge) : 'Включить фильтр по ' . $this->retrieveBadgeName($badge);
+
+        $res = Html::tag(
+            'span',
+            $this->retrieveBadgeName($badge),
+            [
+                'class' => 'badge ' .
+                    $this->getBadgeClass($badge),
+                'onClick' => 'location.href = "' . $location . '";',
+                'title' => $title
+            ]
+        );
         return $res;
     }
 
@@ -73,5 +83,11 @@ class Badge extends Widget
     {
         $badgeList = $this->getBadgeList();
         return $badgeList[$badgeValue]['class'] ?? '';
+    }
+
+    public function currentQueryBadge(): string
+    {
+        $queryParams = Yii::$app->request->getQueryParams();
+        return $queryParams['search']['badge'] ?? '';
     }
 }
