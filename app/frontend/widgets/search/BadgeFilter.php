@@ -31,4 +31,14 @@ class BadgeFilter extends Widget
 
         return array_merge(['site/index'], $queryParams);
     }
+
+    private const MATCHING_IN = 'in';
+
+    public const DISABLED_BADGE = "disabled";
+
+    public static function isDisabled(string $currentBadge): bool
+    {
+        $matching = Yii::$app->request->getQueryParam('search', [])['matching'] ?? '';
+        return $matching === self::MATCHING_IN;
+    }
 }
