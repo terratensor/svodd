@@ -62,7 +62,7 @@ class QuestionRepository
         }
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
         $this->applyBadgeFilter($query, $form);
@@ -114,7 +114,7 @@ class QuestionRepository
         }
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
         $this->applyBadgeFilter($query, $form);
@@ -164,7 +164,7 @@ class QuestionRepository
         }
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
         $this->applyBadgeFilter($query, $form);
@@ -226,7 +226,7 @@ class QuestionRepository
         }
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
         $this->applyBadgeFilter($query, $form);
@@ -307,29 +307,36 @@ class QuestionRepository
     }
 
     /**
-     * Добавлен фильтр по диапазону даты и времени
-     * @param BoolQuery $query
-     * @param SearchForm $form
+     * Apply a filter by date and time range.
+     *
+     * @param BoolQuery $query The query to apply the filter to.
+     * @param SearchForm $form The form containing the date range.
+     * @return BoolQuery The modified query.
      */
-    private function dataTimeRangeFilter(BoolQuery $query, SearchForm $form): BoolQuery
+    private function applyDateTimeRangeFilter(BoolQuery $query, SearchForm $form): BoolQuery
     {
         if ($form->date_from && $form->date_to) {
-            $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
+            $query->must(new Range('datetime', [
+                'gte' => (int) $form->date_from,
+                'lte' => (int) $form->date_to,
+            ]));
         }
+
         return $query;
     }
 
 
     public function applyBadgeFilter(BoolQuery $query, SearchForm $form): BoolQuery
     {
+        $boolQuery = new BoolQuery();
         if ($form && isset($form->badge)) {
             $badge = $form->badge;
             switch ($badge) {
                 case "svodd":
-                    $query->should(
+                    $query->must($boolQuery->should(
                         new In('parent_id', $this->getSvoddQuestionIds()),
                         new In('data_id', $this->getSvoddQuestionIds())
-                    );
+                    ));
                     break;
                 case "aq":
                     $query->must(new In('type', [4, 5]));
