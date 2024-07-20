@@ -9,6 +9,7 @@ use App\helpers\SearchHelper;
 use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
+use Manticoresearch\Search;
 use Yii;
 
 /**
@@ -36,6 +37,8 @@ class ManticoreService
 
         $queryString = SearchHelper::processAvatarUrls($queryString);
 
+        $queryTransformedString = SearchHelper::transformString($queryString);
+
         if ($form->dictionary) {
             $indexName = \Yii::$app->params['indexes']['concept'];
         }
@@ -57,6 +60,15 @@ class ManticoreService
             throw new EmptySearchRequestExceptions($e->getMessage());
         }
 
+        $queryTransformed = false;
+        if ($comments->get()->getTotal() === 0) {
+            $comments2 = $this->getComments($queryTransformedString, $form, $indexName ?? null);
+            if ($comments2->get()->getTotal() > 0) {
+                $comments = $comments2;
+                $queryTransformed = true;
+            }
+        }
+
         return new QuestionDataProvider(
             [
                 'query' => $comments,
@@ -70,6 +82,8 @@ class ManticoreService
                         'datetime'
                     ]
                 ],
+                'queryTransformed' => $queryTransformed,
+                'queryTransformedString' => $queryTransformedString
             ]
         );
     }
@@ -112,5 +126,26 @@ class ManticoreService
             $linkedQuestions,
             $commentsDataProvider
         );
+    }
+
+    private function getComments($queryString, $form, $indexName = null): Search
+    {
+        try {
+            $comments = match ($form->matching) {
+                'query_string' => $this->questionRepository
+                    ->findByQueryStringNew($queryString, $indexName ?? null, $form),
+                'match_phrase' => $this->questionRepository
+                    ->findByMatchPhrase($queryString, $indexName ?? null, $form),
+                'match' => $this->questionRepository
+                    ->findByQueryStringMatch($queryString, $indexName ?? null, $form),
+                'in' => $this->questionRepository
+                    ->findByCommentId($queryString, $indexName ?? null, $form),
+                //            default => $this->questionRepository
+                //                ->findByQueryStringNew($queryString, $indexName ?? null, $form),
+            };
+            return $comments;
+        } catch (\DomainException $e) {
+            throw new EmptySearchRequestExceptions($e->getMessage());
+        }
     }
 }

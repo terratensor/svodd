@@ -2,7 +2,7 @@
 
 /**
  * @var yii\web\View $this
- * @var QuestionDataProvider $results
+ * @var App\repositories\Question\QuestionDataProvider $results
  * @var Pagination $pages
  * @var SearchForm $model
  * @var string $errorQueryMessage
@@ -24,6 +24,7 @@ use frontend\widgets\search\BadgeFilter;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
 use frontend\widgets\search\ShortLinkModal;
+use frontend\widgets\search\TransformQuery;
 use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -169,6 +170,9 @@ $inputTemplate = '<div class="input-group mb-1">
         </video>
       </div>
     <?php endif; ?>
+
+    <?= TransformQuery::widget(['results' => $results]); ?>
+
     <?php if ($results) : ?>
       <?php
       // Property totalCount пусто пока не вызваны данные модели getModels(),
