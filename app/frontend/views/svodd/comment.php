@@ -26,7 +26,7 @@ $telegramIcon = '<svg class="menu-icon text-svoddRed-100" focusable="false" aria
         <a class="telegram-link" href="https://t.me/svoddru" target="_blank"> @svoddru</span>
             <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
             <?= Html::a(
-                'Перейти к комментарию на ФКТ',
+                '★ Источник',
                 $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
                 ['target' => '_blank', 'rel' => 'noopener noreferrer']
             ); ?>

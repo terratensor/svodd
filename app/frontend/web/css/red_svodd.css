@@ -608,6 +608,6 @@ input:focus:-ms-input-placeholder {
     margin-right: 3px;
 }
 
-.telegram-link {
+.card-footer a {
     text-decoration: none;
 }

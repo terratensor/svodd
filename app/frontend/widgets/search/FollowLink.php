@@ -15,7 +15,7 @@ class FollowLink extends Widget
 
     public function run()
     {
-        $text = $this->comment->type !== 3 ? "Перейти к вопросу на ФКТ" : "Перейти к комментарию на ФКТ";
+        $text = "★ Источник";
 
         if ($this->comment->type === 4 || $this->comment->type === 5) {
             $id = null;
