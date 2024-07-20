@@ -52,14 +52,14 @@ class SearchForm extends Model
             'query_string' => 'Обычный поиск',
             'match_phrase' => 'Точное соответствие',
             'match' => 'Любое слово',
-            'in' => 'По номерам записей через запятую',
+            self::MATCHING_IN => 'По номерам записей через запятую',
         ];
     }
 
     public function makeBadgeList(): array
     {
         return [
-            'all' => 'ВСЕ',
+            self::BADGE_ALL => 'ВСЕ',
             'svodd' => 'СВОДД',
             'aq' => "ВОПРОС–ОТВЕТ",
             'comments' => 'КОММЕНТАРИИ',
@@ -70,4 +70,16 @@ class SearchForm extends Model
     {
         return 'search';
     }
+
+    public function beforeValidate(): bool
+    {
+        if ($this->matching === self::MATCHING_IN) {
+            $this->badge = self::BADGE_ALL;
+        }
+
+        return parent::beforeValidate();
+    }
+
+    private const MATCHING_IN = 'in';
+    private const BADGE_ALL = 'all';
 }
