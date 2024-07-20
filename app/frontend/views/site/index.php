@@ -64,11 +64,11 @@ $inputTemplate = '<div class="input-group mb-1">
 ?>
 <div class="site-index">
   <div class="container-fluid badge-panel badge-filter">
-    <div class="row gy-2">
-      <div class="col-md-6 d-md-flex justify-content-start">
+    <div class="row gy-3">
+      <div class="col-sm-6 d-sm-flex justify-content-start align-items-center">
         <?= BadgeFilter::widget(['model' => $model]); ?>
       </div>
-      <div class="col-md-6 d-md-flex justify-content-end">
+      <div class="col-sm-6 d-flex justify-content-end">
         <?= ShortLinkModal::widget(); ?>
       </div>
     </div>
@@ -80,7 +80,7 @@ $inputTemplate = '<div class="input-group mb-1">
         [
           'method' => 'GET',
           'action' => ['site/index'],
-          'options' => ['class' => 'pb-1 mb-2 pt-lg-3 pt-2', 'autocomplete' => 'off'],
+          'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
         ]
       ); ?>
       <div class="d-flex align-items-center">
