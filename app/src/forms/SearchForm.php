@@ -50,7 +50,7 @@ class SearchForm extends Model
     {
         return [
             'query_string' => 'Обычный поиск',
-            'match_phrase' => 'Точное соответсвие',
+            'match_phrase' => 'Точное соответствие',
             'match' => 'Любое слово',
             'in' => 'По номерам записей через запятую',
         ];
