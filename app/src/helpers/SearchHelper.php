@@ -51,17 +51,17 @@ class SearchHelper
                     case 0:
                         // вырезаем из строки протокол
                         $queryString = str_replace("$protocol", '', $queryString);
-//                        $queryString = self::getAvatarHash($queryString);
+                        //                        $queryString = self::getAvatarHash($queryString);
                         break;
                     case 1:
                         // вырезаем из строки домен фкт и протокол, если запрос будет без протокола, то только домен фкт
                         $queryString = str_replace("{$protocol}фкт-алтай.рф", '', $queryString);
-//                        $queryString = self::getAvatarHash($queryString);
+                        //                        $queryString = self::getAvatarHash($queryString);
                         break;
                     case 2:
                         // вырезаем из строки домен фкт и протокол, если запрос будет без протокола, то только домен фкт
                         $queryString = str_replace("{$protocol}xn----8sba0bbi0cdm.xn--p1ai", '', $queryString);
-//                        $queryString = self::getAvatarHash($queryString);
+                        //                        $queryString = self::getAvatarHash($queryString);
                         break;
                 }
             }
@@ -117,5 +117,30 @@ class SearchHelper
         }
 
         return Html::tag('mark', $result);
+    }
+
+    public static function transformString($input)
+    {
+        $mapping = [
+            'a' => 'ф', 'b' => 'и', 'c' => 'с', 'd' => 'в', 'e' => 'у',
+            'f' => 'а', 'g' => 'п', 'h' => 'р', 'i' => 'ш', 'j' => 'о',
+            'k' => 'л', 'l' => 'д', 'm' => 'ь', 'n' => 'т', 'o' => 'щ',
+            'p' => 'з', 'q' => 'й', 'r' => 'к', 's' => 'ы', 't' => 'е',
+            'u' => 'г', 'v' => 'м', 'w' => 'ц', 'x' => 'ч', 'y' => 'н',
+            'z' => 'я', '`' => 'ё', '[' => 'х', ']' => 'ъ', ',' => 'б',
+            '.' => 'ю', ';' => 'ж', '\'' => 'э'
+        ];
+
+        $output = '';
+        for ($i = 0; $i < strlen($input); $i++) {
+            $char = strtolower(substr($input, $i, 1));
+            if (isset($mapping[$char])) {
+                $output .= $mapping[$char];
+            } else {
+                $output .= $char;
+            }
+        }
+
+        return $output;
     }
 }
