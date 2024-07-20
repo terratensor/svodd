@@ -14,7 +14,8 @@ use yii\helpers\Html;
         'СВОДД',
         [
             'class' => $model->badge === 'svodd' ? 'badge badge-svodd' : 'badge badge-default',
-            'onclick' => 'location.href = "' . \yii\helpers\Url::to(BadgeFilter::makeUrl($model->badge === 'svodd' ? 'all' : 'svodd')) . '";'
+            'onclick' => 'location.href = "' . \yii\helpers\Url::to(BadgeFilter::makeUrl($model->badge === 'svodd' ? 'all' : 'svodd')) . '";',
+            'title' => $model->badge === 'svodd' ? 'Отключить фильтр по СВОДД'  : 'Включить фильтр по СВОДД',
         ]
     ) ?>
     <?= Html::tag(
@@ -22,7 +23,8 @@ use yii\helpers\Html;
         'ВОПРОС-ОТВЕТ',
         [
             'class' => $model->badge === 'aq' ? 'badge badge-aq' : 'badge badge-default',
-            'onclick' => 'location.href = "' . \yii\helpers\Url::to(BadgeFilter::makeUrl($model->badge === 'aq' ? 'all' : 'aq')) . '";'
+            'onclick' => 'location.href = "' . \yii\helpers\Url::to(BadgeFilter::makeUrl($model->badge === 'aq' ? 'all' : 'aq')) . '";',
+            'title' => $model->badge === 'aq' ? 'Отключить фильтр по ВОПРОС-ОТВЕТ'  : 'Включить фильтр по ВОПРОС-ОТВЕТ',
         ]
     ) ?>
     <?= Html::tag(
@@ -30,7 +32,8 @@ use yii\helpers\Html;
         'КОММЕНТАРИИ',
         [
             'class' => $model->badge === 'comments' ? 'badge badge-comments' : 'badge badge-default',
-            'onclick' => 'location.href = "' . \yii\helpers\Url::to(BadgeFilter::makeUrl($model->badge === 'comments' ? 'all' : 'comments')) . '";'
+            'onclick' => 'location.href = "' . \yii\helpers\Url::to(BadgeFilter::makeUrl($model->badge === 'comments' ? 'all' : 'comments')) . '";',
+            'title' => $model->badge === 'aq' ? 'Отключить фильтр по КОММЕНТАРИИ'  : 'Включить фильтр по КОММЕНТАРИИ',
         ]
     ) ?>
 </div>
