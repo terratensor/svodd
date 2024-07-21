@@ -3,6 +3,7 @@
 /** @var ActiveDataProvider $dataProvider */
 /** @var Comment $model */
 
+use frontend\widgets\svodd\TelegramLink;
 use App\helpers\TextProcessor;
 use App\Question\Entity\Question\Comment;
 use frontend\widgets\question\CommentHeader;
@@ -23,12 +24,12 @@ $telegramIcon = '<svg class="menu-icon text-svoddRed-100" focusable="false" aria
         </div>
     </div>
     <div class="card-footer d-flex justify-content-between">
-        <a class="telegram-link" href="https://t.me/svoddru" target="_blank"> @svoddru</span>
-            <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
-            <?= Html::a(
-                '★ Источник',
-                $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
-                ['target' => '_blank', 'rel' => 'noopener noreferrer']
-            ); ?>
+        <?= TelegramLink::widget(['comment' => $model]); ?>
+        <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
+        <?= Html::a(
+            '★ Источник',
+            $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
+            ['target' => '_blank', 'rel' => 'noopener noreferrer']
+        ); ?>
     </div>
 </div>

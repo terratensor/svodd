@@ -103,7 +103,8 @@ class CommentCreatedListener
          */
         $headers = new AMQPTable(
             [
-                'comment_link' => html_entity_decode($link)
+                'comment_link' => html_entity_decode($link),
+                'comment_id' => $event->data_id
             ]
         );
 
@@ -128,7 +129,7 @@ class CommentCreatedListener
     {
         $comment = $this->commentRepository->getByDataId($event->data_id);
 
-       return "https://xn----8sba0bbi0cdm.xn--p1ai/qa/question/view-" .
+        return "https://xn----8sba0bbi0cdm.xn--p1ai/qa/question/view-" .
             $event->question_data_id . "#:~:text=" .
             $comment->datetime->format('H:i d.m.Y');
     }
