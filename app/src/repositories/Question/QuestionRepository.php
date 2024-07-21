@@ -68,7 +68,7 @@ class QuestionRepository
         $this->applyBadgeFilter($query, $form);
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
+        if ($form->date || $form->query || $form->badge !== $form->defaultBadge) {
             $search = $this->index->search($query);
             $search->facet('type');
         } else {
@@ -120,7 +120,7 @@ class QuestionRepository
         $this->applyBadgeFilter($query, $form);
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
+        if ($form->date || $form->query || $form->badge !== $form->defaultBadge) {
             $search = $this->index->search($query);
             $search->facet('type');
         } else {
@@ -170,7 +170,7 @@ class QuestionRepository
         $this->applyBadgeFilter($query, $form);
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
+        if ($form->date || $form->query || $form->badge !== $form->defaultBadge) {
             $search = $this->index->search($query);
             $search->facet('type');
         } else {
@@ -232,7 +232,7 @@ class QuestionRepository
         $this->applyBadgeFilter($query, $form);
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query || $form->badge) {
+        if ($form->date || $form->query) {
             $search = $this->index->search($query);
             $search->facet('type');
         } else {

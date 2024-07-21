@@ -202,9 +202,9 @@ $inputTemplate = '<div class="input-group mb-1">
                   <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
                     <?php
                     $values = [
-                      '' => 'Сортировка по умолчанию',
-                      'datetime' => 'Сначала старые комментарии',
-                      '-datetime' => 'Сначала новые комментарии',
+                      '' => 'Сортировка по релевантности',
+                      '-datetime' => 'Сначала новые записи',
+                      'datetime' => 'Сначала старые записи',
                     ];
                     $current = Yii::$app->request->get('sort');
                     ?>

@@ -29,6 +29,12 @@ class BadgeFilter extends Widget
         $queryParams = Yii::$app->request->getQueryParams();
         $queryParams['search']['badge'] = $currentBadge;
 
+        // If search query is empty, set sort to -datetime
+        $searchQuery = $queryParams['search']['query'] ?? '';
+        if (empty($searchQuery) && !isset($queryParams['sort'])) {
+            $queryParams['sort'] = '-datetime';
+        }
+
         return array_merge(['site/index'], $queryParams);
     }
 

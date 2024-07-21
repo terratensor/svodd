@@ -79,7 +79,10 @@ class ManticoreService
                     'attributes' => [
                         'type',
                         'position',
-                        'datetime'
+                        'datetime' => [
+                            'asc' => ['datetime' => SORT_ASC, 'position' => SORT_ASC],
+                            'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
+                        ]
                     ]
                 ],
                 'queryTransformed' => $queryTransformed,
