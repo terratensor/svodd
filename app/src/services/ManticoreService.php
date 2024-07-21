@@ -80,7 +80,7 @@ class ManticoreService
                         'type',
                         'position',
                         'datetime' => [
-                            'asc' => ['datetime' => SORT_ASC, 'position' => SORT_ASC],
+                            'asc' => ['datetime' => SORT_ASC, 'position' => SORT_DESC],
                             'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
                         ]
                     ]
