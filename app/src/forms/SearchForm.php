@@ -22,6 +22,8 @@ class SearchForm extends Model
     public bool $dictionary = false;
     public string $badge = 'all';
 
+    public string $defaultBadge = 'all';
+
     public function behaviors(): array
     {
         return [
