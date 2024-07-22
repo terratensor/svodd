@@ -80,7 +80,7 @@ $inputTemplate = '<div class="input-group mb-1">
       <?php $form = ActiveForm::begin(
         [
           'method' => 'GET',
-          'action' => ['site/index'],
+          'action' => array_merge(['site/index'], \Yii::$app->request->queryParams),
           'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
         ]
       ); ?>
