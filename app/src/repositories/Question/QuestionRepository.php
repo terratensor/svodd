@@ -57,9 +57,7 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        if ($form->query) {
-            $query->must(new QueryString($queryString));
-        }
+        $query->must(new QueryString($queryString));
 
         if ($form) {
             $this->applyDateTimeRangeFilter($query, $form);
@@ -67,13 +65,8 @@ class QuestionRepository
 
         $this->applyBadgeFilter($query, $form);
 
-        // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query || $form->badge !== $form->defaultBadge) {
-            $search = $this->index->search($query);
-            $search->facet('type');
-        } else {
-            throw new \DomainException('Задан пустой поисковый запрос');
-        }
+        $search = $this->index->search($query);
+        $search->facet('type');
 
         // Если нет совпадений no_match_size возвращает пустое поле для подсветки
         $search->highlight(
@@ -109,9 +102,7 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        if ($form->query) {
-            $query->must(new MatchQuery($queryString, '*'));
-        }
+        $query->must(new MatchQuery($queryString, '*'));
 
         if ($form) {
             $this->applyDateTimeRangeFilter($query, $form);
@@ -119,13 +110,8 @@ class QuestionRepository
 
         $this->applyBadgeFilter($query, $form);
 
-        // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query || $form->badge !== $form->defaultBadge) {
-            $search = $this->index->search($query);
-            $search->facet('type');
-        } else {
-            throw new \DomainException('Задан пустой поисковый запрос');
-        }
+        $search = $this->index->search($query);
+        $search->facet('type');
 
         $search->highlight(
             ['text'],
@@ -159,9 +145,7 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        if ($form->query) {
-            $query->must(new MatchPhrase($queryString, '*'));
-        }
+        $query->must(new MatchPhrase($queryString, '*'));
 
         if ($form) {
             $this->applyDateTimeRangeFilter($query, $form);
@@ -169,13 +153,8 @@ class QuestionRepository
 
         $this->applyBadgeFilter($query, $form);
 
-        // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query || $form->badge !== $form->defaultBadge) {
-            $search = $this->index->search($query);
-            $search->facet('type');
-        } else {
-            throw new \DomainException('Задан пустой поисковый запрос');
-        }
+        $search = $this->index->search($query);
+        $search->facet('type');
 
         $search->highlight(
             ['text'],
