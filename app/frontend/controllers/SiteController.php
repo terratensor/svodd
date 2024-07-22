@@ -104,8 +104,16 @@ class SiteController extends Controller
         $form = new SearchForm();
         $errorQueryMessage = '';
 
+        $queryParams = Yii::$app->request->queryParams;
+
         try {
-            if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
+            if ($form->load($queryParams) && $form->validate()) {
+
+                if (!isset($queryParams['sort']) && $form->query == "") {
+                    $newParams = $queryParams + ["sort" => '-datetime'];
+                    Yii::$app->request->setQueryParams($newParams);
+                }
+
                 $results = $this->service->search($form);
             }
         } catch (\DomainException $e) {
