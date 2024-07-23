@@ -143,4 +143,72 @@ class SearchHelper
 
         return $output;
     }
+
+    /**
+     * Escapes unclosed double quotes in a string, so that ManticoreSearch can't confuse them with its own
+     * @param string $string
+     * @return string
+     */
+    public static function escapeUnclosedQuotes($string)
+    {
+        $currently_open = '';
+        $position = 0;
+        $strLength = strlen($string);
+
+        // Loop through each character in the string
+        for ($i = 0; $i < $strLength; $i++) {
+
+            // Skip over escaped double quotes, i.e. \" does not count as an unclosed double quote
+            if (substr($string, $i, 2) == "\\\"") {
+                $i++;
+                continue;
+            }
+
+            // $string = self::replaceAsterisk($string, $i);
+
+            // If we encounter a double quote, and we are not currently inside a double quote
+            // (i.e. we are not currently counting it as an unclosed double quote), then mark the current
+            // position as an unclosed double quote
+            if (substr($string, $i, 1) === "\"") {
+                if ($currently_open === '') {
+                    $currently_open = substr($string, $i, 1);
+                    $position = $i;
+                } else {
+                    $currently_open = '';
+                }
+            }
+        }
+
+        // If we have an unclosed double quote, add an escape character before it, so that
+        // ManticoreSearch can't confuse it with its own syntax
+        if ($currently_open !== "") {
+            $string = substr_replace($string, '\\', $position, -$strLength - $position);
+        }
+        // echo $string;
+        return $string;
+    }
+
+    /**
+     * Replaces asterisk (*) in the string if it is not surrounded by alphanumeric characters.
+     * На текущий момент не используется 
+     * TODO: дописать так, чтобы астериск не экранировался, в том случае если as an any-term modifier within a phrase search.
+     * Т.е. внутри фразы - строки, которая обрамлена ковычками. Например: "управление * системами"
+     * @param string $string The input string.
+     * @param int $i The position of the asterisk in the string.
+     * @return string The modified string.
+     */
+    public static function replaceAsterisk($string, $i)
+    {
+        // Get the previous and next characters around the asterisk
+        $prevChar = substr($string, $i - 1, 1);
+        $nextChar = substr($string, $i + 1, 1);
+
+        // Check if the asterisk is not surrounded by alphanumeric characters
+        if (!preg_match('/[a-zA-Zа-яА-Я0-9]/u', $prevChar) && !preg_match('/[a-zA-Zа-яА-Я0-9]/u', $nextChar)) {
+            // Replace the asterisk with two backslashes to escape it
+            $string = str_replace('*', '\\', $string);
+        }
+
+        return $string;
+    }
 }

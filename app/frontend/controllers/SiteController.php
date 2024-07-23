@@ -11,6 +11,7 @@ use App\services\EmptySearchRequestExceptions;
 use App\services\ManticoreService;
 use App\UrlShortener\Form\CreateLink\CreateForm;
 use App\UrlShortener\Http\Action\V1\UrlShortener\ShortLinkAction;
+use Manticoresearch\Exceptions\ResponseException;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -116,6 +117,9 @@ class SiteController extends Controller
 
                 $results = $this->service->search($form);
             }
+        } catch (ResponseException $e) {
+            $errorQueryMessage = "Задан неправильный поисковый зпрос. Синтаксическая ошибка — использована недопустимая последовательность символов при составлении
+            запроса.";
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());

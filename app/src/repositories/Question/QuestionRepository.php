@@ -52,7 +52,10 @@ class QuestionRepository
             $this->setIndex($this->client->index($indexName));
         }
 
-        $queryString = SearchHelper::escapingCharacters($queryString);
+        // $queryString = SearchHelper::escapingCharacters($queryString);
+
+        $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
+
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
