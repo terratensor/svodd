@@ -118,7 +118,7 @@ class SiteController extends Controller
                 $results = $this->service->search($form);
             }
         } catch (ResponseException $e) {
-            $errorQueryMessage = "Задан неправильный поисковый зпрос. Синтаксическая ошибка — использована недопустимая последовательность символов при составлении
+            $errorQueryMessage = "Задан неправильный поисковый запрос. Синтаксическая ошибка — использована недопустимая последовательность символов при составлении
             запроса.";
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
