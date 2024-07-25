@@ -177,12 +177,21 @@ class SearchHelper
                     $currently_open = '';
                 }
             }
+
+            // TODO добавить обработку REGEX operator, чтобы можно было использовать астериск вместе с оператором
+            // if (substr($string, $i, 1) === "*" && $currently_open === "") {
+            //     $string = self::replaceAsterisk($string, $i);
+            // } elseif (substr($string, $i, 1) === "*" && $currently_open === "\"") {
+            //     $asteriskPosition = $i;
+            // }
         }
 
         // If we have an unclosed double quote, add an escape character before it, so that
         // ManticoreSearch can't confuse it with its own syntax
         if ($currently_open !== "") {
             $string = substr_replace($string, '\\', $position, -$strLength - $position);
+            // TODO добавить обработку REGEX operator, чтобы можно было использовать астериск вместе с оператором
+            // $string = self::replaceAsterisk($string, $asteriskPosition);
         }
         // echo $string;
         return $string;

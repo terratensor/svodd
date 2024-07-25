@@ -76,9 +76,9 @@ class IndexService
                     [
                         'index_sp' => 1,
                         'index_exact_words' => 1,
-                        'min_infix_len' => 3,
+                        'min_infix_len' => 2,
                         'morphology' => 'stem_en, stem_ru',
-                        'stopwords' => 'en, ru',
+                        // 'stopwords' => 'en, ru',
                     ]
                 );
             }
@@ -99,9 +99,9 @@ class IndexService
                     [
                         'index_sp' => 1,
                         'index_exact_words' => 1,
-                        'min_infix_len' => 3,
+                        'min_infix_len' => 2,
                         'morphology' => 'stem_ru, stem_en',
-                        'stopwords' => 'en, ru',
+                        // 'stopwords' => 'en, ru',
                         'exceptions' => ['/var/lib/manticore/exceptions.txt'],
                         'wordforms' => ['/var/lib/manticore/wordforms.txt /var/lib/manticore/alternateforms.txt',],
                     ]
