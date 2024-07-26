@@ -36,8 +36,14 @@ class ManticoreService
         $queryString = $form->query;
 
         $queryString = SearchHelper::processAvatarUrls($queryString);
+        $queryTransformedString = '';
 
-        $queryTransformedString = SearchHelper::transformString($queryString);
+        // If the query string does not contain any regex patterns, we can transform it to match common user queries
+        // This is useful for cases like "[fhhbc", "харрис".
+        if (!SearchHelper::containsRegexPattern($queryString)) {
+            // Transform the query string to match common user queries
+            $queryTransformedString = SearchHelper::transformString($queryString);
+        }
 
         if ($form->dictionary) {
             $indexName = \Yii::$app->params['indexes']['concept'];
@@ -61,7 +67,7 @@ class ManticoreService
         }
 
         $queryTransformed = false;
-        if ($comments->get()->getTotal() === 0) {
+        if ($comments->get()->getTotal() === 0 && $queryTransformedString !== '') {
             $comments2 = $this->getComments($queryTransformedString, $form, $indexName ?? null);
             if ($comments2->get()->getTotal() > 0) {
                 $comments = $comments2;
