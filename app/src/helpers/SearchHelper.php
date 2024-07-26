@@ -220,4 +220,20 @@ class SearchHelper
 
         return $string;
     }
+
+    /**
+     * Checks if the given query string contains a regex pattern.
+     *
+     * This function checks if the given query string contains a regex pattern
+     * in the form of "REGEX(pattern)". If it does, it returns true, otherwise false.
+     *
+     * @param string $queryString The query string to check.
+     * @return bool True if the query string contains a regex pattern, false otherwise.
+     */
+    public static function containsRegexPattern(string $queryString): bool
+    {
+        $regexPattern = '/REGEX\((.+)\)/';
+        return preg_match($regexPattern, $queryString) > 0;
+    }
+
 }
