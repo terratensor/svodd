@@ -9,6 +9,7 @@ use App\helpers\SearchHelper;
 use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
+use Manticoresearch\Search;
 use Yii;
 
 /**
@@ -35,6 +36,14 @@ class ManticoreService
         $queryString = $form->query;
 
         $queryString = SearchHelper::processAvatarUrls($queryString);
+        $queryTransformedString = '';
+
+        // If the query string does not contain any regex patterns, we can transform it to match common user queries
+        // This is useful for cases like "[fhhbc", "харрис".
+        if (!SearchHelper::containsRegexPattern($queryString)) {
+            // Transform the query string to match common user queries
+            $queryTransformedString = SearchHelper::transformString($queryString);
+        }
 
         if ($form->dictionary) {
             $indexName = \Yii::$app->params['indexes']['concept'];
@@ -57,6 +66,15 @@ class ManticoreService
             throw new EmptySearchRequestExceptions($e->getMessage());
         }
 
+        $queryTransformed = false;
+        if ($comments->get()->getTotal() === 0 && $queryTransformedString !== '') {
+            $comments2 = $this->getComments($queryTransformedString, $form, $indexName ?? null);
+            if ($comments2->get()->getTotal() > 0) {
+                $comments = $comments2;
+                $queryTransformed = true;
+            }
+        }
+
         return new QuestionDataProvider(
             [
                 'query' => $comments,
@@ -67,10 +85,16 @@ class ManticoreService
                     'attributes' => [
                         'type',
                         'position',
-                        'datetime'
+                        'datetime' => [
+                            'asc' => ['datetime' => SORT_ASC, 'position' => SORT_DESC],
+                            'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
+                        ]
                     ]
                 ],
-            ]);
+                'queryTransformed' => $queryTransformed,
+                'queryTransformedString' => $queryTransformedString
+            ]
+        );
     }
 
     public function question(int $id): QuestionView
@@ -102,7 +126,8 @@ class ManticoreService
                         'datetime'
                     ]
                 ],
-            ]);
+            ]
+        );
 
         return QuestionView::create(
             $id,
@@ -110,5 +135,26 @@ class ManticoreService
             $linkedQuestions,
             $commentsDataProvider
         );
+    }
+
+    private function getComments($queryString, $form, $indexName = null): Search
+    {
+        try {
+            $comments = match ($form->matching) {
+                'query_string' => $this->questionRepository
+                    ->findByQueryStringNew($queryString, $indexName ?? null, $form),
+                'match_phrase' => $this->questionRepository
+                    ->findByMatchPhrase($queryString, $indexName ?? null, $form),
+                'match' => $this->questionRepository
+                    ->findByQueryStringMatch($queryString, $indexName ?? null, $form),
+                'in' => $this->questionRepository
+                    ->findByCommentId($queryString, $indexName ?? null, $form),
+                //            default => $this->questionRepository
+                //                ->findByQueryStringNew($queryString, $indexName ?? null, $form),
+            };
+            return $comments;
+        } catch (\DomainException $e) {
+            throw new EmptySearchRequestExceptions($e->getMessage());
+        }
     }
 }

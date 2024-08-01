@@ -23,40 +23,35 @@ $this->registerMetaTag(['name' => 'description', 'content' => $this->params['met
 $this->registerJsFile('/js/color-mode-toggler.js', ['position' => \yii\web\View::POS_HEAD]);
 ?>
 <?php $this->beginPage() ?>
-  <!DOCTYPE html>
-  <html lang="<?= Yii::$app->language ?>" class="h-100" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="<?= Yii::$app->language ?>" class="h-100" data-bs-theme="light">
+
 <head>
     <?= $this->render('favicon'); ?>
-<title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <?= $this->render('yandex_metrika'); ?>
 </head>
-  <body class="d-flex flex-column h-100">
-  <?php $this->beginBody() ?>
 
-  <?= $this->render('red_header'); ?>
+<body class="d-flex flex-column h-100">
+    <?php $this->beginBody() ?>
 
-  <main role="main" class="flex-shrink-0 mb-3">
-      <div class="container-fluid pb-0">
-          <div class="d-flex justify-content-between align-items-baseline svodd-breadcrumb">
-              <?= Breadcrumbs::widget(
-                  [
-                      'links' => $this->params['breadcrumbs'] ?? [],
-                  ]
-              ) ?>
-              <?= ShortLinkModal::widget(); ?>
-          </div>
-          <?php MaintenanceWidget::widget(); ?>
-          <?= Alert::widget() ?>
-      </div>
+    <?= $this->render('red_header'); ?>
 
-      <?= $content ?>
+    <main role="main" class="flex-shrink-0 mb-3">
+        <div class="container-fluid pb-0">
+            <?php MaintenanceWidget::widget(); ?>
+            <?= Alert::widget() ?>
+        </div>
 
-  </main>
+        <?= $content ?>
 
-  <?= $this->render('footer'); ?>
+    </main>
 
-  <?php $this->endBody() ?>
-  </body>
-  </html>
+    <?= $this->render('footer'); ?>
+
+    <?php $this->endBody() ?>
+</body>
+
+</html>
 <?php $this->endPage();

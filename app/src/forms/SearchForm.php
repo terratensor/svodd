@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\forms;
@@ -19,6 +20,9 @@ class SearchForm extends Model
     public string $date = '';
     public string $matching = 'query_string';
     public bool $dictionary = false;
+    public string $badge = 'all';
+
+    public string $defaultBadge = 'all';
 
     public function behaviors(): array
     {
@@ -39,6 +43,7 @@ class SearchForm extends Model
             [['date'], 'match', 'pattern' => '/^.+\s\-\s.+$/'],
             [['date_from', 'date_to'], 'date', 'format' => 'php:d.m.Y H:i'],
             ['matching', 'in', 'range' => array_keys($this->getMatching())],
+            ['badge', 'in', 'range' => array_keys($this->makeBadgeList())],
             ['dictionary', 'boolean']
         ];
     }
@@ -46,10 +51,20 @@ class SearchForm extends Model
     public function getMatching(): array
     {
         return [
-            'query_string' => 'По умолчанию',
-            'match_phrase' => 'По соответствию фразе',
-            'match' => 'По совпадению слов',
-            'in' => 'По номеру(ам) комментария или вопроса, номера через запятую',
+            'query_string' => 'Обычный поиск',
+            'match_phrase' => 'Точное соответствие',
+            'match' => 'Любое слово',
+            self::MATCHING_IN => 'По номерам записей через запятую',
+        ];
+    }
+
+    public function makeBadgeList(): array
+    {
+        return [
+            self::BADGE_ALL => 'ВСЕ',
+            'svodd' => 'СВОДД',
+            'aq' => "ВОПРОС–ОТВЕТ",
+            'comments' => 'КОММЕНТАРИИ',
         ];
     }
 
@@ -57,4 +72,16 @@ class SearchForm extends Model
     {
         return 'search';
     }
+
+    public function beforeValidate(): bool
+    {
+        if ($this->matching === self::MATCHING_IN) {
+            $this->badge = self::BADGE_ALL;
+        }
+
+        return parent::beforeValidate();
+    }
+
+    private const MATCHING_IN = 'in';
+    private const BADGE_ALL = 'all';
 }

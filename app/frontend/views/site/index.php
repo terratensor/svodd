@@ -2,11 +2,12 @@
 
 /**
  * @var yii\web\View $this
- * @var QuestionDataProvider $results
+ * @var App\repositories\Question\QuestionDataProvider $results
  * @var Pagination $pages
  * @var SearchForm $model
  * @var string $errorQueryMessage
- * @var FeatureFlag $flag
+ * @var FeatureFlag $
+ * @var array $sids
  */
 
 use App\FeatureToggle\FeatureFlag;
@@ -18,8 +19,12 @@ use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
+use frontend\widgets\search\Badge;
+use frontend\widgets\search\BadgeFilter;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
+use frontend\widgets\search\ShortLinkModal;
+use frontend\widgets\search\TransformQuery;
 use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -30,6 +35,8 @@ use yii\helpers\Url;
 $this->title = 'Поиск по ФКТ';
 
 $this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.';
+
+$searchIcon = '<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>';
 
 if ($results) {
   $this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
@@ -43,9 +50,9 @@ echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettin
 echo Html::hiddenInput('value', 'toggle');
 echo Html::endForm();
 
-$inputTemplate = '<div class="input-group mb-2">
+$inputTemplate = '<div class="input-group mb-1">
           {input}
-          <button class="btn btn-primary" type="submit" id="button-search">Поиск</button>
+          <button class="btn btn-primary" type="submit" id="button-search">' . $searchIcon . '</button>
           <button class="btn btn-outline-secondary ' .
   (Yii::$app->session->get('show_search_settings') ? 'active' : "") . '" id="button-search-settings">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
@@ -54,16 +61,26 @@ $inputTemplate = '<div class="input-group mb-2">
           </button>
           </div>';
 
-$this->params['breadcrumbs'][] = $this->title;
+// $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
+  <div class="container-fluid badge-panel badge-filter">
+    <div class="row gy-3">
+      <div class="col-sm-6 d-sm-flex justify-content-start align-items-center">
+        <?= BadgeFilter::widget(['model' => $model]); ?>
+      </div>
+      <div class="col-sm-6 d-flex justify-content-end">
+        <?= ShortLinkModal::widget(); ?>
+      </div>
+    </div>
+  </div>
   <div class="search-block">
     <div class="container-fluid">
 
       <?php $form = ActiveForm::begin(
         [
           'method' => 'GET',
-          'action' => ['site/index'],
+          'action' => array_merge(['site/index'], \Yii::$app->request->queryParams),
           'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
         ]
       ); ?>
@@ -82,9 +99,10 @@ $this->params['breadcrumbs'][] = $this->title;
           ]
         )->label(false); ?>
       </div>
+      <?php BadgeFilter::widget(['model' => $model]); ?>
       <div id="search-setting-panel" class="search-setting-panel <?= Yii::$app->session->get('show_search_settings') ? 'show-search-settings' : '' ?>">
 
-        <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2']])
+        <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2 pt-1']])
           ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
           ->label(false); ?>
 
@@ -121,31 +139,40 @@ $this->params['breadcrumbs'][] = $this->title;
           <div class="col-md-6 d-flex align-items-center">
             <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
               ->checkbox()
-              ->label('Словарь концептуальных терминов (тестирование)'); ?>
+              ->label('Концептуальный словарь'); ?>
+          </div>
+          <div class="col-md-6 d-flex align-items-center">
+            <?= $form->field($model, 'badge', ['inline' => true, 'options' => ['tag' => false]])
+              ->hiddenInput($model->makeBadgeList(), ['class' => 'form-check-inline'])
+              ->label(false); ?>
           </div>
         </div>
       </div>
       <?php ActiveForm::end(); ?>
     </div>
   </div>
-  <?php if ($flag && $flag->isEnabled('09051945B') && !$results) : ?>
-    <div class="denpobedy mb-3">
-      <video playsinline autoplay muted loop poster="/video/denpobedy.png" class="object-fit-md-contain">
-        <source src="<?= Yii::$app->params['staticHostInfo'] . "/video/denpobedy.webm"; ?>" type="video/webm" />
-        <source src="<?= Yii::$app->params['staticHostInfo'] . "/video/denpobedy.mp4"; ?>" type="video/mp4" />
-        Элемент video не поддерживается вашим браузером.
-        <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
-      </video>
-    </div>
-  <?php endif; ?>
+
   <div class="container-fluid search-results">
     <?php if (!$results) : ?>
       <?php if ($errorQueryMessage) : ?>
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-body"><?= $errorQueryMessage; ?></div>
         </div>
       <?php endif; ?>
     <?php endif; ?>
+    <?php if ($flag && $flag->isEnabled('09051945B') && !$results) : ?>
+      <div class="denpobedy mb-3">
+        <video playsinline autoplay muted loop poster="/video/denpobedy.png" class="object-fit-md-contain">
+          <source src="<?= Yii::$app->params['staticHostInfo'] . "/video/denpobedy.webm"; ?>" type="video/webm" />
+          <source src="<?= Yii::$app->params['staticHostInfo'] . "/video/denpobedy.mp4"; ?>" type="video/mp4" />
+          Элемент video не поддерживается вашим браузером.
+          <a href="video/denpobedy.mp4">Скачайте видео поздравление с Днём Победы!</a>.
+        </video>
+      </div>
+    <?php endif; ?>
+
+    <?= TransformQuery::widget(['results' => $results]); ?>
+
     <?php if ($results) : ?>
       <?php
       // Property totalCount пусто пока не вызваны данные модели getModels(),
@@ -175,9 +202,9 @@ $this->params['breadcrumbs'][] = $this->title;
                   <select id="input-sort" class="form-select mb-3" onchange="location = this.value;">
                     <?php
                     $values = [
-                      '' => 'Сортировка по умолчанию',
-                      'datetime' => 'Сначала старые комментарии',
-                      '-datetime' => 'Сначала новые комментарии',
+                      '' => 'Сортировка по релевантности',
+                      '-datetime' => 'Сначала новые записи',
+                      'datetime' => 'Сначала старые записи',
                     ];
                     $current = Yii::$app->request->get('sort');
                     ?>
@@ -207,6 +234,9 @@ $this->params['breadcrumbs'][] = $this->title;
                   <?php else : ?>
                     <?php echo TextProcessor::widget(['text' => $comment->highlight['text'][0]]); ?>
                   <?php endif; ?>
+                  <div class="badge-container">
+                    <?= Badge::widget(['comment' => $comment, 'svodd_questions' => $sids]); ?>
+                  </div>
                 </div>
               </div>
 

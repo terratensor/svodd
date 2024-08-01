@@ -7,6 +7,7 @@ namespace App\Question\Entity\Question;
 use App\behaviors\DateTimeBehavior;
 use App\Question\Entity\Statistic\QuestionStats;
 use App\Svodd\Entity\Chart\Data;
+use App\TgMessage\Entity\TgMessage;
 use DateTimeImmutable;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -25,6 +26,7 @@ use yii\db\ActiveRecord;
  * @property Question $question
  * @property QuestionStats $questionStat
  * @property Data $SvoddData
+ * @property TgMessage[] $messages
  */
 class Comment extends ActiveRecord implements AggregateRoot
 {
@@ -87,6 +89,11 @@ class Comment extends ActiveRecord implements AggregateRoot
     public function getSvoddData(): ActiveQuery
     {
         return $this->hasOne(Data::class, ['question_id' => 'question_data_id']);
+    }
+
+    public function getMessages(): ActiveQuery
+    {
+        return $this->hasMany(TgMessage::class, ['comment_id' => 'data_id']);
     }
 
     public static function tableName(): string

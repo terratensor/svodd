@@ -18,6 +18,9 @@ class QuestionDataProvider extends BaseDataProvider
      */
     public Search $query;
 
+    public bool $queryTransformed;
+    public string $queryTransformedString;
+
     protected function prepareModels(): array
     {
         $models = [];
@@ -41,10 +44,15 @@ class QuestionDataProvider extends BaseDataProvider
             // в случае, если разбивка на страницы есть - прочитать только одну страницу
             $pagination->totalCount = $this->getTotalCount();
 
-            $this->query->limit($pagination->pageSize);
-            $this->query->offset($pagination->getOffset());
-
             $limit = $pagination->getLimit();
+            $offset = $pagination->getOffset();
+
+            $this->query->limit($pagination->pageSize);
+            $this->query->offset($offset);
+
+            $maxMatches = $offset + $limit;
+            // Устанавливаем max_matches в зависимости от номера выбранной старницы
+            $this->query->maxMatches($maxMatches);
 
             $data = $this->query->get();
 
@@ -93,9 +101,9 @@ class QuestionDataProvider extends BaseDataProvider
     protected function prepareTotalCount()
     {
         $count = $this->query->get()->getTotal();
-        if ($count > 1000) {
-            $this->query->maxMatches($count);
-        }
+        // if ($count > 1000) {
+        //     $this->query->maxMatches($count);
+        // }
         return $count;
     }
 }

@@ -6,6 +6,7 @@ namespace App\repositories\Question;
 
 use App\forms\SearchForm;
 use App\helpers\SearchHelper;
+use App\Svodd\Entity\Chart\Data;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
 use Manticoresearch\Query\BoolQuery;
@@ -51,26 +52,24 @@ class QuestionRepository
             $this->setIndex($this->client->index($indexName));
         }
 
-        $queryString = SearchHelper::escapingCharacters($queryString);
+        // $queryString = SearchHelper::escapingCharacters($queryString);
+
+        $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
+
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        if ($form->query) {
-            $query->must(new QueryString($queryString));
-        }
+        $query->must(new QueryString($queryString));
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
-        // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
-            $search = $this->index->search($query);
-            $search->facet('type');
-        } else {
-            throw new \DomainException('Задан пустой поисковый запрос');
-        }
+        $this->applyBadgeFilter($query, $form);
+
+        $search = $this->index->search($query);
+        $search->facet('type');
 
         // Если нет совпадений no_match_size возвращает пустое поле для подсветки
         $search->highlight(
@@ -106,21 +105,16 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        if ($form->query) {
-            $query->must(new MatchQuery($queryString, '*'));
-        }
+        $query->must(new MatchQuery($queryString, '*'));
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
-        // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
-            $search = $this->index->search($query);
-            $search->facet('type');
-        } else {
-            throw new \DomainException('Задан пустой поисковый запрос');
-        }
+        $this->applyBadgeFilter($query, $form);
+
+        $search = $this->index->search($query);
+        $search->facet('type');
 
         $search->highlight(
             ['text'],
@@ -145,8 +139,7 @@ class QuestionRepository
         string $queryString,
         ?string $indexName = null,
         ?SearchForm $form = null
-    ): Search
-    {
+    ): Search {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
@@ -155,21 +148,16 @@ class QuestionRepository
         // Запрос переделан под фильтр
         $query = new BoolQuery();
 
-        if ($form->query) {
-            $query->must(new MatchPhrase($queryString, '*'));
-        }
+        $query->must(new MatchPhrase($queryString, '*'));
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
 
-        // Выполняем поиск если установлен фильтр или установлен строка поиска
-        if ($form->date || $form->query) {
-            $search = $this->index->search($query);
-            $search->facet('type');
-        } else {
-            throw new \DomainException('Задан пустой поисковый запрос');
-        }
+        $this->applyBadgeFilter($query, $form);
+
+        $search = $this->index->search($query);
+        $search->facet('type');
 
         $search->highlight(
             ['text'],
@@ -194,8 +182,7 @@ class QuestionRepository
         string $queryString,
         ?string $indexName = null,
         ?SearchForm $form = null
-    ): Search
-    {
+    ): Search {
         $this->search->reset();
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
@@ -221,8 +208,10 @@ class QuestionRepository
         }
 
         if ($form) {
-            $this->dataTimeRangeFilter($query, $form);
+            $this->applyDateTimeRangeFilter($query, $form);
         }
+
+        $this->applyBadgeFilter($query, $form);
 
         // Выполняем поиск если установлен фильтр или установлен строка поиска
         if ($form->date || $form->query) {
@@ -300,15 +289,58 @@ class QuestionRepository
     }
 
     /**
-     * Добавлен фильтр по диапазону даты и времени
-     * @param BoolQuery $query
-     * @param SearchForm $form
+     * Apply a filter by date and time range.
+     *
+     * @param BoolQuery $query The query to apply the filter to.
+     * @param SearchForm $form The form containing the date range.
+     * @return BoolQuery The modified query.
      */
-    private function dataTimeRangeFilter(BoolQuery $query, SearchForm $form): BoolQuery
+    private function applyDateTimeRangeFilter(BoolQuery $query, SearchForm $form): BoolQuery
     {
         if ($form->date_from && $form->date_to) {
-            $query->must(new Range('datetime', ['gte' => (int)$form->date_from, 'lte' => (int)$form->date_to]));
+            $query->must(new Range('datetime', [
+                'gte' => (int) $form->date_from,
+                'lte' => (int) $form->date_to,
+            ]));
+        }
+
+        return $query;
+    }
+
+
+    public function applyBadgeFilter(BoolQuery $query, SearchForm $form): BoolQuery
+    {
+        $boolQuery = new BoolQuery();
+        if ($form && isset($form->badge)) {
+            $badge = $form->badge;
+            switch ($badge) {
+                case "svodd":
+                    $query->must($boolQuery->should(
+                        new In('parent_id', $this->getSvoddQuestionIds()),
+                        new In('data_id', $this->getSvoddQuestionIds())
+                    ));
+                    break;
+                case "aq":
+                    $query->must(new In('type', [4, 5]));
+                    break;
+                case "comments":
+                    $query->mustNot(new In('data_id', $this->getSvoddQuestionIds()))
+                        ->mustNot(new In('parent_id', $this->getSvoddQuestionIds()))
+                        ->must(new In('type', [1, 2, 3]));
+                    break;
+            }
         }
         return $query;
+    }
+
+    /**
+     * @return array
+     */
+    private function getSvoddQuestionIds(): array
+    {
+        return Data::find()
+            ->select(['question_id'])
+            ->asArray()
+            ->column();
     }
 }

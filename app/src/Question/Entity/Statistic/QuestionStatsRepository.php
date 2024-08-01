@@ -25,6 +25,14 @@ class QuestionStatsRepository
         return QuestionStats::find()->orderBy('number')->all();
     }
 
+    public function findSvoddQuestionIds(): array
+    {
+        return Data::find()
+            ->select(['question_id'])
+            ->asArray()
+            ->column();
+    }
+
     public function findAllForList(): array
     {
         $questionIds = Data::find()
@@ -53,5 +61,4 @@ class QuestionStatsRepository
             throw new \RuntimeException('Saving error.');
         }
     }
-
 }

@@ -11,6 +11,7 @@ use App\services\EmptySearchRequestExceptions;
 use App\services\ManticoreService;
 use App\UrlShortener\Form\CreateLink\CreateForm;
 use App\UrlShortener\Http\Action\V1\UrlShortener\ShortLinkAction;
+use Manticoresearch\Exceptions\ResponseException;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -32,8 +33,7 @@ class SiteController extends Controller
         QuestionStatsRepository $questionStatsRepository,
         FeatureFlag $flag,
         $config = []
-    )
-    {
+    ) {
         parent::__construct($id, $module, $config);
         $this->service = $service;
         $this->questionStatsRepository = $questionStatsRepository;
@@ -105,10 +105,21 @@ class SiteController extends Controller
         $form = new SearchForm();
         $errorQueryMessage = '';
 
+        $queryParams = Yii::$app->request->queryParams;
+
         try {
-            if ($form->load(Yii::$app->request->queryParams) && $form->validate()) {
+            if ($form->load($queryParams) && $form->validate()) {
+
+                if (!isset($queryParams['sort']) && $form->query == "") {
+                    $newParams = $queryParams + ["sort" => '-datetime'];
+                    Yii::$app->request->setQueryParams($newParams);
+                }
+
                 $results = $this->service->search($form);
             }
+        } catch (ResponseException $e) {
+            $errorQueryMessage = "Задан неправильный поисковый запрос. Синтаксическая ошибка — использована недопустимая последовательность символов при составлении
+            запроса.";
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
             Yii::$app->session->setFlash('error', $e->getMessage());
@@ -126,7 +137,8 @@ class SiteController extends Controller
             'results' => $results ?? null,
             'model' => $form,
             'errorQueryMessage' => $errorQueryMessage,
-            'flag' => $this->flag ?? null
+            'flag' => $this->flag ?? null,
+            'sids' => $this->questionStatsRepository->findSvoddQuestionIds(),
         ]);
     }
 
@@ -150,8 +162,8 @@ class SiteController extends Controller
      *
      * @return string
      */
-//    public function actionAbout(): string
-//    {
-//        return $this->render('about');
-//    }
+    //    public function actionAbout(): string
+    //    {
+    //        return $this->render('about');
+    //    }
 }

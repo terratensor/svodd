@@ -499,3 +499,120 @@ input:focus:-ms-input-placeholder {
     padding: 10px 20px;
     border-left: solid var(--sv-quote-border);
 }
+
+
+.theme-mode {
+    margin-top: 2px;
+}
+
+.comment-text .badge,
+.search-block .badge,
+.badge-panel .badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: .125rem;
+    padding: .125rem .475rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.search-block .badge,
+.badge-panel .badge {
+    cursor: pointer;
+}
+
+.badge-filter {
+    gap: .125rem;
+}
+
+.badge-filter .disabled {
+    cursor: default;
+    opacity: 0.65;
+}
+
+.badge-default {
+    --tw-text-opacity: 1;
+    color: rgb(224 217 217 / var(--tw-text-opacity));
+    --tw-bg-opacity: 1;
+    background-color: rgb(73 80 87 / var(--tw-bg-opacity));
+}
+
+.badge-container {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    margin-top: 1rem;
+}
+
+.text-svoddWhite-300 {
+    --tw-text-opacity: 1;
+    color: rgb(224 217 217 / var(--tw-text-opacity));
+}
+
+.text-svoddRed-100 {
+    --tw-text-opacity: 1;
+    color: rgb(173 52 52 / var(--tw-text-opacity));
+}
+
+.dropdown-menu.show .active .menu-icon.text-svoddRed-100 {
+    --tw-text-opacity: 1;
+    color: rgb(224 217 217 / var(--tw-text-opacity));
+}
+
+.dropdown-menu.show .active .menu-icon.text-svoddWhite-300 {
+    --tw-text-opacity: 1;
+    color: rgb(173 52 52 / var(--tw-text-opacity));
+}
+
+.badge-aq,
+.badge-svodd,
+.badge-comments {
+    --tw-bg-opacity: 1;
+}
+
+.badge-aq {
+    background-color: rgb(189 142 0 / var(--tw-bg-opacity));
+}
+
+.badge-svodd {
+    background-color: rgb(181 29 0 / var(--tw-bg-opacity));
+}
+
+.badge-comments {
+    background-color: rgb(45 126 35 / var(--tw-bg-opacity));
+}
+
+.divider {
+    margin: 1rem 0;
+    color: inherit;
+    border: 0;
+    border-top: var(--bs-border-width) solid;
+    opacity: .25;
+}
+
+.menu-icon {
+    user-select: none;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    fill: currentcolor;
+    flex-shrink: 0;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    font-size: 1.5rem;
+}
+
+.search-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.star-icon,
+.chart-icon {
+    margin-right: 3px;
+}
+
+.card-footer a {
+    text-decoration: none;
+}
