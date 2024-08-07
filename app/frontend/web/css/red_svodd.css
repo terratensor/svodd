@@ -133,7 +133,7 @@
     --sv-card-bg: #f3f1ed;
     --bg-footer-color: #f5f5f5;
     --sv-search-form: #242324;
-    --sv-search-form-bg: #ebeaea;
+    --sv-search-form-bg: #ffffff;
     --sv-search-border: #d3cccc;
 
     /* Выпадающий календарь светлый */
@@ -152,6 +152,9 @@
     --dr-search-form-bg: #bdbab6;
     --dr-search-form-body: #19191a;
     --dr-search-form-border: #f9f8f6;
+    
+    --svodd-badge-default-bg: #e5e7eb;
+    --svodd-badge-default-color: #1f2937;
 }
 
 [data-bs-theme=dark] {
@@ -244,6 +247,9 @@
     --dr-search-form-bg: #3d3d40;
     --dr-search-form-body: #cfd1d7;
     --dr-search-form-border: #191a1c;
+
+    --svodd-badge-default-bg: #495057;
+    --svodd-badge-default-color: #e0d9d9;
 }
 
 /* СТИЛИ */
@@ -532,11 +538,9 @@ input:focus:-ms-input-placeholder {
     opacity: 0.65;
 }
 
-.badge-default {
-    --tw-text-opacity: 1;
-    color: rgb(224 217 217 / var(--tw-text-opacity));
-    --tw-bg-opacity: 1;
-    background-color: rgb(73 80 87 / var(--tw-bg-opacity));
+.badge-default {        
+    color: var(--svodd-badge-default-color);    
+    background-color: var(--svodd-badge-default-bg);
 }
 
 .badge-container {

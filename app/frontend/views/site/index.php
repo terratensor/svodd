@@ -80,7 +80,7 @@ $inputTemplate = '<div class="input-group mb-1">
       <?php $form = ActiveForm::begin(
         [
           'method' => 'GET',
-          'action' => array_merge(['site/index'], \Yii::$app->request->queryParams),
+          'action' => ['site/index'],
           'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
         ]
       ); ?>
@@ -160,7 +160,7 @@ $inputTemplate = '<div class="input-group mb-1">
         </div>
       <?php endif; ?>
     <?php endif; ?>
-    <?php if ($flag && $flag->isEnabled('09051945B') && !$results) : ?>
+    <?php if ($flag && $flag->isEnabled('09051945B') && Yii::$app->request->url == Yii::$app->homeUrl) : ?>
       <div class="denpobedy mb-3">
         <video playsinline autoplay muted loop poster="/video/denpobedy.png" class="object-fit-md-contain">
           <source src="<?= Yii::$app->params['staticHostInfo'] . "/video/denpobedy.webm"; ?>" type="video/webm" />
@@ -206,7 +206,7 @@ $inputTemplate = '<div class="input-group mb-1">
                       '-datetime' => 'Сначала новые записи',
                       'datetime' => 'Сначала старые записи',
                     ];
-                    $current = Yii::$app->request->get('sort');
+                    $current = $model->query !== '' ? Yii::$app->request->get('sort') : '-datetime';
                     ?>
                     <?php foreach ($values as $value => $label) : ?>
                       <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>" <?php if ($current == $value) : ?>selected="selected" <?php endif; ?>><?= $label ?></option>

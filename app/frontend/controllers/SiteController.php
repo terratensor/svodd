@@ -107,6 +107,8 @@ class SiteController extends Controller
 
         $queryParams = Yii::$app->request->queryParams;
 
+        $results = $this->service->index();
+
         try {
             if ($form->load($queryParams) && $form->validate()) {
 
