@@ -16,6 +16,7 @@ use yii\base\Model;
  * @property string $text
  * @property string $datetime
  * @property string $url
+ * @property int $comments_count
  * @property ?string $highlight
  */
 class Comment extends Model
@@ -38,6 +39,7 @@ class Comment extends Model
     public $highlight;
     public $avatar_file;
     public $url;
+    public $comments_count;
 
     public static function create(
         string $data_id,
@@ -50,6 +52,7 @@ class Comment extends Model
         string $text,
         string $datetime,
         string $url,
+        string $comments_count,
         ?string $highlight,
     ): self {
         $comment = new static();
@@ -65,6 +68,7 @@ class Comment extends Model
         $comment->datetime = $datetime;
         $comment->highlight = $highlight;
         $comment->url = $url;
+        $comment->comments_count = $comments_count;
 
         return $comment;
     }

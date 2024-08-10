@@ -17,17 +17,20 @@ class StatisticService
     private QuestionStatsRepository $questionStatsRepository;
     private CommentReadModel $commentReadModel;
     private ChartDataUpdater $chartDataUpdater;
+    private QuestionIndexService $questionIndexService;
 
     public function __construct(
         QuestionRepository $questionRepository,
         QuestionStatsRepository $questionStatsRepository,
         CommentReadModel $commentReadModel,
         ChartDataUpdater $chartDataUpdater,
+        QuestionIndexService $questionIndexService
     ) {
         $this->questionRepository = $questionRepository;
         $this->questionStatsRepository = $questionStatsRepository;
         $this->commentReadModel = $commentReadModel;
         $this->chartDataUpdater = $chartDataUpdater;
+        $this->questionIndexService = $questionIndexService;
     }
 
     /**
@@ -80,6 +83,8 @@ class StatisticService
         if ($stats->questionDate === null) {
             $stats->questionDate = $question->datetime;
         }
+
+        $this->questionIndexService->updateCommentsCount($question->data_id, $comments_count);
 
         $stats->changeCommentsCount($comments_count, $lastCommentDate);
         $stats->changeLastCommentDataId($lastCommentDataId);
