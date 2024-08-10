@@ -212,7 +212,7 @@ $inputTemplate = '<div class="input-group mb-1">
                       '-comments_count' => 'Количество комментариев по убыванию',
                     ];
                     $current = $sort;
-                    if ($sort = 'comments_count' || $sort = '-comments_count') {
+                    if ($sort === 'comments_count' || $sort === '-comments_count') {
                       $current = $current ?: $sort;
                     } else {
                       $current = $model->query !== '' ? $sort : '-datetime';
