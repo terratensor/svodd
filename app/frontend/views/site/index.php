@@ -32,6 +32,8 @@ use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
 use yii\helpers\Url;
 
+
+$sort = Yii::$app->request->get('sort') ?: '';
 $this->title = 'Поиск по ФКТ';
 
 $this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.';
@@ -80,7 +82,7 @@ $inputTemplate = '<div class="input-group mb-1">
       <?php $form = ActiveForm::begin(
         [
           'method' => 'GET',
-          'action' => ['site/index'],
+          'action' => ['site/index', 'sort' => $sort],
           'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
         ]
       ); ?>
@@ -88,7 +90,8 @@ $inputTemplate = '<div class="input-group mb-1">
         <?= $form->field($model, 'query', [
           'inputTemplate' => $inputTemplate,
           'options' => [
-            'class' => 'w-100', 'role' => 'search'
+            'class' => 'w-100',
+            'role' => 'search'
           ]
         ])->textInput(
           [
@@ -205,8 +208,15 @@ $inputTemplate = '<div class="input-group mb-1">
                       '' => 'Сортировка по релевантности',
                       '-datetime' => 'Сначала новые записи',
                       'datetime' => 'Сначала старые записи',
+                      'comments_count' => 'Количество комментариев по возрастанию',
+                      '-comments_count' => 'Количество комментариев по убыванию',
                     ];
-                    $current = $model->query !== '' ? Yii::$app->request->get('sort') : '-datetime';
+                    $current = $sort;
+                    if ($sort = 'comments_count' || $sort = '-comments_count') {
+                      $current = $current ?: $sort;
+                    } else {
+                      $current = $model->query !== '' ? $sort : '-datetime';
+                    }
                     ?>
                     <?php foreach ($values as $value => $label) : ?>
                       <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>" <?php if ($current == $value) : ?>selected="selected" <?php endif; ?>><?= $label ?></option>

@@ -88,7 +88,8 @@ class ManticoreService
                         'datetime' => [
                             'asc' => ['datetime' => SORT_ASC, 'position' => SORT_DESC],
                             'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
-                        ]
+                        ],
+                        'comments_count',
                     ]
                 ],
                 'queryTransformed' => $queryTransformed,
@@ -119,7 +120,8 @@ class ManticoreService
                         'datetime' => [
                             'asc' => ['datetime' => SORT_ASC, 'position' => SORT_DESC],
                             'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
-                        ]
+                        ],
+                        'comments_count',
                     ]
                 ],
                 'queryTransformed' => false,

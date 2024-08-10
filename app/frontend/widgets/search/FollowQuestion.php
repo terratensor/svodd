@@ -53,11 +53,16 @@ class FollowQuestion extends Widget
     {
         $id = $this->comment->type === 1 ? $this->comment->data_id : $this->question_id;
         if (!$id) {
-            return '<span></span>';
+            return Html::tag('span', '');
         }
-        return Html::a(
+        $link =  Html::a(
             $this->title,
             $this->getUrl(),
         );
+
+        if ($this->comment->type === 1) {
+            $link .= " (комментариев: {$this->comment->comments_count})";
+        }
+        return Html::tag('span', $link);
     }
 }

@@ -11,6 +11,7 @@ use App\Indexer\Service\TopicService;
 use App\Question\Entity\Question\QuestionRepository;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
+use App\Indexer\Service\QuestionIndexService;
 
 class Handler
 {
@@ -23,6 +24,7 @@ class Handler
     private JsonUnmarshalService $unmarshalService;
     private TopicService $topicService;
     private RemoveFileService $removeFileService;
+    private QuestionIndexService $questionIndexService;
 
     public function __construct(
         Client $client,
@@ -32,8 +34,8 @@ class Handler
         QuestionRepository $questionRepository,
         TopicService $topicService,
         RemoveFileService $removeFileService,
-    )
-    {
+        QuestionIndexService $questionIndexService,
+    ) {
         $this->client = $client;
         $this->index = $this->client->index('questions');
         $this->directoryService = $directoryService;
@@ -42,6 +44,7 @@ class Handler
         $this->unmarshalService = $unmarshalService;
         $this->topicService = $topicService;
         $this->removeFileService = $removeFileService;
+        $this->questionIndexService = $questionIndexService;
     }
 
     public function handle(string $name = 'questions'): void
@@ -82,6 +85,11 @@ class Handler
             // Добавляем вопрос в поисковый индекс manticore
             $this->index->addDocument($topic->question->getSource());
             $this->conceptIndex->addDocument($topic->question->getSource());
+            // Обновляем статистику комментариев в manticoresearch
+            $this->questionIndexService->updateCommentsCount(
+                $topic->question->data_id,
+                count($topic->comments)
+            );
 
             // Добавляем связанные вопросы в поисковый индекс manticore
             foreach ($topic->relatedQuestions as $relatedQuestion) {

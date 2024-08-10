@@ -106,13 +106,13 @@ class SiteController extends Controller
         $errorQueryMessage = '';
 
         $queryParams = Yii::$app->request->queryParams;
-
+        $sort = Yii::$app->request->get('sort');
         $results = $this->service->index();
 
         try {
             if ($form->load($queryParams) && $form->validate()) {
 
-                if (!isset($queryParams['sort']) && $form->query == "") {
+                if (!$sort && $form->query == "") {
                     $newParams = $queryParams + ["sort" => '-datetime'];
                     Yii::$app->request->setQueryParams($newParams);
                 }

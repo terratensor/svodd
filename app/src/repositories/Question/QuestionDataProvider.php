@@ -30,6 +30,9 @@ class QuestionDataProvider extends BaseDataProvider
         foreach ($sort->getOrders() as $attribute => $value) {
             $direction = $value === SORT_ASC ? 'asc' : 'desc';
             $this->query->sort($attribute, $direction);
+            if ($attribute === 'comments_count') {
+                $this->query->filter('type', 'in', [Comment::TYPE_QUESTION]);
+            }
         }
 
         if ($pagination === false) {
@@ -101,9 +104,6 @@ class QuestionDataProvider extends BaseDataProvider
     protected function prepareTotalCount()
     {
         $count = $this->query->get()->getTotal();
-        // if ($count > 1000) {
-        //     $this->query->maxMatches($count);
-        // }
         return $count;
     }
 }
