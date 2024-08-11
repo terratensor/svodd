@@ -258,7 +258,7 @@ $inputTemplate = '<div class="input-group mb-1">
           <?php endforeach; ?>
 
           <div class="container container-pagination">
-            <div class="detachable fixed-bottom">
+            <div class="detachable">
               <?php echo LinkPager::widget(
                 [
                   'pagination' => $pagination,

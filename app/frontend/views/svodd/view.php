@@ -45,21 +45,21 @@ foreach ($dataProvider->getModels() as $model): ?>
 <?php endforeach; ?>
 
 <div class="container container-pagination">
-  <div class="detachable fixed-bottom">
-      <?= LinkPager::widget(
-          [
-              'pagination' => $pagination,
-              'firstPageLabel' => true,
-              'lastPageLabel' => true,
-              'maxButtonCount' => 3,
-              'options' => [
-                  'class' => 'd-flex justify-content-center'
-              ],
-              'listOptions' => ['class' => 'pagination mb-0']
-          ]
-      );
-      ?>
-  </div>
+    <div class="detachable">
+        <?= LinkPager::widget(
+            [
+                'pagination' => $pagination,
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'maxButtonCount' => 3,
+                'options' => [
+                    'class' => 'd-flex justify-content-center'
+                ],
+                'listOptions' => ['class' => 'pagination mb-0']
+            ]
+        );
+        ?>
+    </div>
 </div>
 
 <?= ScrollWidget::widget(['data_entity_id' => $model->data_id ?? 0]); ?>

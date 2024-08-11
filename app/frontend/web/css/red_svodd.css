@@ -293,6 +293,18 @@ span.link {
     --bs-pagination-active-border-color: var(--pagination-a-border-color);
 }
 
+.container-pagination {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    bottom: 0;
+    position: sticky;
+}
+
+.container-pagination .detachable {
+    margin: 1rem 0;
+}
+
 .footer {
     background-color: var(--bg-footer-color);
     font-size: .9em;
