@@ -51,19 +51,19 @@ class FollowQuestion extends Widget
 
     public function run(): string
     {
-        $id = $this->comment->type === 1 ? $this->comment->data_id : $this->question_id;
-        if (!$id) {
+        $questionId = $this->comment->type === 1 ? $this->comment->data_id : $this->question_id;
+
+        if (!$questionId) {
             return Html::tag('span', '');
         }
-        $link =  Html::a(
-            $this->title,
+
+        $linkTitle = $this->comment->type === 1 ? "Комментариев: {$this->comment->comments_count}" : $this->title;
+
+        $link = Html::a(
+            $linkTitle,
             $this->getUrl(),
         );
 
-        if ($this->comment->type === 1) {
-            // $link .= ' (' . Html::tag('i', '', ['class' => 'bi bi-chat-right']) . ' ' . $this->comment->comments_count . ')';
-            $link .= Html::tag('small', " комментариев: {$this->comment->comments_count}");
-        }
         return Html::tag('span', $link, ['class' => 'd-flex align-items-baseline flex-column lh-sm']);
     }
 }
