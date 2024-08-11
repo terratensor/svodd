@@ -20,7 +20,7 @@ $position = Yii::$app->request->get()['c'] ?? 0;
 foreach ($dataProvider->getModels() as $model): ?>
     <?php $data_entity_id = $model->data_id; ?>
     <div id="<?= $model->position; ?>" data-entity-id="<?= $model->data_id; ?>"
-         class="<?= $position == $model->position ? "card mb-4 border-primary" : "card mb-4" ?>">
+        class="<?= $position == $model->position ? "card mb-4 border-primary" : "card mb-4" ?>">
         <div class="<?= $position == $model->position ? "card-header d-flex justify-content-between border-primary" : "card-header d-flex justify-content-between" ?>">
             <?= CommentHeader::widget(['model' => $model]); ?>
         </div>
@@ -29,14 +29,14 @@ foreach ($dataProvider->getModels() as $model): ?>
                 <?= TextProcessor::widget(['text' => $model->text]); ?>
             </div>
         </div>
-      <div class="card-footer d-flex justify-content-end">
-          <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
-          <?= Html::a(
-              'Перейти к комментарию на ФКТ',
-              $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
-              ['target' => '_blank', 'rel' => 'noopener noreferrer']
-          ); ?>
-      </div>
+        <div class="card-footer d-flex justify-content-end">
+            <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
+            <?= Html::a(
+                '★&nbsp;Источник',
+                $link . "#:~:text=" . $model->datetime->format('H:i d.m.Y'),
+                ['target' => '_blank', 'rel' => 'noopener noreferrer']
+            ); ?>
+        </div>
     </div>
 <?php endforeach; ?>
 <?= ScrollWidget::widget(['data_entity_id' => $data_entity_id ?? 0]); ?>

@@ -593,7 +593,8 @@ input:focus:-ms-input-placeholder {
 
 .badge-aq,
 .badge-svodd,
-.badge-comments {
+.badge-comments,
+.badge-question {
     --tw-bg-opacity: 1;
 }
 
@@ -606,6 +607,10 @@ input:focus:-ms-input-placeholder {
 }
 
 .badge-comments {
+    background-color: rgb(45 126 35 / var(--tw-bg-opacity));
+}
+
+.badge-question {
     background-color: rgb(45 126 35 / var(--tw-bg-opacity));
 }
 

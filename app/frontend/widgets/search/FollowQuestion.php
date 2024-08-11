@@ -61,8 +61,9 @@ class FollowQuestion extends Widget
         );
 
         if ($this->comment->type === 1) {
-            $link .= " (комментариев: {$this->comment->comments_count})";
+            // $link .= ' (' . Html::tag('i', '', ['class' => 'bi bi-chat-right']) . ' ' . $this->comment->comments_count . ')';
+            $link .= Html::tag('small', " комментариев: {$this->comment->comments_count}");
         }
-        return Html::tag('span', $link);
+        return Html::tag('span', $link, ['class' => 'd-flex align-items-baseline flex-column lh-sm']);
     }
 }

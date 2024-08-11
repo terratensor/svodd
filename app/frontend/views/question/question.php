@@ -12,19 +12,19 @@ use yii\helpers\Html;
 ?>
 <div class="card mb-4 border-secondary">
   <div class="card-header d-flex justify-content-between border-secondary-subtle">
-      <?= QuestionHeader::widget(['question' => $question]); ?>
+    <?= QuestionHeader::widget(['question' => $question]); ?>
   </div>
   <div class="card-body">
     <div class="card-text comment-text">
-        <?php echo TextProcessor::widget(['text' => $question->text]); ?>
+      <?php echo TextProcessor::widget(['text' => $question->text]); ?>
     </div>
   </div>
   <div class="card-footer d-flex justify-content-end border-secondary-subtle">
-      <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $question->data_id; ?>
-      <?= Html::a(
-          'Перейти к вопросу на ФКТ',
-          $link . "#:~:text=" . $question->datetime->format('H:i d.m.Y'),
-          ['target' => '_blank', 'rel' => 'noopener noreferrer']
-      ); ?>
+    <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $question->data_id; ?>
+    <?= Html::a(
+      '★&nbsp;Источник',
+      $link . "#:~:text=" . $question->datetime->format('H:i d.m.Y'),
+      ['target' => '_blank', 'rel' => 'noopener noreferrer']
+    ); ?>
   </div>
 </div>
