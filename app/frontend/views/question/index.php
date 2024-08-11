@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="container container-pagination">
-  <div class="detachable fixed-bottom">
+  <div class="detachable">
       <?= LinkPager::widget(
           [
               'pagination' => $pagination,

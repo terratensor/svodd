@@ -34,6 +34,7 @@ use yii\helpers\Url;
 
 
 $sort = Yii::$app->request->get('sort') ?: '';
+$feature = Yii::$app->request->get('feature') ?: '';
 $this->title = 'Поиск по ФКТ';
 
 $this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.';
@@ -214,8 +215,8 @@ $inputTemplate = '<div class="input-group mb-1">
                     $current = $sort;
                     if ($sort === 'comments_count' || $sort === '-comments_count') {
                       $current = $current ?: $sort;
-                    } else {
-                      $current = $model->query !== '' ? $sort : '-datetime';
+                    } else if ($model->query === '' && !$sort) {
+                      $current = '-datetime';
                     }
                     ?>
                     <?php foreach ($values as $value => $label) : ?>
@@ -258,7 +259,7 @@ $inputTemplate = '<div class="input-group mb-1">
           <?php endforeach; ?>
 
           <div class="container container-pagination">
-            <div class="detachable fixed-bottom">
+            <div class="detachable">
               <?php echo LinkPager::widget(
                 [
                   'pagination' => $pagination,
