@@ -100,7 +100,18 @@ class SiteController extends Controller
      */
     public function actionIndex($feature = null): string
     {
-        $this->layout = 'search';
+        foreach ($this->flag->features as $key => $value) {
+            if ($feature === $key) {
+                $this->flag->enable($key);
+            }
+        }
+
+        // if ($this->flag->isEnabled('new_theme')) {
+        $this->layout = 'new-search';
+        // } else {
+        //     $this->layout = 'search';
+        // }
+
         $results = null;
         $form = new SearchForm();
         $errorQueryMessage = '';
@@ -127,12 +138,6 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         } catch (EmptySearchRequestExceptions $e) {
             $errorQueryMessage = $e->getMessage();
-        }
-
-        foreach ($this->flag->features as $key => $value) {
-            if ($feature === $key) {
-                $this->flag->enable($key);
-            }
         }
 
         return $this->render('index', [

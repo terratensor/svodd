@@ -69,6 +69,7 @@ return [
     'feature-toggle' => [
         'features' => [
             '09051945B' => true,
+            'new_theme' => false,
         ],
     ],
     'indexes' => [
