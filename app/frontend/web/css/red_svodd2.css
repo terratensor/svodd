@@ -372,12 +372,14 @@ span.link {
     background-color: inherit;
     --bs-card-cap-padding-x: 2rem;
     --bs-card-cap-padding-y: 1rem;
+    margin-top: 0.5rem;
 }
 
 .card-footer {
     background-color: inherit;
     --bs-card-cap-padding-x: 2rem;
     --bs-card-cap-padding-y: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .card.mb-4 {
@@ -387,11 +389,17 @@ span.link {
 @media (max-width: 576px) {
     .card {
         --bs-card-spacer-x: 1rem;
+        --bs-card-spacer-y: .5rem;
     }
 
-    .card-header,
+    .card-header {
+        --bs-card-cap-padding-x: 1rem;
+        margin-top: 1rem;    
+    }
+
     .card-footer {
         --bs-card-cap-padding-x: 1rem;
+        margin-bottom: 1rem;;
     }
 }
 

@@ -106,11 +106,11 @@ class SiteController extends Controller
             }
         }
 
-        // if ($this->flag->isEnabled('new_theme')) {
-        $this->layout = 'new-search';
-        // } else {
-        //     $this->layout = 'search';
-        // }
+        if ($this->flag->isEnabled('new_theme')) {
+            $this->layout = 'new-search';
+        } else {
+            $this->layout = 'search';
+        }
 
         $results = null;
         $form = new SearchForm();
