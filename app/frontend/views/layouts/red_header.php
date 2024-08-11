@@ -84,7 +84,8 @@ $menuItems = [
         'label' => " $chartIcon <div class=\"d-lg-none ms-0\">Статистика и хронология обсуждения</div>",
         'url' => ['svodd/index'],
         'linkOptions' => [
-            'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center', 'title' => 'Статистика и хронология обсуждения СВОДД'
+            'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center',
+            'title' => 'Статистика и хронология обсуждения СВОДД'
         ],
         'options' => ['class' => 'd-lg-none ms-0 nav-item col-12 col-lg-auto'],
     ],
@@ -98,7 +99,8 @@ $menuItems = [
         'label' => " $chartIcon <div class=\"d-lg-none ms-0\">Статистика и хронология обсуждения</div>",
         'url' => ['svodd/index'],
         'linkOptions' => [
-            'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center', 'title' => 'Статистика и хронология обсуждения СВОДД'
+            'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center',
+            'title' => 'Статистика и хронология обсуждения СВОДД'
         ],
         'options' => ['class' => 'd-none d-lg-block d-xl-block nav-item col-12 col-lg-auto'],
     ],
@@ -162,7 +164,7 @@ $menuItems = [
                             </symbol>
                         </svg>
                         <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Переключить тему (светлая)" title="Переключить тему">
-                            <svg class="bi my-1 theme-icon-active">
+                            <svg class="bi my-1 theme-icon-active theme-icon-color">
                                 <use href="#sun-fill"></use>
                             </svg>
                             <span class="d-lg-none ms-2" id="bd-theme-text">Переключить тему</span>

@@ -157,6 +157,10 @@
     --svodd-badge-default-color: #1f2937;
     --bs-link-hover-color: #af1c1c;
     --bs-link-hover-color-rgb: 175, 28, 28;
+
+    /* Главное меню */
+    --tw-icon-menu-color-rgb: 173 52 52;
+    --tw-icon-menu-color-theme-rgb: 255 255 255;
 }
 
 [data-bs-theme=dark] {
@@ -251,6 +255,10 @@
 
     --svodd-badge-default-bg: #495057;
     --svodd-badge-default-color: #e0d9d9;
+
+    /* Главное меню */
+    --tw-icon-menu-color-rgb: 173 52 52;
+    --tw-icon-menu-color-theme-rgb: 173 52 52;
 }
 
 /* СТИЛИ */
@@ -570,7 +578,7 @@ input:focus:-ms-input-placeholder {
 
 .text-svoddRed-100 {
     --tw-text-opacity: 1;
-    color: rgb(173 52 52 / var(--tw-text-opacity));
+    color: rgb(var(--tw-icon-menu-color-rgb) / var(--tw-text-opacity));
 }
 
 .dropdown-menu.show .active .menu-icon.text-svoddRed-100 {
@@ -580,7 +588,7 @@ input:focus:-ms-input-placeholder {
 
 .dropdown-menu.show .active .menu-icon.text-svoddWhite-300 {
     --tw-text-opacity: 1;
-    color: rgb(173 52 52 / var(--tw-text-opacity));
+    color: rgb(var(--tw-icon-menu-color-rgb) / var(--tw-text-opacity));
 }
 
 .badge-aq,
@@ -618,6 +626,17 @@ input:focus:-ms-input-placeholder {
     flex-shrink: 0;
     transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     font-size: 1.5rem;
+}
+
+
+.theme-icon-color {
+    --tw-text-opacity: 1;
+    color: rgb(var(--tw-icon-menu-color-theme-rgb) / var(--tw-text-opacity));
+}
+
+.dropdown-toggle::after {
+    --tw-text-opacity: 1;
+    color: rgb(var(--tw-icon-menu-color-theme-rgb) / var(--tw-text-opacity));
 }
 
 .search-icon {
