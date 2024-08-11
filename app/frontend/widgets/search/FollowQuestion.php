@@ -13,7 +13,7 @@ class FollowQuestion extends Widget
     /**
      * @var string
      */
-    public string $title = 'Посмотреть вопрос';
+    public string $title = 'Контекст';
     /**
      * @var Comment
      */
