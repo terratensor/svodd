@@ -326,6 +326,10 @@ $('input[type=radio]').on('change', function() {
     $(this).closest("form").submit();
 });
 
+// Enable tooltips
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 JS;
 
 $this->registerJs($js);
