@@ -2,6 +2,7 @@
 
 namespace frontend\widgets\search;
 
+use App\helpers\SvgIconHelper;
 use App\models\Comment;
 use yii\base\Widget;
 use yii\bootstrap5\Html;
@@ -57,7 +58,13 @@ class FollowQuestion extends Widget
             return Html::tag('span', '');
         }
 
-        $linkTitle = $this->comment->type === 1 ? "Комментариев: {$this->comment->comments_count}" : $this->title;
+        $string = \Yii::$app->i18n->format(
+            '{n, plural, =0{Нет комментариев} =1{Один комментарий} one{# комментарий} few{# комментария} many{# коментариев} other{# комментария}}',
+            ['n' => $this->comment->comments_count],
+            'ru_RU'
+        );
+        $linkTitle = $this->comment->type === 1 ? "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"$string\">" .
+            SvgIconHelper::questionAnswerIcon() . " {$this->comment->comments_count}" : $this->title;
 
         $link = Html::a(
             $linkTitle,
