@@ -367,18 +367,20 @@ span.link {
 }
 
 .card-header {
-    font-size: .975rem;
-    /* font-weight: 500; */
+    font-size: .955rem;
+    font-weight: 500; 
     background-color: inherit;
     --bs-card-cap-padding-x: 2rem;
-    --bs-card-cap-padding-y: 1rem;
+    --bs-card-cap-padding-y: 1.2rem;
     margin-top: 0.5rem;
 }
 
 .card-footer {
+    font-size: .955rem;
+    font-weight: 500; 
     background-color: inherit;
     --bs-card-cap-padding-x: 2rem;
-    --bs-card-cap-padding-y: 1rem;
+    --bs-card-cap-padding-y: 1.2rem;
     margin-bottom: 0.5rem;
 }
 
