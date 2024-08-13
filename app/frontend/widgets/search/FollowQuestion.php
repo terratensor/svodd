@@ -64,7 +64,7 @@ class FollowQuestion extends Widget
             'ru_RU'
         );
         $linkTitle = $this->comment->type === 1 ? "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"$string\">" .
-            (rand(0, 1) > 0 ? SvgIconHelper::modeCommentIcon() : SvgIconHelper::commentIcon()) . " {$this->comment->comments_count}" : $this->title;
+            ($this->comment->comments_count > 0 ? SvgIconHelper::commentIcon() : SvgIconHelper::modeCommentIcon()) . " {$this->comment->comments_count}" : $this->title;
 
         $link = Html::a(
             $linkTitle,
