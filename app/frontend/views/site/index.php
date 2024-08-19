@@ -41,12 +41,10 @@ $this->params['meta_description'] = 'Поиск вопросов и коммен
 
 $searchIcon = '<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>';
 
-if (Yii::$app->request->url == Yii::$app->homeUrl) {
-  $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
-  $this->registerMetaTag(['name' => 'robots', 'content' => 'index, nofollow']);
-} else {
-  $this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
-  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
+
+if (Yii::$app->request->url !== Yii::$app->homeUrl) {
+  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);  
 }
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);

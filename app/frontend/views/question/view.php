@@ -27,7 +27,7 @@ $pagination = new Pagination(
 $this->title = 'Просмотр вопроса #' . $question->data_id;
 $this->params['breadcrumbs'][] = ['label' => 'Архив вопросов', 'url' => ['question/index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['question/view', 'id' => $question->data_id])]);
 ?>
 <div class="site-index">
   <div class="row">
