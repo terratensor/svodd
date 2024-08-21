@@ -17,26 +17,18 @@ class CommentHeader extends Widget
     public function run(): string
     {
         return Html::tag(
-                'div',
-                $this->model->datetime->format('H:i d.m.Y') . ", " .
+            'div',
+            $this->model->datetime->format('H:i d.m.Y') . ", " .
                 Html::tag(
                     'span',
                     $this->model->username,
                     ['class' => 'username']
                 )
-            ) .
-            Html::tag('div',
-
-                      BookmarkWidget::widget(['model' => $this->model], [
-                          'bookmark/add', 'id' => $this->model->data_id
-                      ],
-                              [
-                                  'class' => 'text-decoration-none', 'data-method' => 'post',
-                                  'data-pjax' => '0'
-                              ]
-                      ) .
-                      Html::tag('div', "#" . $this->model->data_id)
-                ,     ['class' => 'd-flex justify-content-between']
+        ) .
+            Html::tag(
+                'div',
+                Html::tag('div', "#" . $this->model->data_id),
+                ['class' => 'd-flex justify-content-between']
             );
     }
 }

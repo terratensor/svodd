@@ -6,18 +6,36 @@ use yii\helpers\Html;
 /** @var app\Bookmark\Entity\Comment\Bookmark $bookmark */
 
 if (isset($bookmark) && $bookmark) {
-    echo Html::a('<i class="bi bi-bookmark-fill"></i>', [
-        'bookmark/index',
-        'id' => $model->data_id
-    ], [
-        'class' => 'bookmarks'
-    ]);
+    echo Html::a(
+        Html::tag('i', '', [
+            'class' => 'bi bi-bookmark-fill',
+            'data-bs-toggle' => 'tooltip',
+            'data-bs-placement' => 'bottom',
+            'data-bs-title' => 'Убрать из закладок',
+        ]),
+        [
+            'bookmark/index',
+            'id' => $model->data_id
+        ],
+        [
+            'class' => 'bookmarks',
+        ]
+    );
 } else {
 
-    echo Html::a('<i class="bi bi-bookmark"></i>', [
-        'bookmark/index',
-        'id' => $model->data_id
-    ], [
-        'class' => 'bookmarks'
-    ]);
+    echo Html::a(
+        Html::tag('i', '', [
+            'class' => 'bi bi-bookmark',
+            'data-bs-toggle' => 'tooltip',
+            'data-bs-placement' => 'bottom',
+            'data-bs-title' => 'Добавить в закладки',
+        ]),
+        [
+            'bookmark/index',
+            'id' => $model->data_id
+        ],
+        [
+            'class' => 'bookmarks',
+        ]
+    );
 }
