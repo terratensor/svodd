@@ -2,6 +2,7 @@
 
 namespace frontend\widgets\search;
 
+use App\helpers\SvgIconHelper;
 use App\models\Comment;
 use yii\base\Widget;
 use yii\bootstrap5\Html;
@@ -13,7 +14,7 @@ class FollowQuestion extends Widget
     /**
      * @var string
      */
-    public string $title = 'Посмотреть вопрос';
+    public string $title = 'Контекст';
     /**
      * @var Comment
      */
@@ -51,13 +52,25 @@ class FollowQuestion extends Widget
 
     public function run(): string
     {
-        $id = $this->comment->type === 1 ? $this->comment->data_id : $this->question_id;
-        if (!$id) {
-            return '<span></span>';
+        $questionId = $this->comment->type === 1 ? $this->comment->data_id : $this->question_id;
+
+        if (!$questionId) {
+            return Html::tag('span', '');
         }
-        return Html::a(
-            $this->title,
+
+        $string = \Yii::$app->i18n->format(
+            '{n, plural, =0{Нет комментариев} =1{Один комментарий} one{# комментарий} few{# комментария} many{# коментариев} other{# комментария}}',
+            ['n' => $this->comment->comments_count],
+            'ru_RU'
+        );
+        $linkTitle = $this->comment->type === 1 ? "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"$string\">" .
+            ($this->comment->comments_count > 0 ? SvgIconHelper::commentIcon() : SvgIconHelper::modeCommentIcon()) . " {$this->comment->comments_count}" : $this->title;
+
+        $link = Html::a(
+            $linkTitle,
             $this->getUrl(),
         );
+
+        return Html::tag('span', $link, ['class' => 'd-flex align-items-baseline flex-column lh-sm']);
     }
 }

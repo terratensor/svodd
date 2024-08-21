@@ -1,7 +1,8 @@
 <?php
 
-/** @var $this \yii\web\View */
-/** @var $model \app\form\SearchForm */
+/** @var \yii\web\View $this */
+
+/** @var \app\forms\SearchForm $model */
 
 use frontend\widgets\search\BadgeFilter;
 use yii\helpers\Html;

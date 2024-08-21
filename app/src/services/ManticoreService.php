@@ -88,11 +88,44 @@ class ManticoreService
                         'datetime' => [
                             'asc' => ['datetime' => SORT_ASC, 'position' => SORT_DESC],
                             'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
-                        ]
+                        ],
+                        'comments_count',
                     ]
                 ],
                 'queryTransformed' => $queryTransformed,
                 'queryTransformedString' => $queryTransformedString
+            ]
+        );
+    }
+
+    public function index(): QuestionDataProvider
+    {
+        $form = new SearchForm();
+        $comments = $this->questionRepository->findByQueryStringNew('', $indexName ?? null, $form);
+
+        return new QuestionDataProvider(
+            [
+                'query' => $comments,
+                'pagination' => [
+                    'pageSize' => Yii::$app->params['questions']['pageSize'],
+                ],
+                'sort' => [
+                    'defaultOrder' => [
+                        'datetime' => SORT_DESC,
+                        'position' => SORT_ASC,
+                    ],
+                    'attributes' => [
+                        'type',
+                        'position',
+                        'datetime' => [
+                            'asc' => ['datetime' => SORT_ASC, 'position' => SORT_DESC],
+                            'desc' => ['datetime' => SORT_DESC, 'position' => SORT_ASC],
+                        ],
+                        'comments_count',
+                    ]
+                ],
+                'queryTransformed' => false,
+                'queryTransformedString' => false
             ]
         );
     }

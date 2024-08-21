@@ -14,6 +14,7 @@ use yii\web\View;
 $this->title = 'Большая СВОДДная тема';
 
 $this->params['meta_description'] = '24 февраля 2022 года президент России Владимир Путин в ответ на обращение руководителей республик Донбасса принял решение о проведении СВОДД. 3 октября ЛНР, ДНР, Херсонская и Запорожская области стали частью России. Сообщество ведёт соборное обсуждение глобальной специальной военной операции денацификации и демилитаризации.';
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/view'])]);
 
 $position = 1;
 $pagination = new Pagination(
@@ -45,7 +46,7 @@ foreach ($dataProvider->getModels() as $model): ?>
 <?php endforeach; ?>
 
 <div class="container container-pagination">
-    <div class="detachable fixed-bottom">
+    <div class="detachable">
         <?= LinkPager::widget(
             [
                 'pagination' => $pagination,
@@ -63,16 +64,3 @@ foreach ($dataProvider->getModels() as $model): ?>
 </div>
 
 <?= ScrollWidget::widget(['data_entity_id' => $model->data_id ?? 0]); ?>
-
-<?php $js = <<<JS
-    var elems = document.getElementsByClassName('bookmarks');
-    for(var i = 0; i < elems.length; i++) {
-
-        elems[i].addEventListener('click', function(event){
-            event.preventDefault();
-            alert(this.value);
-        }, false);
-    }
-JS;
-
-$this->registerJs($js);

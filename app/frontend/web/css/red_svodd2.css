@@ -152,7 +152,7 @@
     --dr-search-form-bg: #bdbab6;
     --dr-search-form-body: #19191a;
     --dr-search-form-border: #f9f8f6;
-    
+
     --svodd-badge-default-bg: #e5e7eb;
     --svodd-badge-default-color: #1f2937;
     --bs-link-hover-color: #af1c1c;
@@ -355,7 +355,54 @@ span.link {
 }
 
 .card {
+    /* --bs-border-radius: 0.375rem;
+    --bs-border-width: 1px; */
     --bs-card-bg: var(--sv-card-bg);
+    --bs-card-spacer-x: 2rem;
+    --bs-card-spacer-y: 1rem;
+    --bs-card-border-color: 0;
+    /* --bs-card-cap-bg */
+    --bs-card-inner-border-radius: 1rem;
+    --bs-card-border-radius: 1rem;
+}
+
+.card-header {
+    font-size: .955rem;
+    font-weight: 500; 
+    background-color: inherit;
+    --bs-card-cap-padding-x: 2rem;
+    --bs-card-cap-padding-y: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.card-footer {
+    font-size: .955rem;
+    font-weight: 500; 
+    background-color: inherit;
+    --bs-card-cap-padding-x: 2rem;
+    --bs-card-cap-padding-y: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card.mb-4 {
+    margin-bottom: 2.5rem !important;
+}
+
+@media (max-width: 576px) {
+    .card {
+        --bs-card-spacer-x: 1rem;
+        --bs-card-spacer-y: .5rem;
+    }
+
+    .card-header {
+        --bs-card-cap-padding-x: 1rem;
+        margin-top: 1rem;    
+    }
+
+    .card-footer {
+        --bs-card-cap-padding-x: 1rem;
+        margin-bottom: 1rem;;
+    }
 }
 
 .comment-text blockquote {
@@ -559,8 +606,8 @@ input:focus:-ms-input-placeholder {
     opacity: 0.65;
 }
 
-.badge-default {        
-    color: var(--svodd-badge-default-color);    
+.badge-default {
+    color: var(--svodd-badge-default-color);
     background-color: var(--svodd-badge-default-bg);
 }
 
@@ -593,8 +640,7 @@ input:focus:-ms-input-placeholder {
 
 .badge-aq,
 .badge-svodd,
-.badge-comments,
-.badge-question {
+.badge-comments {
     --tw-bg-opacity: 1;
 }
 
@@ -607,10 +653,6 @@ input:focus:-ms-input-placeholder {
 }
 
 .badge-comments {
-    background-color: rgb(45 126 35 / var(--tw-bg-opacity));
-}
-
-.badge-question {
     background-color: rgb(45 126 35 / var(--tw-bg-opacity));
 }
 

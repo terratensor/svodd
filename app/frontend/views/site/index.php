@@ -32,18 +32,19 @@ use yii\bootstrap5\LinkPager;
 use yii\data\Pagination;
 use yii\helpers\Url;
 
+
+$sort = Yii::$app->request->get('sort') ?: '';
+$feature = Yii::$app->request->get('feature') ?: '';
 $this->title = 'Поиск по ФКТ';
 
 $this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.';
 
 $searchIcon = '<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>';
 
-if ($results) {
-  $this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
-  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);
-} else {
-  $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
-  $this->registerMetaTag(['name' => 'robots', 'content' => 'index, nofollow']);
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
+
+if (Yii::$app->request->url !== Yii::$app->homeUrl) {
+  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);  
 }
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
@@ -80,7 +81,7 @@ $inputTemplate = '<div class="input-group mb-1">
       <?php $form = ActiveForm::begin(
         [
           'method' => 'GET',
-          'action' => array_merge(['site/index'], \Yii::$app->request->queryParams),
+          'action' => ['site/index', 'sort' => $sort],
           'options' => ['class' => 'pb-1 mb-2 pt-3', 'autocomplete' => 'off'],
         ]
       ); ?>
@@ -88,7 +89,8 @@ $inputTemplate = '<div class="input-group mb-1">
         <?= $form->field($model, 'query', [
           'inputTemplate' => $inputTemplate,
           'options' => [
-            'class' => 'w-100', 'role' => 'search'
+            'class' => 'w-100',
+            'role' => 'search'
           ]
         ])->textInput(
           [
@@ -160,7 +162,7 @@ $inputTemplate = '<div class="input-group mb-1">
         </div>
       <?php endif; ?>
     <?php endif; ?>
-    <?php if ($flag && $flag->isEnabled('09051945B') && !$results) : ?>
+    <?php if ($flag && $flag->isEnabled('09051945B') && Yii::$app->request->url == Yii::$app->homeUrl) : ?>
       <div class="denpobedy mb-3">
         <video playsinline autoplay muted loop poster="/video/denpobedy.png" class="object-fit-md-contain">
           <source src="<?= Yii::$app->params['staticHostInfo'] . "/video/denpobedy.webm"; ?>" type="video/webm" />
@@ -205,8 +207,15 @@ $inputTemplate = '<div class="input-group mb-1">
                       '' => 'Сортировка по релевантности',
                       '-datetime' => 'Сначала новые записи',
                       'datetime' => 'Сначала старые записи',
+                      'comments_count' => 'Количество комментариев по возрастанию',
+                      '-comments_count' => 'Количество комментариев по убыванию',
                     ];
-                    $current = Yii::$app->request->get('sort');
+                    $current = $sort;
+                    if ($sort === 'comments_count' || $sort === '-comments_count') {
+                      $current = $current ?: $sort;
+                    } else if ($model->query === '' && !$sort) {
+                      $current = '-datetime';
+                    }
                     ?>
                     <?php foreach ($values as $value => $label) : ?>
                       <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>" <?php if ($current == $value) : ?>selected="selected" <?php endif; ?>><?= $label ?></option>
@@ -248,7 +257,7 @@ $inputTemplate = '<div class="input-group mb-1">
           <?php endforeach; ?>
 
           <div class="container container-pagination">
-            <div class="detachable fixed-bottom">
+            <div class="detachable">
               <?php echo LinkPager::widget(
                 [
                   'pagination' => $pagination,
@@ -314,6 +323,10 @@ function toggleSearchSettings(event) {
 $('input[type=radio]').on('change', function() {
     $(this).closest("form").submit();
 });
+
+// Enable tooltips
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 JS;
 

@@ -13,6 +13,7 @@ use yii\web\View;
 
 $this->title = 'Обратная хронология обсуждения СВОДД';
 $this->params['meta_description'] = 'График статистики и хронология обсуждения по отдельным темам в обратном хронологическом порядке. Для просмотра вопроса нажмите на заголовок — номер темы.';
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/index'])]);
 
 $labels = [];
 $labelLinks = [];

@@ -22,6 +22,7 @@ $pagination = new Pagination(
 $this->title = 'Архив вопросов';
 $this->params['meta_description'] = 'Список вопросов с комментариями. Сортировка по дате последнего комментария, по дате вопроса и по количеству комментариев.';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['question/index'])]);
 ?>
 <div class="row">
   <div class="d-flex align-items-start ">
@@ -61,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="container container-pagination">
-  <div class="detachable fixed-bottom">
+  <div class="detachable">
       <?= LinkPager::widget(
           [
               'pagination' => $pagination,
