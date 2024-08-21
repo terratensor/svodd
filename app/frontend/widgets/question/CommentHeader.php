@@ -6,6 +6,7 @@ namespace frontend\widgets\question;
 
 
 use App\Question\Entity\Question\Comment;
+use frontend\widgets\bookmark\BookmarkWidget;
 use yii\base\Widget;
 use yii\helpers\Html;
 
@@ -26,7 +27,7 @@ class CommentHeader extends Widget
             ) .
             Html::tag('div',
 
-                      Html::a('<i class="bi bi-star"></i>', [
+                      BookmarkWidget::widget(['model' => $this->model], [
                           'bookmark/add', 'id' => $this->model->data_id
                       ],
                               [

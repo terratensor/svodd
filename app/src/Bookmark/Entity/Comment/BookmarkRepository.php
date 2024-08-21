@@ -31,8 +31,8 @@ class BookmarkRepository
         }
     }
 
-    public function getBy(string $user_id, string $comment_id): Bookmark|null|ActiveRecord
+    public function getBy(string $user_id, int $comment_id): Bookmark|null|ActiveRecord
     {
-        return Bookmark::find()->andWhere(['user_id' => $user_id, 'comment_id' => $comment_id])->one();
+        return Bookmark::find()->andWhere(['user_id' => $user_id, 'comment_data_id' => $comment_id])->one();
     }
 }
