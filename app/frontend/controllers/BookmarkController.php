@@ -17,7 +17,7 @@ class BookmarkController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['add', 'view', 'update', 'delete'],
+                        'actions' => ['index', 'view', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -29,7 +29,7 @@ class BookmarkController extends Controller
     public function actions(): array
     {
         return [
-            'add' => [
+            'index' => [
                 'class' => CreateAction::class,
             ],
         ];

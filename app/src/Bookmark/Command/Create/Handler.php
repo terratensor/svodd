@@ -41,7 +41,7 @@ class Handler
             throw new \DomainException($e->getMessage());
         }
 
-        $bookmark = $this->bookmarkRepository->getBy($user->id, $comment->id);
+        $bookmark = $this->bookmarkRepository->getBy($user->id, $comment->data_id);
 
         if (!$bookmark) {
             $bookmark = Bookmark::create(

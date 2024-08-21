@@ -5,14 +5,19 @@ use yii\helpers\Html;
 /** @var \yii\web\View $this */
 /** @var app\Bookmark\Entity\Comment\Bookmark $bookmark */
 
-if ($bookmark) {
-    echo Html::a('<i class="bi bi-bookmark-fill"></i>',[
-        'bookmark/add', 'id' => $model->data_id
+if (isset($bookmark) && $bookmark) {
+    echo Html::a('<i class="bi bi-bookmark-fill"></i>', [
+        'bookmark/index',
+        'id' => $model->data_id
+    ], [
+        'class' => 'bookmarks'
     ]);
-}
-else {
+} else {
 
     echo Html::a('<i class="bi bi-bookmark"></i>', [
-        'bookmark/add', 'id' => $model->data_id
+        'bookmark/index',
+        'id' => $model->data_id
+    ], [
+        'class' => 'bookmarks'
     ]);
 }

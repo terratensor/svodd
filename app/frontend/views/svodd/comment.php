@@ -6,6 +6,7 @@
 use frontend\widgets\svodd\TelegramLink;
 use App\helpers\TextProcessor;
 use App\Question\Entity\Question\Comment;
+use frontend\widgets\bookmark\BookmarkWidget;
 use frontend\widgets\question\CommentHeader;
 use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
@@ -24,7 +25,13 @@ $telegramIcon = '<svg class="menu-icon text-svoddRed-100" focusable="false" aria
         </div>
     </div>
     <div class="card-footer d-flex justify-content-between">
-        <?= TelegramLink::widget(['comment' => $model]); ?>
+        <div>
+            <?= TelegramLink::widget(['comment' => $model]); ?>
+            <?= BookmarkWidget::widget(['model' => $model], [
+                'bookmark/add',
+                'id' => $model->data_id
+            ]); ?>
+        </div>
         <?php $link = "https://фкт-алтай.рф/qa/question/view-" . $model->question_data_id; ?>
         <?= Html::a(
             '★ Источник',

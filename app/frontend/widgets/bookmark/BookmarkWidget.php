@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -8,18 +8,23 @@ use App\Bookmark\Entity\Comment\BookmarkRepository;
 use Yii;
 use yii\base\Widget;
 
-Class BookmarkWidget extends Widget
+class BookmarkWidget extends Widget
 {
 
     private $bokmarkRepository;
-    public function __construct(BookmarkRepository $bookmarkRepository, array $config = []) {
+    public function __construct(BookmarkRepository $bookmarkRepository, array $config = [])
+    {
         $this->bokmarkRepository = $bookmarkRepository;
         parent::__construct($config);
     }
     public $model;
     public function run()
     {
-        $bookmark = $this->bokmarkRepository->getBy(Yii::$app->user->id, $this->model->data_id);
-        return $this->render('bookmark', ['bookmark' => $bookmark, 'model' => $this->model]);
+        $options = ['model' => $this->model];
+        if (!Yii::$app->user->isGuest) {
+            $bookmark = $this->bokmarkRepository->getBy(Yii::$app->user->id, $this->model->data_id);
+            $options = array_merge($options, ['bookmark' => $bookmark]);
+        }
+        return $this->render('bookmark', $options);
     }
 }
