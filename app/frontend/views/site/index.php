@@ -19,12 +19,14 @@ use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\bookmark\BookmarkSearchWidget;
 use frontend\widgets\bookmark\BookmarkWidget;
+use frontend\widgets\entity\ContextWidget;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\Badge;
 use frontend\widgets\search\BadgeFilter;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
+use frontend\widgets\search\SearchContext;
 use frontend\widgets\search\ShortLinkModal;
 use frontend\widgets\search\TransformQuery;
 use kartik\daterange\DateRangePicker;
@@ -46,7 +48,7 @@ $searchIcon = '<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill=
 $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
 
 if (Yii::$app->request->url !== Yii::$app->homeUrl) {
-  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);  
+  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);
 }
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
@@ -234,7 +236,7 @@ $inputTemplate = '<div class="input-group mb-1">
                   <div>
                     <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= \App\helpers\SearchResultsHelper::showUsername($comment); ?>
                   </div>
-                  <div><?= $comment->data_id ? "#" . $comment->data_id : ""; ?></div>
+                  <div><?= SearchContext::widget(['comment' => $comment, 'pagination' => $pagination]); ?></div>
                 </div>
               </div>
 
