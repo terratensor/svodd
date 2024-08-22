@@ -22,13 +22,13 @@ class CreateAction extends Action
     public function run($id)
     {
         $user = Yii::$app->user;
-        
+
         // If the user is not logged in, redirect him to the login page
         // and remember the current page in the session.
         if ($user !== false && $user->getIsGuest()) {
             $referer = Yii::$app->request->getReferrer() . "#bookmark-{$id}";
             \Yii::$app->session->set('bookmark_REFERER', $referer);
-            $user->loginRequired();
+            return $user->loginRequired();
         }
 
         $command = new Command();
