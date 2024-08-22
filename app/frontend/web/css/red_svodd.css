@@ -657,3 +657,7 @@ input:focus:-ms-input-placeholder {
 .card-footer a {
     text-decoration: none;
 }
+
+.bookmark-icon, .bookmark-fill-icon {
+    margin-right: .385rem;
+}

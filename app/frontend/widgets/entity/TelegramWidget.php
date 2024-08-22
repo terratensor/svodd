@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace frontend\widgets\svodd;
+namespace frontend\widgets\entity;
 
 use App\Question\Entity\Question\Comment;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-class TelegramLink extends Widget
+class Telegramwidget extends Widget
 {
     public Comment $comment;
 
@@ -21,7 +21,8 @@ class TelegramLink extends Widget
         $message = $messages->one();
         if ($message) {
             $url = "{$url}/{$message->message_id}";
+            return Html::a('@svoddru', $url, ['class' => 'telegram-link', 'target' => '_blank']);
         } 
-        return Html::a('@svoddru', $url, ['class' => 'telegram-link', 'target' => '_blank']);
+        return null;
     }
 }

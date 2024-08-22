@@ -24,6 +24,7 @@ return [
         'signup' => 'auth/join/request',
         'join/confirm' => 'auth/join/confirm',
         '<_a:login|logout>' => 'auth/auth/<_a>',
+        'bookmarks' => 'bookmark/view',
 
         'questions' => 'question/index',
         [

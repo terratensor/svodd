@@ -42,7 +42,7 @@ class Bookmark extends ActiveRecord
 
     public function getComment(): ActiveQuery
     {
-        return $this->hasOne(Comment::class, ['data_id' => 'comment_id']);
+        return $this->hasOne(Comment::class, ['data_id' => 'comment_data_id']);
     }
 
     public function getUser(): ActiveQuery

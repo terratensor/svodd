@@ -1,5 +1,6 @@
 <?php
 
+use App\helpers\BookmarkHelper;
 use App\helpers\SessionHelper;
 use App\helpers\SvgIconHelper;
 use yii\bootstrap5\Nav;
@@ -15,6 +16,12 @@ $telegramIcon = '<svg class="menu-icon text-svoddRed-100" focusable="false" aria
 $listIcon = '<svg class="menu-icon text-svoddRed-100" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="QuizIcon"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4z"></path><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-5.99 13c-.59 0-1.05-.47-1.05-1.05 0-.59.47-1.04 1.05-1.04.59 0 1.04.45 1.04 1.04-.01.58-.45 1.05-1.04 1.05m2.5-6.17c-.63.93-1.23 1.21-1.56 1.81-.13.24-.18.4-.18 1.18h-1.52c0-.41-.06-1.08.26-1.65.41-.73 1.18-1.16 1.63-1.8.48-.68.21-1.94-1.14-1.94-.88 0-1.32.67-1.5 1.23l-1.37-.57C11.51 5.96 12.52 5 13.99 5c1.23 0 2.08.56 2.51 1.26.37.61.58 1.73.01 2.57"></path></svg>';
 $chartIcon = '<svg class="menu-icon text-svoddRed-100 chart-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="InsertChartIcon"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2M9 17H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"></path></svg>';
 $starIcon = '<svg class="menu-icon text-svoddRed-100 star-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="StarRateIcon"><path d="M14.43 10 12 2l-2.43 8H2l6.18 4.41L5.83 22 12 17.31 18.18 22l-2.35-7.59L22 10z"></path></svg>';
+$bookmarksFillIcon = '<svg class="menu-icon text-svoddRed-100 bookmark-fill-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>';
+$bookmarksIcon = '<svg class="menu-icon text-svoddRed-100 bookmark-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></svg>';
+
+$hasBookmarks = BookmarkHelper::hasBookamrks();
+$bookmarkLabel = $hasBookmarks ? " $bookmarksFillIcon <div class=\"d-lg-none ms-0\">Закладки</div>" :
+" $bookmarksIcon <div class=\"d-lg-none ms-0\">Закладки</div>";
 
 $menuItems = [
     [
@@ -97,11 +104,29 @@ $menuItems = [
         'options' => ['class' => 'nav-item col-12 col-lg-auto'],
     ],
     [
+        'label' => $bookmarkLabel,
+        'url' => ['bookmark/view'],
+        'linkOptions' => [
+            'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center',
+            'title' => 'Закладки'
+        ],
+        'options' => ['class' => 'd-lg-none ms-0 nav-item col-12 col-lg-auto'],
+    ],
+    [
         'label' => " $chartIcon <div class=\"d-lg-none ms-0\">Статистика и хронология обсуждения</div>",
         'url' => ['svodd/index'],
         'linkOptions' => [
             'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center',
             'title' => 'Статистика и хронология обсуждения СВОДД'
+        ],
+        'options' => ['class' => 'd-none d-lg-block d-xl-block nav-item col-12 col-lg-auto'],
+    ],
+    [
+        'label' => $bookmarkLabel,
+        'url' => ['bookmark/view'],
+        'linkOptions' => [
+            'class' => 'nav-link py-2 px-0 px-lg-0 d-flex align-items-center',
+            'title' => 'Закладки',
         ],
         'options' => ['class' => 'd-none d-lg-block d-xl-block nav-item col-12 col-lg-auto'],
     ],
