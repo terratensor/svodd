@@ -28,6 +28,11 @@ class ResendAction extends Action
             return $this->controller->goHome();
         }
 
+        // if we have referer from session, we should redirect to it
+        // after user login
+        // and remove this referer from session
+        $referer = \Yii::$app->session->get('bookmark_REFERER');
+
         $form = new ResendVerificationEmailForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -42,6 +47,16 @@ class ResendAction extends Action
                     'success',
                     'Проверьте свою электронную почту для получения дальнейших инструкций.'
                 );
+
+                Yii::$app->session->setFlash('success', 'Благодарим вас за регистрацию. Пожалуйста, проверьте свой почтовый ящик на наличие подтверждающего электронного письма.');
+                // if we have referer from session, we should redirect to it
+                // after user login
+                // and remove this referer from session
+                if ($referer) {
+                    Yii::$app->session->remove('bookmark_REFERER');
+                    return $this->controller->redirect($referer);
+                }
+                
                 return $this->controller->goHome();
 
             } catch (DomainException $e) {

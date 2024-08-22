@@ -7,7 +7,7 @@ use yii\base\Model;
 /**
  * @property int $sid
  * @property int $data_id
- * @property  int $parent_id
+ * @property int $parent_id
  * @property int $type
  * @property int $position
  * @property string $username

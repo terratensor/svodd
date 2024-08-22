@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace frontend\widgets\question;
+namespace frontend\widgets\entity;
 
 
 use App\Question\Entity\Question\Comment;
@@ -10,7 +10,7 @@ use frontend\widgets\bookmark\BookmarkWidget;
 use yii\base\Widget;
 use yii\helpers\Html;
 
-class CommentHeader extends Widget
+class EntityHeader extends Widget
 {
     public Comment $model;
 
@@ -24,11 +24,6 @@ class CommentHeader extends Widget
                     $this->model->username,
                     ['class' => 'username']
                 )
-        ) .
-            Html::tag(
-                'div',
-                Html::tag('div', "#" . $this->model->data_id),
-                ['class' => 'd-flex justify-content-between']
-            );
+        );
     }
 }

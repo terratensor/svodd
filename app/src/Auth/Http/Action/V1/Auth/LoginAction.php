@@ -29,6 +29,20 @@ class LoginAction extends Action
             return $this->controller->goHome();
         }
 
+        // if we have referer from session, we should redirect to it
+        // after user login
+        // and remove this referer from session
+        $referer = \Yii::$app->session->get('bookmark_REFERER');
+
+        // get current referer
+        $ref = Yii::$app->request->getReferrer();
+
+        // if we have referer from session and it is not equal to current referer
+        // we should remove this referer from session
+        if ($referer && $ref && strpos($referer, $ref) === false) {
+            \Yii::$app->session->remove('bookmark_REFERER');
+        }
+
         $form = new LoginForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
@@ -40,6 +54,16 @@ class LoginAction extends Action
                 Yii::$app
                     ->user
                     ->login(new Identity($user), $form->rememberMe ? Yii::$app->params['user.rememberMeDuration'] : 0);
+                
+                    
+                    // if we have referer from session, we should redirect to it
+                    // after user login
+                    // and remove this referer from session
+                    if ($referer) {
+                        Yii::$app->session->remove('bookmark_REFERER');
+                        return $this->controller->redirect($referer);
+                    }
+
                 return $this->controller->goBack();
             } catch (Exception $e) {
                 Yii::$app->errorHandler->logException($e);

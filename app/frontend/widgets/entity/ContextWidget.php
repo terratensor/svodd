@@ -1,17 +1,19 @@
-<?php
+<?php 
 
-namespace frontend\widgets\search;
+declare(strict_types=1);
+
+namespace frontend\widgets\entity;
 
 use App\helpers\SvgIconHelper;
-use App\models\Comment;
+use App\Question\Entity\Question\Comment;
 use yii\base\Widget;
 use yii\bootstrap5\Html;
 use yii\data\Pagination;
 use yii\helpers\Url;
 
-class FollowQuestion extends Widget
+Class ContextWidget extends Widget
 {
-    /**
+ /**
      * @var string
      */
     public string $title = 'Контекст';
@@ -32,7 +34,8 @@ class FollowQuestion extends Widget
 
     public function init(): void
     {
-        $this->question_id = $this->comment->parent_id;
+        $this->title = (string)$this->comment->data_id;
+        $this->question_id = $this->comment->question_data_id;
         $this->position = $this->comment->position;
     }
 
@@ -60,11 +63,11 @@ class FollowQuestion extends Widget
 
         $string = \Yii::$app->i18n->format(
             '{n, plural, =0{Нет комментариев} =1{Один комментарий} one{# комментарий} few{# комментария} many{# коментариев} other{# комментария}}',
-            ['n' => $this->comment->comments_count],
+            ['n' => $this->comment->questionStat->comments_count],
             'ru_RU'
         );
         $linkTitle = $this->comment->type === 1 ? "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"$string\">" .
-            ($this->comment->comments_count > 0 ? SvgIconHelper::commentIcon() : SvgIconHelper::modeCommentIcon()) . " {$this->comment->comments_count}" : $this->title;
+            ($this->comment->questionStat->comments_count > 0 ? SvgIconHelper::commentIcon() : SvgIconHelper::modeCommentIcon()) . " {$this->comment->questionStat->comments_count}" : $this->title;
 
         $link = Html::a(
             $linkTitle,

@@ -6,6 +6,7 @@ namespace App\Bookmark\Entity\Comment;
 
 use App\Auth\Entity\User\Id as UserId;
 use App\Auth\Entity\User\User;
+use App\behaviors\TimestampBehavior;
 use App\Question\Entity\Question\Comment;
 use App\Question\Entity\Question\Id as CommentId;
 use DateTimeImmutable;
@@ -26,9 +27,8 @@ class Bookmark extends ActiveRecord
     public static function create(
         Id $id,
         UserId $user_id,
-        CommentId $comment_id,
-        int $comment_data_id,
-        DateTimeImmutable $datetime
+        string $comment_id,
+        int $comment_data_id
     ): self {
         $bookmark = new static();
 
@@ -36,14 +36,13 @@ class Bookmark extends ActiveRecord
         $bookmark->user_id = $user_id;
         $bookmark->comment_id = $comment_id;
         $bookmark->comment_data_id = $comment_data_id;
-        $bookmark->datetime = $datetime;
 
         return $bookmark;
     }
 
     public function getComment(): ActiveQuery
     {
-        return $this->hasOne(Comment::class, ['data_id' => 'comment_id']);
+        return $this->hasOne(Comment::class, ['data_id' => 'comment_data_id']);
     }
 
     public function getUser(): ActiveQuery
@@ -54,5 +53,12 @@ class Bookmark extends ActiveRecord
     public static function tableName(): string
     {
         return '{{%comment_bookmarks}}';
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            TimestampBehavior::class,
+        ];
     }
 }

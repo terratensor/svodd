@@ -2,6 +2,7 @@
 
 namespace frontend\widgets\question;
 
+use Yii;
 use yii\bootstrap5\Widget;
 use yii\data\Pagination;
 use yii\helpers\Html;
@@ -25,20 +26,31 @@ class CommentSummary extends Widget
             $end = $totalCount;
         }
 
-        $string = \Yii::t(
-            'app',
-            'Показано записей {start} – {end} из {n}',
-            [
-                'n' => $totalCount,
-                'start' => $start,
-                'end' => $end
-            ]
-        );
+        $string = $this->getTotalString($totalCount, $start, $end);
         return Html::tag('p', $string, ['class' => 'summary']);
     }
 
     public function run(): string
     {
         return $this->totalCount ? $this->renderSummary() : '';
+    }
+
+    public function getTotalString($totalCount, $start, $end): string
+    {
+        $title = 'Показано записей {start} – {end} из {n}';
+        if (Yii::$app->request->pathInfo === 'bookmarks') {
+            $title = 'Показано закладок {start} – {end} из {n}';
+        }
+        $string = \Yii::t(
+            'app',
+            $title,
+            [
+                'n' => $totalCount,
+                'start' => $start,
+                'end' => $end
+            ]
+        );
+
+        return $string;
     }
 }
