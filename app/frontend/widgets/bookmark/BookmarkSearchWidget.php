@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace frontend\widgets\bookmark;
 
 use App\Bookmark\Entity\Comment\BookmarkRepository;
-use App\Question\Entity\Question\Comment;
+use App\models\Comment;
 use Yii;
 use yii\base\Widget;
 
-class BookmarkWidget extends Widget
+class BookmarkSearchWidget extends Widget
 {
-
     private $bokmarkRepository;
     public function __construct(BookmarkRepository $bookmarkRepository, array $config = [])
     {
@@ -22,6 +21,11 @@ class BookmarkWidget extends Widget
     public function run()
     {
         $options = ['model' => $this->model];
+
+        if ($this->model->type !== Comment::TYPE_COMMENT || $this->model->parent_id === 0) {
+            return null;
+        }
+
         if (!Yii::$app->user->isGuest) {
             $bookmark = $this->bokmarkRepository->getBy(Yii::$app->user->id, $this->model->data_id);
             $options = array_merge($options, ['bookmark' => $bookmark]);

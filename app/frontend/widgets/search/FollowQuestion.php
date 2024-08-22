@@ -71,6 +71,6 @@ class FollowQuestion extends Widget
             $this->getUrl(),
         );
 
-        return Html::tag('span', $link, ['class' => 'd-flex align-items-baseline flex-column lh-sm']);
+        return $link;
     }
 }

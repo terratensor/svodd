@@ -17,6 +17,8 @@ use App\helpers\TextProcessor;
 use App\helpers\TgLinkClipper;
 use App\models\Comment;
 use App\repositories\Question\QuestionDataProvider;
+use frontend\widgets\bookmark\BookmarkSearchWidget;
+use frontend\widgets\bookmark\BookmarkWidget;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\Badge;
@@ -250,7 +252,10 @@ $inputTemplate = '<div class="input-group mb-1">
               </div>
 
               <div class="card-footer d-flex justify-content-between">
-                <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
+                <div>
+                  <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
+                  <?= BookmarkSearchWidget::widget(['model' => $comment]); ?>
+                </div>
                 <?= FollowLink::widget(['comment' => $comment]); ?>
               </div>
             </div>
