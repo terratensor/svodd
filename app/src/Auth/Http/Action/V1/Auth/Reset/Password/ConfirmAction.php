@@ -40,6 +40,11 @@ class ConfirmAction extends Action
             throw new BadRequestHttpException('Токен не найден.');
         }
 
+        // if we have referer from session, we should redirect to it
+        // after user login
+        // and remove this referer from session
+        $referer = \Yii::$app->session->get('bookmark_REFERER');
+
         $form = new ResetPasswordForm();
 
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
@@ -52,6 +57,13 @@ class ConfirmAction extends Action
                 $this->handler->handle($command);
 
                 Yii::$app->session->setFlash('success', 'Сохранен новый пароль.');
+                // if we have referer from session, we should redirect to it
+                // after user login
+                // and remove this referer from session
+                if ($referer) {
+                    Yii::$app->session->remove('bookmark_REFERER');
+                    return $this->controller->redirect($referer);
+                }
                 return $this->controller->goHome();
 
             } catch (DomainException $e) {

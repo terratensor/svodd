@@ -12,6 +12,7 @@ if (isset($bookmark) && $bookmark) {
             'data-bs-toggle' => 'tooltip',
             'data-bs-placement' => 'bottom',
             'data-bs-title' => 'Убрать из закладок',
+            'id' => 'bookmark-' . $model->data_id,
         ]),
         [
             'bookmark/index',
@@ -29,6 +30,7 @@ if (isset($bookmark) && $bookmark) {
             'data-bs-toggle' => 'tooltip',
             'data-bs-placement' => 'bottom',
             'data-bs-title' => 'Добавить в закладки',
+            'id' => 'bookmark-' . $model->data_id,
         ]),
         [
             'bookmark/index',

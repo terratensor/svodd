@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\Bookmark\Http\Action\V1\Bookmark\Comment;
 
-use App\Auth\Entity\User\Id as UserId;
 use App\Bookmark\Command\Create\Command;
 use App\Bookmark\Command\Create\Handler;
-use App\Bookmark\Form\BookmarkForm;
 use Yii;
 use yii\base\Action;
 
@@ -23,6 +21,16 @@ class CreateAction extends Action
 
     public function run($id)
     {
+        $user = Yii::$app->user;
+        
+        // If the user is not logged in, redirect him to the login page
+        // and remember the current page in the session.
+        if ($user !== false && $user->getIsGuest()) {
+            $referer = Yii::$app->request->getReferrer() . "#bookmark-{$id}";
+            \Yii::$app->session->set('bookmark_REFERER', $referer);
+            $user->loginRequired();
+        }
+
         $command = new Command();
         $command->user_id = Yii::$app->user->getId();
         $command->comment_id = $id;
