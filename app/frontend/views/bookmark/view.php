@@ -11,6 +11,12 @@ use frontend\widgets\Scroll\ScrollWidget;
 /** @var App\Question\Entity\Question\Comment $model */
 
 
+$this->title = 'Закладки';
+
+$this->params['meta_description'] = 'Список закладок';
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['bookmark/view'])]);
+
+
 $pagination = new Pagination(
     [
         'totalCount' => $dataProvider->getTotalCount(),
