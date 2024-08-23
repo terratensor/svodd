@@ -110,7 +110,7 @@ class CommentReadModel
                         ],
                     ],
                     'defaultOrder' => [
-                        'date' => SORT_ASC,
+                        'date' => SORT_DESC,
                     ],
                 ]
             ]
