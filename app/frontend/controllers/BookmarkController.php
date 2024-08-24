@@ -11,17 +11,6 @@ use yii\web\Controller;
 
 class BookmarkController extends Controller
 {
-    public function behaviors(): array
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'index' => ['post'],
-                ],
-            ],
-        ];
-    }
     public function actions(): array
     {
         return [
