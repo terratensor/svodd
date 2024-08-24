@@ -2,14 +2,14 @@
 
 /** @var yii\web\View$this  */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var ResendVerificationEmailForm $model */
+/** @var App\Auth\Form\JoinByEmail\ResendVerificationEmailForm $model */
 
-use App\Auth\Form\JoinByEmail\ResendVerificationEmailForm;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Подтверждение email';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
 ?>
 <div class="site-resend-verification-email">
     <h4><?= Html::encode($this->title) ?></h4>

@@ -3,14 +3,14 @@
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
 
-/** @var LoginForm $model */
+/** @var App\Auth\Form\Login\LoginForm $model */
 
 use yii\bootstrap5\Html;
 use yii\bootstrap5\ActiveForm;
-use App\Auth\Form\Login\LoginForm;
 
 $this->title = 'Вход';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
 ?>
 <div class="site-login">
   <h4><?= Html::encode($this->title) ?></h4>
@@ -20,13 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
   <div class="row">
     <div class="col-lg-5">
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+      <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-        <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+      <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+      <?= $form->field($model, 'password')->passwordInput() ?>
 
-        <?= $form->field($model, 'rememberMe')->checkbox() ?>
+      <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
       <div class="my-1 mx-0" style="color:#999;">
         Если вы забыли пароль, вы можете его <?= Html::a('сбросить', ['auth/reset/password-request']) ?>
@@ -35,10 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
       </div>
 
       <div class="form-group">
-          <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
       </div>
 
-        <?php ActiveForm::end(); ?>
+      <?php ActiveForm::end(); ?>
     </div>
   </div>
 </div>

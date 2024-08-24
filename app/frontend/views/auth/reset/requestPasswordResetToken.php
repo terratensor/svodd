@@ -9,6 +9,7 @@ use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Сброс пароля';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
 ?>
 <div class="site-request-password-reset">
     <h4><?= Html::encode($this->title) ?></h4>
