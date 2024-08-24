@@ -27,7 +27,7 @@ class Handler
         $this->bookmarkRepository = $bookmarkRepository;
     }
 
-    public function handle(Command $command): void
+    public function handle(Command $command): bool
     {
         try {
             $user = $this->userRepository->get(new UserID($command->user_id));
@@ -52,8 +52,10 @@ class Handler
             );
 
             $this->bookmarkRepository->save($bookmark);
+            return true;
         } else {
             $this->bookmarkRepository->delete($bookmark);
+            return false;
         }
     }
 }

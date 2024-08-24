@@ -14,8 +14,12 @@ for (var i = 0; i < elems.length; i++) {
   elems[i].addEventListener('click', function (event) {
     event.preventDefault();
 
+    const targetElement = event.target;
+
     const bookmarkForm = $(this);
-    const bookmarkUrl = bookmarkForm.attr('href');
+    const bookmarkUrl = targetElement.getAttribute('data-href');
+    console.log(bookmarkUrl);
+
     const bookmarkData = bookmarkForm.serialize();
 
     $.ajax({
@@ -24,9 +28,10 @@ for (var i = 0; i < elems.length; i++) {
       data: bookmarkData,
     }).done(function (response) {
       if (response.error == null) {
-        const targetElement = event.target;
+        // Handle success
+        response = JSON.parse(response);
         const targetClassList = targetElement.classList;
-        const isBookmarked = targetClassList.contains('bi-bookmark');
+        const isBookmarked = response.bookmark;
 
         targetElement.setAttribute('data-bs-title', isBookmarked ? 'Убрать из закладок' : 'Добавить в закладки');
 

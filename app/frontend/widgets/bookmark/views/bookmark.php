@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /** @var \yii\web\View $this */
 /** @var app\Bookmark\Entity\Comment\Bookmark $bookmark */
@@ -13,10 +14,17 @@ if (isset($bookmark) && $bookmark) {
             'data-bs-placement' => 'bottom',
             'data-bs-title' => 'Убрать из закладок',
             'id' => 'bookmark-' . $model->data_id,
+            'data-href' => Url::to(
+                [
+                    'bookmark/index',
+                    'id' => $model->data_id
+                ]
+            ),
+            'data-method' => 'post',
+            'rel' => 'nofollow',
         ]),
         [
-            'bookmark/index',
-            'id' => $model->data_id
+            '',
         ],
         [
             'class' => 'bookmarks',
@@ -31,10 +39,15 @@ if (isset($bookmark) && $bookmark) {
             'data-bs-placement' => 'bottom',
             'data-bs-title' => 'Добавить в закладки',
             'id' => 'bookmark-' . $model->data_id,
+            'data-href' => Url::to([
+                'bookmark/index',
+                'id' => $model->data_id
+            ]),
+            'data-method' => 'post',
+            'rel' => 'nofollow',
         ]),
         [
-            'bookmark/index',
-            'id' => $model->data_id
+            '',
         ],
         [
             'class' => 'bookmarks',
