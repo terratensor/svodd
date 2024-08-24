@@ -4,22 +4,16 @@
  * @var yii\web\View $this
  * @var App\repositories\Question\QuestionDataProvider $results
  * @var Pagination $pages
- * @var SearchForm $model
+ * @var App\forms\SearchForm $model
  * @var string $errorQueryMessage
- * @var FeatureFlag $
+ * @var App\FeatureToggle\FeatureFlag $
  * @var array $sids
  */
 
-use App\FeatureToggle\FeatureFlag;
-use App\forms\SearchForm;
 use App\helpers\DateHelper;
 use App\helpers\TextProcessor;
-use App\helpers\TgLinkClipper;
 use App\models\Comment;
-use App\repositories\Question\QuestionDataProvider;
 use frontend\widgets\bookmark\BookmarkSearchWidget;
-use frontend\widgets\bookmark\BookmarkWidget;
-use frontend\widgets\entity\ContextWidget;
 use frontend\widgets\question\CommentSummary;
 use frontend\widgets\Scroll\ScrollWidget;
 use frontend\widgets\search\Badge;
@@ -274,7 +268,8 @@ $inputTemplate = '<div class="input-group mb-1">
                   'options' => [
                     'class' => 'd-flex justify-content-center'
                   ],
-                  'listOptions' => ['class' => 'pagination mb-0']
+                  'listOptions' => ['class' => 'pagination mb-0'],
+                  'linkOptions' => ['class' => 'page-link', 'rel' => 'nofollow']
                 ]
               ); ?>
             </div>

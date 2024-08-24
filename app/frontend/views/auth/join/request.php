@@ -2,14 +2,14 @@
 
 /** @var yii\web\View $this */
 /** @var yii\bootstrap5\ActiveForm $form */
-/** @var RequestForm $model */
+/** @var App\Auth\Form\JoinByEmail\RequestForm $model */
 
-use App\Auth\Form\JoinByEmail\RequestForm;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = 'Регистрация';
 $this->params['breadcrumbs'][] = $this->title;
+$this->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
 ?>
 <div class="site-signup">
     <h4><?= Html::encode($this->title) ?></h4>

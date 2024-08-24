@@ -35,8 +35,8 @@ class CreateAction extends Action
         $command->user_id = Yii::$app->user->getId();
         $command->comment_id = $id;
 
-        $this->handler->handle($command);
+        $result = $this->handler->handle($command);
 
-        return '';
+        return json_encode(['bookmark' => $result]);
     }
 }
