@@ -268,7 +268,8 @@ $inputTemplate = '<div class="input-group mb-1">
                   'options' => [
                     'class' => 'd-flex justify-content-center'
                   ],
-                  'listOptions' => ['class' => 'pagination mb-0']
+                  'listOptions' => ['class' => 'pagination mb-0'],
+                  'linkOptions' => ['class' => 'page-link', 'rel' => 'nofollow']
                 ]
               ); ?>
             </div>
