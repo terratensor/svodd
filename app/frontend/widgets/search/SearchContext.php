@@ -33,7 +33,9 @@ class SearchContext extends Widget
 
     public function init(): void
     {
-        $this->title = (string)$this->comment->data_id;
+        $this->title = $this->comment->type === Comment::LINKED_QUESTION
+            ? (string) $this->comment->parent_id
+            : (string) $this->comment->data_id;
         $this->question_id = $this->comment->parent_id;
         $this->position = $this->comment->position;
     }
