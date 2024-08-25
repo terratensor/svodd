@@ -40,6 +40,7 @@ class ShortLinkAction extends Action
             Yii::$app->errorHandler->logException($e);
         }
 
-        return [];
+        Yii::$app->response->statusCode = 400;
+        return json_encode(["message" => "Bad Request"], JSON_THROW_ON_ERROR);
     }
 }
