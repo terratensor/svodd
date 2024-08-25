@@ -16,9 +16,14 @@ class CommentHeader extends Widget
 
     public function run(): string
     {
+        $time = Html::tag(
+            'time',
+            $this->model->datetime->format('H:i d.m.Y') . ", ",
+            ['datetime' => $this->model->datetime->format('Y-m-d H:i:s')],
+        );
         return Html::tag(
             'div',
-            $this->model->datetime->format('H:i d.m.Y') . ", " .
+            $time .
                 Html::tag(
                     'span',
                     $this->model->username,

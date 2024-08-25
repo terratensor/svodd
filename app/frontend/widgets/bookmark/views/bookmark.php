@@ -21,13 +21,11 @@ if (isset($bookmark) && $bookmark) {
                 ]
             ),
             'data-method' => 'post',
-            'rel' => 'nofollow',
         ]),
-        [
-            '',
-        ],
+        false,
         [
             'class' => 'bookmarks',
+            'rel' => 'nofollow',
         ]
     );
 } else {
@@ -44,13 +42,11 @@ if (isset($bookmark) && $bookmark) {
                 'id' => $model->data_id
             ]),
             'data-method' => 'post',
-            'rel' => 'nofollow',
         ]),
-        [
-            '',
-        ],
+        false,
         [
             'class' => 'bookmarks',
+            'rel' => 'nofollow',
         ]
     );
 }

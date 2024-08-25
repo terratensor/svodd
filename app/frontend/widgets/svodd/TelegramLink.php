@@ -21,7 +21,7 @@ class TelegramLink extends Widget
         $message = $messages->one();
         if ($message) {
             $url = "{$url}/{$message->message_id}";
-        } 
-        return Html::a('@svoddru', $url, ['class' => 'telegram-link', 'target' => '_blank']);
+        }
+        return Html::a('@svoddru', $url, ['class' => 'telegram-link', 'target' => '_blank', 'rel' => 'noopener noreferrer']);
     }
 }
