@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-/** @var ActiveDataProvider $dataProvider */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var App\Question\Entity\Question\Question $question */
 
-/** @var Question $question */
-
-use App\Question\Entity\Question\Question;
 use frontend\widgets\question\CommentSummary;
+use frontend\widgets\question\MetaQuestion;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\LinkPager;
-use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use yii\helpers\Url;
 
@@ -25,6 +23,8 @@ $pagination = new Pagination(
 
 
 $this->title = 'Просмотр вопроса #' . $question->data_id;
+$this->params['meta_description'] = MetaQuestion::widget(['question' => $question]);
+
 $this->params['breadcrumbs'][] = ['label' => 'Архив вопросов', 'url' => ['question/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['question/view', 'id' => $question->data_id])]);
