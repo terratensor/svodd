@@ -20,6 +20,7 @@ use frontend\widgets\search\Badge;
 use frontend\widgets\search\BadgeFilter;
 use frontend\widgets\search\FollowLink;
 use frontend\widgets\search\FollowQuestion;
+use frontend\widgets\search\MetaInfo;
 use frontend\widgets\search\SearchContext;
 use frontend\widgets\search\ShortLinkModal;
 use frontend\widgets\search\TransformQuery;
@@ -31,19 +32,15 @@ use yii\data\Pagination;
 use yii\helpers\Url;
 
 
-$sort = Yii::$app->request->get('sort') ?: '';
-$feature = Yii::$app->request->get('feature') ?: '';
-$this->title = 'Поиск по ФКТ';
-
-$this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ.';
-
 $searchIcon = '<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>';
 
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->params['frontendHostInfo']]);
+$sort = Yii::$app->request->get('sort') ?: '';
+$feature = Yii::$app->request->get('feature') ?: '';
 
-if (Yii::$app->request->url !== Yii::$app->homeUrl) {
-  $this->params['meta_description'] = 'Результаты по запросу ' . mb_strtolower($model->query);
-}
+$this->title = 'Поиск по ФКТ';
+$this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ';
+
+MetaInfo::widget(['model' => $model, 'view' => $this]);
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
 echo Html::hiddenInput('value', 'toggle');
