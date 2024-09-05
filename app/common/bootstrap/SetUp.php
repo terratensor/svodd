@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace common\bootstrap;
@@ -60,7 +61,9 @@ class SetUp implements BootstrapInterface
                     new Address(
                         Yii::$app->params['from']['email'],
                         Yii::$app->params['from']['name']
-                    )));
+                    )
+                )
+            );
 
             $transport = (new EsmtpTransport(
                 Yii::$app->params['mailer']['host'],
@@ -126,6 +129,22 @@ class SetUp implements BootstrapInterface
         });
 
         $container->setSingleton(\App\UrlShortener\Command\Create\Request\Handler::class, [], [
+            new \yii\httpclient\Client(
+                [
+                    'transport' => 'yii\httpclient\CurlTransport'
+                ]
+            )
+        ]);
+
+        $container->setSingleton(\App\UrlShortener\Service\ViewAllHandler::class, [], [
+            new \yii\httpclient\Client(
+                [
+                    'transport' => 'yii\httpclient\CurlTransport'
+                ]
+            )
+        ]);
+
+        $container->setSingleton(\App\UrlShortener\Service\ViewMyHandler::class, [], [
             new \yii\httpclient\Client(
                 [
                     'transport' => 'yii\httpclient\CurlTransport'

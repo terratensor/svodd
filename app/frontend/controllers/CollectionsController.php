@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use App\Bookmark\Http\Action\V1\Bookmark\Comment\CreateAction;
-use App\Bookmark\Http\Action\V1\Bookmark\Comment\ViewAction;
-use yii\web\Controller;
+use App\SearchResults\Http\Action\V1\Collections\IndexAction;
+use App\SearchResults\Http\Action\V1\Collections\ViewAction;
 
-class BookmarkController extends Controller
+
+class CollectionsController extends \yii\web\Controller
 {
+
     public function actions(): array
     {
         return [
             'index' => [
-                'class' => CreateAction::class,
+                'class' => IndexAction::class,
             ],
             'view' => [
                 'class' => ViewAction::class,
