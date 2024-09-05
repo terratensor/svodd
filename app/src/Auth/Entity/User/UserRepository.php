@@ -29,11 +29,13 @@ class UserRepository
         return User::find()->andWhere(['join_confirm_token_value' => $token])->one();
     }
 
+  
     /**
      * @param Id $id
-     * @return array|ActiveRecord|User
+     * @return User
+     * @throws DomainException
      */
-    public function get(Id $id): array|ActiveRecord|User
+    public function get(Id $id): User
     {
         if (!$user = User::find()->andWhere(['id' => $id->getValue()])->one()) {
             throw new DomainException('Пользователь не найден.');
