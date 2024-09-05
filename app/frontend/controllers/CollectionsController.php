@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace frontend\controllers;
 
 use App\SearchResults\Http\Action\V1\Collections\IndexAction;
+use App\SearchResults\Http\Action\V1\Collections\ViewAction;
+
 
 class CollectionsController extends \yii\web\Controller
 {
@@ -15,9 +17,9 @@ class CollectionsController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::class,
             ],
-            // 'view' => [
-            //     'class' => ViewAction::class,
-            // ],
+            'view' => [
+                'class' => ViewAction::class,
+            ],
         ];
     }
 }

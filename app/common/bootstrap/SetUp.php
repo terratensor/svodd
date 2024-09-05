@@ -144,6 +144,14 @@ class SetUp implements BootstrapInterface
             )
         ]);
 
+        $container->setSingleton(\App\UrlShortener\Service\ViewMyHandler::class, [], [
+            new \yii\httpclient\Client(
+                [
+                    'transport' => 'yii\httpclient\CurlTransport'
+                ]
+            )
+        ]);
+
         require __DIR__ . '/twig.php';
     }
 }
