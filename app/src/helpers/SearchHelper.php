@@ -19,7 +19,46 @@ class SearchHelper
      */
     public static function escapingCharacters(string $queryString): string
     {
-        return str_replace(self::$charactersList, '\\\\', $queryString);
+        $escapedString = '';
+        foreach (str_split($queryString) as $char) {
+            foreach (self::$charactersList as $character) {
+                if ($char === $character) {
+                    $escapedCharacter = '\\' . $character;
+                    $queryString = str_replace($character, $escapedCharacter, $queryString);
+                    $char = $escapedCharacter;
+                } 
+            }    
+            $escapedString .= $char;
+        }
+        
+        // var_dump($queryString);
+        return $escapedString;
+    }
+
+
+    public static function containsURL(string $input) {
+        // Регулярное выражение для поиска URL-адресов в строке
+        $pattern = "/(https?:\/\/[^\s]+)/";
+        if (preg_match($pattern, $input)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function processStringWithURLs(string $input) {
+        // Регулярное выражение для поиска URL-адресов в строке
+        $pattern = "/(https?:\/\/[^\s]+)/";
+        preg_match_all($pattern, $input, $matches);
+    
+        foreach ($matches[0] as $url) {
+            // Экранируем специальные символы в URL
+            $escapedURL = self::escapingCharacters($url);
+            // Заменяем исходный URL на экранированную версию в строке
+            $input = str_replace($url, $escapedURL, $input);
+        }
+    
+        return $input;
     }
 
     public static function processAvatarUrls(string $queryString): string

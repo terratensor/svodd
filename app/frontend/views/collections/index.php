@@ -12,7 +12,7 @@ use yii\helpers\Url;
 
 
 
-$this->title = 'Все короткие ссылки';
+$this->title = 'Короткие ссылки';
 $this->params['meta_description'] = 'Список всех скоротких ссылок, сохранненые результаты поиска';
 $this->registerLinkTag(['name' => 'robots', 'con' => 'noindex, nofollow']);
 

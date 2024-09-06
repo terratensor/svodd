@@ -51,11 +51,10 @@ class QuestionRepository
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
         }
-
-        // $queryString = SearchHelper::escapingCharacters($queryString);
-
+        
+        $queryString = SearchHelper::processStringWithURLs($queryString);
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
-
+    
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
