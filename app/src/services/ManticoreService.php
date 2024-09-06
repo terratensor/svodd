@@ -37,10 +37,10 @@ class ManticoreService
 
         $queryString = SearchHelper::processAvatarUrls($queryString);
         $queryTransformedString = '';
-
+      
         // If the query string does not contain any regex patterns, we can transform it to match common user queries
         // This is useful for cases like "[fhhbc", "харрис".
-        if (!SearchHelper::containsRegexPattern($queryString)) {
+        if (!SearchHelper::containsRegexPattern($queryString) && !SearchHelper::containsURL($queryString)) {
             // Transform the query string to match common user queries
             $queryTransformedString = SearchHelper::transformString($queryString);
         }
