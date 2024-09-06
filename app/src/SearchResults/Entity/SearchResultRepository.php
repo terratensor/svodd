@@ -61,7 +61,7 @@ class SearchResultRepository
      * @param string $shortLink
      * @return SearchResult|null
      */
-    public function getByShortLink(string $shortLink): ?SearchResult
+    public function findByShortLink(string $shortLink): ?SearchResult
     {
         return SearchResult::findOne(['short_link' => $shortLink]);
     }

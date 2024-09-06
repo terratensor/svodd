@@ -30,6 +30,13 @@ class Handler
         } catch (\DomainException $e) {
             throw new \DomainException($e->getMessage());
         }
+    
+        $result = $this->searchResultRepository->findByShortLink($command->short_link);
+        // если поисковый запрос уже существует, то ничего не делаем
+        if ($result) {
+            return;
+        }
+
         $searchResult = SearchResult::create(
             Id::generate(),
             new Id($user->getId()->getValue()),
