@@ -2,10 +2,26 @@
 
 declare(strict_types=1);
 
+use yii\bootstrap5\LinkPager;
+use yii\data\Pagination;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+
 /** @var $provider \yii\data\ArrayDataProvider */
+
+
+
+$this->title = 'Все короткие ссылки';
+$this->params['meta_description'] = 'Список всех скоротких ссылок, сохранненые результаты поиска';
+$this->registerLinkTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
+
+$pagination = new Pagination(
+    [
+        'totalCount' => $provider->getTotalCount(),
+        'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
+    ]
+);
 
 ?>
 <div class="row">
@@ -36,15 +52,39 @@ use yii\helpers\Url;
     </div>
 </div>
 
-<ol class="list-group list-group-numbered">
+<ol class="list-group">
 
     <?php foreach ($provider->getModels() as $model): ?>
         <li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
-                <div class="fw-bold"><?= $model['search']; ?></div>
-                <?= Html::a(Yii::$app->urlManager->createAbsoluteUrl("/$model[short]"), Yii::$app->urlManager->createAbsoluteUrl("/$model[short]")); ?>
+                <div class="fw-bold"><?= htmlspecialchars($model['search']); ?></div>
+                <?= Html::a(
+                    Yii::$app->urlManager->createAbsoluteUrl("/$model[short]"),
+                    Yii::$app->urlManager->createAbsoluteUrl("/$model[short]"),
+                [
+                    'rel' => 'nofollow, noindex',
+                ],
+                    ); ?>
             </div>
             <span class="badge text-bg-primary rounded-pill"><?= $model['redirect_count']; ?></span>
         </li>
     <?php endforeach; ?>
 </ol>
+
+<div class="container container-pagination">
+    <div class="detachable">
+        <?= LinkPager::widget(
+            [
+                'pagination' => $pagination,
+                'firstPageLabel' => true,
+                'lastPageLabel' => true,
+                'maxButtonCount' => 3,
+                'options' => [
+                    'class' => 'd-flex justify-content-center'
+                ],
+                'listOptions' => ['class' => 'pagination mb-0']
+            ]
+        );
+        ?>
+    </div>
+</div>
