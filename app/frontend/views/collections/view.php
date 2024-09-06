@@ -25,8 +25,15 @@ $pagination = new Pagination(
 
 ?>
 <div class="row">
-    <div class="col-md-8 d-flex align-items-center">
-        <h5>Мои короткие ссылки</h5>
+    <div class="col-md-8 d-flex align-items-center mb-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="<?= Url::to(['collections/index']) ?>">Все короткие ссылки</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active"  aria-current="page" href="<?= Url::to(['collections/view']) ?>">Мои ссылки</a>
+            </li>
+        </ul>
     </div>
     <div class="col-md-4">
     <div class="d-flex align-items-start ">
