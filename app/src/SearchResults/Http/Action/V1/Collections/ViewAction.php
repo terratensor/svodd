@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\SearchResults\Http\Action\V1\Collections;
 
 use App\Id\Entity\Id;
+use App\SearchResults\Entity\SearchResultDataProvider;
 use App\SearchResults\Entity\SearchResultRepository;
 use App\UrlShortener\Service\ViewMyHandler;
 
@@ -26,7 +27,21 @@ class ViewAction extends \yii\base\Action
         }
 
         $searchResults = $this->repository->getByUserId(new Id($user->id));
+        $dataProvder = new SearchResultDataProvider($this->handler, [
+            'searchResults' => $searchResults,
+            'pagination' => [
+                'pageSize' => \Yii::$app->params['questions']['pageSize'],
+            ],
+            'sort' => [
+                'defaultOrder' => ['created_at' => SORT_ASC],
+                'attributes' => ['search', 'redirect_count', 'created_at' => [
+                    'asc' => ['created_at' => SORT_DESC],
+                    'desc' => ['created_at' => SORT_ASC],
+                    'label' => 'datetime',
+                ]],
+            ],
+        ]);
 
-        return $this->controller->render('view', ['searchResults' => $searchResults, 'handler' => $this->handler]);
+        return $this->controller->render('view', ['dataProvider' => $dataProvder]);
     }
 }

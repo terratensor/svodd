@@ -25,6 +25,7 @@ return [
         'join/confirm' => 'auth/join/confirm',
         '<_a:login|logout>' => 'auth/auth/<_a>',
         'bookmarks' => 'bookmark/view',
+        'collections/my' => 'collections/view',
 
         'questions' => 'question/index',
         [

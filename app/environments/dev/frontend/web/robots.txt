@@ -1,3 +1,5 @@
 User-Agent: *
 Allow: /
+Clean-param: c
 Disallow: /bookmark?*
+Disallow: /collections/*
