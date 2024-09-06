@@ -103,15 +103,22 @@ $menuItems = [
         'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2'],
         'options' => ['class' => 'nav-item col-12 col-lg-auto'],
     ],
+    '<hr class="w-100 d-lg-none text-white-50">',
     [
-        'label' => $bookmarkLabel,
-        'url' => ['bookmark/view'],
-        'linkOptions' => [
-            'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center',
-            'title' => 'Закладки'
-        ],
-        'options' => ['class' => 'd-lg-none ms-0 nav-item col-12 col-lg-auto'],
+        'label' => "<span class=\"d-lg-none\">$starIcon</span> Короткие ссылки",
+        'url' => ['collections/index'],
+        'linkOptions' => ['class' => 'nav-link py-2 px-0 px-lg-2', 'rel' => 'nofollow, noindex'],
+        'options' => ['class' => 'nav-item col-12 col-lg-auto'],
     ],
+    // [
+    //     'label' => $bookmarkLabel,
+    //     'url' => ['bookmark/view'],
+    //     'linkOptions' => [
+    //         'class' => 'nav-link py-2 px-0 px-lg-2 d-flex align-items-center',
+    //         'title' => 'Закладки'
+    //     ],
+    //     'options' => ['class' => 'd-lg-none ms-0 nav-item col-12 col-lg-auto'],
+    // ],
     [
         'label' => " $chartIcon <div class=\"d-lg-none ms-0\">Статистика и хронология обсуждения</div>",
         'url' => ['svodd/index'],
@@ -121,15 +128,15 @@ $menuItems = [
         ],
         'options' => ['class' => 'd-none d-lg-block d-xl-block nav-item col-12 col-lg-auto'],
     ],
-    [
-        'label' => $bookmarkLabel,
-        'url' => ['bookmark/view'],
-        'linkOptions' => [
-            'class' => 'nav-link py-2 px-0 px-lg-0 d-flex align-items-center',
-            'title' => 'Закладки',
-        ],
-        'options' => ['class' => 'd-none d-lg-block d-xl-block nav-item col-12 col-lg-auto'],
-    ],
+    // [
+    //     'label' => $bookmarkLabel,
+    //     'url' => ['bookmark/view'],
+    //     'linkOptions' => [
+    //         'class' => 'nav-link py-2 px-0 px-lg-0 d-flex align-items-center',
+    //         'title' => 'Закладки',
+    //     ],
+    //     'options' => ['class' => 'd-none d-lg-block d-xl-block nav-item col-12 col-lg-auto'],
+    // ],
 ];
 
 ?>
