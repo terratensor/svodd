@@ -27,22 +27,22 @@ class MetaInfo extends Widget
 
             switch ($currentBadge) {
                 case 'aq':
-                    $this->view->title = "Поиск по стенограммам передач «Вопрос–Ответ»";
-                    $this->view->params['meta_description'] = $queryDescription . "Результаты поиска отфильтрованы в соответствии с меткой «Вопрос–Ответ»";
+                    $this->view->title = "Вопрос–Ответ";
+                    $this->view->params['meta_description'] = $queryDescription . "Поиск по стенограммам передач «Вопрос–Ответ»";
                     $this->view->registerLinkTag(['rel' => 'canonical', 'href' => \Yii::$app->urlManager->createAbsoluteUrl(['site/index', 'search' => [
                         'badge' => $currentBadge
                     ], 'sort' => '-datetime',])]);
                     break;
                 case 'comments':
-                    $this->view->title = "Поиск по всем комментариям сайта ФКТ помимо соборной темы СВОДД";
-                    $this->view->params['meta_description'] = $queryDescription . "Результаты поиска отфильтрованы в соответствии с меткой «Комментарии»";
+                    $this->view->title = "Комментарии";
+                    $this->view->params['meta_description'] = $queryDescription . "Поиск по всем комментариям сайта ФКТ помимо соборной темы СВОДД";
                     $this->view->registerLinkTag(['rel' => 'canonical', 'href' => \Yii::$app->urlManager->createAbsoluteUrl(['site/index', 'search' => [
                         'badge' => $currentBadge
                     ], 'sort' => '-datetime',])]);
                     break;
                 case 'svodd':
-                    $this->view->title = "Поиск по соборной теме СВОДД";
-                    $this->view->params['meta_description'] = $queryDescription . "Результаты поиска отфильтрованы в соответствии с меткой «СВОДД»";
+                    $this->view->title = "СВОДД";
+                    $this->view->params['meta_description'] = $queryDescription . "Поиск по соборной теме СВОДД";
                     $this->view->registerLinkTag(['rel' => 'canonical', 'href' => \Yii::$app->urlManager->createAbsoluteUrl(['site/index', 'search' => [
                         'badge' => $currentBadge
                     ], 'sort' => '-datetime',])]);

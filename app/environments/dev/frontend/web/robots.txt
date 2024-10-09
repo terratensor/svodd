@@ -1,5 +1,9 @@
 User-Agent: *
-Allow: /
+Disallow: /
+Allow: /$
+Allow: /bolshaya-svoddnaya-tema/$
+Allow: /questions/$
+Allow: /graph/$
+Allow: /collections/$
+Allow: /contact/$
 Clean-param: c
-Disallow: /bookmark?*
-Disallow: /collections/*

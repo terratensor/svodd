@@ -64,6 +64,7 @@ class SearchContext extends Widget
         $link = Html::a(
             $this->title,
             $this->getUrl(),
+            ['rel' => 'nofollow noindex']
         );
 
         return $link;
