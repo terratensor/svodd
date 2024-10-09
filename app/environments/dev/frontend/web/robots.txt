@@ -5,4 +5,5 @@ Allow: /bolshaya-svoddnaya-tema/$
 Allow: /questions/$
 Allow: /graph/$
 Allow: /collections/$
+Allow: /contact/$
 Clean-param: c
