@@ -7,7 +7,7 @@ services:
       LOG_LEVEL: info
     deploy:
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.role == manager ]
 
   frontend:
     image: ${REGISTRY}/svodd-frontend:${IMAGE_TAG}
