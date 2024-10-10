@@ -7,7 +7,7 @@ services:
       LOG_LEVEL: info
     deploy:
       placement:
-        constraints: [ node.role == manager ]
+        constraints: [ node.labels.worker == worker-1 ]
 
   frontend:
     image: ${REGISTRY}/svodd-frontend:${IMAGE_TAG}
@@ -115,6 +115,8 @@ services:
       - redis_password
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0 && php yii migrate-rbac --interactive=0'
     deploy:
+      placement:
+        constraints: [ node.labels.worker == worker-1 ]
       restart_policy:
         condition: on-failure
         delay: 5s
