@@ -10,12 +10,6 @@ use yii\data\ActiveDataProvider;
 use yii\data\Pagination;
 use yii\web\View;
 
-
-$this->title = 'Большая СВОДДная тема';
-
-$this->params['meta_description'] = '24 февраля 2022 года президент России Владимир Путин в ответ на обращение руководителей республик Донбасса принял решение о проведении СВОДД. 3 октября ЛНР, ДНР, Херсонская и Запорожская области стали частью России. Сообщество ведёт соборное обсуждение глобальной специальной военной операции денацификации и демилитаризации.';
-$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/view'])]);
-
 $position = 1;
 $pagination = new Pagination(
     [
@@ -23,6 +17,14 @@ $pagination = new Pagination(
         'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
     ]
 );
+
+$page = $pagination->getPage() ? $pagination->getPage() + 1 : 0;
+$pageSuffix = $page ? ' — cтраница ' . $page : ''; 
+
+$this->title = 'Большая СВОДДная тема'.$pageSuffix;
+
+$this->params['meta_description'] = '24 февраля 2022 года президент России Владимир Путин в ответ на обращение руководителей республик Донбасса принял решение о проведении СВОДД. 3 октября ЛНР, ДНР, Херсонская и Запорожская области стали частью России. Сообщество ведёт соборное обсуждение глобальной специальной военной операции денацификации и демилитаризации'.$pageSuffix;
+$this->registerLinkTag(['rel' => 'canonical', 'href' => Yii::$app->urlManager->createAbsoluteUrl(['svodd/view'])]);
 
 $this->params['breadcrumbs'][] = $this->title;
 ?>

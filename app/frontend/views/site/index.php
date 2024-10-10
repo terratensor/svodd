@@ -32,6 +32,13 @@ use yii\data\Pagination;
 use yii\helpers\Url;
 
 
+$pagination = new Pagination(
+  [
+    'totalCount' => $results->getTotalCount(),
+    'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
+  ]
+);
+
 $searchIcon = '<svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"></path></svg>';
 
 $sort = Yii::$app->request->get('sort') ?: '';
@@ -40,7 +47,7 @@ $feature = Yii::$app->request->get('feature') ?: '';
 $this->title = 'Поиск по ФКТ';
 $this->params['meta_description'] = 'Поиск вопросов и комментариев на сайте ФКТ';
 
-MetaInfo::widget(['model' => $model, 'view' => $this]);
+MetaInfo::widget(['model' => $model, 'view' => $this, 'pagination' => $pagination]);
 
 echo Html::beginForm(['/site/search-settings'], 'post', ['name' => 'searchSettingsForm', 'class' => 'd-flex']);
 echo Html::hiddenInput('value', 'toggle');
@@ -176,12 +183,7 @@ $inputTemplate = '<div class="input-group mb-1">
       // сначала получаем массив моделей, потом получаем общее их количество
       /** @var Comment[] $comments */
       $comments = $results->getModels();
-      $pagination = new Pagination(
-        [
-          'totalCount' => $results->getTotalCount(),
-          'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
-        ]
-      );
+
       ?>
       <div class="row">
         <div class="col-md-12">
