@@ -60,7 +60,7 @@ services:
       - parsed-files:/app/data
     deploy:
       placement:
-        constraints: [ node.role == manager ]
+        constraints: [ node.labels.worker == frontend-1 ]
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik-public
