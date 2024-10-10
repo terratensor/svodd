@@ -21,9 +21,11 @@ $pagination = new Pagination(
   ]
 );
 
+$page = $pagination->getPage() ? $pagination->getPage() + 1 : 0;
+$pageSuffix = $page ? ' — cтраница ' . $page : ''; 
 
-$this->title = 'Просмотр вопроса #' . $question->data_id;
-$this->params['meta_description'] = MetaQuestion::widget(['question' => $question]);
+$this->title = 'Просмотр вопроса #' . $question->data_id. $pageSuffix;
+$this->params['meta_description'] = MetaQuestion::widget(['question' => $question]).$pageSuffix;
 
 $this->params['breadcrumbs'][] = ['label' => 'Архив вопросов', 'url' => ['question/index']];
 $this->params['breadcrumbs'][] = $this->title;
