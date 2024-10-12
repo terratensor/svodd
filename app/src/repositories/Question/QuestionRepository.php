@@ -35,6 +35,70 @@ class QuestionRepository
         $this->pageSize = $pageSize;
     }
 
+
+    /**
+     * Querystring processor
+     *
+     * Если запрос пустой или в индексе мало документов со словами, токенированными так же,
+     * предложить новый запрос на основе статистики индекса.
+     *
+     * @param string $queryString
+     * @param string $indexName
+     * @return string
+     */
+    public function querystringProcessor(string $queryString, string $indexName): string
+    {
+        if (empty($queryString)) {
+            return $queryString;
+        }
+        // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
+        $param = 50;
+        // Запрос для получения ключевых слов токенов и их количества в документах
+        $query = "CALL KEYWORDS('$queryString','$indexName',1 as stats)";
+        $rawMode = true;
+        $result = $this->client->sql($query, $rawMode);
+
+        $suggestQueryString = '';
+        // Обрабатываем каждый токен и формируем новый предлагаемф пользователю запрос, основаный на статистике словаря.
+        foreach ($result as $row) {
+            // Есликоличестов документов в словаре или количество токенов в словаре менее чем $param 
+            if ($row['docs'] < $param || $row['hits'] < $param) {
+                $token = $row['tokenized'];
+                // Вызываем функция для получения пдосказок по токену
+                // https://manual.manticoresearch.com/Searching/Spell_correction#CALL-QSUGGEST,-CALL-SUGGEST
+                $subQuery = "CALL SUGGEST('$token','$this->indexName')";
+                $rawMode = true;
+                $suggestions = $this->client->sql($subQuery, $rawMode);
+
+                // Find the suggestion with the highest docs value, forexmple:
+                // CALL SUGGEST('востое','questions');
+                // +----------------+----------+------+
+                // | suggest        | distance | docs |
+                // +----------------+----------+------+
+                // | восток         | 1        | 3992 |
+                // | востоке        | 1        | 1048 |
+                // | востор         | 1        | 1    |
+                // | восто          | 1        | 1    |
+                // | постое         | 1        | 1    |
+                // +----------------+----------+------+
+                $suggestion = array_reduce($suggestions, function ($carry, $item) {
+                    if ($carry === null || $item['docs'] > $carry['docs']) {
+                        return $item;
+                    }
+
+                    return $carry;
+                }, null);
+
+                $suggestQueryString .= $suggestion['suggest'] . ' ';
+            } else {
+                $suggestQueryString .= $row['tokenized'] . ' ';
+            }
+        }
+        // Если предлагаемый пользователю запрос совпадает с исходным, то возвращаем пустую строку
+        // return $queryString === $suggestQueryString ? '' : $suggestQueryString;
+        return $suggestQueryString;
+    }
+
     /**
      * @param string $queryString
      * @param string|null $indexName
