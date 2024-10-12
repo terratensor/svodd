@@ -37,7 +37,7 @@ class ManticoreService
 
         $queryString = SearchHelper::processAvatarUrls($queryString);
         $queryTransformedString = '';
-      
+
         // If the query string does not contain any regex patterns, we can transform it to match common user queries
         // This is useful for cases like "[fhhbc", "харрис".
         if (!SearchHelper::containsRegexPattern($queryString) && !SearchHelper::containsURL($queryString)) {
@@ -45,9 +45,9 @@ class ManticoreService
             $queryTransformedString = SearchHelper::transformString($queryString);
         }
 
-        if ($form->dictionary) {
-            $indexName = \Yii::$app->params['indexes']['concept'];
-        }
+        $indexName = $this->getSearchIndexName($form);
+
+        $suggestQueryString = $this->questionRepository->querystringProcessor($queryString, $indexName);
 
         try {
             $comments = match ($form->matching) {
@@ -93,7 +93,8 @@ class ManticoreService
                     ]
                 ],
                 'queryTransformed' => $queryTransformed,
-                'queryTransformedString' => $queryTransformedString
+                'queryTransformedString' => $queryTransformedString,
+                'suggestQueryString' => $suggestQueryString
             ]
         );
     }
@@ -101,6 +102,7 @@ class ManticoreService
     public function index(): QuestionDataProvider
     {
         $form = new SearchForm();
+        $indexName = $this->getSearchIndexName($form);
         $comments = $this->questionRepository->findByQueryStringNew('', $indexName ?? null, $form);
 
         return new QuestionDataProvider(
@@ -189,5 +191,22 @@ class ManticoreService
         } catch (\DomainException $e) {
             throw new EmptySearchRequestExceptions($e->getMessage());
         }
+    }
+
+
+    /**
+     * Returns the name of the search index based on the form settings.
+     *
+     * @param SearchForm $form
+     * @return string
+     */
+    private function getSearchIndexName(SearchForm $form): string
+    {
+        $indexName = \Yii::$app->params['indexes']['common'];
+        if ($form->dictionary) {
+            $indexName = \Yii::$app->params['indexes']['concept'];
+        }
+
+        return $indexName;
     }
 }
