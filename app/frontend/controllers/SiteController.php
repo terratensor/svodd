@@ -138,6 +138,8 @@ class SiteController extends Controller
             Yii::$app->session->setFlash('error', $e->getMessage());
         } catch (EmptySearchRequestExceptions $e) {
             $errorQueryMessage = $e->getMessage();
+            // Производит вклюячение отображения панели настроек поиска, для того чтобы пользователь мог выбрать необходимую настройку фильтра
+            Yii::$app->session->set('show_search_settings', true);
         }
 
         return $this->render('index', [
