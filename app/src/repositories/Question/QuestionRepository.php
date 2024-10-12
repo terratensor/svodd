@@ -51,10 +51,10 @@ class QuestionRepository
         if ($indexName) {
             $this->setIndex($this->client->index($indexName));
         }
-        
+
         $queryString = SearchHelper::processStringWithURLs($queryString);
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
-    
+
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
@@ -203,7 +203,9 @@ class QuestionRepository
         if (!empty($result)) {
             $query->must(new In('data_id', array_values($result)));
         } else {
-            throw new \DomainException('Неправильный запрос, при поиске по номеру(ам) надо указать номер вопроса или комментария, или перечислить номера через запятую');
+            throw new \DomainException("<p>1. Неправильный запрос, при поиске по номерам записей надо указать номер вопроса или комментария, или перечислить номера через запятую</p>
+            <p>Например: 44538,44612,44707</p>
+            <p>2. Если вы хотите воспользоваться обычным поиском, то включите фильтр <strong>«Обычный поиск»</strong> в настройках поиска</p>");
         }
 
         if ($form) {

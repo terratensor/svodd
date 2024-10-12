@@ -157,12 +157,10 @@ $inputTemplate = '<div class="input-group mb-1">
   </div>
 
   <div class="container-fluid search-results">
-    <?php if (!$results) : ?>
-      <?php if ($errorQueryMessage) : ?>
-        <div class="card mb-3">
-          <div class="card-body"><?= $errorQueryMessage; ?></div>
-        </div>
-      <?php endif; ?>
+    <?php if (!$results || $errorQueryMessage) : ?>
+      <div class="card mb-3 border-danger">
+        <div class="card-body"><?= $errorQueryMessage; ?></div>
+      </div>
     <?php endif; ?>
     <?php if ($flag && $flag->isEnabled('09051945B') && Yii::$app->request->url == Yii::$app->homeUrl) : ?>
       <div class="denpobedy mb-3">
@@ -177,7 +175,7 @@ $inputTemplate = '<div class="input-group mb-1">
 
     <?= TransformQuery::widget(['results' => $results]); ?>
 
-    <?php if ($results) : ?>
+    <?php if ($results && !$errorQueryMessage) : ?>
       <?php
       // Property totalCount пусто пока не вызваны данные модели getModels(),
       // сначала получаем массив моделей, потом получаем общее их количество
