@@ -88,8 +88,11 @@ class QuestionRepository
 
                     return $carry;
                 }, null);
-
-                $suggestQueryString .= $suggestion['suggest'] . ' ';
+                
+                // fixed Trying to access array offset on value of type null
+                if ($suggestion !== null) {
+                    $suggestQueryString .= $suggestion['suggest'] . ' ';
+                }
             } else {
                 $suggestQueryString .= $row['tokenized'] . ' ';
             }
