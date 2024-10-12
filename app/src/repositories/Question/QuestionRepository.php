@@ -97,9 +97,8 @@ class QuestionRepository
                 $suggestQueryString .= $row['tokenized'] . ' ';
             }
         }
-        // Если предлагаемый пользователю запрос совпадает с исходным, то возвращаем пустую строку
-        // return $queryString === $suggestQueryString ? '' : $suggestQueryString;
-        return $suggestQueryString;
+        //Если предлагаемый пользователю запрос совпадает с исходным, то возвращаем пустую строку
+        return $queryString === $suggestQueryString ? '' : $suggestQueryString;
     }
 
     /**
