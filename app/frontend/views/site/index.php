@@ -3,7 +3,7 @@
 /**
  * @var yii\web\View $this
  * @var App\repositories\Question\QuestionDataProvider $results
- * @var Pagination $pages
+ * @var Pagination $pagination
  * @var App\forms\SearchForm $model
  * @var string $errorQueryMessage
  * @var App\FeatureToggle\FeatureFlag $
@@ -63,9 +63,8 @@ $inputTemplate = '<div class="input-group mb-1">
             </svg>
           </button>
           </div>';
-
-// $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="site-index">
   <div class="container-fluid badge-panel badge-filter">
     <div class="row gy-3">
