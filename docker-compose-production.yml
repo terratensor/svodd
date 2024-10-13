@@ -287,8 +287,13 @@ services:
       POSTGRES_DB: ${APP_POSTGRES_DB}
     secrets:
       - app_db_password
+    tmpfs:
+      - /tmp:size=1g
     volumes:
       - app-postgres:/var/lib/postgresql/data
+      - type: tmpfs
+        target: /dev/shm
+    command: ["postgres", "-c", "log_statement=all"]
     deploy:
       placement:
         constraints: [ node.role == manager ]
