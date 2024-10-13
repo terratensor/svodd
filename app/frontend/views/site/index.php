@@ -24,6 +24,8 @@ use frontend\widgets\search\MetaInfo;
 use frontend\widgets\search\SearchContext;
 use frontend\widgets\search\ShortLinkModal;
 use frontend\widgets\search\SuggestQuery;
+use frontend\widgets\search\TgSvoddLink;
+use frontend\widgets\svodd\TelegramLink;
 use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -220,7 +222,7 @@ $inputTemplate = '<div class="input-group mb-1">
             </div>
           <?php endif; ?>
           <?php foreach ($comments as $comment) : ?>
-            <div class="card mb-4" data-entity-id="<?= $comment->data_id ? $comment->data_id : $comment->sid; ?>">
+            <article class="card mb-4" data-entity-id="<?= $comment->data_id ? $comment->data_id : $comment->sid; ?>">
               <div class="card-header">
                 <div class="d-flex justify-content-between">
                   <div>
@@ -243,14 +245,15 @@ $inputTemplate = '<div class="input-group mb-1">
                 </div>
               </div>
 
-              <div class="card-footer d-flex justify-content-between">
+              <footer class="card-footer d-flex justify-content-between">
                 <div>
                   <?= FollowQuestion::widget(['comment' => $comment, 'pagination' => $pagination]); ?>
+                  <?= TgSvoddLink::widget(['comment' => $comment]); ?>
                   <?= BookmarkSearchWidget::widget(['model' => $comment]); ?>
                 </div>
                 <?= FollowLink::widget(['comment' => $comment]); ?>
-              </div>
-            </div>
+              </footer>
+            </article>
           <?php endforeach; ?>
 
           <div class="container container-pagination">
