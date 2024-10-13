@@ -47,7 +47,9 @@ class ManticoreService
 
         $indexName = $this->getSearchIndexName($form);
 
-        $suggestQueryString = $this->questionRepository->querystringProcessor($queryString, $indexName);
+        $queryStruct = $this->questionRepository->queryStringProcessor($queryString, $indexName, $this->getStopwords($form));
+        $suggestQueryString = $queryStruct->getSuggestionQueryString();
+        $queryString = $queryStruct->getQueryString($form->stopwords);
 
         try {
             $comments = match ($form->matching) {
@@ -208,5 +210,13 @@ class ManticoreService
         }
 
         return $indexName;
+    }
+
+    private function getStopwords(SearchForm $form): array
+    {
+        if ($form->stopwords) {
+            return \Yii::$app->params['stopwords'];
+        }
+        return [];
     }
 }

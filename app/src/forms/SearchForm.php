@@ -21,6 +21,7 @@ class SearchForm extends Model
     public string $matching = 'query_string';
     public bool $dictionary = false;
     public string $badge = 'all';
+    public bool $stopwords = true;
 
     public string $defaultBadge = 'all';
 
@@ -44,7 +45,7 @@ class SearchForm extends Model
             [['date_from', 'date_to'], 'date', 'format' => 'php:d.m.Y H:i'],
             ['matching', 'in', 'range' => array_keys($this->getMatching())],
             ['badge', 'in', 'range' => array_keys($this->makeBadgeList())],
-            ['dictionary', 'boolean']
+            [['dictionary', 'stopwords'], 'boolean'],
         ];
     }
 
@@ -55,6 +56,14 @@ class SearchForm extends Model
             'match_phrase' => 'Точное соответствие',
             'match' => 'Любое слово',
             self::MATCHING_IN => 'По номерам записей через запятую',
+        ];
+    }
+
+    public function getCheckboxList(): array
+    {
+        return [
+            'Концептуальный словарь',
+            'Стоп-слова',
         ];
     }
 

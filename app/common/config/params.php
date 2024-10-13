@@ -75,5 +75,6 @@ return [
     'indexes' => [
         'common' => 'questions',
         'concept' => 'questions_ext',
-    ]
+    ],
+    'stopwords' => file(__DIR__ . '/stopwords/ru', FILE_IGNORE_NEW_LINES),
 ];

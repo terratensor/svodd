@@ -6,6 +6,8 @@ namespace App\repositories\Question;
 
 use App\forms\SearchForm;
 use App\helpers\SearchHelper;
+use App\Nlp\Token\Token;
+use App\Nlp\Token\Suggestion;
 use App\Svodd\Entity\Chart\Data;
 use Manticoresearch\Client;
 use Manticoresearch\Index;
@@ -35,40 +37,66 @@ class QuestionRepository
         $this->pageSize = $pageSize;
     }
 
+    private  function callKeywords($queryString, $indexName): array
+    {
+        // Запрос для получения ключевых слов токенов и их количества в документах
+        $query = "CALL KEYWORDS('$queryString','$indexName',1 as stats)";
+        $rawMode = true;
+        return $this->client->sql($query, $rawMode);
+    }
 
     /**
-     * Querystring processor
+     * Query String processor
      *
      * Если запрос пустой или в индексе мало документов со словами, токенированными так же,
      * предложить новый запрос на основе статистики индекса.
      *
      * @param string $queryString
      * @param string $indexName
-     * @return string
+     * @param array $stopwords
+     * @return QueryStucture
      */
-    public function querystringProcessor(string $queryString, string $indexName): string
+    public function queryStringProcessor(string $queryString, string $indexName, array $stopwords): QueryStucture
     {
+        $queryStruct = new QueryStucture($queryString);
+        $tokens = [];
+        $suggestions = [];
+
         if (empty($queryString)) {
-            return $queryString;
+            $queryStruct->setTokens($tokens);
+            $queryStruct->setSuggestions($suggestions);
+            return $queryStruct;
         }
+
+
         // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
         $param = 50;
-        // Запрос для получения ключевых слов токенов и их количества в документах
-        $query = "CALL KEYWORDS('$queryString','$indexName',1 as stats)";
-        $rawMode = true;
-        $result = $this->client->sql($query, $rawMode);
+        $result = $this->callKeywords($queryString, $indexName);
 
-        $suggestQueryString = '';
         // Обрабатываем каждый токен и формируем новый предлагаемф пользователю запрос, основаный на статистике словаря.
         foreach ($result as $row) {
+
+            $token = new Token();
+            $token->qpos = (int)$row['qpos'];
+            $token->tokenized = $row['tokenized'];
+            $token->normalized = $row['normalized'];
+            $token->docs = (int)$row['docs'];
+            $token->hits = (int)$row['hits'];
+
+            if (!empty($stopwords) && in_array($row['tokenized'], $stopwords)) {
+                $token->markAsStopWord(true);
+            }
+
+            $tokens[] = $token;
+
             // Есликоличестов документов в словаре или количество токенов в словаре менее чем $param 
             if ($row['docs'] < $param || $row['hits'] < $param) {
-                $token = $row['tokenized'];
+
                 // Вызываем функция для получения пдосказок по токену
                 // https://manual.manticoresearch.com/Searching/Spell_correction#CALL-QSUGGEST,-CALL-SUGGEST
-                $subQuery = "CALL SUGGEST('$token','$this->indexName')";
+                $subQuery = "CALL SUGGEST('$token->tokenized','$this->indexName')";
                 $rawMode = true;
-                $suggestions = $this->client->sql($subQuery, $rawMode);
+                $callSuggest = $this->client->sql($subQuery, $rawMode);
 
                 // Find the suggestion with the highest docs value, forexmple:
                 // CALL SUGGEST('востое','questions');
@@ -81,24 +109,44 @@ class QuestionRepository
                 // | восто          | 1        | 1    |
                 // | постое         | 1        | 1    |
                 // +----------------+----------+------+
-                $suggestion = array_reduce($suggestions, function ($carry, $item) {
+                $suggest = array_reduce($callSuggest, function ($carry, $item) {
                     if ($carry === null || $item['docs'] > $carry['docs']) {
                         return $item;
                     }
 
                     return $carry;
                 }, null);
-                
+
+                $suggestion = new Suggestion();
+                $suggestion->suggest = $suggest['suggest'];
+                $suggestion->distance = $suggest['distance'];
+                $suggestion->docs = $suggest['docs'];
+
                 // fixed Trying to access array offset on value of type null
                 if ($suggestion !== null) {
-                    $suggestQueryString .= $suggestion['suggest'] . ' ';
+
+                    $suggestResult = $this->callKeywords($suggestion->suggest, $this->indexName, $param);
+                    $suggestToken = new Token();
+                    $suggestToken->qpos = (int)$suggestResult[0]['qpos'];
+                    $suggestToken->tokenized = $suggestResult[0]['tokenized'];
+                    $suggestToken->normalized = $suggestResult[0]['normalized'];
+                    $suggestToken->docs = (int)$suggestResult[0]['docs'];
+                    $suggestToken->hits = (int)$suggestResult[0]['hits'];
+
+                    $suggestions[] = $suggestToken;
                 }
             } else {
-                $suggestQueryString .= $row['tokenized'] . ' ';
+                $suggestions[] = $token;
             }
         }
+
+        $queryStruct->setTokens($tokens);
+        $queryStruct->setSuggestions($suggestions);
+
+        // var_dump($queryStruct);
+
         //Если предлагаемый пользователю запрос совпадает с исходным, то возвращаем пустую строку
-        return $queryString === $suggestQueryString ? '' : $suggestQueryString;
+        return $queryStruct;
     }
 
     /**

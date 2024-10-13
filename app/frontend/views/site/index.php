@@ -110,7 +110,6 @@ $inputTemplate = '<div class="input-group mb-1">
         <?= $form->field($model, 'matching', ['inline' => true, 'options' => ['class' => 'pb-2 pt-1']])
           ->radioList($model->getMatching(), ['class' => 'form-check-inline'])
           ->label(false); ?>
-
         <div class="row">
           <div class="col-md-6">
             <?php
@@ -142,9 +141,17 @@ $inputTemplate = '<div class="input-group mb-1">
             ); ?>
           </div>
           <div class="col-md-6 d-flex align-items-center">
-            <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
-              ->checkbox()
-              ->label('Концептуальный словарь'); ?>
+            <div class="row row-cols-lg-auto align-items-center">
+              <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-1']])
+                ->checkbox()
+                ->label('Концептуальный словарь'); ?>
+
+              <?= $form->field($model, 'stopwords', ['options' => ['class' => 'pb-1']])
+                ->checkbox()
+                ->label('Стоп-слова');
+              ?>
+
+            </div>
           </div>
           <div class="col-md-6 d-flex align-items-center">
             <?= $form->field($model, 'badge', ['inline' => true, 'options' => ['tag' => false]])
