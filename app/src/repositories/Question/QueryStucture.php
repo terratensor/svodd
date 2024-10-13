@@ -46,6 +46,10 @@ class QueryStucture
 
         $stopwords = \Yii::$app->params['stopwords'];
 
+        if (empty($this->getTokens())) {
+            return $this->originQueryString;
+        }
+
         foreach ($this->getTokens() as $token) {
             if ($stopwords_enabled && in_array($token->tokenized, $stopwords)) {
                 continue;
