@@ -160,6 +160,12 @@ class SearchHelper
         return Html::tag('mark', $result);
     }
 
+    /**
+     * Transforms a string from latin to cyrillic using a predefined mapping
+     *
+     * @param string $input the string to be transformed
+     * @return string the transformed string   
+     */
     public static function transformString($input)
     {
         $mapping = [

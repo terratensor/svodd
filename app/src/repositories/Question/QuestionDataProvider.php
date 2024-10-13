@@ -18,9 +18,7 @@ class QuestionDataProvider extends BaseDataProvider
      */
     public Search $query;
 
-    public bool $queryTransformed;
-    public string $queryTransformedString;
-    public string $suggestQueryString;
+    public string $suggestQueryString = '';
 
     protected function prepareModels(): array
     {
