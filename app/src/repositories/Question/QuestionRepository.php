@@ -51,6 +51,15 @@ class QuestionRepository
         if (empty($queryString)) {
             return $queryString;
         }
+
+        // Если строка запроса содержит символы, используемые в полнотектовом поиске, то не предлагаем новый запрос
+        // TODO возможно тут нужна более сложная логика, например обрабтывать эти символы и операторы, но пока кажется сложным и излишним.
+        foreach (SearchHelper::$charactersList as $character) {
+            if (strpos($queryString, $character) !== false) {
+                return '';
+            }
+        }
+
         // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
         $param = 50;
         // Запрос для получения ключевых слов токенов и их количества в документах
@@ -88,7 +97,7 @@ class QuestionRepository
 
                     return $carry;
                 }, null);
-                
+
                 // fixed Trying to access array offset on value of type null
                 if ($suggestion !== null) {
                     $suggestQueryString .= $suggestion['suggest'] . ' ';
