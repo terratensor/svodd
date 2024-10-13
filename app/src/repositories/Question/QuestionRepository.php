@@ -26,6 +26,8 @@ class QuestionRepository
 
     private string $indexName = 'questions';
     public int $pageSize = 20;
+    // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
+    public int $param = 50;
 
     public function __construct(Client $client, $pageSize)
     {
@@ -35,34 +37,44 @@ class QuestionRepository
         $this->pageSize = $pageSize;
     }
 
-
     /**
-     * Querystring processor
+     * Suggest a search query based on the given string and index name.
      *
-     * Если запрос пустой или в индексе мало документов со словами, токенированными так же,
-     * предложить новый запрос на основе статистики индекса.
+     * The function takes a string and an index name as input and returns a suggested search query based on the
+     * statistics of the dictionary.
      *
-     * @param string $queryString
-     * @param string $indexName
-     * @return string
+     * If the input string is empty or contains special characters used in full-text search, the function returns an empty string.
+     *
+     * The function processes each token and forms a new suggested query based on the statistics of the dictionary.
+     * If the number of documents in the dictionary or the number of tokens in the dictionary is less than $param,
+     * the function calls the CALL SUGGEST function to get suggestions for the token.
+     * The function then finds the suggestion with the highest docs value and adds it to the suggested query.
+     *
+     * If the suggested query is the same as the input string, the function returns an empty string.
+     *
+     * @param string $queryString The input string.
+     * @param string $indexName The name of the index.
+     *
+     * @return string The suggested search query.
      */
-    public function querystringProcessor(string $queryString, string $indexName): string
+    public function queryStringSuggestor(string $queryString, string $indexName): string
     {
-        if (empty($queryString)) {
-            return $queryString;
+        // Если строка пустая или содержит символы, используемые в полнотекстовом поиске, то возвращаем пустую строку 
+        if (empty($queryString) || SearchHelper::containsSpecialChars($queryString)) {
+            return '';
         }
-        // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
-        $param = 50;
-        // Запрос для получения ключевых слов токенов и их количества в документах
-        $query = "CALL KEYWORDS('$queryString','$indexName',1 as stats)";
-        $rawMode = true;
-        $result = $this->client->sql($query, $rawMode);
+
+        // Обрабатываем строку из латинской раскладки в кирилическую
+        // TODO для латинской раскладки предлангать 2 варианта запроса, латиница, кирилица
+        $queryTransformedString = SearchHelper::transformString($queryString);
+
+        $result = $this->callKeywords($queryTransformedString, $indexName);
 
         $suggestQueryString = '';
-        // Обрабатываем каждый токен и формируем новый предлагаемф пользователю запрос, основаный на статистике словаря.
+        // Обрабатываем каждый токен и формируем новый предлагаемый пользователю запрос, основаный на статистике словаря.
         foreach ($result as $row) {
-            // Есликоличестов документов в словаре или количество токенов в словаре менее чем $param 
-            if ($row['docs'] < $param || $row['hits'] < $param) {
+            // Если количестов документов в словаре или количество токенов в словаре менее чем $param 
+            if ($row['docs'] < $this->param || $row['hits'] < $this->param) {
                 $token = $row['tokenized'];
                 // Вызываем функция для получения пдосказок по токену
                 // https://manual.manticoresearch.com/Searching/Spell_correction#CALL-QSUGGEST,-CALL-SUGGEST
@@ -88,7 +100,7 @@ class QuestionRepository
 
                     return $carry;
                 }, null);
-                
+
                 // fixed Trying to access array offset on value of type null
                 if ($suggestion !== null) {
                     $suggestQueryString .= $suggestion['suggest'] . ' ';
@@ -409,5 +421,14 @@ class QuestionRepository
             ->select(['question_id'])
             ->asArray()
             ->column();
+    }
+
+    private function callKeywords(string $queryString, $indexName): array
+    {
+        // Запрос для получения ключевых слов токенов и их количества в документах
+        $query = "CALL KEYWORDS('$queryString','$indexName',1 as stats)";
+        $rawMode = true;
+        $result = $this->client->sql($query, $rawMode);
+        return $result;
     }
 }
