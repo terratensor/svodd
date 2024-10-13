@@ -50,9 +50,9 @@ class QuestionRepository
      */
     public function queryStringProcessor(string $queryString, string $indexName): string
     {
-        // Если строка пустая или содержит символы, используемые в полнотекстовом поиске, то возвращаем строку без изменений 
+        // Если строка пустая или содержит символы, используемые в полнотекстовом поиске, то возвращаем пустую строку 
         if (empty($queryString) || SearchHelper::containsSpecialChars($queryString)) {
-            return $queryString;
+            return '';
         }
 
         // Запрос для получения ключевых слов токенов и их количества в документах
