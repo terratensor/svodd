@@ -62,7 +62,7 @@ class QuestionRepository
         $tokens = [];
         $suggestions = [];
 
-        if (empty($queryString)) {
+        if (empty($queryString) || SearchHelper::containsSpecialChars($queryString)) {
             $queryStruct->setTokens($tokens);
             $queryStruct->setSuggestions($suggestions);
             return $queryStruct;

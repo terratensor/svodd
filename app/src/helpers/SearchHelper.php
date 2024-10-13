@@ -26,17 +26,18 @@ class SearchHelper
                     $escapedCharacter = '\\' . $character;
                     $queryString = str_replace($character, $escapedCharacter, $queryString);
                     $char = $escapedCharacter;
-                } 
-            }    
+                }
+            }
             $escapedString .= $char;
         }
-        
+
         // var_dump($queryString);
         return $escapedString;
     }
 
 
-    public static function containsURL(string $input) {
+    public static function containsURL(string $input)
+    {
         // Регулярное выражение для поиска URL-адресов в строке
         $pattern = "/(https?:\/\/[^\s]+)/";
         if (preg_match($pattern, $input)) {
@@ -46,18 +47,19 @@ class SearchHelper
         }
     }
 
-    public static function processStringWithURLs(string $input) {
+    public static function processStringWithURLs(string $input)
+    {
         // Регулярное выражение для поиска URL-адресов в строке
         $pattern = "/(https?:\/\/[^\s]+)/";
         preg_match_all($pattern, $input, $matches);
-    
+
         foreach ($matches[0] as $url) {
             // Экранируем специальные символы в URL
             $escapedURL = self::escapingCharacters($url);
             // Заменяем исходный URL на экранированную версию в строке
             $input = str_replace($url, $escapedURL, $input);
         }
-    
+
         return $input;
     }
 
@@ -161,13 +163,39 @@ class SearchHelper
     public static function transformString($input)
     {
         $mapping = [
-            'a' => 'ф', 'b' => 'и', 'c' => 'с', 'd' => 'в', 'e' => 'у',
-            'f' => 'а', 'g' => 'п', 'h' => 'р', 'i' => 'ш', 'j' => 'о',
-            'k' => 'л', 'l' => 'д', 'm' => 'ь', 'n' => 'т', 'o' => 'щ',
-            'p' => 'з', 'q' => 'й', 'r' => 'к', 's' => 'ы', 't' => 'е',
-            'u' => 'г', 'v' => 'м', 'w' => 'ц', 'x' => 'ч', 'y' => 'н',
-            'z' => 'я', '`' => 'ё', '[' => 'х', ']' => 'ъ', ',' => 'б',
-            '.' => 'ю', ';' => 'ж', '\'' => 'э'
+            'a' => 'ф',
+            'b' => 'и',
+            'c' => 'с',
+            'd' => 'в',
+            'e' => 'у',
+            'f' => 'а',
+            'g' => 'п',
+            'h' => 'р',
+            'i' => 'ш',
+            'j' => 'о',
+            'k' => 'л',
+            'l' => 'д',
+            'm' => 'ь',
+            'n' => 'т',
+            'o' => 'щ',
+            'p' => 'з',
+            'q' => 'й',
+            'r' => 'к',
+            's' => 'ы',
+            't' => 'е',
+            'u' => 'г',
+            'v' => 'м',
+            'w' => 'ц',
+            'x' => 'ч',
+            'y' => 'н',
+            'z' => 'я',
+            '`' => 'ё',
+            '[' => 'х',
+            ']' => 'ъ',
+            ',' => 'б',
+            '.' => 'ю',
+            ';' => 'ж',
+            '\'' => 'э'
         ];
 
         $output = '';
@@ -275,4 +303,24 @@ class SearchHelper
         return preg_match($regexPattern, $queryString) > 0;
     }
 
+
+    /**
+     * Checks if the given query string contains special characters.
+     *
+     * This function checks if the given query string contains any of the special
+     * characters listed in the $charactersList property. If it does, it returns true,
+     * otherwise false.
+     *
+     * @param string $queryString The query string to check.
+     * @return bool True if the query string contains special characters, false otherwise.
+     */
+    public static function containsSpecialChars(string $queryString): bool
+    {
+        foreach (self::$charactersList as $character) {
+            if (strpos($queryString, $character) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
