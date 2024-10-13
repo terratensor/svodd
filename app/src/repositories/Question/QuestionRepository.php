@@ -26,6 +26,8 @@ class QuestionRepository
 
     private string $indexName = 'questions';
     public int $pageSize = 20;
+    // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
+    public int $param = 50;
 
     public function __construct(Client $client, $pageSize)
     {
@@ -46,22 +48,13 @@ class QuestionRepository
      * @param string $indexName
      * @return string
      */
-    public function querystringProcessor(string $queryString, string $indexName): string
+    public function queryStringProcessor(string $queryString, string $indexName): string
     {
-        if (empty($queryString)) {
+        // Если строка пустая или содержит символы, используемые в полнотекстовом поиске, то возвращаем строку без изменений 
+        if (empty($queryString) || SearchHelper::containsSpecialChars($queryString)) {
             return $queryString;
         }
 
-        // Если строка запроса содержит символы, используемые в полнотектовом поиске, то не предлагаем новый запрос
-        // TODO возможно тут нужна более сложная логика, например обрабтывать эти символы и операторы, но пока кажется сложным и излишним.
-        foreach (SearchHelper::$charactersList as $character) {
-            if (strpos($queryString, $character) !== false) {
-                return '';
-            }
-        }
-
-        // параметр значения количества документов, содержащих исходное слово. По умолчанию 50.
-        $param = 50;
         // Запрос для получения ключевых слов токенов и их количества в документах
         $query = "CALL KEYWORDS('$queryString','$indexName',1 as stats)";
         $rawMode = true;
@@ -71,7 +64,7 @@ class QuestionRepository
         // Обрабатываем каждый токен и формируем новый предлагаемф пользователю запрос, основаный на статистике словаря.
         foreach ($result as $row) {
             // Есликоличестов документов в словаре или количество токенов в словаре менее чем $param 
-            if ($row['docs'] < $param || $row['hits'] < $param) {
+            if ($row['docs'] < $this->param || $row['hits'] < $this->param) {
                 $token = $row['tokenized'];
                 // Вызываем функция для получения пдосказок по токену
                 // https://manual.manticoresearch.com/Searching/Spell_correction#CALL-QSUGGEST,-CALL-SUGGEST

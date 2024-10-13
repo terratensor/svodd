@@ -47,7 +47,7 @@ class ManticoreService
 
         $indexName = $this->getSearchIndexName($form);
 
-        $suggestQueryString = $this->questionRepository->querystringProcessor($queryString, $indexName);
+        $suggestQueryString = $this->questionRepository->queryStringProcessor($queryString, $indexName);
 
         try {
             $comments = match ($form->matching) {
