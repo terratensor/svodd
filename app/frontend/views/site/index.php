@@ -24,7 +24,6 @@ use frontend\widgets\search\MetaInfo;
 use frontend\widgets\search\SearchContext;
 use frontend\widgets\search\ShortLinkModal;
 use frontend\widgets\search\SuggestQuery;
-use frontend\widgets\search\TransformQuery;
 use kartik\daterange\DateRangePicker;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -174,7 +173,6 @@ $inputTemplate = '<div class="input-group mb-1">
       </div>
     <?php endif; ?>
 
-    <?= TransformQuery::widget(['results' => $results]); ?>
     <?= SuggestQuery::widget(['results' => $results]); ?>
 
     <?php if ($results && !$errorQueryMessage) : ?>
