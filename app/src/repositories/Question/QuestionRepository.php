@@ -431,4 +431,25 @@ class QuestionRepository
         $result = $this->client->sql($query, $rawMode);
         return $result;
     }
+
+    /**
+     * Get total number of indexed documents in index
+     *
+     * @return int
+     */
+    public function getTotalIndexedDocuments(): int
+    {        
+        try {
+            $index_status = $this->client->index($this->indexName)->status();
+            if (array_key_exists('indexed_documents', $index_status)) {
+                $total_docs = $index_status['indexed_documents'];
+                return (int)$total_docs;
+            }
+        } catch (\Exception $e) {            
+            // Handle the exception, e.g. logging.
+        }
+
+        // If we're here, something went wrong. Return 0.
+        return 0;
+    }
 }
