@@ -34,9 +34,11 @@ use yii\data\Pagination;
 use yii\helpers\Url;
 
 
+$total_count = $results->indexed_documents !== 0 ? $results->indexed_documents : $results->getTotalCount();
+
 $pagination = new Pagination(
   [
-    'totalCount' => $results->getTotalCount(),
+    'totalCount' => $total_count,
     'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
   ]
 );

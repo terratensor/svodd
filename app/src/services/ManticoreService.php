@@ -109,6 +109,7 @@ class ManticoreService
                         'comments_count',
                     ]
                 ],
+                'indexed_documents' => $this->questionRepository->getTotalIndexedDocuments(),
             ]
         );
     }

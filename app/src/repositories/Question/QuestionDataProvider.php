@@ -19,6 +19,7 @@ class QuestionDataProvider extends BaseDataProvider
     public Search $query;
 
     public string $suggestQueryString = '';
+    public int $indexed_documents = 0;
 
     protected function prepareModels(): array
     {
