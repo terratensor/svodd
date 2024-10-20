@@ -20,6 +20,11 @@ class BookmarkSearchWidget extends Widget
     public Comment $model;
     public function run()
     {
+        // Закладки отображаются только для зарегистрированных пользователей
+        if (Yii::$app->user->isGuest) {
+            return null;
+        }
+
         $options = ['model' => $this->model];
 
         if ($this->model->type !== Comment::TYPE_COMMENT || $this->model->parent_id === 0) {

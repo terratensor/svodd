@@ -21,7 +21,13 @@ class BookmarkWidget extends Widget
     public Comment $model;
     public function run()
     {
+        // Закладки отображаются только для зарегистрированных пользователей
+        if (Yii::$app->user->isGuest) {
+            return null;
+        }
+
         $options = ['model' => $this->model];
+
         if (!Yii::$app->user->isGuest) {
             $bookmark = $this->bokmarkRepository->getBy(Yii::$app->user->id, $this->model->data_id);
             $options = array_merge($options, ['bookmark' => $bookmark]);

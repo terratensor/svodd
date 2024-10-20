@@ -26,7 +26,7 @@ class CreateAction extends Action
         $user = Yii::$app->user;
 
         if (!Yii::$app->request->isPost) {
-            Yii::$app->response->statusCode = 405;
+            Yii::$app->response->statusCode = 404;
             return json_encode(['message' => 'error']);
         }
 
