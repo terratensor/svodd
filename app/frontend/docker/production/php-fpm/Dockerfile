@@ -18,7 +18,7 @@ RUN composer install --no-dev --prefer-dist --no-progress --no-suggest --optimiz
     && rm -rf /root/.composer/cache
 
 ### FPM ###
-FROM php:8.1-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 LABEL org.opencontainers.image.source https://github.com/terratensor/svodd
 
