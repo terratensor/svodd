@@ -63,4 +63,17 @@ class UserRepository
     {
         return User::find()->andWhere(['password_reset_token_value' => $token])->one();
     }
+
+    /**
+     * Removes the specified user from the repository.
+     *
+     * @param User $user The user to be removed.
+     * @throws \RuntimeException if there is an error during the deletion process.
+     */
+    public function remove(User $user): void
+    {
+        if (!$user->delete()) {
+            throw new \RuntimeException('Ошибка при удалении записи.');
+        }
+    }
 }
