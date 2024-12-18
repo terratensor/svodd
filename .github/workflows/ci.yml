@@ -24,13 +24,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Cache APP Composer
-        uses: actions/cache@v2
+      - name: Cache APP Composer Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT      
+      - uses: actions/cache@v4
         with:
-          path: vendor
-          key: app-composer-${{ hashFiles('app/composer.lock') }}
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: Docker Login
         uses: azure/docker-login@v1
@@ -52,7 +57,7 @@ jobs:
         run: make docker-down-clear
 
       - name: Inject branch slug
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v5
 
       - name: Set image tag
         run: echo "::set-env name=IMAGE_TAG::${{ env.GITHUB_REF_SLUG }}-${GITHUB_RUN_NUMBER}"

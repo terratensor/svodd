@@ -1,6 +1,6 @@
-FROM php:8.1-cli-alpine AS builder
+FROM php:8.3-cli-alpine AS builder
 
-RUN apk add --no-cache postgresql-dev \
+RUN apk add --no-cache --update linux-headers postgresql-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install sockets pdo_pgsql opcache
 
@@ -19,7 +19,7 @@ RUN composer install --no-dev --prefer-dist --no-progress --no-suggest --optimiz
 
 ### CLI ###
 
-FROM php:8.1-cli-alpine
+FROM php:8.3-cli-alpine
 
 LABEL org.opencontainers.image.source https://github.com/terratensor/svodd
 

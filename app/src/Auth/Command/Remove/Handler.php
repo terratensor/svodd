@@ -18,6 +18,6 @@ class Handler
     public function handler(Command $command): void
     {
         $user = $this->users->get(new Id($command->id));
-        $this->users->remove
+        $this->users->remove($user);
     }
 }

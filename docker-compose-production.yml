@@ -116,7 +116,7 @@ services:
     command: sh -c 'wait-for-it app-postgres:5432 -t 60 && php yii migrate --interactive=0 && php yii migrate-rbac --interactive=0'
     deploy:
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -134,7 +134,7 @@ services:
         - swarm.cronjob.schedule=*/1 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
@@ -150,7 +150,7 @@ services:
         - swarm.cronjob.schedule=*/8 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
@@ -166,7 +166,7 @@ services:
         - swarm.cronjob.schedule=5,15,25,35,45,55 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
@@ -182,7 +182,7 @@ services:
         - swarm.cronjob.schedule=10,30,50 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
@@ -198,7 +198,7 @@ services:
         - swarm.cronjob.schedule=20,40 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
@@ -214,7 +214,7 @@ services:
         - swarm.cronjob.schedule=0 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
@@ -269,7 +269,7 @@ services:
         - swarm.cronjob.schedule=*/1 * * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -362,7 +362,7 @@ services:
         - swarm.cronjob.schedule=6 */12 * * *
         - swarm.cronjob.skip-running=true
       placement:
-        constraints: [ node.labels.worker == worker-1 ]
+        constraints: [ node.labels.worker == frontend-1 ]
       replicas: 0
       restart_policy:
         condition: none
