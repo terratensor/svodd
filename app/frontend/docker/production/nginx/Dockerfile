@@ -1,4 +1,4 @@
-FROM yiisoftware/yii2-php:8.1-fpm-nginx
+FROM yiisoftware/yii2-php:8.3-fpm-nginx
 
 LABEL org.opencontainers.image.source https://github.com/terratensor/svodd
 
