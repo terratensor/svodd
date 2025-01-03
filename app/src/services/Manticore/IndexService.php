@@ -204,9 +204,6 @@ class IndexService
             echo $file . ": " . $e->getMessage() . "\n";
         }
 
-        var_dump($total);
-        var_dump(count($topic->comments));
-
         if (count($topic->comments) > $total) {
             // перебираем комментарии в массиве, если ключ станет больше,
             // чем полученное ранее в query значение total, то добавляем эти документы в индекс.
