@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-/** @var Data[] $data */
-
-/** @var View $this */
-
+use App\Question\Entity\Question\Comment;
 use App\Svodd\Entity\Chart\Data;
 use frontend\widgets\ChartJs\Chart;
 use yii\web\JsExpression;
 use yii\web\View;
+
+/** @var Data[] $data */
+/** @var View $this */
+/** @var Comment $last_comment */
+
 
 $this->title = 'Обратная хронология обсуждения СВОДД';
 $this->params['meta_description'] = 'График статистики и хронология обсуждения по отдельным темам в обратном хронологическом порядке. Для просмотра вопроса нажмите на заголовок — номер темы.';
@@ -53,6 +55,9 @@ foreach ($data as $key => $item) {
     $total = $total === 0 ? 1 : $total;
 
     if ($key === 0) {
+        //Если это текущая активная тема,
+        //то общее количество комментариев равно номеру последнего комментария
+        $total = $last_comment->data_id;
         $current = round($svodd / $total  * 100, 2);
         $current = min($current, 100);
     }
@@ -80,116 +85,120 @@ $callback = <<<JS
 JS;
 
 ?>
-  <h1 class="svodd-title py-3">Обратная хронология обсуждения</h1>
-  <div id="svodd-diagram-container">
-      <?php echo Chart::widget(
-          [
-              'id' => 'svoddDiagram',
-              'type' => 'bar',
-              'data' => [
-                  'labels' => $labels,
-                  'labelLinks' => $labelLinks,
-                  'datasets' => [
-                      [
-                          'label' => 'СВОДД',
-                          'data' => $datasetSvodd,
-                          'dataLabel' => $dataLabelSvodd,
-                          'borderWidth' => 1,
-                          'backgroundColor' => 'rgba(114, 10, 10, 1)',
-                          'borderColor' => 'rgba(88, 10, 10, 1)',
-                          'datalabels' => [
-                              'anchor' => 'end',
-                              'clamp ' => false,
-                              'align' => 'start',
-                              'color' => '#e1e0de',
-                              'formatter' => new JsExpression(<<<JS
+<h1 class="svodd-title py-3">Обратная хронология обсуждения</h1>
+<div id="svodd-diagram-container">
+    <?php echo Chart::widget(
+        [
+            'id' => 'svoddDiagram',
+            'type' => 'bar',
+            'data' => [
+                'labels' => $labels,
+                'labelLinks' => $labelLinks,
+                'datasets' => [
+                    [
+                        'label' => 'СВОДД',
+                        'data' => $datasetSvodd,
+                        'dataLabel' => $dataLabelSvodd,
+                        'borderWidth' => 1,
+                        'backgroundColor' => 'rgba(114, 10, 10, 1)',
+                        'borderColor' => 'rgba(88, 10, 10, 1)',
+                        'datalabels' => [
+                            'anchor' => 'end',
+                            'clamp ' => false,
+                            'align' => 'start',
+                            'color' => '#e1e0de',
+                            'formatter' => new JsExpression(
+                                <<<JS
                                 (value, context) => {      
                                   return context.chart.data.datasets[0].dataLabel[context.dataIndex];
                                 }
                                 JS
-                              ),
-                          ],
-                      ],
-                      [
-                          'label' => 'ФКТ',
-                          'data' => $datasetFct,
-                          'dataLabel' => $dataLabelFct,
-                          'borderWidth' => 1,
-                          'backgroundColor' => 'rgba(80, 79, 79, 1)',
-                          'borderColor' => 'rgba(54, 52, 52, 1)',
-                          'datalabels' => [
-                              'anchor' => 'start',
-                              'clamp ' => false,
-                              'align' => 'end',
-                              'color' => '#989a9d',
-                              'formatter' => new JsExpression(<<<JS
+                            ),
+                        ],
+                    ],
+                    [
+                        'label' => 'ФКТ',
+                        'data' => $datasetFct,
+                        'dataLabel' => $dataLabelFct,
+                        'borderWidth' => 1,
+                        'backgroundColor' => 'rgba(80, 79, 79, 1)',
+                        'borderColor' => 'rgba(54, 52, 52, 1)',
+                        'datalabels' => [
+                            'anchor' => 'start',
+                            'clamp ' => false,
+                            'align' => 'end',
+                            'color' => '#989a9d',
+                            'formatter' => new JsExpression(
+                                <<<JS
                                 (value, context) => {      
                                   return context.chart.data.datasets[1].dataLabel[context.dataIndex];
                                 }
                                 JS
-                              ),
-                          ],
-                      ],
-                  ]
-              ],
-              'plugins' => '[ChartDataLabels]',
-              'options' => [
-                  'animations' => false,
-                  'layout' => [
-                      'padding' => [
-                          'top' => 0,
-                      ],
-                  ],
-                  'plugins' => [
-                      'title' => [
-                          'display' => true,
-                          'text' => "Текущая тема $current% Всего $summary%",
-                          'position' => 'top',
-                          'align' => 'start',
-                          'font' => ['size' => 16, 'weight' => 400],
-                          'padding' => 0,
-                      ],
-                      'tooltip' => [
-                          'enabled' => true,
-                          'callbacks' => [
-                              'label' => new JsExpression(<<<JS
+                            ),
+                        ],
+                    ],
+                ]
+            ],
+            'plugins' => '[ChartDataLabels]',
+            'options' => [
+                'animations' => false,
+                'layout' => [
+                    'padding' => [
+                        'top' => 0,
+                    ],
+                ],
+                'plugins' => [
+                    'title' => [
+                        'display' => true,
+                        'text' => "Текущая тема $current% Всего $summary%",
+                        'position' => 'top',
+                        'align' => 'start',
+                        'font' => ['size' => 16, 'weight' => 400],
+                        'padding' => 0,
+                    ],
+                    'tooltip' => [
+                        'enabled' => true,
+                        'callbacks' => [
+                            'label' => new JsExpression(
+                                <<<JS
                               (context) => {   
                                 let value = context.formattedValue;
                                 return context.dataset.label+': ' + value + '%'                            
                               }
                             JS
-                              )
-                          ],
-                      ],
-                  ],
-                  'maintainAspectRatio' => false,
-                  //            'aspectRatio' => 1,
-                  'indexAxis' => 'y',
-                  'scales' => [
-                      'x' => [
-                          'display' => false,
-                          'grid' => [
-                              'display' => false,
-                          ],
-                          'stacked' => true,
-                          'min' => 0,
-                          'max' => 100
-                      ],
-                      'y' => [
-                          'grace' => '%',
-                          'grid' => [
-                              'display' => false,
-                          ],
-                          'stacked' => true,
-                          'ticks' => [
-                              'crossAlign' => "far",
-                              'callback' => new JsExpression($callback),
-                          ],
-                      ],
-                  ],
-              ],
-          ]); ?>
-  </div>
+                            )
+                        ],
+                    ],
+                ],
+                'maintainAspectRatio' => false,
+                //            'aspectRatio' => 1,
+                'indexAxis' => 'y',
+                'scales' => [
+                    'x' => [
+                        'display' => false,
+                        'grid' => [
+                            'display' => false,
+                        ],
+                        'stacked' => true,
+                        'min' => 0,
+                        'max' => 100
+                    ],
+                    'y' => [
+                        'grace' => '%',
+                        'grid' => [
+                            'display' => false,
+                        ],
+                        'stacked' => true,
+                        'ticks' => [
+                            'crossAlign' => "far",
+                            'callback' => new JsExpression($callback),
+                        ],
+                    ],
+                ],
+            ],
+        ]
+    ); ?>
+</div>
 
 <?php $js = <<<JS
   updateList();
