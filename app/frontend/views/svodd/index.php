@@ -12,6 +12,8 @@ use yii\web\View;
 /** @var View $this */
 /** @var Comment $last_comment */
 
+// Номер последнего комментариия
+$last_comment_data_id = $last_comment->data_id;
 
 $this->title = 'Обратная хронология обсуждения СВОДД';
 $this->params['meta_description'] = 'График статистики и хронология обсуждения по отдельным темам в обратном хронологическом порядке. Для просмотра вопроса нажмите на заголовок — номер темы.';
@@ -49,11 +51,9 @@ foreach ($data as $key => $item) {
     $dataLabelSvodd[] = $svodd = $item->comments_count;
 
     if ($key === 0) {
-        //Если это текущая активная тема,
-        //то общее количество комментариев равно номеру последнего комментария
+        //Если это текущая активная тема
         $dataLabelFct[] = $fct =
-            max(($last_comment->data_id - $item->end_comment_data_id -
-                $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
+            max(($last_comment_data_id - $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
     } else {
         $dataLabelFct[] = $fct =
             max(($item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
