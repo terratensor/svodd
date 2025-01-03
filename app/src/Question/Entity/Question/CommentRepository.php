@@ -68,4 +68,13 @@ class CommentRepository
             ->orderBy('data_id ASC')
             ->all();
     }
+
+    /**
+     * Возвращает последний комментарий
+     * @return null|Comment
+     */
+    public function findLastComment(): null|Comment
+    {
+        return Comment::find()->orderBy('data_id DESC')->limit(1)->one();
+    }
 }
