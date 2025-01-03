@@ -47,17 +47,23 @@ foreach ($data as $key => $item) {
 
     $labelLinks[] = $item->questionStats->url;
     $dataLabelSvodd[] = $svodd = $item->comments_count;
-    $dataLabelFct[] = $fct =
-        max(($item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
+
+    if ($key === 0) {
+        //Если это текущая активная тема,
+        //то общее количество комментариев равно номеру последнего комментария
+        $dataLabelFct[] = $fct =
+            max(($last_comment->data_id - $item->end_comment_data_id -
+                $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
+    } else {
+        $dataLabelFct[] = $fct =
+            max(($item->end_comment_data_id - $item->start_comment_data_id - $item->comments_count - $item->comments_delta), 0);
+    }
 
     // Fixed FCT-SEARCH-CX [c114e2c19536b12101994a4eb1a9c56f][error][DivisionByZeroError]
     $total = ($svodd + $fct);
     $total = $total === 0 ? 1 : $total;
 
     if ($key === 0) {
-        //Если это текущая активная тема,
-        //то общее количество комментариев равно номеру последнего комментария
-        $total = $last_comment->data_id;
         $current = round($svodd / $total  * 100, 2);
         $current = min($current, 100);
     }
