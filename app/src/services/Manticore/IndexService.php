@@ -71,7 +71,8 @@ class IndexService
                         'parent_id' => ['type' => 'integer'],
                         'type' => ['type' => 'integer'],
                         'position' => ['type' => 'integer'],
-                        'avatar_file' => ['type' => 'text']
+                        'avatar_file' => ['type' => 'text'],
+                        'comments_count' => ['type' => 'integer']
                     ],
                     [
                         'index_sp' => 1,
@@ -94,7 +95,8 @@ class IndexService
                         'parent_id' => ['type' => 'integer'],
                         'type' => ['type' => 'integer'],
                         'position' => ['type' => 'integer'],
-                        'avatar_file' => ['type' => 'text']
+                        'avatar_file' => ['type' => 'text'],
+                        'comments_count' => ['type' => 'integer']
                     ],
                     [
                         'index_sp' => 1,
