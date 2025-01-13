@@ -9,6 +9,7 @@ use App\helpers\SearchHelper;
 use App\models\QuestionView;
 use App\repositories\Question\QuestionDataProvider;
 use App\repositories\Question\QuestionRepository;
+use App\Suggestions\Service\SuggestionService;
 use Manticoresearch\Exceptions\ResponseException;
 use Yii;
 
@@ -21,9 +22,12 @@ class ManticoreService
 {
     private QuestionRepository $questionRepository;
 
-    public function __construct(QuestionRepository $questionRepository)
+    private SuggestionService $suggestionService;
+
+    public function __construct(QuestionRepository $questionRepository, SuggestionService $suggestionService)
     {
         $this->questionRepository = $questionRepository;
+        $this->suggestionService = $suggestionService;
     }
 
     /**
@@ -51,13 +55,19 @@ class ManticoreService
 
         $suggestQueryString = $this->questionRepository->queryStringSuggestor($queryString, $indexName);
 
+        $result = 0;
         // Этот вызов необходим для того, чтобы получить как можно раньше исключение с уровня сервиса и обработать исключение на уровне контроллера
-        // Иначе все синтаксически неверные полнотекстовые запросы будут выводить исключения на уровне предстовления.
+        // Иначе все синтаксически неверные полнотекстовые запросы будут выводить исключения на уровне представления.
         // Особенность dataprovider, когда на уровне view вызывается поиск, можно сказать это почти классический запрос на уровне представления (view).
         try {
-            $comments->get()->getTotal();
+            $result = $comments->get()->getTotal();
         } catch (ResponseException $e) {
             throw $e;
+        }
+
+        if ($result > 0) {
+            // Обрабатываем поисковый запрос для таблицы search_queries
+            $this->suggestionService->handle($queryString);
         }
 
         return new QuestionDataProvider(
