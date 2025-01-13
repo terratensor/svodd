@@ -7,6 +7,9 @@ namespace App\Suggestions\Entity\SearchQuery;
 use Manticoresearch\Index;
 use Manticoresearch\Client;
 use Manticoresearch\Search;
+use Manticoresearch\Query\Equals;
+use Manticoresearch\Query\BoolQuery;
+use Manticoresearch\Query\QueryString;
 
 class SearchQueryRepository
 {
@@ -22,10 +25,19 @@ class SearchQueryRepository
         $this->index = $this->client->index($this->indexName);
     }
 
+    /**
+     * @param SearchQuery $searchQuery
+     */
+    // Add a SearchQuery object to the index.
+    // The sid field is removed from the object to avoid
+    // indexing it.
     public function add(SearchQuery $searchQuery): void
     {
-        $obj = get_object_vars($searchQuery);
-        $this->index->addDocument($obj);
+        $array = get_object_vars($searchQuery);
+        if (key_exists("sid", $array)) {
+            unset($array["sid"]);
+        }
+        $this->index->addDocument($array);
     }
 
     /**
@@ -41,8 +53,8 @@ class SearchQueryRepository
     public function exists(string $query): bool
     {
         try {
-            $bool = new \Manticoresearch\Query\BoolQuery();
-            $bool->must(new \Manticoresearch\Query\Equals('query', $query));
+            $bool = new BoolQuery();
+            $bool->must(new Equals('query', $query));
             $resultSet = $this->index->search($bool)->get();
             if ($resultSet->getTotal() > 0) {
                 return true;
@@ -51,5 +63,19 @@ class SearchQueryRepository
             return true;
         }
         return false;
+    }
+
+    public function getSuggestions(string $queryString)
+    {
+        // $this->search->reset();
+
+        $query = new BoolQuery();
+
+        $query->must(new QueryString($queryString));
+
+        $search = $this->index->search($query);
+        $search->facet('query');
+
+        return $search;
     }
 }

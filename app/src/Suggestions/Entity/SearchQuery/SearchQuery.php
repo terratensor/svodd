@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace App\Suggestions\Entity\SearchQuery;
 
-class SearchQuery
-{
-    public string $query;
-    public string $suggestions;
+use yii\base\Model;
 
-    public function __construct(string $query)
+class SearchQuery extends Model
+{
+    public int $sid;
+    public string $query;
+    public string $suggestion;
+
+    public static function create(string $query): self
     {
-        $this->suggestions = $query;
-        $this->query = $query;
+        $sq = new static();
+        $sq->suggestion = $query;
+        $sq->query = $query;
+
+        return $sq;
+    }
+
+    public function populateManticoreID(int $id): void
+    {
+        $this->sid = $id;
     }
 }

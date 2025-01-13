@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace frontend\controllers;
 
-use App\Cabinet\Http\Action\V1\Cabinet\IndexAction;
-use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\filters\AccessControl;
+use App\Cabinet\Http\Action\V1\Cabinet\IndexAction;
+use App\Cabinet\Http\Action\V1\Cabinet\SuggestionAction;
 
 class CabinetController extends Controller
 {
@@ -17,7 +18,7 @@ class CabinetController extends Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'suggestions'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -31,6 +32,9 @@ class CabinetController extends Controller
         return [
             'index' => [
                 'class' => IndexAction::class
+            ],
+            'suggestions' => [
+                'class' => SuggestionAction::class
             ],
         ];
     }
