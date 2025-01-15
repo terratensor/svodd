@@ -69,3 +69,10 @@ https://yiiframework.ru/forum/viewtopic.php?t=50446
 
 `docker stack ls` \
 `docker stack rm svodd`
+
+
+Таблица search_queries
+
+```
+CREATE TABLE search_queries(suggestion text, query string) index_sp='1' min_infix_len='2' index_exact_words = '1' morphology = 'stem_ru,stem_en';
+```

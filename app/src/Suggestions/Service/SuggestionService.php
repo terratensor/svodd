@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Suggestions\Service;
 
+use App\helpers\SearchHelper;
 use App\Suggestions\Entity\SearchQuery\SearchQuery;
 use App\Suggestions\Entity\SearchQuery\SearchQueryRepository;
 use App\Suggestions\repositories\SuggestionDataProvider;
@@ -18,8 +19,7 @@ class SuggestionService
 
     public function handle(string $query): void
     {
-        mb_internal_encoding('UTF-8');
-        $query = trim(mb_strtolower($query));
+        $query = SearchHelper::normalizeString($query, true);
         if ($query === '') {
             return;
         }
