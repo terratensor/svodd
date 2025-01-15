@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\forms;
 
+use App\helpers\SearchHelper;
 use kartik\daterange\DateRangeBehavior;
 use yii\base\Model;
 
@@ -78,7 +79,10 @@ class SearchForm extends Model
         if ($this->matching === self::MATCHING_IN) {
             $this->badge = self::BADGE_ALL;
         }
-
+        // Нормализуем поисковый запрос, удаляем лишние пробелы, url запроса остается без изменения, дл
+        // но при следующей отправке нормализованного запроса будет уже обновленный url
+        $this->query = SearchHelper::normalizeString($this->query, false);
+        
         return parent::beforeValidate();
     }
 
