@@ -345,7 +345,7 @@ class SearchHelper
             throw new InvalidArgumentException('normalizeString(): Expected string argument.');
         }
 
-        $str = \Normalizer::normalize($str, \Normalizer::NFD);
+        $str = \Normalizer::normalize($str, \Normalizer::NFC);
         $str = preg_replace('/[\r\n\t]/', ' ', $str);
         if ($strtolower) {
             $str = mb_strtolower($str);
