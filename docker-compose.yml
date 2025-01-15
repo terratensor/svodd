@@ -166,6 +166,7 @@ services:
         soft: -1
         hard: -1
     environment:
+      EXTRA: 1
       searchd_query_log: /var/log/manticore/query.log
     networks:
       - svodd-network
