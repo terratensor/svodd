@@ -66,8 +66,9 @@ class SearchHelper
 
     public static function processAvatarUrls(string $queryString): string
     {
-        $charset = mb_detect_encoding($queryString);
-        $queryString = iconv($charset, "UTF-8", $queryString);
+        // $queryString = preg_replace('/[^[:print:]]/', '', $queryString);
+        // $charset = mb_detect_encoding($queryString);
+        // $queryString = iconv($charset, "UTF-8", $queryString);
 
         /**
          * https://regex101.com/r/7S82Sp/1
@@ -345,7 +346,7 @@ class SearchHelper
         }
 
         $str = \Normalizer::normalize($str, \Normalizer::NFD);
-        $str = preg_replace('/[\r\n\t\v]/', ' ', $str);
+        $str = preg_replace('/[\r\n\t]/', ' ', $str);
         if ($strtolower) {
             $str = mb_strtolower($str);
         }
