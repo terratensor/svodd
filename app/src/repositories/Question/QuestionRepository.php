@@ -80,8 +80,13 @@ class QuestionRepository
                 // https://manual.manticoresearch.com/Searching/Spell_correction#CALL-QSUGGEST,-CALL-SUGGEST
                 $subQuery = "CALL SUGGEST('$token','$this->indexName')";
                 $rawMode = true;
-                $suggestions = $this->client->sql($subQuery, $rawMode);
-
+                try {
+                    $suggestions = $this->client->sql($subQuery, $rawMode);                    
+                } catch (\Exception $e) {
+                    // Если не включен infix mode, выходим из функции
+                    // suggests work only for keywords dictionary with infix enabled                
+                    return ''; 
+                }               
                 // Find the suggestion with the highest docs value, forexmple:
                 // CALL SUGGEST('востое','questions');
                 // +----------------+----------+------+
@@ -132,7 +137,8 @@ class QuestionRepository
 
         $queryString = SearchHelper::processStringWithURLs($queryString);
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
-
+        // Экранирует все скобки в строке, если найдена хоть одна непарная.
+        $queryString = SearchHelper::escapeUnclosedBrackets($queryString);        
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
