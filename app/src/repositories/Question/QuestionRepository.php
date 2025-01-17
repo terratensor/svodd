@@ -135,10 +135,30 @@ class QuestionRepository
             $this->setIndex($this->client->index($indexName));
         }
 
+
+        $result = $this->client->autocomplete([
+            'body' => [
+                'table' => 'questions',
+                'query' => $queryString,
+                [
+                    'fuzziness' => 1,
+                    'append' => true,
+                    'prepend' => false,
+                    'expansion_len' => 10,
+                    'layouts' => ['ru', 'ua', 'us'],
+                ],
+            ],
+        ]);
+
+        // foreach ($result as $item) {
+            
+        //     print_r($item)."<Br />";
+        // }
+
         $queryString = SearchHelper::processStringWithURLs($queryString);
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
         // Экранирует все скобки в строке, если найдена хоть одна непарная.
-        $queryString = SearchHelper::escapeUnclosedBrackets($queryString);        
+        // $queryString = SearchHelper::escapeUnclosedBrackets($queryString);        
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
@@ -153,6 +173,15 @@ class QuestionRepository
 
         $search = $this->index->search($query);
         $search->facet('type');
+
+        $search->option('fuzzy', 1);
+        $search->option('layouts', 'ru,us');
+        $search->option('distance', 2);    
+            // [
+            //     'fuzzy' => true,
+            //     'fuzzyless' => 2
+            // ]
+            // );
 
         // Если нет совпадений no_match_size возвращает пустое поле для подсветки
         $search->highlight(
