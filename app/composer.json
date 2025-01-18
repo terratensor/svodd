@@ -9,7 +9,7 @@
     "yiisoft/yii2": "2.0.48.1",
     "yiisoft/yii2-bootstrap5": "~2.0.2",
     "yiisoft/yii2-symfonymailer": "^3.0",
-    "manticoresoftware/manticoresearch-php": "^3.0",
+    "manticoresoftware/manticoresearch-php": "dev-master",
     "ext-json": "*",
     "webmozart/assert": "^1.11",
     "ramsey/uuid": "^4.7",
@@ -26,7 +26,8 @@
     "npm-asset/bootstrap-icons": "^1.10",
     "ext-dom": "*",
     "audetv/yandex-smart-captcha": "dev-main",
-    "bower-asset/bootstrap": "^5.3.2"
+    "bower-asset/bootstrap": "^5.3.2",
+    "npm-asset/showdown": "^2.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

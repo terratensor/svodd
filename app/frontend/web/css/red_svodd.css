@@ -161,6 +161,8 @@
     /* Главное меню */
     --tw-icon-menu-color-rgb: 173 52 52;
     --tw-icon-menu-color-theme-rgb: 255 255 255;
+
+    --bs-card-cap-bg: rgba(var(--bs-body-color-rgb), 0.03);
 }
 
 [data-bs-theme=dark] {
@@ -259,6 +261,8 @@
     /* Главное меню */
     --tw-icon-menu-color-rgb: 173 52 52;
     --tw-icon-menu-color-theme-rgb: 173 52 52;
+
+    --bs-card-cap-bg: rgba(var(--bs-body-color-rgb), 0.03);
 }
 
 /* СТИЛИ */
@@ -670,4 +674,33 @@ input:focus:-ms-input-placeholder {
 .text-bg-primary {
     color: #fff !important;
     background-color: RGBA(163, 0, 0, var(--bs-bg-opacity, 1)) !important;
+}
+
+#content-markdown-body pre {
+    padding: 1rem !important ;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    /* color: var(--fgColor-default, var(--color-fg-default)); */
+    background-color: var(--bs-card-cap-bg);
+    border-radius: 6px;
+}
+
+#content-markdown-body h1 {
+    padding-bottom: .3em;
+    font-size: 2rem;
+    line-height: 1.25;
+    border-bottom: 1px solid var(--sv-quote-border);
+}
+
+#content-markdown-body h2 {
+    padding-bottom: .3em;
+    font-size: 1.5em;
+    border-bottom: 1px solid var(--sv-quote-border);
+    line-height: 1.25;
+}
+
+#content-markdown-body h3 {
+    font-size: 1.25rem;
+    line-height: 1.25;
 }

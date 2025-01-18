@@ -151,7 +151,8 @@ services:
       - "54321:5432"
 
   manticore:
-    image: manticoresearch/manticore
+    # image: manticoresearch/manticore
+    image: manticoresearch/manticore:dev-6.3.7-88a99d4
     restart: always
     ports:
       - "9306:9306"
@@ -166,8 +167,7 @@ services:
         soft: -1
         hard: -1
     environment:
-      EXTRA: 1
-      searchd_query_log: /var/log/manticore/query.log
+      - EXTRA=1
     networks:
       - svodd-network
     volumes:

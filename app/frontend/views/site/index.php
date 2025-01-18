@@ -143,10 +143,15 @@ $inputTemplate = '<div class="input-group mb-1">
               ],
             ); ?>
           </div>
-          <div class="col-md-6 d-flex align-items-center">
+          <div class="col-md-3 d-flex align-items-center">
             <?= $form->field($model, 'dictionary', ['options' => ['class' => 'pb-2']])
               ->checkbox()
               ->label('Концептуальный словарь'); ?>
+          </div>
+          <div class="col-md-3 d-flex align-items-center">
+            <?= $form->field($model, 'fuzzy', ['options' => ['class' => 'pb-2']])
+              ->checkbox()
+              ->label('Нечёткий поиск'); ?>
           </div>
           <div class="col-md-6 d-flex align-items-center">
             <?= $form->field($model, 'badge', ['inline' => true, 'options' => ['tag' => false]])
