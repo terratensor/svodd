@@ -81,12 +81,12 @@ class QuestionRepository
                 $subQuery = "CALL SUGGEST('$token','$this->indexName')";
                 $rawMode = true;
                 try {
-                    $suggestions = $this->client->sql($subQuery, $rawMode);                    
+                    $suggestions = $this->client->sql($subQuery, $rawMode);
                 } catch (\Exception $e) {
                     // Если не включен infix mode, выходим из функции
                     // suggests work only for keywords dictionary with infix enabled                
-                    return ''; 
-                }               
+                    return '';
+                }
                 // Find the suggestion with the highest docs value, forexmple:
                 // CALL SUGGEST('востое','questions');
                 // +----------------+----------+------+
@@ -135,26 +135,6 @@ class QuestionRepository
             $this->setIndex($this->client->index($indexName));
         }
 
-
-        $result = $this->client->autocomplete([
-            'body' => [
-                'table' => 'questions',
-                'query' => $queryString,
-                [
-                    'fuzziness' => 1,
-                    'append' => true,
-                    'prepend' => false,
-                    'expansion_len' => 10,
-                    'layouts' => ['ru', 'ua', 'us'],
-                ],
-            ],
-        ]);
-
-        // foreach ($result as $item) {
-            
-        //     print_r($item)."<Br />";
-        // }
-
         $queryString = SearchHelper::processStringWithURLs($queryString);
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
         // Экранирует все скобки в строке, если найдена хоть одна непарная.
@@ -174,14 +154,10 @@ class QuestionRepository
         $search = $this->index->search($query);
         $search->facet('type');
 
-        $search->option('fuzzy', 1);
-        $search->option('layouts', 'ru,us');
-        $search->option('distance', 2);    
-            // [
-            //     'fuzzy' => true,
-            //     'fuzzyless' => 2
-            // ]
-            // );
+        // Включаем нечеткий поиск
+        if ($form->fuzzy) {
+            static::applyFuzzy($search, true);
+        }
 
         // Если нет совпадений no_match_size возвращает пустое поле для подсветки
         $search->highlight(
@@ -473,18 +449,33 @@ class QuestionRepository
      * @return int
      */
     public function getTotalIndexedDocuments(): int
-    {        
+    {
         try {
             $index_status = $this->client->index($this->indexName)->status();
             if (array_key_exists('indexed_documents', $index_status)) {
                 $total_docs = $index_status['indexed_documents'];
                 return (int)$total_docs;
             }
-        } catch (\Exception $e) {            
+        } catch (\Exception $e) {
             // Handle the exception, e.g. logging.
         }
 
         // If we're here, something went wrong. Return 0.
         return 0;
+    }
+
+    /**
+     * @param Search $search
+     * @param bool $enable_layouts
+     * @return void
+     */
+    protected static function applyFuzzy(Search $search, bool $enable_layouts = false): void
+    {
+        $search->option('fuzzy', 1);
+        $layouts = [];
+        if ($enable_layouts) {
+            $layouts = ['ru', 'us'];
+        }
+        $search->option('layouts', $layouts);
     }
 }

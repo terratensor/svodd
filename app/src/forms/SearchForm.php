@@ -22,6 +22,8 @@ class SearchForm extends Model
     public string $matching = 'query_string';
     public bool $dictionary = false;
     public string $badge = 'all';
+    // Включает нечёткий поиск 
+    public bool $fuzzy = true;
 
     public string $defaultBadge = 'all';
 
@@ -45,7 +47,7 @@ class SearchForm extends Model
             [['date_from', 'date_to'], 'date', 'format' => 'php:d.m.Y H:i'],
             ['matching', 'in', 'range' => array_keys($this->getMatching())],
             ['badge', 'in', 'range' => array_keys($this->makeBadgeList())],
-            ['dictionary', 'boolean']
+            [['dictionary', 'fuzzy'], 'boolean']
         ];
     }
 
@@ -82,7 +84,7 @@ class SearchForm extends Model
         // Нормализуем поисковый запрос, удаляем лишние пробелы, url запроса остается без изменения, дл
         // но при следующей отправке нормализованного запроса будет уже обновленный url
         $this->query = SearchHelper::normalizeString($this->query, false);
-        
+
         return parent::beforeValidate();
     }
 
