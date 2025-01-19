@@ -153,7 +153,8 @@ class QuestionRepository
         $search->facet('type');
 
         // Включаем нечёткий поиск, если строка не пустая или не содержит символы, используемые в полнотекстовом поиске
-        if ($form->fuzzy && $this->validateQueryString($queryString)) {
+        // и не сдержит hash автварки пользователя
+        if ($form->fuzzy && $this->validateQueryString($queryString) && !SearchHelper::containsAvatarHash($queryString)) {
             static::applyFuzzy($search, true);
         }
 
