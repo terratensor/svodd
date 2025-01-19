@@ -51,7 +51,8 @@ class SearchHelper
     public static function processStringWithURLs(string $input)
     {
         // Регулярное выражение для поиска URL-адресов в строке
-        $pattern = "/(https?:\/\/[^\s]+)/";
+        $pattern = "/((https?:\/\/)?(www\.)?[^\s]+)/";
+
         preg_match_all($pattern, $input, $matches);
 
         foreach ($matches[0] as $url) {
@@ -64,6 +65,13 @@ class SearchHelper
         return $input;
     }
 
+    /**
+     * @param string $queryString
+     * @return string
+     *
+     * Обработка строки запроса на наличие url аватарок пользователей
+     * вырезает из url аватартки его hash и заменяет url на hash
+     */
     public static function processAvatarUrls(string $queryString): string
     {
         // $queryString = preg_replace('/[^[:print:]]/', '', $queryString);
@@ -77,38 +85,47 @@ class SearchHelper
          *
          */
         $patterns = [
-            '/(https?:\/\/)(www\.gravatar\.com\/avatar\/[a-z0-9]{32}\.jpg)(\?d=identicon)?/imu',
+            '/(https?:\/\/)?(www\.gravatar\.com\/avatar\/[a-z0-9]{32}\.jpg)(\?d=identicon)?/imu',
             '/(https?:\/\/)?[\w-]+\.рф\/avatars\/[a-z0-9]{2}?\/[a-z0-9]{2}?\/[a-z0-9]{32}\.png*/imu',
             '/(https?:\/\/)?xn----8sba0bbi0cdm.xn--p1ai\/avatars\/[a-z0-9]{2}\/[a-z0-9]{2}\/[a-z0-9]{32}\.png*/imu',
         ];
 
-        foreach ($patterns as $key => $pattern) {
-            // Регулярное выражение для определения url аватары пользователя в строке,
-            // делит на 2 группы протокол http/s и полный url
-            preg_match($pattern, $queryString, $matches);
+        // Для запросов состоящих из url и ключевых слов
+        // Разбить строку по символу пробела
+        $parts = explode(' ', $queryString);
 
-            // Если есть совпадения, определяем протокол, чтобы вырезать его из итоговой строки запроса
-            if ($matches) {
-                $protocol = $matches[1] ?? '';
-                switch ($key) {
-                    case 0:
-                        // вырезаем из строки протокол
-                        $queryString = str_replace("$protocol", '', $queryString);
-                        //                        $queryString = self::getAvatarHash($queryString);
-                        break;
-                    case 1:
-                        // вырезаем из строки домен фкт и протокол, если запрос будет без протокола, то только домен фкт
-                        $queryString = str_replace("{$protocol}фкт-алтай.рф", '', $queryString);
-                        //                        $queryString = self::getAvatarHash($queryString);
-                        break;
-                    case 2:
-                        // вырезаем из строки домен фкт и протокол, если запрос будет без протокола, то только домен фкт
-                        $queryString = str_replace("{$protocol}xn----8sba0bbi0cdm.xn--p1ai", '', $queryString);
-                        //                        $queryString = self::getAvatarHash($queryString);
-                        break;
+        // Обработать каждую часть, на наличие avatar url
+        foreach ($parts as &$part) {
+            foreach ($patterns as $key => $pattern) {
+                // Регулярное выражение для определения url аватары пользователя в строке,
+                // делит на 2 группы протокол http/s и полный url
+                preg_match($pattern, $part, $matches);
+                // Если есть совпадения, определяем протокол, чтобы вырезать его из итоговой строки запроса
+                if ($matches) {
+                    $protocol = $matches[1] ?? '';
+                    switch ($key) {
+                        case 0:
+                            // вырезаем из строки протокол
+                            $part = str_replace("$protocol", '', $part);
+                            $part = self::getAvatarHash($part);
+                            break;
+                        case 1:
+                            // вырезаем из строки домен фкт и протокол, если запрос будет без протокола, то только домен фкт
+                            $part = str_replace("{$protocol}фкт-алтай.рф", '', $part);
+                            $part = self::getAvatarHash($part);
+                            break;
+                        case 2:
+                            // вырезаем из строки домен фкт и протокол, если запрос будет без протокола, то только домен фкт
+                            $part = str_replace("{$protocol}xn----8sba0bbi0cdm.xn--p1ai", '', $part);
+                            $part = self::getAvatarHash($part);
+                            break;
+                    }
                 }
             }
         }
+
+        // Соединить все части обратно в строку через разделитель символ пробел
+        $queryString = implode(' ', $parts);
 
         // Если ничего не совпало возвращаем строку без изменений.
         // Здесь нет смыла проверять оба шаблона одновременно потому, что так, как сейчас настроен поиск,
@@ -127,6 +144,7 @@ class SearchHelper
         $result = '';
         $needles = [
             '//www.gravatar.com/avatar/',
+            'www.gravatar.com/avatar/',
             '/avatars/'
         ];
 
@@ -138,6 +156,9 @@ class SearchHelper
                         $result = substr($avatar_file, strlen($needle), 32);
                         break;
                     case 1:
+                        $result = substr($avatar_file, strlen($needle), 32);
+                        break;
+                    case 2:
                         $result = substr($avatar_file, strlen($needle) + 6, 32);
                         break;
                 }
@@ -160,6 +181,33 @@ class SearchHelper
         }
 
         return Html::tag('mark', $result);
+    }
+
+    public static function containsAvatarHash(string $queryString): bool
+    {
+        $pattern = "/[a-z0-9]{32}/";
+
+        // Для запросов состоящих из url и ключевых слов
+        // Разбить строку по символу пробела
+        $parts = explode(' ', $queryString);
+        // Обработать каждую часть, на наличие avatar url
+        foreach ($parts as &$part) {
+            preg_match_all($pattern, $part, $matches);
+            // var_dump($matches);
+            if ($matches) {
+                return true;
+            }
+            // foreach ($matches as $key => $value) {
+            //     if (empty($value)) {
+            //         continue;
+            //     }
+            //     // var_dump($value, $key);            
+            //     $part = str_replace($value[0], '', $part);
+            //     $part = "@avatar_file " . $value[0] . " @* ";
+            // }
+        }
+
+        return false;
     }
 
     /**
@@ -355,8 +403,6 @@ class SearchHelper
         return $str;
     }
 
-
-
     /**
      * Экранирует в строке все скобки, если они не закрыты или закрыты но не открыты
      *          
@@ -422,5 +468,4 @@ class SearchHelper
         $string = str_replace(')', '\\)', $string);
         return $string;
     }
-
 }
