@@ -53,7 +53,8 @@ class ManticoreService
             throw new EmptySearchRequestExceptions($e->getMessage());
         }
 
-        $suggestQueryString = $this->questionRepository->queryStringSuggestor($queryString, $indexName);
+        // Скорее всего будет убрано после выхода fuzzy функции мантикоры в продакшен 
+        // $suggestQueryString = $this->questionRepository->queryStringSuggestor($queryString, $indexName);
 
         $result = 0;
         // Этот вызов необходим для того, чтобы получить как можно раньше исключение с уровня сервиса и обработать исключение на уровне контроллера
@@ -67,6 +68,8 @@ class ManticoreService
 
         if ($result > 0) {
             // Обрабатываем поисковый запрос для таблицы search_queries
+            // После добавления функции нечетконго поиска, 
+            // применение данной таблицы для сохранения запросов под вопросом
             $this->suggestionService->handle($queryString);
         }
 
@@ -87,7 +90,7 @@ class ManticoreService
                         'comments_count',
                     ]
                 ],
-                'suggestQueryString' => $suggestQueryString
+                // 'suggestQueryString' => $suggestQueryString
             ]
         );
     }
