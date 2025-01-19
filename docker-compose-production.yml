@@ -300,7 +300,7 @@ services:
       endpoint_mode: dnsrr
 
   manticore:
-    image: manticoresearch/manticore
+    image: manticoresearch/manticore:dev-6.3.7-88a99d4
     ulimits:
       nproc: 65535
       nofile:
