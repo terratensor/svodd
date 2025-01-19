@@ -116,6 +116,22 @@ class QuestionRepository
         return $queryString === $suggestQueryString ? '' : $suggestQueryString;
     }
 
+    protected function makeQueryApplyFilters(string $queryString, ?SearchForm $form = null)
+    {
+        // $this->search->reset();
+        // Запрос переделан под фильтр
+        $query = new BoolQuery();
+        $query->must(new QueryString($queryString));
+
+        if ($form) {
+            $this->applyDateTimeRangeFilter($query, $form);
+        }
+        $this->applyBadgeFilter($query, $form);
+
+        $search = $this->index->search($query);
+        return $search;
+    }
+
     /**
      * @param string $queryString
      * @param string|null $indexName
@@ -134,27 +150,31 @@ class QuestionRepository
         }
 
         $queryString = SearchHelper::processStringWithURLs($queryString);
+
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
+
         // Экранирует все скобки в строке, если найдена хоть одна непарная.
         $queryString = SearchHelper::escapeUnclosedBrackets($queryString);
 
+
         // Запрос переделан под фильтр
-        $query = new BoolQuery();
+        $search = $this->makeQueryApplyFilters($queryString, $form);
+        // $search->facet('type');
 
-        $query->must(new QueryString($queryString));
-
-        if ($form) {
-            $this->applyDateTimeRangeFilter($query, $form);
+        // Если посоле всех проверок, при поиске будет поймано исключение, то экранирует все символы в строке
+        // и возвращает запрос с экранированным поисковым запросом
+        try {
+            $search->get();
+        } catch (\Exception $e) {
+            $queryString = SearchHelper::escapingCharacters($queryString);
+            $search = $this->makeQueryApplyFilters($queryString, $form);
         }
-
-        $this->applyBadgeFilter($query, $form);
-
-        $search = $this->index->search($query);
         $search->facet('type');
 
         // Включаем нечёткий поиск, если строка не пустая или не содержит символы, используемые в полнотекстовом поиске
         // и не сдержит hash автварки пользователя
         if ($form->fuzzy && $this->validateQueryString($queryString) && !SearchHelper::containsAvatarHash($queryString)) {
+            // var_dump("there");
             static::applyFuzzy($search, true);
         }
 
@@ -168,6 +188,9 @@ class QuestionRepository
                 'post_tags' => '</mark>'
             ],
         );
+
+
+
 
         return $search;
     }

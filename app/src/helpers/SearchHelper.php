@@ -193,9 +193,10 @@ class SearchHelper
         // Обработать каждую часть, на наличие avatar url
         foreach ($parts as &$part) {
             preg_match_all($pattern, $part, $matches);
-            // var_dump($matches);
-            if ($matches) {
-                return true;
+            foreach ($matches as $key => $value) {
+                if (!empty($value)) {
+                    return true;
+                }
             }
             // foreach ($matches as $key => $value) {
             //     if (empty($value)) {
