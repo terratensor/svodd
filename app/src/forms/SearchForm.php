@@ -23,7 +23,7 @@ class SearchForm extends Model
     public bool $dictionary = false;
     public string $badge = 'all';
     // Включает нечёткий поиск 
-    public bool $fuzzy = false;
+    public bool $fuzzy = true;
 
     public string $defaultBadge = 'all';
 

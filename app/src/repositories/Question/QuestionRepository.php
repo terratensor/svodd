@@ -59,11 +59,9 @@ class QuestionRepository
      */
     public function queryStringSuggestor(string $queryString, string $indexName): string
     {
-        // Если строка пустая или содержит символы, используемые в полнотекстовом поиске, то возвращаем пустую строку 
-        if (empty($queryString) || SearchHelper::containsSpecialChars($queryString)) {
+        if ($this->validateQueryString($queryString)) {
             return '';
         }
-
         // Обрабатываем строку из латинской раскладки в кирилическую
         // TODO для латинской раскладки предлангать 2 варианта запроса, латиница, кирилица
         $queryTransformedString = SearchHelper::transformString($queryString);
@@ -138,7 +136,7 @@ class QuestionRepository
         $queryString = SearchHelper::processStringWithURLs($queryString);
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
         // Экранирует все скобки в строке, если найдена хоть одна непарная.
-        // $queryString = SearchHelper::escapeUnclosedBrackets($queryString);        
+        $queryString = SearchHelper::escapeUnclosedBrackets($queryString);
 
         // Запрос переделан под фильтр
         $query = new BoolQuery();
@@ -154,8 +152,8 @@ class QuestionRepository
         $search = $this->index->search($query);
         $search->facet('type');
 
-        // Включаем нечеткий поиск
-        if ($form->fuzzy) {
+        // Включаем нечёткий поиск, если строка не пустая или не содержит символы, используемые в полнотекстовом поиске
+        if ($form->fuzzy && $this->validateQueryString($queryString)) {
             static::applyFuzzy($search, true);
         }
 
@@ -477,5 +475,16 @@ class QuestionRepository
             $layouts = ['ru', 'us'];
         }
         $search->option('layouts', $layouts);
+    }
+
+    private function validateQueryString($queryString): bool
+    {
+        // Если строка пустая или содержит символы, используемые в полнотекстовом поиске, то возвращаем false
+        if (empty($queryString) || SearchHelper::containsSpecialChars($queryString)) {
+            return false;
+        }
+
+        // В противном случае возвращаем true
+        return true;
     }
 }
