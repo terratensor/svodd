@@ -50,9 +50,9 @@ class SearchHelper
 
     public static function processStringWithURLs(string $input)
     {
-        // Регулярное выражение для поиска URL-адресов в строке
-        $pattern = "/((https?:\/\/)?(www\.)?[^\s]+)/";
-
+        // Регулярное выражение для поиска URL-адресов в строке    
+        $pattern = '/(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\- .\/?%&=]*)?/';
+        
         preg_match_all($pattern, $input, $matches);
 
         foreach ($matches[0] as $url) {
