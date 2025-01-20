@@ -150,7 +150,7 @@ class QuestionRepository
         }
 
         $queryString = SearchHelper::processStringWithURLs($queryString);
-
+        
         $queryString = SearchHelper::escapeUnclosedQuotes($queryString);
 
         // Экранирует все скобки в строке, если найдена хоть одна непарная.
@@ -167,14 +167,17 @@ class QuestionRepository
             $search->get();
         } catch (\Exception $e) {
             $queryString = SearchHelper::escapingCharacters($queryString);
+            \Yii::$app->session->setFlash('success', "Синтаксическая ошибка запроса. Произведено экранирование символов. Итоговый запрос: $queryString");
             $search = $this->makeQueryApplyFilters($queryString, $form);
         }
         $search->facet('type');
 
+        // static::applyRanker($search);
+
         // Включаем нечёткий поиск, если строка не пустая или не содержит символы, используемые в полнотекстовом поиске
         // и не сдержит hash автварки пользователя
-        if ($form->fuzzy && $this->validateQueryString($queryString) && !SearchHelper::containsAvatarHash($queryString)) {
-            // var_dump("there");
+        if ($form->fuzzy) {
+            \Yii::$app->session->setFlash('success', "Включена опция «Нечёткий поиск». Для выключения уберите флажок в настройках поиска.");
             static::applyFuzzy($search, true);
         }
 
@@ -500,6 +503,17 @@ class QuestionRepository
         }
         $search->option('layouts', $layouts);
     }
+
+    /**
+	 * By default we use BM15 ranker, to make it better we change to BM25
+	 * @param  Search $search
+	 * @return void
+	 */
+	protected static function applyRanker(Search $search): void {
+		$search
+			->option('cutoff', 0)
+			->option('ranker', 'expr(\'10000 * bm25f(1.2,0.75)\')');
+	}
 
     private function validateQueryString($queryString): bool
     {
