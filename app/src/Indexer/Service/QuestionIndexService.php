@@ -70,7 +70,7 @@ class QuestionIndexService
             $this->index->updateDocument([
                 'comments_count' => $comments_count,
             ], $id);
-            echo "обновлен счётчик комменатриев #$id в индексе комментарий #$data_id \r\n";
+            //echo "обновлен счётчик комменатриев #$id в индексе комментарий #$data_id \r\n";
         }
 
         // То же самой для индекса поиска по словарю концептуальных терминов
@@ -81,7 +81,7 @@ class QuestionIndexService
             $this->conceptIndex->updateDocument([
                 'comments_count' => $comments_count,
             ], $id);
-            echo "обновлен счётчик комменатриев #$id в concept индексе комментарий #$data_id \r\n";
+            // echo "обновлен счётчик комменатриев #$id в concept индексе комментарий #$data_id \r\n";
         }
     }
 }
