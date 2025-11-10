@@ -35,10 +35,16 @@ use yii\helpers\Url;
 
 
 $total_count = $results->indexed_documents !== 0 ? $results->indexed_documents : $results->getTotalCount();
+// var_dump($results->indexed_documents);
+$pagination_total_count = $total_count;
+
+if ($results->maxMatches !== null) {
+  $pagination_total_count = $results->maxMatches;
+}
 
 $pagination = new Pagination(
   [
-    'totalCount' => $total_count,
+    'totalCount' => $pagination_total_count,
     'defaultPageSize' => Yii::$app->params['questions']['pageSize'],
   ]
 );
@@ -199,7 +205,7 @@ $inputTemplate = '<div class="input-group mb-1">
           <?php else : ?>
             <div class="row">
               <div class="col-md-8 d-flex align-items-center">
-                <?= CommentSummary::widget(['pagination' => $pagination]); ?>
+                <?= CommentSummary::widget(['pagination' => $pagination, 'totalCount' => $total_count]); ?>
               </div>
               <div class="col-md-4">
                 <div class="d-flex align-items-start ">
@@ -235,7 +241,7 @@ $inputTemplate = '<div class="input-group mb-1">
                   <div>
                     <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= \App\helpers\SearchResultsHelper::showUsername($comment); ?>
                   </div>
-                  <div><?= SearchContext::widget(['comment' => $comment, 'pagination' => $pagination]); ?></div>
+                  <div><?= SearchContext::widget(['comment' => $comment, 'pagination' => $pagination, 'userId' => Yii::$app->user->id]); ?></div>
                 </div>
               </div>
 

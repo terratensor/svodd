@@ -35,7 +35,7 @@ class ManticoreService
      * @return QuestionDataProvider
      * @throws EmptySearchRequestExceptions
      */
-    public function search(SearchForm $form): QuestionDataProvider
+    public function search(SearchForm $form, ?int $user_id): QuestionDataProvider
     {
         $indexName = $this->getSearchIndexName($form);
         $queryString = $form->query;
@@ -76,6 +76,7 @@ class ManticoreService
         return new QuestionDataProvider(
             [
                 'query' => $comments,
+                'maxMatches' => $user_id ? null : 1000,
                 'pagination' => [
                     'pageSize' => Yii::$app->params['questions']['pageSize'],
                 ],
@@ -95,7 +96,7 @@ class ManticoreService
         );
     }
 
-    public function index(): QuestionDataProvider
+    public function index(?int $user_id): QuestionDataProvider
     {
         $form = new SearchForm();
         $indexName = $this->getSearchIndexName($form);
@@ -104,6 +105,7 @@ class ManticoreService
         return new QuestionDataProvider(
             [
                 'query' => $comments,
+                'maxMatches' => $user_id ? null : 1000,
                 'pagination' => [
                     'pageSize' => Yii::$app->params['questions']['pageSize'],
                 ],

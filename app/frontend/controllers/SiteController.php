@@ -119,7 +119,8 @@ class SiteController extends Controller
 
         $queryParams = Yii::$app->request->queryParams;
         $sort = Yii::$app->request->get('sort');
-        $results = $this->service->index();
+        $user_id = (int)Yii::$app->user->getId();        
+        $results = $this->service->index($user_id);
 
         try {
             if ($form->load($queryParams) && $form->validate()) {
@@ -129,7 +130,7 @@ class SiteController extends Controller
                     Yii::$app->request->setQueryParams($newParams);
                 }
 
-                $results = $this->service->search($form);
+                $results = $this->service->search($form, $user_id);
             }
         } catch (ResponseException $e) {
             $errorQueryMessage = "Задан неправильный поисковый запрос. Синтаксическая ошибка — использована недопустимая последовательность символов при составлении
