@@ -235,7 +235,7 @@ $inputTemplate = '<div class="input-group mb-1">
                   <div>
                     <?= DateHelper::showDateFromTimestamp($comment->datetime); ?>, <?= \App\helpers\SearchResultsHelper::showUsername($comment); ?>
                   </div>
-                  <div><?= SearchContext::widget(['comment' => $comment, 'pagination' => $pagination]); ?></div>
+                  <div><?= SearchContext::widget(['comment' => $comment, 'pagination' => $pagination, 'returnUrl' => false]); ?></div>
                 </div>
               </div>
 

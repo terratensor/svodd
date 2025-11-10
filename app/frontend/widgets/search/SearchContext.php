@@ -30,6 +30,11 @@ class SearchContext extends Widget
     private mixed $position;
 
     public Pagination $pagination;
+    
+    /**
+     * @var bool Если true - возвращает заголовок со ссылкой, если false - возвращает только текст заголовка
+     */
+    public bool $returnUrl = true;
 
     public function init(): void
     {
@@ -61,12 +66,17 @@ class SearchContext extends Widget
             return Html::tag('span', '');
         }
 
-        $link = Html::a(
-            $this->title,
-            $this->getUrl(),
-            ['rel' => 'nofollow noindex']
-        );
+        // Если нужно вернуть заголовок со ссылкой
+        if ($this->returnUrl) {
+            $link = Html::a(
+                $this->title,
+                $this->getUrl(),
+                ['rel' => 'nofollow noindex']
+            );
+            return $link;
+        }
 
-        return $link;
+        // Если нужно вернуть только текст заголовка без ссылки
+        return Html::encode($this->title);
     }
 }
