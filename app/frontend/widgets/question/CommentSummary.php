@@ -10,20 +10,32 @@ use yii\helpers\Html;
 class CommentSummary extends Widget
 {
     public Pagination $pagination;
-    private int $totalCount;
+    public ?int $totalCount = null;
 
     public function init()
     {
-        $this->totalCount = $this->pagination->totalCount;
+        parent::init();
+        
+        // Если totalCount не передан явно, используем значение из пагинации
+        if ($this->totalCount === null) {
+            $this->totalCount = $this->pagination->totalCount;
+        }
     }
 
     public function renderSummary(): string
     {
-        $totalCount = $this->pagination->totalCount;
+        $totalCount = $this->totalCount;
         $start = (($this->pagination->getPage() + 1) * $this->pagination->pageSize - $this->pagination->pageSize) + 1;
         $end = ($this->pagination->getPage() + 1) * $this->pagination->pageSize;
+        
+        // Если end превышает общее количество, корректируем
         if ($end > $totalCount) {
             $end = $totalCount;
+        }
+        
+        // Если start превышает общее количество (например, при последней странице с малым количеством элементов)
+        if ($start > $totalCount) {
+            $start = $totalCount;
         }
 
         $string = $this->getTotalString($totalCount, $start, $end);

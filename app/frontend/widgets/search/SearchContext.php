@@ -32,12 +32,20 @@ class SearchContext extends Widget
     public Pagination $pagination;
     
     /**
-     * @var bool Если true - возвращает заголовок со ссылкой, если false - возвращает только текст заголовка
+     * @var string|null ID пользователя. Если передан - returnUrl = true, если null - returnUrl = false
      */
-    public bool $returnUrl = true;
+    public ?string $userId = null;
+    
+    /**
+     * @var bool Приватный параметр, определяется автоматически по наличию userId
+     */
+    private bool $returnUrl = false;
 
     public function init(): void
     {
+        // Определяем returnUrl на основе наличия userId
+        $this->returnUrl = $this->userId !== null && $this->userId !== '';
+        
         $this->title = $this->comment->type === Comment::LINKED_QUESTION
             ? (string) $this->comment->parent_id
             : (string) $this->comment->data_id;
@@ -66,7 +74,7 @@ class SearchContext extends Widget
             return Html::tag('span', '');
         }
 
-        // Если нужно вернуть заголовок со ссылкой
+        // Если нужно вернуть заголовок со ссылкой (для зарегистрированных пользователей)
         if ($this->returnUrl) {
             $link = Html::a(
                 $this->title,
@@ -76,7 +84,7 @@ class SearchContext extends Widget
             return $link;
         }
 
-        // Если нужно вернуть только текст заголовка без ссылки
+        // Если нужно вернуть только текст заголовка без ссылки (для незарегистрированных)
         return Html::encode($this->title);
     }
 }

@@ -8,16 +8,21 @@ use yii\data\BaseDataProvider;
 
 class QuestionDataProvider extends BaseDataProvider
 {
-
     /**
      * @var string|callable Имя столбца с ключом или callback-функция, возвращающие его
      */
     public $key;
+    
     /**
      * @var Search
      */
     public Search $query;
-
+    
+    /**
+     * @var int|null Максимальное количество результатов. Если null, используется текущий подсчет
+     */
+    public ?int $maxMatches = null;
+    
     public string $suggestQueryString = '';
     public int $indexed_documents = 0;
 
@@ -54,7 +59,13 @@ class QuestionDataProvider extends BaseDataProvider
             $this->query->offset($offset);
 
             $maxMatches = $offset + $limit;
-            // Устанавливаем max_matches в зависимости от номера выбранной старницы
+            
+            // Если передан maxMatches, используем переданное значение, иначе вычисляем
+            if ($this->maxMatches !== null) {
+                $maxMatches = min($this->maxMatches, $maxMatches);
+            }
+            
+            // Устанавливаем max_matches
             $this->query->maxMatches($maxMatches);
 
             $data = $this->query->get();
@@ -103,7 +114,16 @@ class QuestionDataProvider extends BaseDataProvider
 
     protected function prepareTotalCount()
     {
+        // Сохраняем оригинальные настройки запроса
+        $originalMaxMatches = $this->maxMatches;
+        
+        // Временно устанавливаем maxMatches для подсчета общего количества
+        if ($this->maxMatches !== null) {
+            $this->query->maxMatches($this->maxMatches);
+        }
+        
         $count = $this->query->get()->getTotal();
+        
         return $count;
     }
 }
