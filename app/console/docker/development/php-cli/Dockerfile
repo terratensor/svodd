@@ -1,13 +1,8 @@
 FROM php:8.3-cli-alpine
 
-ENV XDEBUG_VERSION 3.4.0
-
-RUN apk add --no-cache --update linux-headers postgresql-dev bash coreutils git \
+RUN apk add --no-cache --update linux-headers postgresql-dev bash coreutils \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && git clone --branch $XDEBUG_VERSION --depth 1 https://github.com/xdebug/xdebug.git /usr/src/php/ext/xdebug \
-    && docker-php-ext-configure xdebug --enable-xdebug-dev \
-    && docker-php-ext-install sockets pdo_pgsql xdebug \
-    && apk del git
+    && docker-php-ext-install sockets pdo_pgsql
 
 # setup GD extension
 RUN apk add --no-cache \
@@ -33,7 +28,6 @@ RUN apk add --no-cache unzip
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 
 COPY ./common/php/conf.d /usr/local/etc/php/conf.d
-COPY ./development/php/conf.d /usr/local/etc/php/conf.d
 
 COPY ./common/wait-for-it.sh /usr/local/bin/wait-for-it
 RUN chmod 555 /usr/local/bin/wait-for-it
