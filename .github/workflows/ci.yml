@@ -47,8 +47,10 @@ jobs:
       - name: Dev Init
         run: make dev-init
 
-      - name: Check Backup
-        run: make app-backup
+      # - name: Check Backup
+      #   run: make app-backup
+      # (выключено: dev-объект-хранилище minio/minio больше недоступно
+      #  с Docker Hub — pull access denied; бэкап-тест не поднять)
 
       - name: Push dev cache images
         run: make push-dev-cache
